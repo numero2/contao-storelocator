@@ -33,7 +33,7 @@
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
 
 
 /**
@@ -70,6 +70,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 	'options'                 => $this->getTemplateGroup('mod_storelocator_'),
 	'eval'                    => array('tl_class'=>'w50')
 );
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country'],
+	'inputType'               => 'select',
+	'options_callback'        => array('tl_module_storelocator', 'getCountries'),
+	'search'                  => true,
+	'eval'                    => array('mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50')
+);
 
 class tl_module_storelocator extends Backend {
 
@@ -86,5 +93,10 @@ class tl_module_storelocator extends Backend {
 
 		return $arrCalendars;
     }
+	
+	public function getCountries() {
+	
+		return $GLOBALS['TL_LANG']['tl_storelocator']['countries'];
+	}
 }
 ?>

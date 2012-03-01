@@ -29,6 +29,7 @@ CREATE TABLE `tl_storelocator_stores` (
   `postal` varchar(64) NOT NULL default '',
   `city` varchar(64) NOT NULL default '',
   `country` varchar(64) NOT NULL default '',
+  `opening_times` text NULL,
   `longitude` varchar(64) NOT NULL default '',
   `latitude` varchar(64) NOT NULL default '',
   `comment` text NULL,
@@ -47,6 +48,7 @@ CREATE TABLE `tl_module` (
   `storelocator_list_categories` varchar(255) NOT NULL default '',
   `storelocator_list_limit` varchar(255) NOT NULL default '',
   `storelocator_search_tpl` varchar(255) NOT NULL default ''
+  `storelocator_search_country` varchar(2) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
