@@ -60,7 +60,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = array(
 	'default'                 => '10',
 	'exclude'                 => true,
 	'inputType'               => 'text',
-	'eval'                    => array('rgxp' => 'digit', 'tl_class'=>'w50')
+	'eval'                    => array('mandatory'=>true, 'rgxp' => 'digit', 'tl_class'=>'w50')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl'],
