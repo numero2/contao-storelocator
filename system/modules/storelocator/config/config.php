@@ -2,7 +2,7 @@
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -23,25 +23,36 @@
  * PHP version 5
  * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
  * @author     Benny Born <benny.born@numero2.de>
- * @package    StoreLocator
+ * @package    storelocator
  * @license    LGPL
  * @filesource
  */
 
 
-// Back end modules
+/**
+ * Backend Modules
+ */
 $GLOBALS['BE_MOD']['content']['storelocator'] = array(
-	'tables' => array('tl_storelocator_category', 'tl_storelocator_stores')
-,	'icon'   => 'system/modules/storelocator/html/icon.gif'
+	'tables' 		=> array('tl_storelocator_category', 'tl_storelocator_stores')
+,	'icon'   		=> 'system/modules/storelocator/html/icon.gif'
+,	'stylesheet'	=> 'system/modules/storelocator/themes/default/backend.css'
+,	'importStores' 	=> array( 'ModuleStoreLocatorImporter', 'showImport' )
 );
 
 
-// Front end modules
+/**
+ * Frontend Modules
+ */
 $GLOBALS['FE_MOD']['storelocator'] = array(
-	'storelocator_list' => 'ModuleStoreLocatorList'
-,	'storelocator_search' => 'ModuleStoreLocatorSearch'
+	'storelocator_list'		=> 'ModuleStoreLocatorList'
+,	'storelocator_search'	=> 'ModuleStoreLocatorSearch'
 );
 
+
+/**
+ * Register Hooks
+ */
 $GLOBALS['TL_HOOKS']['generatePage'][] = array('ModuleStoreLocator', 'addResultsBodyClass');
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ModuleStorelocatorInsertTags', 'replaceInsertTags');
 
 ?>

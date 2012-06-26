@@ -2,7 +2,7 @@
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2011 Leo Feyer
+ * Copyright (C) 2005-2012 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -23,11 +23,12 @@
  * PHP version 5
  * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
  * @author     Benny Born <benny.born@numero2.de>
- * @package    StoreLocator
+ * @package    storelocator
  * @license    LGPL
  * @filesource
  */
 
+ 
 class ModuleStoreLocator extends Frontend {
 	
   
