@@ -84,7 +84,7 @@ class ModuleStoreLocatorImporter extends Backend {
 						);
 							
 						// add "http" in front of url
-						$data[2] = ( strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
+						$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 
 						$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
 							$pid
