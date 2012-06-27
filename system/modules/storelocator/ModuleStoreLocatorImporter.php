@@ -97,8 +97,8 @@ class ModuleStoreLocatorImporter extends Backend {
 						,	$data[6]
 						,	$data[7]
 						,	$data[8]
-						,	$coords ? $coords['longitude'] : NULL
-						,	$coords ? $coords['latitude'] : NULL
+						,	$coords ? $coords['longitude'] : ''
+						,	$coords ? $coords['latitude'] : ''
 						);
 					}
 				
