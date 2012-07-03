@@ -27,32 +27,35 @@
  * @license    LGPL
  * @filesource
  */
+ 
+ 
+
+/**
+ * Fields
+ */
+$GLOBALS['TL_LANG']['tl_storelocator_category']['title'] = array('Title', 'Define a title for this list.');
 
 
 /**
- * Backend Modules
+ * Legends
  */
-$GLOBALS['BE_MOD']['content']['storelocator'] = array(
-	'tables' 		=> array('tl_storelocator_category', 'tl_storelocator_stores')
-,	'icon'   		=> 'system/modules/storelocator/html/icon.gif'
-,	'stylesheet'	=> 'system/modules/storelocator/themes/default/backend.css'
-,	'importStores' 	=> array( 'ModuleStoreLocatorImporter', 'showImport' )
-);
+$GLOBALS['TL_LANG']['tl_storelocator_category']['title_legend'] = 'Common';
 
 
 /**
- * Frontend Modules
+ * Buttons
  */
-$GLOBALS['FE_MOD']['storelocator'] = array(
-	'storelocator_list'		=> 'ModuleStoreLocatorList'
-,	'storelocator_search'	=> 'ModuleStoreLocatorSearch'
-);
+$GLOBALS['TL_LANG']['tl_storelocator_category']['new']    = array('New list', 'Create a new list');
+$GLOBALS['TL_LANG']['tl_storelocator_category']['show']   = array('Details', 'Show details of list with ID %s');
+$GLOBALS['TL_LANG']['tl_storelocator_category']['edit']   = array('Edit list', 'Edit list with ID %s');
+$GLOBALS['TL_LANG']['tl_storelocator_category']['copy']   = array('Copy list', 'Copy list with ID %s');
+$GLOBALS['TL_LANG']['tl_storelocator_category']['delete'] = array('Delete list', 'Delete list with ID %s löschen');
 
 
 /**
- * Register Hooks
+ * Messages
  */
-$GLOBALS['TL_HOOKS']['generatePage'][] = array('ModuleStoreLocator', 'addResultsBodyClass');
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ModuleStorelocatorInsertTags', 'replaceInsertTags');
+$GLOBALS['TL_LANG']['tl_storelocator_category']['allow_url_fopen_disabled'] = 'To ensure this extension works correctly, the PHP directive allow_url_fopen must be changed to "On"';
+$GLOBALS['TL_LANG']['tl_storelocator_category']['file_get_contents'] = 'Your PHP version is outdated. Please update to at least 4.0';
 
 ?>

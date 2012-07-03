@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @copyright  numero2 - Agentur fÃ¼r Internetdienstleistungen <www.numero2.de>
  * @author     Benny Born <benny.born@numero2.de>
  * @package    storelocator
  * @license    LGPL
