@@ -32,43 +32,14 @@
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 
 /**
  * Add fields to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
-,	'default'                 => 'mod_storelocator_list'
-,	'exclude'                 => true
-,	'inputType'               => 'select'
-,	'options'                 => $this->getTemplateGroup('mod_storelocator_')
-,	'eval'                    => array( 'tl_class'=>'w50' )
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = array(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories']
-,	'exclude'                 => true
-,	'inputType'               => 'checkbox'
-,	'options_callback'        => array( 'tl_module_storelocator', 'getCategories' )
-,	'eval'                    => array( 'mandatory'=>true, 'multiple'=>true, 'tl_class'=>'w50' )
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = array(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_limit']
-,	'default'                 => '10'
-,	'exclude'                 => true
-,	'inputType'               => 'text'
-,	'eval'                    => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl']
-,	'default'                 => 'mod_storelocator_search'
-,	'exclude'                 => true
-,	'inputType'               => 'select'
-,	'options'                 => $this->getTemplateGroup('mod_storelocator_')
-,	'eval'                    => array( 'tl_class'=>'w50' )
-);
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country']
 ,	'inputType'               => 'select'
@@ -76,6 +47,52 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 ,	'search'                  => true
 ,	'eval'                    => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
 );
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl']
+,	'default'                 => 'mod_storelocator_search'
+,	'exclude'                 => true
+,	'inputType'               => 'select'
+,	'options'                 => $this->getTemplateGroup('mod_storelocator_search')
+,	'eval'                    => array( 'tl_class'=>'w50' )
+); 
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
+ 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
+,	'default'                 => 'mod_storelocator_list'
+,	'exclude'                 => true
+,	'inputType'               => 'select'
+,	'options'                 => $this->getTemplateGroup('mod_storelocator_list')
+,	'eval'                    => array( 'tl_class'=>'w50' )
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories']
+,	'exclude'                 => true
+,	'inputType'               => 'checkbox'
+,	'options_callback'        => array( 'tl_module_storelocator', 'getCategories' )
+,	'eval'                    => array( 'mandatory'=>true, 'multiple'=>true, 'tl_class'=>'w50' )
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_limit']
+,	'default'                 => '10'
+,	'exclude'                 => true
+,	'inputType'               => 'text'
+,	'eval'                    => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_details_tpl']
+,	'default'                 => 'mod_storelocator_details'
+,	'exclude'                 => true
+,	'inputType'               => 'select'
+,	'options'                 => $this->getTemplateGroup('mod_storelocator_details')
+,	'eval'                    => array( 'tl_class'=>'w50' )
+);
+
 
 class tl_module_storelocator extends Backend {
 

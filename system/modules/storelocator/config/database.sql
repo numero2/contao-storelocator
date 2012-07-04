@@ -44,11 +44,12 @@ CREATE TABLE `tl_storelocator_stores` (
 -- 
 
 CREATE TABLE `tl_module` (
+  `storelocator_search_tpl` varchar(255) NOT NULL default '',
+  `storelocator_search_country` varchar(2) NOT NULL default '',
   `storelocator_list_tpl` varchar(255) NOT NULL default '',
   `storelocator_list_categories` varchar(255) NOT NULL default '',
   `storelocator_list_limit` varchar(255) NOT NULL default '',
-  `storelocator_search_tpl` varchar(255) NOT NULL default ''
-  `storelocator_search_country` varchar(2) NOT NULL default ''
+  `storelocator_details_tpl` varchar(255) NOT NULL default '',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

@@ -44,8 +44,9 @@ $GLOBALS['BE_MOD']['content']['storelocator'] = array(
  * Frontend Modules
  */
 $GLOBALS['FE_MOD']['storelocator'] = array(
-	'storelocator_list'		=> 'ModuleStoreLocatorList'
-,	'storelocator_search'	=> 'ModuleStoreLocatorSearch'
+	'storelocator_search'	=> 'ModuleStoreLocatorSearch'
+,	'storelocator_list'		=> 'ModuleStoreLocatorList'
+,	'storelocator_details'	=> 'ModuleStoreLocatorDetails'
 );
 
 

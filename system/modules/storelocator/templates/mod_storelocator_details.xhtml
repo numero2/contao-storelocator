@@ -1,0 +1,39 @@
+<!-- indexer::stop -->
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+
+	<h1>
+		<?php echo $this->entry['name']; ?>
+	</h1>
+
+	<div class="entry">
+
+		<em>
+			<?php echo $this->entry['street']; ?>, <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br />
+			<?php echo $this->entry['country_name']; ?>
+		</em>
+		<p>
+			<?php if( !empty($this->entry['phone']) ) { ?>Tel.: <?php echo $this->entry['phone']; ?><br /><?php } ?>
+			<?php if( !empty($this->entry['fax']) ) { ?>Fax: <?php echo $this->entry['fax']; ?><br /><?php } ?>
+			<?php if( !empty($this->entry['email']) ) { ?>E-Mail: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php } ?>
+			<?php if( !empty($this->entry['url']) ) { ?>WWW: <?php echo $this->entry['url']; ?><br /><?php } ?>
+		</p>
+		<?php if( !empty($this->entry['opening_times']) ) { ?>		
+		<ul class="times">
+			<?php foreach( $this->entry['opening_times'] as $i => $v ) { ?>
+			<li>
+				<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
+			</li>
+			<? } ?>
+		</ul>
+		<?php } ?>
+		
+		<?php if( $this->entry['latitude'] != '' && $this->entry['longitude'] != '' ) { ?>
+		<div class="map">
+			<img src="http://maps.google.com/maps/api/staticmap?center=<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;zoom=15&amp;size=400x220&amp;maptype=roadmap&amp;markers=color:red|label:|<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;sensor=false" alt="Google Maps" />
+		</div>
+		<? } ?>
+		
+	</div>
+
+</div>
+<!-- indexer::continue -->

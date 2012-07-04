@@ -29,6 +29,9 @@
 			<? } ?>
 		</ul>
 		<?php } ?>
+		<?php if( $entry['link'] ) { ?>
+		<a href="<?php echo $entry['link']; ?>" class="more">mehr Informationen</a>
+		<?php } ?>
 	</div>
 	<?php } ?>
 

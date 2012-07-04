@@ -39,15 +39,16 @@ $GLOBALS['TL_LANG']['MOD']['storelocator'] = array('Händler', 'Händler-Listen 
  * Front end modules
  */
 $GLOBALS['TL_LANG']['FMD']['storelocator'] = array('Händler', '');
-$GLOBALS['TL_LANG']['FMD']['storelocator_list'] = array('Händlerliste', 'fügt eine Liste aller Händler zur Seite hinzu.');
 $GLOBALS['TL_LANG']['FMD']['storelocator_search'] = array('Händlersuche', 'fügt eine Suchmaske ein.');
+$GLOBALS['TL_LANG']['FMD']['storelocator_list'] = array('Händlerliste', 'fügt eine Liste aller Händler zur Seite hinzu.');
+$GLOBALS['TL_LANG']['FMD']['storelocator_details'] = array('Händlerdetails', 'zeigt Details zum ausgewählten Händler an.');
 
+$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country'] = array('Standardland', 'In welchem Land sollen die Ergebnisse gesucht werden (falls der Benutzer kein anderes ausgewählt hat)?');
+$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl'] = array('Template', 'Wählen Sie mit welchen Template die Suchmaske dargestellt werden soll.');
 
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl'] = array('Template', 'Wählen Sie mit welchen Template die Händler dargestellt werden sollen.');
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories'] = array('Händlerkategorien', 'Aus welchen Händlerlisten sollen Einträge angezeigt werden?');
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_limit'] = array('Anzahl der Ergebnisse', 'Wieviele Ergebnisse sollen maximal angezeigt werden?');
-$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country'] = array('Standardland', 'In welchem Land sollen die Ergebnisse gesucht werden (falls der Benutzer kein anderes ausgewählt hat)?');
 
-$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl'] = array('Template', 'Wählen Sie mit welchen Template die Suchmaske dargestellt werden soll.');
-
+$GLOBALS['TL_LANG']['tl_module']['storelocator_details_tpl'] = array('Template', 'Wählen Sie mit welchen Template der Händler dargestellt werden soll.');
 ?>

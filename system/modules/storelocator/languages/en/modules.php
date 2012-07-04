@@ -39,15 +39,16 @@ $GLOBALS['TL_LANG']['MOD']['storelocator'] = array('Stores', 'Manage stores and 
  * Front end modules
  */
 $GLOBALS['TL_LANG']['FMD']['storelocator'] = array('Stores', '');
-$GLOBALS['TL_LANG']['FMD']['storelocator_list'] = array('Storelist', 'lists all available stores');
 $GLOBALS['TL_LANG']['FMD']['storelocator_search'] = array('Storesearch', 'adds a search mask');
+$GLOBALS['TL_LANG']['FMD']['storelocator_list'] = array('Storelist', 'lists all available stores');
+$GLOBALS['TL_LANG']['FMD']['storelocator_details'] = array('Storedetails', 'shows details for the chosen store');
 
+$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country'] = array('Default country', 'Which country should be used as default if user did not select any?');
+$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl'] = array('Template', 'Which template should be used to display the search mask.');
 
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl'] = array('Template', 'Chosse which template should be used to list the stores');
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories'] = array('Categories', 'From which category should the stores be displayed');
 $GLOBALS['TL_LANG']['tl_module']['storelocator_list_limit'] = array('Number of results', 'How many results should be shown?');
-$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country'] = array('Default country', 'Which country should be used as default if user did not select any?');
 
-$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl'] = array('Template', 'Which template should be used to display the search mask.');
-
+$GLOBALS['TL_LANG']['tl_module']['storelocator_details_tpl'] = array('Template', 'Chosse which template should be used to show details of the store');
 ?>

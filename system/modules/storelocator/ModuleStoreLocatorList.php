@@ -122,28 +122,33 @@ class ModuleStoreLocatorList extends Module {
 				
 				while( $objStores->next() ) {
 				
-					// get opening times
-					$times = unserialize($objStores->opening_times);
-					$times = !empty($times[0]['from']) ? $times : NULL;
+					$entry = $objStores->fetchAssoc();
+					$entry['country_code'] = $entry['country'];
+					$entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
 				
-					$aEntries[] = array(
-						'name'			=> str_replace('&','&amp;',$objStores->name)
-					,   'email'			=> $objStores->email
-					,   'url'			=> $objStores->url
-					,   'phone'			=> $objStores->phone
-					,   'fax'			=> $objStores->fax
-					,   'street'		=> $objStores->street
-					,   'postal'		=> $objStores->postal
-					,   'city'			=> $objStores->city
-					,   'country_code'	=> $objStores->country
-					,   'country_name'	=> $GLOBALS['TL_LANG']['tl_storelocator']['countries'][$objStores->country]
-					,   'distance'		=> $objStores->distance
-					,	'opening_times'	=> $times
-					);
+					// generate link
+					$link = null;
+					
+					if( $this->jumpTo ) {
+
+						$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+
+						$entry['link'] = $this->generateFrontendUrl(
+							$objLink->fetchAssoc()
+						,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
+						);
+					}	
+
+					// get opening times
+					$entry['opening_times'] = unserialize( $entry['opening_times'] );
+					$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+				
+					$aEntries[] = $entry;
 				}
 			}
 		}
-		
+
 		$this->Template->entries = $aEntries;
 	}
 }
