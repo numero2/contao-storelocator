@@ -23,7 +23,7 @@
 			<li>
 				<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
 			</li>
-			<? } ?>
+			<?php } ?>
 		</ul>
 		<?php } ?>
 		
@@ -31,7 +31,7 @@
 		<div class="map">
 			<img src="http://maps.google.com/maps/api/staticmap?center=<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;zoom=15&amp;size=400x220&amp;maptype=roadmap&amp;markers=color:red|label:|<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;sensor=false" alt="Google Maps" />
 		</div>
-		<? } ?>
+		<?php } ?>
 		
 	</div>
 

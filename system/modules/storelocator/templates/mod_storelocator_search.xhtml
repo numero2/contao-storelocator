@@ -21,10 +21,10 @@
 			<select name="sl_search_country" onchange="document.getElementById('storelocator_search_country').value = this.options[this.selectedIndex].value;">
 			<?php foreach( $this->countries as $c ) { ?>
 				<option value="<?php echo $c['country']; ?>"><?php echo $c['country']; ?></option>
-			<? } ?>
+			<?php } ?>
 			</select>
 		</div>
-		<? } ?>
+		<?php } ?>
 		
 		<input type="submit" value="Suchen" />
 	</form>
