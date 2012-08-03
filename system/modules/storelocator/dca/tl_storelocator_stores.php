@@ -209,7 +209,7 @@ class tl_storelocator_stores extends Backend {
 
 	public function listStores($arrRow) {
 		return '<div class="limit_height block">
-			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</span></p>'
+			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
 	}
 	

@@ -119,32 +119,37 @@ class ModuleStoreLocatorList extends Module {
 				,	$aCoordinates['latitude']
 				,	$aCoordinates['longitude']
 				);
-				
-				while( $objStores->next() ) {
-				
-					$entry = $objStores->fetchAssoc();
-					$entry['country_code'] = $entry['country'];
-					$entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
-				
-					// generate link
-					$link = null;
+
+				$entries = array();
+				$entries = $objStores->fetchAllAssoc();
+
+				if( !empty($entries) ) {
+
+					foreach( $entries as $entry ) {
+
+						$entry['country_code'] = $entry['country'];
+						$entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
 					
-					if( $this->jumpTo ) {
+						// generate link
+						$link = null;
+						
+						if( $this->jumpTo ) {
 
-						$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+							$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
 
-						$entry['link'] = $this->generateFrontendUrl(
-							$objLink->fetchAssoc()
-						,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
-						);
-					}	
+							$entry['link'] = $this->generateFrontendUrl(
+								$objLink->fetchAssoc()
+							,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
+							);
+						}	
 
-					// get opening times
-					$entry['opening_times'] = unserialize( $entry['opening_times'] );
-					$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+						// get opening times
+						$entry['opening_times'] = unserialize( $entry['opening_times'] );
+						$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
 
-				
-					$aEntries[] = $entry;
+					
+						$aEntries[] = $entry;
+					}
 				}
 			}
 		}
