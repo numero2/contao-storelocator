@@ -74,12 +74,10 @@ class ModuleStoreLocatorDetails extends Module {
 		$objStore = NULL;
 		$objStore = $this->Database->prepare(" SELECT * FROM `tl_storelocator_stores` WHERE `id` = ? ")->limit(1)->execute($storeID);
 		
+		$entry = NULL;
+
 		// get store details
-		if( $objStore->next() ) {
-		
-			$entry = NULL;
-			$entry = $objStore->fetchAllAssoc();
-			$entry = $entry[0];
+		if( $entry = $objStore->fetchAssoc() ) {
 			
 			// get opening times
 			$entry['opening_times'] = unserialize( $entry['opening_times'] );
