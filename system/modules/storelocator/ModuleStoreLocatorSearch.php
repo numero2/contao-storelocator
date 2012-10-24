@@ -70,14 +70,51 @@ class ModuleStoreLocatorSearch extends Module {
 	
 		$this->Template = new FrontendTemplate($this->storelocator_search_tpl);
 		
-		$this->Template->searchVal = $this->Input->post('storelocator_search_name');
-		$this->Template->country = $this->storelocator_search_country;
+		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->Input->post('storelocator_search_name') : $this->Input->get('search');
+		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
+		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
+        
+        // redirect to results page
+        if( $this->Input->post('search') ) {
+            
+            $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
+            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
+
+            $results = $this->generateFrontendUrl(
+                $objLink->fetchAssoc()
+            ,	'/search/'.$this->Template->searchVal.'/country/'.strtolower($this->Template->country)
+            );
+            
+            $this->redirect( $results, 302);
+            return;
+        }
 		
 		// get list of countries
 		$objCountries = NULL;
-		$objCountries = $this->Database->execute(" SELECT country FROM tl_storelocator_stores GROUP BY country DESC ");
-		$this->Template->countries = $objCountries->fetchAllAssoc();
+        $objCountries = $this->Database->execute(" SELECT country FROM tl_storelocator_stores GROUP BY country ASC ");
+		
+        $aCountries = array();
+        $aCountries = $objCountries->fetchAllAssoc();
+        
+        if( $aCountries ) {
+            
+            $temp = array();
+            
+            foreach( $aCountries as $i => $v ) {
+            
+                if( $this->storelocator_show_full_country_names ) {
+                    $temp[ $v['country'] ] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $v['country'] ];
+                } else {
+                    $temp[ $v['country'] ] = $v['country'];
+                }
+            }
+
+            asort($temp);
+            $aCountries = $temp;
+        }
+        
+        $this->Template->countries = $aCountries;
 
 		// get form action
 		$pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;

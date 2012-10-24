@@ -308,4 +308,22 @@ $GLOBALS['TL_LANG']['tl_storelocator']['import'] = array();
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['head'] = 'Händler aus CSV importieren';
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['start'] = 'Import starten';
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['file'] = array('Datei auswählen','Die CSV-Datei muss mit dem UTF8-Zeichensatz kodiert und wie folgt aufgebaut sein: name, email, url, telefon, fax, strasse, plz, ort, ländercode (2-stellig)');
+
+
+/**
+ * Messages
+ */
+$GLOBALS['TL_LANG']['tl_storelocator']['noresults'] = 'Zu Ihrer Suchanfrage wurden leider keine Ergebnisse gefunden.';
+
+
+/**
+ * Labels
+ */
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'] = 'Entfernung ca.';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'] = 'Tel.';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'] = 'Fax';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['email'] = 'E-Mail';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['www'] = 'WWW';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['more'] = 'mehr Informationen';
+
 ?>

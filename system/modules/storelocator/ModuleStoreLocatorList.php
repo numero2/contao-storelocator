@@ -68,91 +68,137 @@ class ModuleStoreLocatorList extends Module {
 
 		$this->Template = new FrontendTemplate($this->storelocator_list_tpl);
 		
-		$sSearchVal = $this->Input->post('storelocator_search_name') ? $this->Input->post('storelocator_search_name') : NULL;
-		$sSearchCountry = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : NULL;
-
-		// add country code for correct search results
-		if( !empty($sSearchCountry) ) {
-			$sSearchVal .= ', '.$sSearchCountry;
-		}
+		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
+		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
+        
+        $aEntries = array();
+        
+        // check if an empty search is allowed
+        if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
+        
+            $this->Template->error = true;
+            
+        } else {
 		
-		$aCategories = array();
-		$aCategories = deserialize($this->storelocator_list_categories);
-		
-		$aEntries = array();
-		
-		if( !empty($sSearchVal) ) {
-		
-			// get coordinates of searched destination
-			$aCoordinates = array();
-			
-			$sResponse = NULL;
-			$sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($sSearchVal)."&output=json&oe=utf8&sensor=false&hl=de");
-			
-			if( !empty($sResponse) ) {
-			
-				$aResponse = array();
-				$aResponse = json_decode($sResponse,1);
+            $term = NULL;
+        
+            // add country code for correct search results
+            if( !empty($sSearchCountry) ) {
+            
+                if( !empty($sSearchVal) ) {
+                    $term = $sSearchVal.', '.$sSearchCountry;
+                } else {
+                    $term = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ strtoupper($sSearchCountry) ];
+                }
+            }
+            
+            $aCategories = array();
+            $aCategories = deserialize($this->storelocator_list_categories);
+            
+            if( !empty($term) ) {
+            
+                // get coordinates of searched destination
+                $aCoordinates = array();
+                
+                $sResponse = NULL;
+                $sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($term)."&output=json&oe=utf8&sensor=false&hl=de");
+                
+                if( !empty($sResponse) ) {
+                
+                    $aResponse = array();
+                    $aResponse = json_decode($sResponse,1);
 
-				if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
-				
-					$aCoordinates['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-					$aCoordinates['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
-				}
-			}
-		
-			if( !empty($aCoordinates) ) {
+                    if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
+                    
+                        $aCoordinates['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
+                        $aCoordinates['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
+                    }
+                }
+            
+                if( !empty($aCoordinates) ) {
 
-				$objStores = NULL;				
-				$objStores = $this->Database->prepare("
-					SELECT
-						*
-					, 3956 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS `distance`
-					FROM `tl_storelocator_stores`
-					WHERE
-							pid IN(".implode(',',$aCategories).")
-						AND latitude != '' 
-						AND longitude != '' 
-					ORDER BY `distance` ASC
-				")->limit($this->storelocator_list_limit)->execute(
-					$aCoordinates['latitude']
-				,	$aCoordinates['latitude']
-				,	$aCoordinates['longitude']
-				);
+                    $objStores = NULL;
 
-				$entries = array();
-				$entries = $objStores->fetchAllAssoc();
+                    // search all countries
+                    if( !empty($sSearchVal) ) {
+                    
+                        $objStores = $this->Database->prepare("
+                            SELECT
+                                *
+                            , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS `distance`
+                            FROM `tl_storelocator_stores`
+                            WHERE
+                                    pid IN(".implode(',',$aCategories).")
+                                AND latitude != '' 
+                                AND longitude != '' 
+                            ORDER BY `distance` ASC
+                        ")->limit($this->storelocator_list_limit)->execute(
+                            $aCoordinates['latitude']
+                        ,	$aCoordinates['latitude']
+                        ,	$aCoordinates['longitude']
+                        );
 
-				if( !empty($entries) ) {
+                    // search selected country only
+                    } else {
+                    
+                        $objStores = $this->Database->prepare("
+                            SELECT
+                                *
+                            , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS `distance`
+                            FROM `tl_storelocator_stores`
+                            WHERE
+                                    pid IN(".implode(',',$aCategories).")
+                                AND latitude != '' 
+                                AND longitude != '' 
+                                AND country = ?
+                            ORDER BY `distance` ASC
+                        ")->limit($this->storelocator_list_limit)->execute(
+                            $aCoordinates['latitude']
+                        ,	$aCoordinates['latitude']
+                        ,	$aCoordinates['longitude']
+                        ,   strtoupper($sSearchCountry)
+                        );
 
-					foreach( $entries as $entry ) {
+                    }
 
-						$entry['country_code'] = $entry['country'];
-						$entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
-					
-						// generate link
-						$link = null;
-						
-						if( $this->jumpTo ) {
+                    $entries = array();
+                    $entries = $objStores->fetchAllAssoc();
 
-							$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+                    if( !empty($entries) ) {
 
-							$entry['link'] = $this->generateFrontendUrl(
-								$objLink->fetchAssoc()
-							,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
-							);
-						}	
+                        foreach( $entries as $entry ) {
 
-						// get opening times
-						$entry['opening_times'] = unserialize( $entry['opening_times'] );
-						$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+                            if( empty($sSearchVal) ) {
+                                $entry['distance'] = NULL;
+                            }
+                        
+                            $entry['country_code'] = $entry['country'];
+                            $entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
+                        
+                            // generate link
+                            $link = null;
+                            
+                            if( $this->jumpTo ) {
 
-					
-						$aEntries[] = $entry;
-					}
-				}
-			}
-		}
+                                $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+
+                                $entry['link'] = $this->generateFrontendUrl(
+                                    $objLink->fetchAssoc()
+                                ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
+                                );
+                            }	
+
+                            // get opening times
+                            $entry['opening_times'] = unserialize( $entry['opening_times'] );
+                            $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+                        
+                            $aEntries[] = $entry;
+                        }
+                    }
+                }
+            }
+        }
 
 		$this->Template->entries = $aEntries;
 	}

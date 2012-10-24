@@ -12,10 +12,10 @@
 			<?php echo $this->entry['country_name']; ?>
 		</em>
 		<p>
-			<?php if( !empty($this->entry['phone']) ) { ?>Tel.: <?php echo $this->entry['phone']; ?><br /><?php } ?>
-			<?php if( !empty($this->entry['fax']) ) { ?>Fax: <?php echo $this->entry['fax']; ?><br /><?php } ?>
-			<?php if( !empty($this->entry['email']) ) { ?>E-Mail: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php } ?>
-			<?php if( !empty($this->entry['url']) ) { ?>WWW: <?php echo $this->entry['url']; ?><br /><?php } ?>
+			<?php if( $this->entry['phone'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php } ?>
+			<?php if( $this->entry['fax'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php } ?>
+			<?php if( $this->entry['email'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php } ?>
+			<?php if( $this->entry['url'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php } ?>
 		</p>
 		<?php if( !empty($this->entry['opening_times']) ) { ?>		
 		<ul class="times">
@@ -27,12 +27,14 @@
 		</ul>
 		<?php } ?>
 		
-		<?php if( $this->entry['latitude'] != '' && $this->entry['longitude'] != '' ) { ?>
+		<?php if( $this->gMap ) { ?>
 		<div class="map">
-			<img src="http://maps.google.com/maps/api/staticmap?center=<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;zoom=15&amp;size=400x220&amp;maptype=roadmap&amp;markers=color:red|label:|<?php echo $this->entry['latitude']; ?>,<?php echo $this->entry['longitude']; ?>&amp;sensor=false" alt="Google Maps" />
+            <?php echo $this->gMap; ?>	
 		</div>
 		<?php } ?>
 		
+        <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
+        
 	</div>
 
 </section>

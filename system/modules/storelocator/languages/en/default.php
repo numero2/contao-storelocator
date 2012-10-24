@@ -308,4 +308,22 @@ $GLOBALS['TL_LANG']['tl_storelocator']['import'] = array();
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['head'] = 'Import stores from CSV';
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['start'] = 'Start import';
 $GLOBALS['TL_LANG']['tl_storelocator']['import']['file'] = array('Choose file','The file must be saved using the UTF8-charset and may contain the following structure: name, email, url, phone, fax, street, postal, city, country (2-letters)');
+
+
+/**
+ * Messages
+ */
+$GLOBALS['TL_LANG']['tl_storelocator']['noresults'] = 'No results found.';
+
+
+/**
+ * Labels
+ */
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'] = 'Distance approx.';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'] = 'Phone';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'] = 'Fax';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['email'] = 'E-Mail';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['www'] = 'WWW';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['more'] = 'more Information';
+
 ?>

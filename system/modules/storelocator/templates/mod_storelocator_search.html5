@@ -1,32 +1,35 @@
 <!-- indexer::stop -->
 <section class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
-	<?php if ($this->headline): ?>
+	<?php if ($this->headline) { ?>
 		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
-	<?php endif; ?>
+	<?php } ?>
 
 	<form method="post" action="<?php echo $this->action; ?>" id="<?php echo $this->formId; ?>">
 		<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>">
 		<input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+		<input type="hidden" name="search" value="1">
 		<input type="hidden" id="storelocator_search_country" name="storelocator_search_country" value="<?php echo $this->country; ?>" />
 		
-		<div>
+		<div class="search">
 			<label>PLZ / Ort</label>
 			<input type="text" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
 		</div>
 		
 		<?php if( count($this->countries) > 1 ) { ?>
-		<div>
+		<div class="country">
 			<label>Land</label>
 			<select name="sl_search_country" onchange="document.getElementById('storelocator_search_country').value = this.options[this.selectedIndex].value;">
-			<?php foreach( $this->countries as $c ) { ?>
-				<option value="<?php echo $c['country']; ?>"><?php echo $c['country']; ?></option>
+			<?php foreach( $this->countries as $k => $v ) { ?>
+				<option value="<?php echo $k; ?>" <?php if( $this->country == $k ) { ?>selected="selected"<?php } ?>><?php echo $v; ?></option>
 			<?php } ?>
 			</select>
 		</div>
 		<?php } ?>
 		
-		<input type="submit" value="Suchen" />
+        <div class="submit_container">
+            <input class="submit" type="submit" value="Suchen" />
+        </div>
 	</form>
 
 </section>
