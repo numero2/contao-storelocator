@@ -12,13 +12,13 @@
 		<input type="hidden" id="storelocator_search_country" name="storelocator_search_country" value="<?php echo $this->country; ?>" />
 		
 		<div class="search">
-			<label>PLZ / Ort</label>
+			<label><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']; ?></label>
 			<input type="text" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
 		</div>
 		
 		<?php if( count($this->countries) > 1 ) { ?>
 		<div class="country">
-			<label>Land</label>
+			<label><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['country']; ?></label>
 			<select name="sl_search_country" onchange="document.getElementById('storelocator_search_country').value = this.options[this.selectedIndex].value;">
 			<?php foreach( $this->countries as $k => $v ) { ?>
 				<option value="<?php echo $k; ?>" <?php if( $this->country == $k ) { ?>selected="selected"<?php } ?>><?php echo $v; ?></option>
@@ -28,7 +28,7 @@
 		<?php } ?>
 		
         <div class="submit_container">
-            <input class="submit" type="submit" value="Suchen" />
+            <input class="submit" type="submit" value="<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['search']; ?>" />
         </div>
 	</form>
 

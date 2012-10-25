@@ -325,5 +325,8 @@ $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'] = 'Fax';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'] = 'E-Mail';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'] = 'WWW';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'] = 'more Information';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['postal'] = 'ZIP / City';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['country'] = 'Country';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['search'] = 'Search';
 
 ?>

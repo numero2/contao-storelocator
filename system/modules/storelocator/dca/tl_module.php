@@ -60,7 +60,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 ,	'default'                 => 'mod_storelocator_search'
 ,	'exclude'                 => true
 ,	'inputType'               => 'select'
-,	'options'                 => $this->getTemplateGroup('mod_storelocator_search')
+,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
 ); 
 
@@ -71,7 +71,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 ,	'default'                 => 'mod_storelocator_list'
 ,	'exclude'                 => true
 ,	'inputType'               => 'select'
-,	'options'                 => $this->getTemplateGroup('mod_storelocator_list')
+,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
 );
 
@@ -103,7 +103,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
 ,	'default'                 => 'mod_storelocator_details'
 ,	'exclude'                 => true
 ,	'inputType'               => 'select'
-,	'options'                 => $this->getTemplateGroup('mod_storelocator_details')
+,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
 );
 
@@ -137,6 +137,17 @@ class tl_module_storelocator extends Backend {
 	public function getCountries() {
 	
 		return $GLOBALS['TL_LANG']['tl_storelocator']['countries'];
+	}
+    
+	public function getTemplates( DataContainer $dc ) {
+    
+		$intPid = $dc->activeRecord->pid;
+
+		if( $this->Input->get('act') == 'overrideAll' ) {
+			$intPid = $this->Input->get('id');
+		}
+
+		return $this->getTemplateGroup('mod_storelocator_', $intPid);
 	}
 }
 ?>
