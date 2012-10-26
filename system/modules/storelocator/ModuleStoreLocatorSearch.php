@@ -74,6 +74,7 @@ class ModuleStoreLocatorSearch extends Module {
 		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
 		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
+        $this->Template->moduleId = $this->id;
         
         // redirect to results page
         if( $this->Input->post('search') ) {
