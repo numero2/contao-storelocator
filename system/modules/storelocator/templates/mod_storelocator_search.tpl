@@ -12,8 +12,8 @@
 		<input type="hidden" id="storelocator_search_country" name="storelocator_search_country" value="<?php echo $this->country; ?>" />
 		
 		<div class="search">
-			<label><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']; ?></label>
-			<input type="text" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
+			<label for="storelocator_search_<?php echo $this->moduleId; ?>"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']; ?></label>
+			<input type="text" class="text" id="storelocator_search_<?php echo $this->moduleId; ?>" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
 		</div>
 		
 		<?php if( count($this->countries) > 1 ) { ?>
