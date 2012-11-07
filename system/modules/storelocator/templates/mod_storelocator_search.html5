@@ -13,7 +13,7 @@
 		
 		<div class="search">
 			<label for="storelocator_search_<?php echo $this->moduleId; ?>"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']; ?></label>
-			<input type="text" id="storelocator_search_<?php echo $this->moduleId; ?>" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
+			<input type="text" class="text" id="storelocator_search_<?php echo $this->moduleId; ?>" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
 		</div>
 		
 		<?php if( count($this->countries) > 1 ) { ?>
