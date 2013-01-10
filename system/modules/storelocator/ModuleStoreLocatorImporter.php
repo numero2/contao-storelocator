@@ -69,12 +69,14 @@ class ModuleStoreLocatorImporter extends Backend {
 					
 					$oStores = null;
 					$oStores = new tl_storelocator_stores();
-				
+                    $count = 0;
+                    
 					while( ($data = fgetcsv($handle, 1000)) !== FALSE ) {
 
 						if( empty($data[0]) )
 							continue;
-
+                        $count++;
+                        
 						// get coordinates
 						$coords = $oStores->getCoordinates(
 							$data[5]
@@ -100,6 +102,11 @@ class ModuleStoreLocatorImporter extends Backend {
 						,	$coords ? $coords['longitude'] : ''
 						,	$coords ? $coords['latitude'] : ''
 						);
+                        
+                        if ($count > 5){
+                            sleep(2);
+                            $count = 0;
+                        }
 					}
 				
 					fclose($handle);
