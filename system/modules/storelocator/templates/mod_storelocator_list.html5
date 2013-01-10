@@ -1,4 +1,5 @@
 <!-- indexer::stop -->
+<?php if (count($this->entries) > 0): ?>
 <section class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
 	<?php if( $this->headline ) { ?>
@@ -19,10 +20,10 @@
                 <?php echo $entry['country_name']; ?>
             </p>
             <p>
-                <?php if( $this->entry['phone'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php } ?>
-                <?php if( $this->entry['fax'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php } ?>
-                <?php if( $this->entry['email'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php } ?>
-                <?php if( $this->entry['url'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php } ?>
+                <?php if( $entry['phone'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $entry['phone']; ?><br /><?php } ?>
+                <?php if( $entry['fax'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $entry['fax']; ?><br /><?php } ?>
+                <?php if( $entry['email'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $entry['email']; ?>}}<br /><?php } ?>
+                <?php if( $entry['url'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $entry['url']; ?>" target="_blank" title="<?php echo $entry['name']; ?>"><?php echo $entry['url']; ?></a><?php } ?>
             </p>
             <?php if( !empty($entry['opening_times']) ) { ?>		
             <ul class="times">
@@ -43,4 +44,5 @@
     <?php } ?>
 
 </section>
+<?php endif; ?>
 <!-- indexer::continue -->
