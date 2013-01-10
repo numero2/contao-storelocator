@@ -96,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['name']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
-		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64 )
+		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
         )
 	,	'email' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
