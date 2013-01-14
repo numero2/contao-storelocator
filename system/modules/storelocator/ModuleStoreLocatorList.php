@@ -89,13 +89,15 @@ class ModuleStoreLocatorList extends Module {
                 if( !empty($sSearchVal) ) {
                     $term = $sSearchVal.', '.$sSearchCountry;
                 } else {
-                    $term = $GLOBALS['TL_LANG']['CNT'][ strtoupper($sSearchCountry) ];
+                    $term = $aCountryNames[$entry['country']];
                 }
             }
-            
+
             $aCategories = array();
             $aCategories = deserialize($this->storelocator_list_categories);
             
+			$aCountryNames = $this->getCountries();
+			
             if( !empty($term) ) {
 			
                 // get coordinates of searched destination
@@ -152,8 +154,6 @@ class ModuleStoreLocatorList extends Module {
                     $entries = $objStores->fetchAllAssoc();
 
                     if( !empty($entries) ) {
-
-						$aCountrNames = $this->getCountries();
 					
                         foreach( $entries as $entry ) {
 
@@ -162,7 +162,7 @@ class ModuleStoreLocatorList extends Module {
                             }
 
                             $entry['country_code'] = $entry['country'];
-                            $entry['country_name'] = $aCountrNames[$entry['country']];
+                            $entry['country_name'] = $aCountryNames[$entry['country']];
                         
                             // generate link
                             $link = null;

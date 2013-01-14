@@ -42,51 +42,33 @@ class ModuleStorelocatorInsertTags extends Controller {
         
             case 'store' :
 
+				$this->Template = new FrontendTemplate('mod_storelocator_inserttag');
+			
 				// find store
-				$objStore = $this->Database->prepare("SELECT * FROM `tl_storelocator_stores` WHERE `id` = ? ")->execute( $aParams[1] );
+				$objStore = NULL;
+				$objStore = $this->Database->prepare("SELECT * FROM `tl_storelocator_stores` WHERE `id` = ? ")->limit(1)->execute( $aParams[1] );
+				
+				$entry = NULL;
+				$entry = $objStore->fetchAssoc();
+				
+				// get opening times
+				$entry['opening_times'] = unserialize( $entry['opening_times'] );
+				$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+				// set country name
+				$aCountryNames = $this->getCountries();
+				$entry['country_code'] = $entry['country'];
+				$entry['country_name'] = $aCountryNames[$entry['country']];
 				
 				if( !$objStore )
 					return false;
 				
-				$str = '<div class="mod_storelocator_details>'
-						. '<div class="name">'.$objStore->name.'</div>'
-						. '<div class="address">'
-						. $objStore->street.'<br />'
-						. $objStore->postal.' '.$objStore->city.'<br />'
-						. $GLOBALS['TL_LANG']['CNT'][ $objStore->country ]
-						. '</div>';
-						
-				if( $objStore->phone )
-					$str.= '<div class="phone">Tel.: '.$objStore->phone.'</div>';
-					
-				if( $objStore->fax )
-					$str.= '<div class="fax">Fax: '.$objStore->fax.'</div>';
-					
-				if( $objStore->email )
-					$str.= '<div class="email">E-Mail: '.$objStore->email.'</div>';
-					
-				if( $objStore->url )
-					$str.= '<div class="url">WWW: '.$objStore->url.'</div>';
-					
-				$objStore->opening_times = unserialize($objStore->opening_times);
-					
-				if( !empty($objStore->opening_times[0]['from']) ) {
+				$this->Template->entry = $entry;
 				
-					$str.= '<ul class="times">';
-					
-					foreach( $objStore->opening_times as $i => $v ) {
-					
-						$str.= '<li>';
-							$str.= $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ].' '.$v['from'].' - '.$v['to'];
-						$str.= '</li>';
-					}
-					
-					$str.= '</ul>';
-				}
-						
-				$str.= '</div>';
+				$sTemplate = $this->Template->parse();
+				$sTemplate = Controller::replaceInsertTags($sTemplate);
 				
-				return $str;
+				return $sTemplate;
 
             break;
             

@@ -86,6 +86,11 @@ class ModuleStoreLocatorDetails extends Module {
 			// get opening times
 			$entry['opening_times'] = unserialize( $entry['opening_times'] );
 			$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+			// set country name
+			$aCountryNames = $this->getCountries();
+			$entry['country_code'] = $entry['country'];
+			$entry['country_name'] = $aCountryNames[$entry['country']];
 		
 			$this->Template->entry = $entry;
 			$this->Template->gMap = null;
