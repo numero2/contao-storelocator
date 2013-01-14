@@ -96,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['name']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
-		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64 )
+		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
         )
 	,	'email' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
@@ -252,18 +252,18 @@ class tl_storelocator_stores extends Backend {
 		);
 		
 		$sResponse = NULL;
-		$sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($sQuery)."&output=json&oe=utf8&sensor=false&hl=de");
+        $sResponse = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&sensor=false&language=de");
 		
 		if( !empty($sResponse) ) {
 		
 			$aResponse = array();
 			$aResponse = json_decode($sResponse,1);
 
-			if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
+			if( !empty($aResponse['status']) && $aResponse['status'] == 'OK' ) {
 			
 				$coords = array();
-				$coords['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-				$coords['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
+				$coords['latitude'] = $aResponse['results'][0]['geometry']['location']['lat'];
+				$coords['longitude'] = $aResponse['results'][0]['geometry']['location']['lng'];
 				
 				return $coords;
 
