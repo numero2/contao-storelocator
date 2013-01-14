@@ -105,7 +105,7 @@ class ModuleStoreLocatorSearch extends Module {
             foreach( $aCountries as $i => $v ) {
             
                 if( $this->storelocator_show_full_country_names ) {
-                    $temp[ $v['country'] ] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $v['country'] ];
+                    $temp[ $v['country'] ] = $GLOBALS['TL_LANG']['CNT'][ $v['country'] ];
                 } else {
                     $temp[ $v['country'] ] = $v['country'];
                 }

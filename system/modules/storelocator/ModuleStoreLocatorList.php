@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorList extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -88,7 +89,7 @@ class ModuleStoreLocatorList extends Module {
                 if( !empty($sSearchVal) ) {
                     $term = $sSearchVal.', '.$sSearchCountry;
                 } else {
-                    $term = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ strtoupper($sSearchCountry) ];
+                    $term = $GLOBALS['TL_LANG']['CNT'][ strtoupper($sSearchCountry) ];
                 }
             }
             
@@ -166,14 +167,16 @@ class ModuleStoreLocatorList extends Module {
 
                     if( !empty($entries) ) {
 
+						$aCountrNames = $this->getCountries();
+					
                         foreach( $entries as $entry ) {
 
                             if( empty($sSearchVal) ) {
                                 $entry['distance'] = NULL;
                             }
-                        
+
                             $entry['country_code'] = $entry['country'];
-                            $entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
+                            $entry['country_name'] = $aCountrNames[$entry['country']];
                         
                             // generate link
                             $link = null;

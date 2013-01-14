@@ -53,7 +53,7 @@ class ModuleStorelocatorInsertTags extends Controller {
 						. '<div class="address">'
 						. $objStore->street.'<br />'
 						. $objStore->postal.' '.$objStore->city.'<br />'
-						. $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $objStore->country ]
+						. $GLOBALS['TL_LANG']['CNT'][ $objStore->country ]
 						. '</div>';
 						
 				if( $objStore->phone )

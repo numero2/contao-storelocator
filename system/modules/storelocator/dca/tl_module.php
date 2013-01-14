@@ -44,6 +44,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country']
 ,	'inputType'               => 'select'
 ,	'options_callback'        => array( 'tl_module_storelocator', 'getCountries' )
+,	'default'				  => 'de'
 ,	'search'                  => true
 ,	'eval'                    => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
 );
@@ -136,7 +137,7 @@ class tl_module_storelocator extends Backend {
 	
 	public function getCountries() {
 	
-		return $GLOBALS['TL_LANG']['tl_storelocator']['countries'];
+		return parent::getCountries();
 	}
     
 	public function getTemplates( DataContainer $dc ) {
