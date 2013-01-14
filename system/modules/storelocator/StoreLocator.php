@@ -29,7 +29,7 @@
  */
 
  
-class StoreLocator extends Backend {
+class StoreLocator extends System {
   
 
 	/**
@@ -41,7 +41,7 @@ class StoreLocator extends Backend {
 	 * @param string Adress string without specific format
 	 * @return array
 	 */
-	public static function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ) {
+	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ) {
 	
 		// find coordinates using google maps api
 		$sQuery = sprintf(
@@ -56,7 +56,7 @@ class StoreLocator extends Backend {
 
 		$oRequest = NULL;
 		$oRequest = new Request();
-		
+
 		$oRequest->send("http://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&sensor=false&language=de");
 		
 		if( $oRequest->code == 200 ) {
@@ -73,11 +73,11 @@ class StoreLocator extends Backend {
 				return $coords;
 
 			} else {
-				$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
+				$this->log('Could not find coordinates for adress "'.$sQuery.'" (API Status: '.$aResponse['status'].')', 'StoreLocator getCoordinates()', TL_ERROR);
 			}
 			
 		} else {
-			$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
+			$this->log('Could not find coordinates for adress "'.$sQuery.'" (API Code: '.$oRequest->code.')', 'StoreLocator getCoordinates()', TL_ERROR);
 		}
 		
 		return false;
@@ -89,8 +89,8 @@ class StoreLocator extends Backend {
 	 * @param string The adress
 	 * @return array
 	 */
-	public static function getCoordinatesByString( $string=NULL ) {
-		return self::getCoordinates(NULL, NULL, NULL, NULL, $string);
+	public function getCoordinatesByString( $string=NULL ) {
+		return $this->getCoordinates(NULL, NULL, NULL, NULL, $string);
 	}
 }
 ?>

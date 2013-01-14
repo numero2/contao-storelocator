@@ -80,13 +80,14 @@ class ModuleStoreLocatorImporter extends Backend {
 					$count++;
 					
 					// get coordinates
-					$coords = StoreLocator::getCoordinates(
+					$sl = new StoreLocator();
+					$coords = $sl->getCoordinates(
 						$data[5]
 					,	$data[6]
 					,	$data[7]
 					,	$data[8]
 					);
-						
+
 					// add "http" in front of url
 					$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 

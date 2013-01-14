@@ -101,8 +101,9 @@ class ModuleStoreLocatorList extends Module {
             if( !empty($term) ) {
 			
                 // get coordinates of searched destination
+				$sl = new StoreLocator();
                 $aCoordinates = array();
-				$aCoordinates = StoreLocator::getCoordinatesByString($term);
+				$aCoordinates = $sl->getCoordinatesByString($term);
             
                 if( !empty($aCoordinates) ) {
 

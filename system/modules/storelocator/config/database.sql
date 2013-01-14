@@ -33,8 +33,8 @@ CREATE TABLE `tl_storelocator_stores` (
   `latitude` varchar(64) NOT NULL default '',
   `comment` text NULL,
   PRIMARY KEY  (`id`),
-  KEY `pid` (`pid`)
-  UNIQUE KEY `uniqaddr` (`name`,`street`,`postal`,`city`,`country`)
+  KEY `pid` (`pid`),
+  UNIQUE KEY `uniq` (`name`, `street`, `postal`, `city`, `country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
