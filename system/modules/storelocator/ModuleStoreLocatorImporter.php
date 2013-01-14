@@ -58,64 +58,62 @@ class ModuleStoreLocatorImporter extends Backend {
 				continue;
 			}
 			
-			// read entries
-			if( true ) {
+			ini_set("max_execution_time",0);
 
-				ini_set("max_execution_time",0);
+			// read entries		
+			if( $objFile->handle !== FALSE ) {
 			
-				if( ($handle = fopen(TL_ROOT . '/' . $source, "r")) !== FALSE ) {
+				$pid = $this->Input->get('id');
 				
-					$pid = $this->Input->get('id');
+				$oStores = null;
+				$oStores = new tl_storelocator_stores();
+				$count = 0;
+				
+				while( ($data = fgetcsv($objFile->handle, 1000)) !== FALSE ) {
+				
+					if( empty($data[0]) )
+						continue;
+					$count++;
 					
-					$oStores = null;
-					$oStores = new tl_storelocator_stores();
-                    $count = 0;
-                    
-					while( ($data = fgetcsv($handle, 1000)) !== FALSE ) {
+					// get coordinates
+					$coords = $oStores->getCoordinates(
+						$data[5]
+					,	$data[6]
+					,	$data[7]
+					,	$data[8]
+					);
+						
+					// add "http" in front of url
+					$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 
-						if( empty($data[0]) )
-							continue;
-                        $count++;
-                        
-						// get coordinates
-						$coords = $oStores->getCoordinates(
-							$data[5]
-						,	$data[6]
-						,	$data[7]
-						,	$data[8]
-						);
-							
-						// add "http" in front of url
-						$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
-
-						$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
-							$pid
-						,	$data[0]
-						,	$data[1]
-						,	$data[2]
-						,	$data[3]
-						,	$data[4]
-						,	$data[5]
-						,	$data[6]
-						,	$data[7]
-						,	$data[8]
-						,	$coords ? $coords['longitude'] : ''
-						,	$coords ? $coords['latitude'] : ''
-						);
-                        
-                        if ($count > 5){
-                            sleep(2);
-                            $count = 0;
-                        }
+					$b = $this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
+						$pid
+					,	time()
+					,	$data[0]
+					,	$data[1]
+					,	$data[2]
+					,	$data[3]
+					,	$data[4]
+					,	$data[5]
+					,	$data[6]
+					,	$data[7]
+					,	strtolower($data[8])
+					,	$coords ? $coords['longitude'] : ''
+					,	$coords ? $coords['latitude'] : ''
+					);
+					
+					if ($count > 5){
+						sleep(2);
+						$count = 0;
 					}
-				
-					fclose($handle);
-
-					// Redirect
-					setcookie('BE_PAGE_OFFSET', 0, 0, '/');
-					$this->redirect(str_replace('&key=importStores', '', $this->Environment->request));
-					return;
 				}
+
+				$objFile->close();
+
+				// Redirect
+				setcookie('BE_PAGE_OFFSET', 0, 0, '/');
+				$this->redirect(str_replace('&key=importStores', '', $this->Environment->request));
+				return;
 			}
 		}
 
