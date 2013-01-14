@@ -38,9 +38,6 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 		'dataContainer'               => 'Table'
 	,	'ctable'                      => array('tl_storelocator_stores')
 	,	'switchToEdit'                => true
-	,	'onload_callback'             => array(
-            array('tl_storelocator_category', 'checkSettings')
-        )
 	)
 ,	'list' => array(
 		'sorting' => array(
@@ -98,17 +95,4 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 	)
 );
 
-
-class tl_storelocator_category extends Backend {
-
-
-    public function checkSettings() {
-
-		if( !ini_get('allow_url_fopen') )
-			$_SESSION['TL_ERROR'][] = $GLOBALS['TL_LANG']['tl_storelocator_category']['allow_url_fopen_disabled'];
-			
-		if( !function_exists('file_get_contents') )
-			$_SESSION['TL_ERROR'][] = $GLOBALS['TL_LANG']['tl_storelocator_category']['file_get_contents'];
-    }	
-}
 ?>

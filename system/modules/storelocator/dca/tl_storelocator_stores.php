@@ -226,7 +226,7 @@ class tl_storelocator_stores extends Backend {
 		}
 		
 		// find coordinates using google maps api
-		$coords = $this->getCoordinates(
+		$coords = StoreLocator::getCoordinates(
 			$dc->activeRecord->street
 		,	$dc->activeRecord->postal
 		,	$dc->activeRecord->city
@@ -242,41 +242,8 @@ class tl_storelocator_stores extends Backend {
 	}
 	
 	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
-	
-		// find coordinates using google maps api
-		$sQuery = sprintf(
-			"%s %s %s %s"
-		,	$street
-		,	$postal
-		,	$city
-		,	$country
-		);
-		
-		$sResponse = NULL;
-        $sResponse = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&sensor=false&language=de");
-		
-		if( !empty($sResponse) ) {
-		
-			$aResponse = array();
-			$aResponse = json_decode($sResponse,1);
 
-			if( !empty($aResponse['status']) && $aResponse['status'] == 'OK' ) {
-			
-				$coords = array();
-				$coords['latitude'] = $aResponse['results'][0]['geometry']['location']['lat'];
-				$coords['longitude'] = $aResponse['results'][0]['geometry']['location']['lng'];
-				
-				return $coords;
-
-			} else {
-
-				$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
-			}
-		} else {
-			$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
-		}
-		
-		return false;
+		return StoreLocator::getCoordinates( $street, $postal, $city, $country );
 	}
 	
 	public function showMap( DataContainer $dc ) {

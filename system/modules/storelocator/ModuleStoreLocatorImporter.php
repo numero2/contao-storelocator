@@ -70,13 +70,14 @@ class ModuleStoreLocatorImporter extends Backend {
 				$count = 0;
 				
 				while( ($data = fgetcsv($objFile->handle, 1000)) !== FALSE ) {
-				
+
 					if( empty($data[0]) )
 						continue;
+
 					$count++;
 					
 					// get coordinates
-					$coords = $oStores->getCoordinates(
+					$coords = StoreLocator::getCoordinates(
 						$data[5]
 					,	$data[6]
 					,	$data[7]
@@ -86,7 +87,7 @@ class ModuleStoreLocatorImporter extends Backend {
 					// add "http" in front of url
 					$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 
-					$b = $this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
+					$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
 						$pid
 					,	time()
 					,	$data[0]
@@ -102,7 +103,7 @@ class ModuleStoreLocatorImporter extends Backend {
 					,	$coords ? $coords['latitude'] : ''
 					);
 					
-					if ($count > 5){
+					if( $count > 5 ){
 						sleep(2);
 						$count = 0;
 					}

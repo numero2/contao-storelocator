@@ -97,24 +97,10 @@ class ModuleStoreLocatorList extends Module {
             $aCategories = deserialize($this->storelocator_list_categories);
             
             if( !empty($term) ) {
-            
+			
                 // get coordinates of searched destination
                 $aCoordinates = array();
-                
-                $sResponse = NULL;
-                $sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($term)."&output=json&oe=utf8&sensor=false&hl=de");
-                
-                if( !empty($sResponse) ) {
-                
-                    $aResponse = array();
-                    $aResponse = json_decode($sResponse,1);
-
-                    if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
-                    
-                        $aCoordinates['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-                        $aCoordinates['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
-                    }
-                }
+				$aCoordinates = StoreLocator::getCoordinatesByString($term);
             
                 if( !empty($aCoordinates) ) {
 

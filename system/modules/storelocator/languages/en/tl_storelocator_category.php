@@ -51,11 +51,4 @@ $GLOBALS['TL_LANG']['tl_storelocator_category']['edit']   = array('Edit list', '
 $GLOBALS['TL_LANG']['tl_storelocator_category']['copy']   = array('Copy list', 'Copy list with ID %s');
 $GLOBALS['TL_LANG']['tl_storelocator_category']['delete'] = array('Delete list', 'Delete list with ID %s löschen');
 
-
-/**
- * Messages
- */
-$GLOBALS['TL_LANG']['tl_storelocator_category']['allow_url_fopen_disabled'] = 'To ensure this extension works correctly, the PHP directive allow_url_fopen must be changed to "On"';
-$GLOBALS['TL_LANG']['tl_storelocator_category']['file_get_contents'] = 'Your PHP version is outdated. Please update to at least 4.0';
-
 ?>

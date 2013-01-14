@@ -51,11 +51,4 @@ $GLOBALS['TL_LANG']['tl_storelocator_category']['edit']   = array('Liste bearbei
 $GLOBALS['TL_LANG']['tl_storelocator_category']['copy']   = array('Liste kopieren', 'Liste mit der ID %s kopieren');
 $GLOBALS['TL_LANG']['tl_storelocator_category']['delete'] = array('Liste löschen', 'Liste mit der ID %s löschen');
 
-
-/**
- * Messages
- */
-$GLOBALS['TL_LANG']['tl_storelocator_category']['allow_url_fopen_disabled'] = 'Damit die Erweiterung korrekt funktioniert muss die PHP-Direktive allow_url_fopen auf den Wert "On" gesetzt werden!';
-$GLOBALS['TL_LANG']['tl_storelocator_category']['file_get_contents'] = 'Ihre PHP-Version ist zu alt oder falsch konfiguriert. Bitte aktualisieren Sie auf eine Version die die Funktion "file_get_contents" unterstützt!';
-
 ?>
