@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorSearch extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -75,6 +76,7 @@ class ModuleStoreLocatorSearch extends Module {
 		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
         $this->Template->moduleId = $this->id;
+        $this->Template->action = '';
         
         // redirect to results page
         if( $this->Input->post('search') ) {
@@ -101,11 +103,12 @@ class ModuleStoreLocatorSearch extends Module {
         if( $aCountries ) {
             
             $temp = array();
-            
+            $aCountryNames = $this->getCountries();
+			
             foreach( $aCountries as $i => $v ) {
             
                 if( $this->storelocator_show_full_country_names ) {
-                    $temp[ $v['country'] ] = $GLOBALS['TL_LANG']['CNT'][ $v['country'] ];
+                    $temp[ $v['country'] ] = $aCountryNames[ $v['country'] ];
                 } else {
                     $temp[ $v['country'] ] = $v['country'];
                 }
@@ -116,13 +119,7 @@ class ModuleStoreLocatorSearch extends Module {
         }
         
         $this->Template->countries = $aCountries;
-
-		// get form action
-		$pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
-		$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
-		$this->Template->action = $this->generateFrontendUrl($objLink->fetchAssoc());
 	}
-
 }
 
 ?>

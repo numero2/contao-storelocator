@@ -71,7 +71,7 @@ class ModuleStoreLocatorList extends Module {
 		
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
-        
+
         $aEntries = array();
         
         // check if an empty search is allowed

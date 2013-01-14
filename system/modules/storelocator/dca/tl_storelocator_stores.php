@@ -109,6 +109,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'url ', 'maxlength'=>255, 'tl_class'=>'w50')
+		,	'save_callback' 		  => array( array('tl_storelocator_stores', 'checkURL') )
         )
 	,	'phone' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['phone']
@@ -208,17 +209,33 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 class tl_storelocator_stores extends Backend {
 	
 
+	/**
+	 * Listing for overview
+	 * @param array
+	 * @return string
+	 */
 	public function listStores($arrRow) {
 		return '<div class="limit_height block">
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
 	}
 	
+	
+	/**
+	 * Returns list of countries
+	 * @return array
+	 */
 	public function getCountries() {
 	
 		return parent::getCountries();
 	}
 	
+	
+	/**
+	 * Fills coordinates if not already set and saving
+	 * @param DataContainer
+	 * @return bool
+	 */
 	public function fillCoordinates( DataContainer $dc ) {
 	
 		if( !$dc->activeRecord ) {
@@ -240,12 +257,27 @@ class tl_storelocator_stores extends Backend {
 		
 		return false;
 	}
-	
+
+
+	/**
+	 * Returns geographical coordinates
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @return array
+	 */	
 	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
 
 		return StoreLocator::getCoordinates( $street, $postal, $city, $country );
 	}
 	
+	
+	/**
+	 * Displays a little static Google Map with position of the address
+	 * @param DataContainer
+	 * @return string
+	 */
 	public function showMap( DataContainer $dc ) {
 	
 		$sCoords = sprintf(
@@ -259,10 +291,27 @@ class tl_storelocator_stores extends Backend {
 		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&sensor=false" />'
 		.'</div>';
 	}
-	
+
+
+	/**
+	 * Shows a little info text what coordinates are
+	 * @return string
+	 */	
 	public function showGeoExplain() {
 	
 		return '<div class="tl_help">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</div>';
+	}
+	
+	
+	/**
+	 * Add leading "http://" if missing
+	 * @param mixed
+	 * @param DataContainer
+	 * @return string
+	 */
+	public function checkURL( $varValue, DataContainer $dc ) {
+	
+		return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
 	}
 }
 

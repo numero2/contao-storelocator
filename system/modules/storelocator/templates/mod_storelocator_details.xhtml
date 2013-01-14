@@ -1,9 +1,7 @@
 <!-- indexer::stop -->
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
-	<h1>
-		<?php echo $this->entry['name']; ?>
-	</h1>
+	<h1><?php echo $this->entry['name']; ?></h1>
 
 	<div class="entry">
 
@@ -12,26 +10,26 @@
 			<?php echo $this->entry['country_name']; ?>
 		</em>
 		<p>
-			<?php if( $this->entry['phone'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php } ?>
-			<?php if( $this->entry['fax'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php } ?>
-			<?php if( $this->entry['email'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php } ?>
-			<?php if( $this->entry['url'] ) { ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php } ?>
+			<?php if( $this->entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php endif; ?>
+			<?php if( $this->entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php endif; ?>
+			<?php if( $this->entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php endif; ?>
+			<?php if( $this->entry['url'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php endif; ?>
 		</p>
-		<?php if( !empty($this->entry['opening_times']) ) { ?>		
+		<?php if( !empty($this->entry['opening_times']) ): ?>		
 		<ul class="times">
-			<?php foreach( $this->entry['opening_times'] as $i => $v ) { ?>
+			<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>
 			<li>
 				<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
 			</li>
-			<?php } ?>
+			<?php endforeach; ?>
 		</ul>
-		<?php } ?>
+		<?php endif; ?>
 		
-		<?php if( $this->gMap ) { ?>
+		<?php if( $this->gMap ): ?>
 		<div class="map">
             <?php echo $this->gMap; ?>	
 		</div>
-		<?php } ?>
+		<?php endif; ?>
 		
         <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
         

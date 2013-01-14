@@ -32,6 +32,12 @@
 class ModuleStorelocatorInsertTags extends Controller {
 
 	
+	/**
+	 * Replace matching inserttags
+	 * @param string InsertTag
+	 * @param bool Use cache
+	 * @return string
+	 */
 	protected function replaceInsertTags($strBuffer, $blnCache=false) {
 
 		$this->import('Database');
@@ -79,7 +85,6 @@ class ModuleStorelocatorInsertTags extends Controller {
         }
 
         return false;
-    
     }
 }
 

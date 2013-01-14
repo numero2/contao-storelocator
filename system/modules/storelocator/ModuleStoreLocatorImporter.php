@@ -32,6 +32,9 @@
 class ModuleStoreLocatorImporter extends Backend {
 
 
+	/**
+	 * Generates a form to start import from csv file
+	 */
 	public function showImport() {
 	
 		if( $this->Input->post('FORM_SUBMIT') == 'tl_storelocator_stores_import' ) {
@@ -87,21 +90,25 @@ class ModuleStoreLocatorImporter extends Backend {
 					// add "http" in front of url
 					$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 
-					$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
-						$pid
-					,	time()
-					,	$data[0]
-					,	$data[1]
-					,	$data[2]
-					,	$data[3]
-					,	$data[4]
-					,	$data[5]
-					,	$data[6]
-					,	$data[7]
-					,	strtolower($data[8])
-					,	$coords ? $coords['longitude'] : ''
-					,	$coords ? $coords['latitude'] : ''
-					);
+					try {
+						$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
+							$pid
+						,	time()
+						,	$data[0]
+						,	$data[1]
+						,	$data[2]
+						,	$data[3]
+						,	$data[4]
+						,	$data[5]
+						,	$data[6]
+						,	$data[7]
+						,	strtolower($data[8])
+						,	$coords ? $coords['longitude'] : ''
+						,	$coords ? $coords['latitude'] : ''
+						);
+					} catch( Exception $e ) {
+						continue;
+					}
 					
 					if( $count > 5 ){
 						sleep(2);

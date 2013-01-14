@@ -1,9 +1,9 @@
 <!-- indexer::stop -->
 <section class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 
-	<?php if ($this->headline) { ?>
+	<?php if( $this->headline ): ?>
 		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
-	<?php } ?>
+	<?php endif; ?>
 
 	<form method="post" action="<?php echo $this->action; ?>" id="<?php echo $this->formId; ?>">
 		<input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>">
@@ -16,7 +16,7 @@
 			<input type="text" class="text" id="storelocator_search_<?php echo $this->moduleId; ?>" name="storelocator_search_name" value="<?php echo $this->searchVal; ?>" />
 		</div>
 		
-		<?php if( count($this->countries) > 1 ) { ?>
+		<?php if( count($this->countries) > 1 ): ?>
 		<div class="country">
 			<label><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['country']; ?></label>
 			<select name="sl_search_country" onchange="document.getElementById('storelocator_search_country').value = this.options[this.selectedIndex].value;">
@@ -25,7 +25,7 @@
 			<?php } ?>
 			</select>
 		</div>
-		<?php } ?>
+		<?php endif; ?>
 		
         <div class="submit_container">
             <input class="submit" type="submit" value="<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['search']; ?>" />

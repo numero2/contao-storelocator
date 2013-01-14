@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorDetails extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -144,6 +145,10 @@ class ModuleStoreLocatorDetails extends Module {
 
 	}
 	
+	
+	/**
+	 * Redirect to 404 page if entry not found
+	 */
 	private function _redirect404() {
 	
 		$obj404 = $this->Database->prepare("SELECT id, alias FROM tl_page WHERE type='error_404' AND published=1 AND pid=?")->limit(1)->execute($this->getRootIdFromUrl());

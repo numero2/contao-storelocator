@@ -9,7 +9,6 @@ CREATE TABLE `tl_storelocator_category` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
 -- --------------------------------------------------------
 
 --
@@ -35,6 +34,7 @@ CREATE TABLE `tl_storelocator_stores` (
   `comment` text NULL,
   PRIMARY KEY  (`id`),
   KEY `pid` (`pid`)
+  UNIQUE KEY `uniqaddr` (`name`,`street`,`postal`,`city`,`country`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -54,6 +54,5 @@ CREATE TABLE `tl_module` (
   `storelocator_details_tpl` varchar(255) NOT NULL default '',
   `storelocator_details_maptype` char(10) NOT NULL default 'static',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 
 -- --------------------------------------------------------

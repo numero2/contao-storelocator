@@ -47,6 +47,5 @@ class ModuleStoreLocator extends Frontend {
 
 		$objPage->cssClass = $objPage->cssClass . ' storelocatorresults';
 	}
-
 }
 ?>
