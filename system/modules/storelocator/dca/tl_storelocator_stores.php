@@ -81,10 +81,11 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 			,	'icon'                => 'delete.gif'
 			,	'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
-		,	'show' => array(
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['show']
+		,	'coords' => array(
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
 			,	'href'                => 'act=show'
-			,	'icon'                => 'show.gif'
+			,	'icon'                => array( 'system/modules/storelocator/html/coords0.png', 'system/modules/storelocator/html/coords1.png' )
+			,	'button_callback'     => array( 'tl_storelocator_stores', 'coordsButton' )
             )
         )
 	)
@@ -207,6 +208,28 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 
 
 class tl_storelocator_stores extends Backend {
+
+
+	/**
+	 * Generates button to show if coordinates are available
+	 * @param array
+	 * @param srting
+	 * @param array
+	 * @param string
+	 * @param mixed
+	 * @param array
+	 * @return string
+	 */
+	public function coordsButton( $row=NULL, $href=NULL, $label=NULL, $title=NULL, $icon=NULL, $attributes=NULL ) {
+
+		$objEntry = NULL;
+		$objEntry = $this->Database->prepare("SELECT latitude, longitude FROM tl_storelocator_stores WHERE id = ?")->limit(1)->execute( $row['id'] );
+
+		$icon = ($objEntry->latitude || $objEntry->longitude) ? $icon[1] : $icon[0];
+		$label = ($objEntry->latitude || $objEntry->longitude) ? $label[1] : $label[0];
+		
+		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
+	}
 	
 
 	/**

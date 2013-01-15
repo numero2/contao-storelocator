@@ -64,7 +64,7 @@ $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_legend'] 	= 'Öffnungszeite
  * Buttons
  */
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['new']    		= array('Neuer Händler', 'Neuen Händler anlegen');
-$GLOBALS['TL_LANG']['tl_storelocator_stores']['show']   		= array('Details', 'Details des Händlers mit der ID %s anzeigen');
+$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']   		= array('Noch keine Geo-Koordinaten vorhanden!', 'Geo-Koordinaten vorhanden');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['edit']   		= array('Händler bearbeiten', 'Händler mit der ID %s bearbeiten');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['copy']   		= array('Händler kopieren', 'Händler mit der ID %s kopieren');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['delete'] 		= array('Händler löschen', 'Händler mit der ID %s löschen');

@@ -59,6 +59,8 @@ class StoreLocator extends System {
 
 		$oRequest->send("http://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&sensor=false&language=de");
 		
+		$hasError = false;
+		
 		if( $oRequest->code == 200 ) {
 		
 			$aResponse = array();
@@ -73,12 +75,38 @@ class StoreLocator extends System {
 				return $coords;
 
 			} else {
-				$this->log('Could not find coordinates for adress "'.$sQuery.'" (API Status: '.$aResponse['status'].')', 'StoreLocator getCoordinates()', TL_ERROR);
+			
+				// try alternative api if google blocked us
+				$oRequest->send("http://maps.google.com/maps/geo?q=".rawurlencode($sQuery)."&output=json&oe=utf8&sensor=false&hl=de");
+				
+				if( $oRequest->code == 200 ) {
+				
+					$aResponse = array();
+					$aResponse = json_decode( $oRequest->response,1 );
+					
+					if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == 200 ) {
+					
+						$coords = array();
+						$coords['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
+						$coords['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
+						
+						return $coords;
+
+					} else {
+						$hasError = true;	
+					}
+				
+				} else {
+					$hasError = true;	
+				}
 			}
 			
 		} else {
-			$this->log('Could not find coordinates for adress "'.$sQuery.'" (API Code: '.$oRequest->code.')', 'StoreLocator getCoordinates()', TL_ERROR);
+			$hasError = true;
 		}
+		
+		if( $hasError )
+			$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
 		
 		return false;
 	}

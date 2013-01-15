@@ -63,7 +63,7 @@ $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_legend'] 	= 'Opening times'
  * Buttons
  */
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['new']    		= array('New store', 'Add a new store');
-$GLOBALS['TL_LANG']['tl_storelocator_stores']['show']   		= array('Details', 'Details about store with ID %s');
+$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']   		= array('No coordinates available!', 'Coordinates available');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['edit']   		= array('Edit store', 'Edit store with ID %s');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['copy']   		= array('Copy store', 'Copy store with ID %s');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['delete'] 		= array('Delete store', 'Delete store with ID %s');
