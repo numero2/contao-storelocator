@@ -21,7 +21,7 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @copyright  numero2 - Agentur fï¿½r Internetdienstleistungen <www.numero2.de>
  * @author     Benny Born <benny.born@numero2.de>
  * @package    storelocator
  * @license    LGPL
@@ -79,7 +79,7 @@ class ModuleStoreLocatorSearch extends Module {
         $this->Template->action = '';
         
         // redirect to results page
-        if( $this->Input->post('search') ) {
+        if( $this->Input->post('search') == '1') {
             
             $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
             $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
