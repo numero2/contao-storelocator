@@ -120,7 +120,8 @@ class ModuleStoreLocatorList extends Module {
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
                                 AND latitude != '' 
-                                AND longitude != '' 
+                                AND longitude != ''
+                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                             ORDER BY `distance` ASC
                         ")->limit($this->storelocator_list_limit)->execute(
                             $aCoordinates['latitude']
@@ -140,6 +141,7 @@ class ModuleStoreLocatorList extends Module {
                                     pid IN(".implode(',',$aCategories).")
                                 AND latitude != '' 
                                 AND longitude != '' 
+                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                                 AND country = ?
                             ORDER BY `distance` ASC
                         ")->limit($this->storelocator_list_limit)->execute(

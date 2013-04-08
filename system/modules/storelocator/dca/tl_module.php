@@ -33,9 +33,12 @@
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country,storelocator_show_full_country_names;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_allow_empty_search,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_allow_empty_search,storelocator_limit_distance,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{slmap_legend:hide},storelocator_details_maptype;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
+
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
 
 /**
  * Add fields to tl_module
@@ -118,6 +121,20 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_maptype'] = arra
     )
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_distance']
+,	'inputType'               => 'checkbox'
+,	'default'                 => false
+,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50 clr', 'submitOnChange' => true)
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_max_distance']
+,	'default'                 => '10'
+,	'exclude'                 => true
+,	'inputType'               => 'text'
+,	'eval'                    => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
+);
 
 class tl_module_storelocator extends Backend {
 
