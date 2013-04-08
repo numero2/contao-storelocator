@@ -62,4 +62,7 @@ $GLOBALS['TL_LANG']['tl_module']['storelocator_details_tpl'] = array('Template',
 
 $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptype'] = array('Type', 'Which type of Google Map should be shown?');
 $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'] = array('static', 'dynamic');
+
+$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_distance'] = array('Limit distance', 'Do not show stores which exceed the maximum distance.');
+$GLOBALS['TL_LANG']['tl_module']['storelocator_max_distance'] = array('Max distance', 'The maximum distance in km.');
 ?>
