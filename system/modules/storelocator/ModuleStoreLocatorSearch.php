@@ -79,7 +79,7 @@ class ModuleStoreLocatorSearch extends Module {
         $this->Template->action = '';
         
         // redirect to results page
-        if( $this->Input->post('search') ) {
+        if( $this->Input->post('storelocator_search_name') ) {
             
             $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
             $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
