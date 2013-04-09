@@ -53,6 +53,8 @@ CREATE TABLE `tl_module` (
   `storelocator_show_full_country_names` char(1) NOT NULL default '0',
   `storelocator_details_tpl` varchar(255) NOT NULL default '',
   `storelocator_details_maptype` char(10) NOT NULL default 'static',
+  `storelocator_limit_distance` char(1) NOT NULL default '',
+  `storelocator_max_distance` int(5) unsigned NOT NULL default '0',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
