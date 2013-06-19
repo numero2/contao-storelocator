@@ -71,7 +71,7 @@ class ModuleStoreLocatorSearch extends Module {
 	
 		$this->Template = new FrontendTemplate($this->storelocator_search_tpl);
 		
-		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->Input->post('storelocator_search_name') : $this->Input->get('search');
+		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->_escapeSearchVal( $this->Input->post('storelocator_search_name') ) : $this->Input->get('search');
 		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
 		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
@@ -79,7 +79,7 @@ class ModuleStoreLocatorSearch extends Module {
         $this->Template->action = '';
         
         // redirect to results page
-        if( $this->Input->post('storelocator_search_name') ) {
+        if( $this->Template->searchVal ) {
             
             $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
             $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
@@ -119,6 +119,11 @@ class ModuleStoreLocatorSearch extends Module {
         }
         
         $this->Template->countries = $aCountries;
+	}
+
+	private function _escapeSearchVal( $val=NULL ) {
+
+		return str_replace( array('?','/'), '', $val );
 	}
 }
 
