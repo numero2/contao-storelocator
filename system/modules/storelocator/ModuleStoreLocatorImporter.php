@@ -139,7 +139,7 @@ class ModuleStoreLocatorImporter extends Backend {
 		// Return the form
 		return '
 			<div id="tl_buttons">
-				<a href="'.ampersand(str_replace('&key=importTheme', '', $this->Environment->request)).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+				<a href="'.ampersand(str_replace('&key=importStores', '', $this->Environment->request)).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
 			</div>
 
 			<h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['head'].'</h2>
