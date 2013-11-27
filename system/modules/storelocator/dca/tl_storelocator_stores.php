@@ -81,10 +81,11 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 			,	'icon'                => 'delete.gif'
 			,	'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
-		,	'show' => array(
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['show']
+		,	'coords' => array(
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
 			,	'href'                => 'act=show'
-			,	'icon'                => 'show.gif'
+			,	'icon'                => array( 'system/modules/storelocator/html/coords0.png', 'system/modules/storelocator/html/coords1.png' )
+			,	'button_callback'     => array( 'tl_storelocator_stores', 'coordsButton' )
             )
         )
 	)
@@ -96,7 +97,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['name']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
-		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64 )
+		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
         )
 	,	'email' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
@@ -109,6 +110,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'url ', 'maxlength'=>255, 'tl_class'=>'w50')
+		,	'save_callback' 		  => array( array('tl_storelocator_stores', 'checkURL') )
         )
 	,	'phone' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['phone']
@@ -144,6 +146,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['country']
 		,	'inputType'               => 'select'
 		,	'options_callback'        => array('tl_storelocator_stores', 'getCountries')
+		,	'default'				  => 'de'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50', 'chosen'=>true)
         )
@@ -205,27 +208,67 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 
 
 class tl_storelocator_stores extends Backend {
+
+
+	/**
+	 * Generates button to show if coordinates are available
+	 * @param array
+	 * @param srting
+	 * @param array
+	 * @param string
+	 * @param mixed
+	 * @param array
+	 * @return string
+	 */
+	public function coordsButton( $row=NULL, $href=NULL, $label=NULL, $title=NULL, $icon=NULL, $attributes=NULL ) {
+
+		$objEntry = NULL;
+		$objEntry = $this->Database->prepare("SELECT latitude, longitude FROM tl_storelocator_stores WHERE id = ?")->limit(1)->execute( $row['id'] );
+
+		$icon = ($objEntry->latitude || $objEntry->longitude) ? $icon[1] : $icon[0];
+		$label = ($objEntry->latitude || $objEntry->longitude) ? $label[1] : $label[0];
+		
+		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
+	}
 	
 
+	/**
+	 * Listing for overview
+	 * @param array
+	 * @return string
+	 */
 	public function listStores($arrRow) {
 		return '<div class="limit_height block">
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
 	}
 	
+	
+	/**
+	 * Returns list of countries
+	 * @return array
+	 */
 	public function getCountries() {
 	
-		return $GLOBALS['TL_LANG']['tl_storelocator']['countries'];
+		return parent::getCountries();
 	}
 	
+	
+	/**
+	 * Fills coordinates if not already set and saving
+	 * @param DataContainer
+	 * @return bool
+	 */
 	public function fillCoordinates( DataContainer $dc ) {
 	
 		if( !$dc->activeRecord ) {
 			return;
 		}
 		
+		$sl = new StoreLocator();
+		
 		// find coordinates using google maps api
-		$coords = $this->getCoordinates(
+		$coords = $sl->getCoordinates(
 			$dc->activeRecord->street
 		,	$dc->activeRecord->postal
 		,	$dc->activeRecord->city
@@ -239,45 +282,28 @@ class tl_storelocator_stores extends Backend {
 		
 		return false;
 	}
-	
+
+
+	/**
+	 * Returns geographical coordinates
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @return array
+	 */	
 	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
-	
-		// find coordinates using google maps api
-		$sQuery = sprintf(
-			"%s %s %s %s"
-		,	$street
-		,	$postal
-		,	$city
-		,	$country
-		);
-		
-		$sResponse = NULL;
-		$sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($sQuery)."&output=json&oe=utf8&sensor=false&hl=de");
-		
-		if( !empty($sResponse) ) {
-		
-			$aResponse = array();
-			$aResponse = json_decode($sResponse,1);
 
-			if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
-			
-				$coords = array();
-				$coords['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-				$coords['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
-				
-				return $coords;
-
-			} else {
-
-				$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
-			}
-		} else {
-			$this->log('Could not find coordinates for adress "'.$sQuery.'"', 'tl_storelocator_stores fillCoordinates()', TL_ERROR);
-		}
-		
-		return false;
+		$sl = new StoreLocator();
+		return $sl->getCoordinates( $street, $postal, $city, $country );
 	}
 	
+	
+	/**
+	 * Displays a little static Google Map with position of the address
+	 * @param DataContainer
+	 * @return string
+	 */
 	public function showMap( DataContainer $dc ) {
 	
 		$sCoords = sprintf(
@@ -291,10 +317,27 @@ class tl_storelocator_stores extends Backend {
 		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&sensor=false" />'
 		.'</div>';
 	}
-	
+
+
+	/**
+	 * Shows a little info text what coordinates are
+	 * @return string
+	 */	
 	public function showGeoExplain() {
 	
 		return '<div class="tl_help">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</div>';
+	}
+	
+	
+	/**
+	 * Add leading "http://" if missing
+	 * @param mixed
+	 * @param DataContainer
+	 * @return string
+	 */
+	public function checkURL( $varValue, DataContainer $dc ) {
+	
+		return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
 	}
 }
 

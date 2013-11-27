@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorDetails extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -86,6 +87,11 @@ class ModuleStoreLocatorDetails extends Module {
 			// get opening times
 			$entry['opening_times'] = unserialize( $entry['opening_times'] );
 			$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+			// set country name
+			$aCountryNames = $this->getCountries();
+			$entry['country_code'] = $entry['country'];
+			$entry['country_name'] = $aCountryNames[$entry['country']];
 		
 			$this->Template->entry = $entry;
 			$this->Template->gMap = null;
@@ -139,6 +145,10 @@ class ModuleStoreLocatorDetails extends Module {
 
 	}
 	
+	
+	/**
+	 * Redirect to 404 page if entry not found
+	 */
 	private function _redirect404() {
 	
 		$obj404 = $this->Database->prepare("SELECT id, alias FROM tl_page WHERE type='error_404' AND published=1 AND pid=?")->limit(1)->execute($this->getRootIdFromUrl());

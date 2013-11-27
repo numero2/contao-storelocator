@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorSearch extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -70,14 +71,15 @@ class ModuleStoreLocatorSearch extends Module {
 	
 		$this->Template = new FrontendTemplate($this->storelocator_search_tpl);
 		
-		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->Input->post('storelocator_search_name') : $this->Input->get('search');
+		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->_escapeSearchVal( $this->Input->post('storelocator_search_name') ) : $this->Input->get('search');
 		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
 		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
         $this->Template->moduleId = $this->id;
+        $this->Template->action = '';
         
         // redirect to results page
-        if( $this->Input->post('search') ) {
+        if( $this->Template->searchVal ) {
             
             $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
             $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
@@ -101,11 +103,12 @@ class ModuleStoreLocatorSearch extends Module {
         if( $aCountries ) {
             
             $temp = array();
-            
+            $aCountryNames = $this->getCountries();
+			
             foreach( $aCountries as $i => $v ) {
             
                 if( $this->storelocator_show_full_country_names ) {
-                    $temp[ $v['country'] ] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $v['country'] ];
+                    $temp[ $v['country'] ] = $aCountryNames[ $v['country'] ];
                 } else {
                     $temp[ $v['country'] ] = $v['country'];
                 }
@@ -116,13 +119,12 @@ class ModuleStoreLocatorSearch extends Module {
         }
         
         $this->Template->countries = $aCountries;
-
-		// get form action
-		$pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
-		$objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
-		$this->Template->action = $this->generateFrontendUrl($objLink->fetchAssoc());
 	}
 
+	private function _escapeSearchVal( $val=NULL ) {
+
+		return str_replace( array('?','/'), '', $val );
+	}
 }
 
 ?>

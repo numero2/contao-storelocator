@@ -2,7 +2,7 @@
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
+ * Copyright (C) 2005-2013 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -27,28 +27,24 @@
  * @license    LGPL
  * @filesource
  */
- 
- 
 
-/**
- * Fields
- */
-$GLOBALS['TL_LANG']['tl_storelocator_category']['title'] = array('Bezeichnung', 'Bitte gib eine Bezeichnung für die Liste ein.');
+class StorelocatorUpdater extends Controller {
 
 
-/**
- * Legends
- */
-$GLOBALS['TL_LANG']['tl_storelocator_category']['title_legend'] = 'Allgemein';
+	public function __construct() {
+		parent::__construct();
+		$this->import('Database');
+	}
+   
+	public function run() {
+   
+		// make sure that all country codes are lowercase
+		$this->Database->prepare("UPDATE tl_storelocator_stores SET country = LOWER(country) WHERE 1;")->execute();
+		$this->Database->prepare("UPDATE tl_module SET storelocator_search_country = LOWER(storelocator_search_country) WHERE 1;")->execute();
+   }
+}
 
-
-/**
- * Buttons
- */
-$GLOBALS['TL_LANG']['tl_storelocator_category']['new']    = array('Neue Liste', 'Eine neue Liste anlegen');
-$GLOBALS['TL_LANG']['tl_storelocator_category']['show']   = array('Details', 'Details der Liste mit der ID %s anzeigen');
-$GLOBALS['TL_LANG']['tl_storelocator_category']['edit']   = array('Liste bearbeiten', 'Liste mit der ID %s bearbeiten');
-$GLOBALS['TL_LANG']['tl_storelocator_category']['copy']   = array('Liste kopieren', 'Liste mit der ID %s kopieren');
-$GLOBALS['TL_LANG']['tl_storelocator_category']['delete'] = array('Liste löschen', 'Liste mit der ID %s löschen');
+$oSLUpdate = new StorelocatorUpdater();
+$oSLUpdate->run(); 
 
 ?>

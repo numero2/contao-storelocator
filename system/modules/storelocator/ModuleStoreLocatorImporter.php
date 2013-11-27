@@ -32,6 +32,9 @@
 class ModuleStoreLocatorImporter extends Backend {
 
 
+	/**
+	 * Generates a form to start import from csv file
+	 */
 	public function showImport() {
 	
 		if( $this->Input->post('FORM_SUBMIT') == 'tl_storelocator_stores_import' ) {
@@ -58,36 +61,40 @@ class ModuleStoreLocatorImporter extends Backend {
 				continue;
 			}
 			
-			// read entries
-			if( true ) {
+			ini_set("max_execution_time",0);
 
-				ini_set("max_execution_time",0);
+			// read entries		
+			if( $objFile->handle !== FALSE ) {
 			
-				if( ($handle = fopen(TL_ROOT . '/' . $source, "r")) !== FALSE ) {
+				$pid = $this->Input->get('id');
 				
-					$pid = $this->Input->get('id');
+				$oStores = null;
+				$oStores = new tl_storelocator_stores();
+				$count = 0;
+				
+				while( ($data = fgetcsv($objFile->handle, 1000)) !== FALSE ) {
+
+					if( empty($data[0]) )
+						continue;
+
+					$count++;
 					
-					$oStores = null;
-					$oStores = new tl_storelocator_stores();
-				
-					while( ($data = fgetcsv($handle, 1000)) !== FALSE ) {
+					// get coordinates
+					$sl = new StoreLocator();
+					$coords = $sl->getCoordinates(
+						$data[5]
+					,	$data[6]
+					,	$data[7]
+					,	$data[8]
+					);
 
-						if( empty($data[0]) )
-							continue;
+					// add "http" in front of url
+					$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
 
-						// get coordinates
-						$coords = $oStores->getCoordinates(
-							$data[5]
-						,	$data[6]
-						,	$data[7]
-						,	$data[8]
-						);
-							
-						// add "http" in front of url
-						$data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
-
-						$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
+					try {
+						$this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
 							$pid
+						,	time()
 						,	$data[0]
 						,	$data[1]
 						,	$data[2]
@@ -96,19 +103,26 @@ class ModuleStoreLocatorImporter extends Backend {
 						,	$data[5]
 						,	$data[6]
 						,	$data[7]
-						,	$data[8]
+						,	strtolower($data[8])
 						,	$coords ? $coords['longitude'] : ''
 						,	$coords ? $coords['latitude'] : ''
 						);
+					} catch( Exception $e ) {
+						continue;
 					}
-				
-					fclose($handle);
-
-					// Redirect
-					setcookie('BE_PAGE_OFFSET', 0, 0, '/');
-					$this->redirect(str_replace('&key=importStores', '', $this->Environment->request));
-					return;
+					
+					if( $count > 5 ){
+						sleep(2);
+						$count = 0;
+					}
 				}
+
+				$objFile->close();
+
+				// Redirect
+				setcookie('BE_PAGE_OFFSET', 0, 0, '/');
+				$this->redirect(str_replace('&key=importStores', '', $this->Environment->request));
+				return;
 			}
 		}
 
@@ -125,7 +139,7 @@ class ModuleStoreLocatorImporter extends Backend {
 		// Return the form
 		return '
 			<div id="tl_buttons">
-				<a href="'.ampersand(str_replace('&key=importTheme', '', $this->Environment->request)).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+				<a href="'.ampersand(str_replace('&key=importStores', '', $this->Environment->request)).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBT']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
 			</div>
 
 			<h2 class="sub_headline">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['head'].'</h2>

@@ -31,6 +31,7 @@
 
 class ModuleStoreLocatorList extends Module {
 
+
 	/**
 	 * Template
 	 * @var string
@@ -70,7 +71,7 @@ class ModuleStoreLocatorList extends Module {
 		
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
-        
+
         $aEntries = array();
         
         // check if an empty search is allowed
@@ -88,32 +89,21 @@ class ModuleStoreLocatorList extends Module {
                 if( !empty($sSearchVal) ) {
                     $term = $sSearchVal.', '.$sSearchCountry;
                 } else {
-                    $term = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ strtoupper($sSearchCountry) ];
+                    $term = $aCountryNames[$entry['country']];
                 }
             }
-            
+
             $aCategories = array();
             $aCategories = deserialize($this->storelocator_list_categories);
             
+			$aCountryNames = $this->getCountries();
+			
             if( !empty($term) ) {
-            
+			
                 // get coordinates of searched destination
+				$sl = new StoreLocator();
                 $aCoordinates = array();
-                
-                $sResponse = NULL;
-                $sResponse = file_get_contents("http://maps.google.com/maps/geo?q=".rawurlencode($term)."&output=json&oe=utf8&sensor=false&hl=de");
-                
-                if( !empty($sResponse) ) {
-                
-                    $aResponse = array();
-                    $aResponse = json_decode($sResponse,1);
-
-                    if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == '200' ) {
-                    
-                        $aCoordinates['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-                        $aCoordinates['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
-                    }
-                }
+				$aCoordinates = $sl->getCoordinatesByString($term);
             
                 if( !empty($aCoordinates) ) {
 
@@ -130,7 +120,8 @@ class ModuleStoreLocatorList extends Module {
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
                                 AND latitude != '' 
-                                AND longitude != '' 
+                                AND longitude != ''
+                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                             ORDER BY `distance` ASC
                         ")->limit($this->storelocator_list_limit)->execute(
                             $aCoordinates['latitude']
@@ -150,6 +141,7 @@ class ModuleStoreLocatorList extends Module {
                                     pid IN(".implode(',',$aCategories).")
                                 AND latitude != '' 
                                 AND longitude != '' 
+                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                                 AND country = ?
                             ORDER BY `distance` ASC
                         ")->limit($this->storelocator_list_limit)->execute(
@@ -165,15 +157,15 @@ class ModuleStoreLocatorList extends Module {
                     $entries = $objStores->fetchAllAssoc();
 
                     if( !empty($entries) ) {
-
+					
                         foreach( $entries as $entry ) {
 
                             if( empty($sSearchVal) ) {
                                 $entry['distance'] = NULL;
                             }
-                        
+
                             $entry['country_code'] = $entry['country'];
-                            $entry['country_name'] = $GLOBALS['TL_LANG']['tl_storelocator']['countries'][ $entry['country'] ];
+                            $entry['country_name'] = $aCountryNames[$entry['country']];
                         
                             // generate link
                             $link = null;
