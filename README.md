@@ -18,7 +18,7 @@ Screenshot
 System requirements
 -------------------
 
-* [Contao](https://github.com/contao/core) 2.9.3 or higher
+* [Contao](https://github.com/contao/core) 3.x or higher
 * [MultiColumnWizard](https://github.com/menatwork/MultiColumnWizard) 2.0.0 rc1 or higher
 
 
