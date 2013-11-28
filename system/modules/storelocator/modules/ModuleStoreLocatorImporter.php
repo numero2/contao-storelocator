@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -27,8 +27,8 @@
  * @license    LGPL
  * @filesource
  */
- 
- 
+
+
 class ModuleStoreLocatorImporter extends Backend {
 
 
@@ -36,9 +36,9 @@ class ModuleStoreLocatorImporter extends Backend {
 	 * Generates a form to start import from csv file
 	 */
 	public function showImport() {
-	
+
 		if( $this->Input->post('FORM_SUBMIT') == 'tl_storelocator_stores_import' ) {
-		
+
 			$source = $this->Input->post('file', true);
 
 			// check the file names
@@ -46,13 +46,13 @@ class ModuleStoreLocatorImporter extends Backend {
 				$this->addErrorMessage($GLOBALS['TL_LANG']['ERR']['all_fields']);
 				$this->reload();
 			}
-			
+
 			// skip folders
 			if( is_dir(TL_ROOT . '/' . $source) ) {
 				$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['ERR']['importFolder'], basename($source)));
 				continue;
 			}
-			
+
 			$objFile = new File($source);
 
 			// skip anything but .csv files
@@ -60,28 +60,25 @@ class ModuleStoreLocatorImporter extends Backend {
 				$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['ERR']['filetype'], $objFile->extension));
 				continue;
 			}
-			
+
 			ini_set("max_execution_time",0);
 
-			// read entries		
+			// read entries
 			if( $objFile->handle !== FALSE ) {
-			
+
 				$pid = $this->Input->get('id');
-				
-				$oStores = null;
-				$oStores = new tl_storelocator_stores();
+
 				$count = 0;
-				
+
 				while( ($data = fgetcsv($objFile->handle, 1000)) !== FALSE ) {
 
 					if( empty($data[0]) )
 						continue;
 
 					$count++;
-					
+
 					// get coordinates
-					$sl = new StoreLocator();
-					$coords = $sl->getCoordinates(
+					$coords = StoreLocator::getCoordinates(
 						$data[5]
 					,	$data[6]
 					,	$data[7]
@@ -110,7 +107,7 @@ class ModuleStoreLocatorImporter extends Backend {
 					} catch( Exception $e ) {
 						continue;
 					}
-					
+
 					if( $count > 5 ){
 						sleep(2);
 						$count = 0;

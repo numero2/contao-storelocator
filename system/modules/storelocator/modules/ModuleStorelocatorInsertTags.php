@@ -72,7 +72,7 @@ class ModuleStorelocatorInsertTags extends Controller {
 				$this->Template->entry = $entry;
 
 				$sTemplate = $this->Template->parse();
-				$sTemplate = Controller::replaceInsertTags($sTemplate);
+				$sTemplate = $this->replaceInsertTags($sTemplate);
 
 				return $sTemplate;
 

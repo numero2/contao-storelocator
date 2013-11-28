@@ -284,10 +284,8 @@ class tl_storelocator_stores extends Backend {
 			return;
 		}
 
-		$sl = new StoreLocator();
-
 		// find coordinates using google maps api
-		$coords = $sl->getCoordinates(
+		$coords = StoreLocator::getCoordinates(
 			$dc->activeRecord->street
 		,	$dc->activeRecord->postal
 		,	$dc->activeRecord->city
@@ -313,8 +311,7 @@ class tl_storelocator_stores extends Backend {
 	 */
 	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
 
-		$sl = new StoreLocator();
-		return $sl->getCoordinates( $street, $postal, $city, $country );
+		return StoreLocator::getCoordinates( $street, $postal, $city, $country );
 	}
 
 
