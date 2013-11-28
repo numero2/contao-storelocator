@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -38,6 +38,11 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 		'dataContainer'               => 'Table'
 	,	'ctable'                      => array('tl_storelocator_stores')
 	,	'switchToEdit'                => true
+    ,   'sql' => array(
+            'keys' => array(
+                'id' => 'primary'
+            )
+        )
 	)
 ,	'list' => array(
 		'sorting' => array(
@@ -86,11 +91,14 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 		'default'                     => '{title_legend},title'
 	)
 ,	'fields' => array(
-		'title' => array(
+        'id'     => array('sql' => "int(10) unsigned NOT NULL auto_increment")
+    ,   'tstamp' => array('sql' =>"int(10) unsigned NOT NULL default '0'")
+    ,   'title'  => array(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_category']['title']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64)
+        ,   'sql'                     => "varchar(64) NOT NULL default ''"
 		)
 	)
 );

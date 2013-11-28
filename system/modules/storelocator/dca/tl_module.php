@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -28,7 +28,7 @@
  * @filesource
  */
 
- 
+
 /**
  * Add palettes to tl_module
  */
@@ -50,6 +50,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 ,	'default'				  => 'de'
 ,	'search'                  => true
 ,	'eval'                    => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
+,   'sql'                     => "varchar(2) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_full_country_names'] = array(
@@ -57,6 +58,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_full_country_names'
 ,	'inputType'               => 'checkbox'
 ,	'default'                 => false
 ,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;' )
+,   'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
@@ -66,10 +68,11 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 ,	'inputType'               => 'select'
 ,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
-); 
+,   'sql'                     => "varchar(255) NOT NULL default ''"
+);
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
- 
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
 ,	'default'                 => 'mod_storelocator_list'
@@ -77,6 +80,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 ,	'inputType'               => 'select'
 ,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
+,   'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = array(
@@ -85,6 +89,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = arra
 ,	'inputType'               => 'checkbox'
 ,	'options_callback'        => array( 'tl_module_storelocator', 'getCategories' )
 ,	'eval'                    => array( 'mandatory'=>true, 'multiple'=>true )
+,   'sql'                     => "text NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = array(
@@ -93,6 +98,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = array(
 ,	'exclude'                 => true
 ,	'inputType'               => 'text'
 ,	'eval'                    => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
+,   'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_allow_empty_search'] = array(
@@ -100,6 +106,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_allow_empty_search'] = a
 ,	'inputType'               => 'checkbox'
 ,	'default'                 => true
 ,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;' )
+,   'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
@@ -109,6 +116,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
 ,	'inputType'               => 'select'
 ,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                    => array( 'tl_class'=>'w50' )
+,   'sql'                     => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_maptype'] = array(
@@ -116,9 +124,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_maptype'] = arra
 ,   'exclude'                 => true
 ,   'inputType'               => 'select'
 ,   'options'                 => array(
-        'static'    => $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][0]
-    ,   'dynamic'   => $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][1]
+        'static'    => &$GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][0]
+    ,   'dynamic'   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][1]
     )
+,   'sql'                     => "char(10) NOT NULL default 'static'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = array(
@@ -126,6 +135,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = array
 ,	'inputType'               => 'checkbox'
 ,	'default'                 => false
 ,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50 clr', 'submitOnChange' => true)
+,   'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = array(
@@ -134,13 +144,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = array(
 ,	'exclude'                 => true
 ,	'inputType'               => 'text'
 ,	'eval'                    => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
+,   'sql'                     => "int(5) unsigned NOT NULL default '0'"
 );
 
 class tl_module_storelocator extends Backend {
 
 
     public function getCategories() {
-    
+
 		$arrCalendars = array();
 		$objCalendars = $this->Database->execute("SELECT id, title FROM tl_storelocator_category ORDER BY title");
 
@@ -151,14 +162,18 @@ class tl_module_storelocator extends Backend {
 
 		return $arrCalendars;
     }
-	
-	public function getCountries() {
-	
-		return parent::getCountries();
-	}
-    
+
+    /**
+	 * Returns list of countries
+	 * @return array
+	 */
+    static public function getCountries()
+    {
+        return parent::getCountries();
+    }
+
 	public function getTemplates( DataContainer $dc ) {
-    
+
 		$intPid = $dc->activeRecord->pid;
 
 		if( $this->Input->get('act') == 'overrideAll' ) {
@@ -168,4 +183,3 @@ class tl_module_storelocator extends Backend {
 		return $this->getTemplateGroup('mod_storelocator_', $intPid);
 	}
 }
-?>

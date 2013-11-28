@@ -10,12 +10,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
  * Software Foundation website at <http://www.gnu.org/licenses/>.
@@ -37,8 +37,8 @@ class ModuleStoreLocatorList extends Module {
 	 * @var string
 	 */
 	protected $strTemplate = 'mod_storelocator_list';
-	
-	
+
+
 	/**
 	 * Display a wildcard in the back end
 	 * @return string
@@ -57,35 +57,35 @@ class ModuleStoreLocatorList extends Module {
 
 			return $objTemplate->parse();
 		}
-		
+
 		return parent::generate();
 	}
-	
-	
+
+
 	/**
 	 * Generate module
 	 */
 	protected function compile() {
 
 		$this->Template = new FrontendTemplate($this->storelocator_list_tpl);
-		
+
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
 
         $aEntries = array();
-        
+
         // check if an empty search is allowed
         if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
-        
+
             $this->Template->error = true;
-            
+
         } else {
-		
+
             $term = NULL;
-        
+
             // add country code for correct search results
             if( !empty($sSearchCountry) ) {
-            
+
                 if( !empty($sSearchVal) ) {
                     $term = $sSearchVal.', '.$sSearchCountry;
                 } else {
@@ -95,23 +95,23 @@ class ModuleStoreLocatorList extends Module {
 
             $aCategories = array();
             $aCategories = deserialize($this->storelocator_list_categories);
-            
-			$aCountryNames = $this->getCountries();
-			
+
+			$aCountryNames = Contao\System::getCountries();
+
             if( !empty($term) ) {
-			
+
                 // get coordinates of searched destination
 				$sl = new StoreLocator();
                 $aCoordinates = array();
 				$aCoordinates = $sl->getCoordinatesByString($term);
-            
+
                 if( !empty($aCoordinates) ) {
 
                     $objStores = NULL;
 
                     // search all countries
                     if( !empty($sSearchVal) ) {
-                    
+
                         $objStores = $this->Database->prepare("
                             SELECT
                                 *
@@ -119,7 +119,7 @@ class ModuleStoreLocatorList extends Module {
                             FROM `tl_storelocator_stores`
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
-                                AND latitude != '' 
+                                AND latitude != ''
                                 AND longitude != ''
                                 ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                             ORDER BY `distance` ASC
@@ -131,7 +131,7 @@ class ModuleStoreLocatorList extends Module {
 
                     // search selected country only
                     } else {
-                    
+
                         $objStores = $this->Database->prepare("
                             SELECT
                                 *
@@ -139,8 +139,8 @@ class ModuleStoreLocatorList extends Module {
                             FROM `tl_storelocator_stores`
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
-                                AND latitude != '' 
-                                AND longitude != '' 
+                                AND latitude != ''
+                                AND longitude != ''
                                 ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                                 AND country = ?
                             ORDER BY `distance` ASC
@@ -157,7 +157,7 @@ class ModuleStoreLocatorList extends Module {
                     $entries = $objStores->fetchAllAssoc();
 
                     if( !empty($entries) ) {
-					
+
                         foreach( $entries as $entry ) {
 
                             if( empty($sSearchVal) ) {
@@ -166,10 +166,10 @@ class ModuleStoreLocatorList extends Module {
 
                             $entry['country_code'] = $entry['country'];
                             $entry['country_name'] = $aCountryNames[$entry['country']];
-                        
+
                             // generate link
                             $link = null;
-                            
+
                             if( $this->jumpTo ) {
 
                                 $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
@@ -178,13 +178,13 @@ class ModuleStoreLocatorList extends Module {
                                     $objLink->fetchAssoc()
                                 ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
                                 );
-                            }	
+                            }
 
                             // get opening times
                             $entry['opening_times'] = unserialize( $entry['opening_times'] );
                             $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
 
-                        
+
                             $aEntries[] = $entry;
                         }
                     }
