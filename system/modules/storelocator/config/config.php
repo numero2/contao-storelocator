@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
@@ -31,21 +31,23 @@
 /**
  * Backend Modules
  */
-$GLOBALS['BE_MOD']['content']['storelocator'] = array(
-	'tables' 		=> array('tl_storelocator_category', 'tl_storelocator_stores')
-,	'icon'   		=> 'system/modules/storelocator/assets/images/icon.gif'
-,	'stylesheet'	=> 'system/modules/storelocator/themes/default/backend.css'
-,	'importStores'  => array( 'ModuleStoreLocatorImporter', 'showImport' )
+$GLOBALS['BE_MOD']['content']['storelocator'] = array
+(
+	'tables' 		=> array('tl_storelocator_category', 'tl_storelocator_stores'),
+	'icon'   		=> 'system/modules/storelocator/assets/images/icon.gif',
+	'stylesheet'	=> 'system/modules/storelocator/assets/themes/default/backend.css',
+    'importStores'  => array( 'ModuleStoreLocatorImporter', 'showImport' )
 );
 
 
 /**
  * Frontend Modules
  */
-$GLOBALS['FE_MOD']['storelocator'] = array(
-	'storelocator_search'	=> 'ModuleStoreLocatorSearch'
-,	'storelocator_list'		=> 'ModuleStoreLocatorList'
-,	'storelocator_details'	=> 'ModuleStoreLocatorDetails'
+$GLOBALS['FE_MOD']['storelocator'] = array
+(
+	'storelocator_search'	=> 'ModuleStoreLocatorSearch',
+    'storelocator_list'		=> 'ModuleStoreLocatorList',
+    'storelocator_details'	=> 'ModuleStoreLocatorDetails'
 );
 
 
@@ -54,5 +56,3 @@ $GLOBALS['FE_MOD']['storelocator'] = array(
  */
 $GLOBALS['TL_HOOKS']['generatePage'][] = array('ModuleStoreLocator', 'addResultsBodyClass');
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('ModuleStorelocatorInsertTags', 'replaceInsertTags');
-
-?>

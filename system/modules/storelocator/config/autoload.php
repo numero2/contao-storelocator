@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2013 Leo Feyer
+ * Copyright (c) 2005-2014 Leo Feyer
  *
  * @package Storelocator
  * @link    https://contao.org
@@ -16,7 +16,9 @@
  */
 ClassLoader::addClasses(array
 (
-	'StoreLocator'                 => 'system/modules/storelocator/StoreLocator.php',
+	// Classes
+	'StoreLocator'                 => 'system/modules/storelocator/classes/StoreLocator.php',
+
 	// Modules
 	'ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
 	'ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',
