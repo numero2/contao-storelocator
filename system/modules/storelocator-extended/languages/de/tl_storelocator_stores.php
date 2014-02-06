@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
+ * Copyright (C) 2005-2014 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -20,12 +21,15 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
- * @author     Benny Born <benny.born@numero2.de>
+ * @copyright  2014 Tastaturberuf <mail@tastaturberuf.de>,
+ *             2013 numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @author     Daniel Jahnsmüller <mail@jahnsmueller.net>,
+ *             Benny Born <benny.born@numero2.de>
  * @package    storelocator
  * @license    LGPL
  * @filesource
  */
+
 
 $GLOBALS['TL_LANG']['tl_storelocator_stores'] = array
 (

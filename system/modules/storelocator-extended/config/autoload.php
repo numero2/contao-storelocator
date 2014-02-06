@@ -19,6 +19,9 @@ ClassLoader::addClasses(array
 	// Classes
 	'StoreLocator'                 => 'system/modules/storelocator/classes/StoreLocator.php',
 
+	// Models
+	'StoreLocatorCategoryModel'    => 'system/modules/storelocator/models/StoreLocatorCategoryModel.php',
+
 	// Modules
 	'ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
 	'ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',

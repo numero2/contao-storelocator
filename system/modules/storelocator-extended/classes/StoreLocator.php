@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
@@ -21,8 +21,10 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
- * @author     Benny Born <benny.born@numero2.de>
+ * @copyright  2014 Tastaturberuf <mail@tastaturberuf.de>,
+ *             2013 numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @author     Daniel Jahnsmüller <mail@jahnsmueller.net>,
+ *             Benny Born <benny.born@numero2.de>
  * @package    storelocator
  * @license    LGPL
  * @filesource
@@ -40,18 +42,17 @@ class StoreLocator
 	 * @param string Adress string without specific format
 	 * @return array
 	 */
-	static public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL )
+	static public function getCoordinates($street = null, $postal = null, $city = null, $country = null, $fullAddress = null)
     {
 		// find coordinates using google maps api
-		$sQuery = sprintf(
-			"%s %s %s %s"
-		,	$street
-		,	$postal
-		,	$city
-		,	$country
+		$sQuery = sprintf('%s %s %s %s',
+            $street,
+			$postal,
+			$city,
+			$country
 		);
 
-		$sQuery = $fullAdress ? $fullAdress : $sQuery;
+		$sQuery = $fullAddress ? $fullAddress : $sQuery;
 
 		$oRequest = NULL;
 		$oRequest = new Request();
@@ -60,52 +61,60 @@ class StoreLocator
 
 		$hasError = false;
 
-		if( $oRequest->code == 200 ) {
+		if ( $oRequest->code == 200 )
+        {
 
 			$aResponse = array();
-			$aResponse = json_decode( $oRequest->response,1 );
+			$aResponse = json_decode($oRequest->response, 1);
 
-			if( !empty($aResponse['status']) && $aResponse['status'] == 'OK' ) {
-
+			if ( !empty($aResponse['status']) && $aResponse['status'] == 'OK' )
+            {
 				$coords = array();
 				$coords['latitude'] = $aResponse['results'][0]['geometry']['location']['lat'];
 				$coords['longitude'] = $aResponse['results'][0]['geometry']['location']['lng'];
 
 				return $coords;
-
-			} else {
-
+			}
+            else
+            {
 				// try alternative api if google blocked us
 				$oRequest->send("http://maps.google.com/maps/geo?q=".rawurlencode($sQuery)."&output=json&oe=utf8&sensor=false&hl=de");
 
-				if( $oRequest->code == 200 ) {
-
+				if ( $oRequest->code == 200 )
+                {
 					$aResponse = array();
-					$aResponse = json_decode( $oRequest->response,1 );
+					$aResponse = json_decode($oRequest->response, 1);
 
-					if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == 200 ) {
-
+					if ( !empty($aResponse['Status']) && $aResponse['Status']['code'] == 200 )
+                    {
 						$coords = array();
 						$coords['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
 						$coords['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
 
 						return $coords;
-
-					} else {
+					}
+                    else
+                    {
 						$hasError = true;
 					}
 
-				} else {
+				}
+                else
+                {
 					$hasError = true;
 				}
 			}
 
-		} else {
+		}
+        else
+        {
 			$hasError = true;
 		}
 
-		if( $hasError )
+		if ( $hasError )
+        {
 			System::log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
+        }
 
 		return false;
 	}
@@ -116,8 +125,9 @@ class StoreLocator
 	 * @param string The adress
 	 * @return array
 	 */
-	static public function getCoordinatesByString( $string=NULL ) {
-		return self::getCoordinates(NULL, NULL, NULL, NULL, $string);
+	static public function getCoordinatesByString($string = null)
+    {
+		return self::getCoordinates(null, null, null, null, $string);
 	}
+    
 }
-?>
