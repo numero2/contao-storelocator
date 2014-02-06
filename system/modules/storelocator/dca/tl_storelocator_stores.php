@@ -227,7 +227,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
                 'filesOnly'  => true,
                 'extensions' => $GLOBALS['TL_CONFIG']['validImageTypes'],
                 'fieldType'  => 'radio',
-                'tl_class'   => 'w50'
+                'tl_class'   => 'clr'
             ),
             'sql' => "binary(16) NULL"
         ),

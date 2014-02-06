@@ -1,8 +1,8 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
- * Copyright (C) 2005-2012 Leo Feyer
+ * Copyright (C) 2005-2014 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
  *
@@ -21,16 +21,18 @@
  * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
- * @author     Benny Born <benny.born@numero2.de>
+ * @copyright  2014 Tastaturberuf <mail@tastaturberuf.de>,
+ *             2013 numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @author     Daniel Jahnsmüller <mail@jahnsmueller.net>,
+ *             Benny Born <benny.born@numero2.de>
  * @package    storelocator
  * @license    LGPL
  * @filesource
  */
 
 
-class ModuleStorelocatorInsertTags extends Controller {
-
+class ModuleStorelocatorInsertTags extends Controller
+{
 
 	/**
 	 * Replace matching inserttags
@@ -65,6 +67,23 @@ class ModuleStorelocatorInsertTags extends Controller {
 				$aCountryNames = Contao\System::getCountries();
 				$entry['country_code'] = $entry['country'];
 				$entry['country_name'] = $aCountryNames[$entry['country']];
+
+                // get store logo
+                $objLogo = FilesModel::findByUuid($entry['logo']);
+                if ( $objLogo !== null )
+                {
+                    $arrLogo = $objLogo->row();
+                    $arrLogo['meta'] = unserialize($arrLogo['meta']);
+
+                    $strLogo = sprintf('<img src="%s" alt="%s" title="%s">',
+                            $arrLogo['path'],
+                            $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['caption'],
+                            $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['title']
+                    );
+
+                    $this->Template->logo    = $strLogo;
+                    $this->Template->arrLogo = $arrLogo;
+                }
 
 				if( !$objStore )
 					return false;

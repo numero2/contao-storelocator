@@ -5,17 +5,22 @@
 
 	<div class="entry">
 
-		<em>
-			<?php echo $this->entry['street']; ?>, <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br />
+        <?php echo $this->logo; ?>
+
+        <address>
+			<?php echo $this->entry['street']; ?><br>
+            <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br>
 			<?php echo $this->entry['country_name']; ?>
-		</em>
-		<p>
-			<?php if( $this->entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php endif; ?>
-			<?php if( $this->entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php endif; ?>
-			<?php if( $this->entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php endif; ?>
-			<?php if( $this->entry['url'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php endif; ?>
+        </address>
+
+        <p>
+			<?php if( $this->entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br><?php endif; ?>
+			<?php if( $this->entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br><?php endif; ?>
+			<?php if( $this->entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br><?php endif; ?>
+			<?php if( $this->entry['url'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br><?php endif; ?>
 		</p>
-		<?php if( !empty($this->entry['opening_times']) ): ?>		
+
+		<?php if( !empty($this->entry['opening_times']) ): ?>
 		<ul class="times">
 			<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>
 			<li>
@@ -24,15 +29,15 @@
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-		
+
 		<?php if( $this->gMap ): ?>
 		<div class="map">
-            <?php echo $this->gMap; ?>	
+            <?php echo $this->gMap; ?>
 		</div>
 		<?php endif; ?>
-		
+
         <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
-        
+
 	</div>
 
 </section>

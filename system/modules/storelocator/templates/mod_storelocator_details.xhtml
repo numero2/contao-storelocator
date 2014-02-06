@@ -4,11 +4,15 @@
 	<h1><?php echo $this->entry['name']; ?></h1>
 
 	<div class="entry">
+        
+        <?php echo $this->logo; ?>
 
-		<em>
-			<?php echo $this->entry['street']; ?>, <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br />
+		<address>
+			<?php echo $this->entry['street']; ?><br />
+            <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br />
 			<?php echo $this->entry['country_name']; ?>
-		</em>
+		</address>
+        
 		<p>
 			<?php if( $this->entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php endif; ?>
 			<?php if( $this->entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php endif; ?>
