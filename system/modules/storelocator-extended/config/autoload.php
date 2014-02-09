@@ -5,7 +5,7 @@
  *
  * Copyright (c) 2005-2014 Leo Feyer
  *
- * @package Storelocator
+ * @package Storelocator-extended
  * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
@@ -16,19 +16,19 @@
  */
 ClassLoader::addClasses(array
 (
-	// Classes
-	'StoreLocator'                 => 'system/modules/storelocator/classes/StoreLocator.php',
-
 	// Models
-	'StoreLocatorCategoryModel'    => 'system/modules/storelocator/models/StoreLocatorCategoryModel.php',
+	'StoreLocatorCategoryModel'    => 'system/modules/storelocator-extended/models/StoreLocatorCategoryModel.php',
+
+	// Classes
+	'StoreLocator'                 => 'system/modules/storelocator-extended/classes/StoreLocator.php',
 
 	// Modules
-	'ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
-	'ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',
-	'ModuleStoreLocatorImporter'   => 'system/modules/storelocator/modules/ModuleStoreLocatorImporter.php',
-	'ModuleStoreLocator'           => 'system/modules/storelocator/modules/ModuleStoreLocator.php',
-	'ModuleStorelocatorInsertTags' => 'system/modules/storelocator/modules/ModuleStorelocatorInsertTags.php',
-	'ModuleStoreLocatorDetails'    => 'system/modules/storelocator/modules/ModuleStoreLocatorDetails.php',
+	'ModuleStoreLocatorImporter'   => 'system/modules/storelocator-extended/modules/ModuleStoreLocatorImporter.php',
+	'ModuleStoreLocatorList'       => 'system/modules/storelocator-extended/modules/ModuleStoreLocatorList.php',
+	'ModuleStoreLocator'           => 'system/modules/storelocator-extended/modules/ModuleStoreLocator.php',
+	'ModuleStorelocatorInsertTags' => 'system/modules/storelocator-extended/modules/ModuleStorelocatorInsertTags.php',
+	'ModuleStoreLocatorSearch'     => 'system/modules/storelocator-extended/modules/ModuleStoreLocatorSearch.php',
+	'ModuleStoreLocatorDetails'    => 'system/modules/storelocator-extended/modules/ModuleStoreLocatorDetails.php',
 ));
 
 
@@ -37,8 +37,8 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_storelocator_inserttag' => 'system/modules/storelocator/templates',
-	'mod_storelocator_list'      => 'system/modules/storelocator/templates',
-	'mod_storelocator_search'    => 'system/modules/storelocator/templates',
-	'mod_storelocator_details'   => 'system/modules/storelocator/templates',
+	'mod_storelocator_inserttag' => 'system/modules/storelocator-extended/templates',
+	'mod_storelocator_search'    => 'system/modules/storelocator-extended/templates',
+	'mod_storelocator_details'   => 'system/modules/storelocator-extended/templates',
+	'mod_storelocator_list'      => 'system/modules/storelocator-extended/templates',
 ));
