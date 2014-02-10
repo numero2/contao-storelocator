@@ -34,8 +34,8 @@
 $GLOBALS['BE_MOD']['content']['storelocator'] = array
 (
 	'tables' 		=> array('tl_storelocator_category', 'tl_storelocator_stores'),
-	'icon'   		=> 'system/modules/storelocator/assets/images/icon.gif',
-	'stylesheet'	=> 'system/modules/storelocator/assets/themes/default/backend.css',
+	'icon'   		=> 'system/modules/storelocator-extended/assets/images/icon.gif',
+	'stylesheet'	=> 'system/modules/storelocator-extended/assets/themes/default/backend.css',
     'importStores'  => array( 'ModuleStoreLocatorImporter', 'showImport' )
 );
 
