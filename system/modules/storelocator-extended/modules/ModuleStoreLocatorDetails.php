@@ -167,7 +167,7 @@ class ModuleStoreLocatorDetails extends Module
 			$this->_redirect404();
 		}
 
-        $GLOBALS['TL_CSS']['storelocator'] = 'system/modules/storelocator/assets/css/style.css';
+        $GLOBALS['TL_CSS']['storelocator'] = 'system/modules/storelocator-extended/assets/css/style.css';
 	}
 
 
