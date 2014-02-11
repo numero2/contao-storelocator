@@ -15,7 +15,11 @@
 	<?php if( $this->entry['fax'] ): ?><div class="fax"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?></div><?php endif; ?>
 	<?php if( $this->entry['email'] ): ?><div class="email"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}</div><?php endif; ?>
 	<?php if( $this->entry['url'] ): ?><div class="www"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a></div><?php endif; ?>
-
+	<?php if( $this->entry['description'] ): ?>
+                        <div class="description">
+                        <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['description']; ?><?php echo $this->entry['description']; ?>
+                        </div>
+        	<?php endif; ?>
 	<?php if( !empty($this->entry['opening_times']) ): ?>
 	<ul class="times">
 		<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>

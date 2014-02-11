@@ -19,6 +19,11 @@
 			<?php if( $this->entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php endif; ?>
 			<?php if( $this->entry['url'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a><br /><?php endif; ?>
 		</p>
+		<?php if( $this->entry['description'] ): ?>
+                        <div class="description">
+                        <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['description']; ?><?php echo $this->entry['description']; ?>
+                        </div>
+        		<?php endif; ?>
 		<?php if( !empty($this->entry['opening_times']) ): ?>		
 		<ul class="times">
 			<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>
