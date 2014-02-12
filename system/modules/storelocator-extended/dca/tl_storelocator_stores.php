@@ -315,7 +315,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
                 'rte' => tinyMCE,
                 'tl_class'  => 'long'
             ),
-            'sql' => "text NOT NULL default ''"
+            'sql' => "text NULL"
         ),
         'opening_times' => array
         (
