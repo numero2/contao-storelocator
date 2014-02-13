@@ -5,15 +5,15 @@
 
 	<div class="entry">
         
-        <?php echo $this->logo; ?>
+        <div class="store-logo"><?php echo $this->logo; ?></div>
 
-		<address>
+		<address class="store-address">
 			<?php echo $this->entry['street']; ?><br />
             <?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?><br />
 			<?php echo $this->entry['country_name']; ?>
 		</address>
         
-		<p>
+		<p class="store-contact">
 			<?php if( $this->entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?><br /><?php endif; ?>
 			<?php if( $this->entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?><br /><?php endif; ?>
 			<?php if( $this->entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}<br /><?php endif; ?>
@@ -25,7 +25,7 @@
                         </div>
         		<?php endif; ?>
 		<?php if( !empty($this->entry['opening_times']) ): ?>		
-		<ul class="times">
+		<ul class="store-opening-times">
 			<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>
 			<li>
 				<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
@@ -35,7 +35,7 @@
 		<?php endif; ?>
 		
 		<?php if( $this->gMap ): ?>
-		<div class="map">
+		<div class="store-map">
             <?php echo $this->gMap; ?>	
 		</div>
 		<?php endif; ?>

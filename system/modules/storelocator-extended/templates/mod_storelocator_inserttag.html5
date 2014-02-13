@@ -1,27 +1,27 @@
 <!-- indexer::stop -->
 <section class="mod_storelocator_details tag">
 
-	<div class="name"><?php echo $this->entry['name']; ?></div>
+	<div class="store-name"><?php echo $this->entry['name']; ?></div>
 
-    <div class="logo"><?php echo $this->logo; ?></div>
+    <div class="store-logo"><?php echo $this->logo; ?></div>
 
-	<div class="address">
-		<div class="street"><?php echo $this->entry['street']; ?></div>
-		<div class="city"><?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?></div>
-		<div class="country"><?php echo $this->entry['country_name']; ?></div>
+	<div class="store-address">
+		<div class="store-street"><?php echo $this->entry['street']; ?></div>
+		<div class="store-city"><?php echo $this->entry['postal']; ?> <?php echo $this->entry['city']; ?></div>
+		<div class="store-country"><?php echo $this->entry['country_name']; ?></div>
 	</div>
 
-	<?php if( $this->entry['phone'] ): ?><div class="phone"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?></div><?php endif; ?>
-	<?php if( $this->entry['fax'] ): ?><div class="fax"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?></div><?php endif; ?>
-	<?php if( $this->entry['email'] ): ?><div class="email"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}</div><?php endif; ?>
-	<?php if( $this->entry['url'] ): ?><div class="www"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a></div><?php endif; ?>
+	<?php if( $this->entry['phone'] ): ?><div class="store-phone"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->entry['phone']; ?></div><?php endif; ?>
+	<?php if( $this->entry['fax'] ): ?><div class="store-fax"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->entry['fax']; ?></div><?php endif; ?>
+	<?php if( $this->entry['email'] ): ?><div class="store-email"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->entry['email']; ?>}}</div><?php endif; ?>
+	<?php if( $this->entry['url'] ): ?><div class="store-www"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->entry['url']; ?>" target="_blank" title="<?php echo $this->entry['name']; ?>"><?php echo $this->entry['url']; ?></a></div><?php endif; ?>
 	<?php if( $this->entry['description'] ): ?>
-                        <div class="description">
+                        <div class="store-description">
                         <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['description']; ?><?php echo $this->entry['description']; ?>
                         </div>
         	<?php endif; ?>
 	<?php if( !empty($this->entry['opening_times']) ): ?>
-	<ul class="times">
+	<ul class="store-opening-times">
 		<?php foreach( $this->entry['opening_times'] as $i => $v ): ?>
 		<li>
 			<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
