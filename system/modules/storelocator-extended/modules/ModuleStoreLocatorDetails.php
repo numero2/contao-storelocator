@@ -47,7 +47,6 @@ class ModuleStoreLocatorDetails extends Module
 	 */
 	public function generate()
     {
-
 		if ( TL_MODE == 'BE' )
         {
 			$objTemplate = new BackendTemplate('be_wildcard');
@@ -70,7 +69,6 @@ class ModuleStoreLocatorDetails extends Module
 	 */
 	protected function compile()
     {
-
 		$this->Template = new FrontendTemplate($this->storelocator_details_tpl);
 
         $this->Template->referer = $this->getReferer();
@@ -83,38 +81,38 @@ class ModuleStoreLocatorDetails extends Module
 		$objStore = NULL;
 		$objStore = $this->Database->prepare(" SELECT * FROM `tl_storelocator_stores` WHERE `id` = ? ")->limit(1)->execute($storeID);
 
-
 		// get store details
-		$entry = NULL;
+		$store = NULL;
 
-		if ( $entry = $objStore->fetchAssoc() )
+		if ( $store = $objStore->fetchAssoc() )
         {
 			// get opening times
-			$entry['opening_times'] = unserialize( $entry['opening_times'] );
-			$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+			$store['opening_times'] = unserialize( $store['opening_times'] );
+            // @todo: see https://github.com/Tastaturberuf/contao-storelocator-Extended/issues/6
+			$store['opening_times'] = !empty($store['opening_times'][0]['from']) ? $store['opening_times'] : NULL;
 
 			// set country name
 			$aCountryNames = System::getCountries();
-			$entry['country_code'] = $entry['country'];
-			$entry['country_name'] = $aCountryNames[$entry['country']];
+			$store['country_code'] = $store['country'];
+			$store['country_name'] = $aCountryNames[$store['country']];
 
-			$this->Template->entry = $entry;
+			$this->Template->store = $store;
 			$this->Template->gMap  = null;
 
             // generate google map
-            if ( $entry['latitude'] != '' && $entry['longitude'] != '' )
+            if ( $store['latitude'] != '' && $store['longitude'] != '' )
             {
                 // static map
                 if ( $this->storelocator_details_maptype == 'static' )
                 {
                     $this->Template->gMap = sprintf(
                         '<img class="store-map-static" src="http://maps.google.com/maps/api/staticmap?center=%s,%s&amp;zoom=15&amp;size=%sx%s&amp;maptype=roadmap&amp;markers=color:red|label:|%s,%s&amp;sensor=false" alt="Google Maps" />',
-                        $entry['latitude'],
-                        $entry['longitude'],
+                        $store['latitude'],
+                        $store['longitude'],
                         400,
                         220,
-                        $entry['latitude'],
-                        $entry['longitude']
+                        $store['latitude'],
+                        $store['longitude']
                     );
                 }
                 // dynamic map
@@ -125,7 +123,7 @@ class ModuleStoreLocatorDetails extends Module
                     $this->Template->gMap = '<div id="map_canvas"></div>'."\n"
                         .'<script type="text/javascript">'."\n"
                         .'  function initSLGMap() {'."\n"
-                        .'      var latlng = new google.maps.LatLng('.$entry['latitude'].', '.$entry['longitude'].');'."\n"
+                        .'      var latlng = new google.maps.LatLng('.$store['latitude'].', '.$store['longitude'].');'."\n"
                         .'      var options = {'."\n"
                         .'          zoom: 15'."\n"
                         .'      ,   center: latlng'."\n"
@@ -135,7 +133,7 @@ class ModuleStoreLocatorDetails extends Module
                         .'      var marker = new google.maps.Marker({'."\n"
                         .'          position: latlng'."\n"
                         .'      ,   map: map'."\n"
-                        .'      ,   title: "'.$entry['name'].'"'."\n"
+                        .'      ,   title: "'.$store['name'].'"'."\n"
                         .'      });'."\n"
                         .'  } '."\n"
                         .'  initSLGMap(); '."\n"
@@ -144,7 +142,7 @@ class ModuleStoreLocatorDetails extends Module
             }
 
             // get store logo
-            $objLogo = FilesModel::findByUuid($entry['logo']);
+            $objLogo = FilesModel::findByUuid($store['logo']);
             if ( $objLogo !== null )
             {
                 $arrLogo = $objLogo->row();

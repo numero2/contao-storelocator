@@ -191,7 +191,7 @@ class ModuleStoreLocatorList extends Module {
             }
         }
 
-		$this->Template->entries = $aEntries;
+		$this->Template->stores = $aEntries;
 	}
 }
 

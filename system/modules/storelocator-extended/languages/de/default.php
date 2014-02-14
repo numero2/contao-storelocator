@@ -73,3 +73,4 @@ $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'] = 'mehr Informationen';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['postal'] = 'PLZ / Ort';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['country'] = 'Land';
 $GLOBALS['TL_LANG']['tl_storelocator']['field']['search'] = 'Suchen';
+$GLOBALS['TL_LANG']['tl_storelocator']['field']['description'] = 'Beschreibung';

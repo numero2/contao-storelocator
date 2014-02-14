@@ -311,9 +311,8 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
             'search'    => true,
             'eval'      => array
             (
-                'mandatory' => false,
-                'rte' => tinyMCE,
-                'tl_class'  => 'long'
+                'rte'      => 'tinyMCE',
+                'tl_class' => 'long'
             ),
             'sql' => "text NULL"
         ),
