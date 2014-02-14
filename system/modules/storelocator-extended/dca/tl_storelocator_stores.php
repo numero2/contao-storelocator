@@ -110,8 +110,8 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
                 'href'  => 'act=show',
                 'icon'  => array
                 (
-                    'system/modules/storelocator/html/coords0.png',
-                    'system/modules/storelocator/html/coords1.png'
+                    'system/modules/storelocator-extended/html/coords0.png',
+                    'system/modules/storelocator-extended/html/coords1.png'
                 ),
                 'button_callback' => array('tl_storelocator_stores', 'coordsButton')
             )
@@ -120,7 +120,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
     'palettes' => array
     (
         'default' => '
-            {common_legend},name,email,url,phone,fax,logo;
+            {common_legend},name,email,url,phone,fax,logo,description;
             {adress_legend},street,postal,city,country;
             {times_legend},opening_times;
             {geo_legend},geo_explain,longitude,map,latitude;
@@ -302,6 +302,20 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array
                 'chosen'    => true
             ),
             'sql' => "varchar(2) NOT NULL default ''"
+        ),
+        'description' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['description'],
+            'inputType' => 'textarea',
+            'exclude'   => true,
+            'search'    => true,
+            'eval'      => array
+            (
+                'mandatory' => false,
+                'rte' => tinyMCE,
+                'tl_class'  => 'long'
+            ),
+            'sql' => "text NULL"
         ),
         'opening_times' => array
         (

@@ -52,6 +52,7 @@ $GLOBALS['TL_LANG']['tl_storelocator_stores'] = array
     'latitude'      => array('Breitengrad', 'Wird automatisch ausgefüllt...'),
     'map'           => array('Kartenansicht'),
     'geo_explain'   => array('Die geographischen Koordinaten werden benötigt damit der Besucher später nach einem Händler in seiner Nähe suchen kann. Diese beiden Felder werden automatisch beim Speichern ausgefüllt, können aber bei Bedarf manuell korrigiert werden.'),
+    'description'   => array('Beschreibung', 'Beschreibung des Händlers'),
 
     // Legends
     'common_legend' => 'Allgemein',

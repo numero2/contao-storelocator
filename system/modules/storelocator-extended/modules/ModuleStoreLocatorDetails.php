@@ -108,7 +108,7 @@ class ModuleStoreLocatorDetails extends Module
                 if ( $this->storelocator_details_maptype == 'static' )
                 {
                     $this->Template->gMap = sprintf(
-                        '<img src="http://maps.google.com/maps/api/staticmap?center=%s,%s&amp;zoom=15&amp;size=%sx%s&amp;maptype=roadmap&amp;markers=color:red|label:|%s,%s&amp;sensor=false" alt="Google Maps" />',
+                        '<img class="store-map-static" src="http://maps.google.com/maps/api/staticmap?center=%s,%s&amp;zoom=15&amp;size=%sx%s&amp;maptype=roadmap&amp;markers=color:red|label:|%s,%s&amp;sensor=false" alt="Google Maps" />',
                         $entry['latitude'],
                         $entry['longitude'],
                         400,

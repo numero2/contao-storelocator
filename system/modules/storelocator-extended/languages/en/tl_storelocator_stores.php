@@ -49,6 +49,7 @@ $GLOBALS['TL_LANG']['tl_storelocator_stores']['longitude']		= array('Longitude',
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']		= array('Latitude', 'To be filled in automatically...');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['map']			= array('Map');
 $GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain']	= array('The geographic coordinates are needed for the search to be working correctly. Later on the user will be able to search for stores near his given location. Both of these fields will be filled in automatically but also can be fixed manually.');
+$GLOBALS['TL_LANG']['tl_storelocator_stores']['description']    = array('description', 'The store description');
 
 /**
  * Legends

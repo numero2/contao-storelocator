@@ -9,24 +9,24 @@
     
     <?php if( !$this->error ): ?>
         <?php foreach( $this->entries as $entry ): ?>
-        <div class="entry">
+        <div class="store-entry">
             <h3><?php echo $entry['name']; ?></h3>
             <?php if( $entry['distance'] ): ?>
             <em><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance']; ?> <?php echo number_format($entry['distance'],2,',','.'); ?>km</em>
             <?php endif; ?>
-            <p>
+            <address class="store-address">
                 <?php echo $entry['street']; ?><br />
                 <?php echo $entry['postal']; ?> <?php echo $entry['city']; ?><br />
                 <?php echo $entry['country_name']; ?>
-            </p>
-            <p>
+            </address>
+            <p class="store-contact">
                 <?php if( $entry['phone'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $entry['phone']; ?><br /><?php endif; ?>
                 <?php if( $entry['fax'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $entry['fax']; ?><br /><?php endif; ?>
                 <?php if( $entry['email'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $entry['email']; ?>}}<br /><?php endif; ?>
                 <?php if( $entry['url'] ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $entry['url']; ?>" target="_blank" title="<?php echo $entry['name']; ?>"><?php echo $entry['url']; ?></a><?php endif; ?>
             </p>
             <?php if( !empty($entry['opening_times']) ): ?>
-            <ul class="times">
+            <ul class="store-opening-times">
                 <?php foreach( $entry['opening_times'] as $i => $v ): ?>
                 <li>
                     <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
@@ -40,7 +40,7 @@
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p class="error"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
+        <p class="store-error"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
     <?php endif; ?>
 
 </section>
