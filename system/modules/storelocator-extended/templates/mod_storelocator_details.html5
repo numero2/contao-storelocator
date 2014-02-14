@@ -3,7 +3,7 @@
 
 	<h1><?php echo $this->entry['name']; ?></h1>
 
-	<div class="entry">
+	<div class="store-entry">
 
         <div class="store-logo"><?php echo $this->logo; ?></div>
 
