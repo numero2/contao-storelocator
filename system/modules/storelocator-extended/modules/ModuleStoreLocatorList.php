@@ -152,22 +152,6 @@ class ModuleStoreLocatorList extends Module {
 
                     }
                     
-                    // get store logo
-	            $objLogo = FilesModel::findByUuid($store['logo']);
-	            if ( $objLogo !== null )
-	            {
-	                $arrLogo = $objLogo->row();
-	                $arrLogo['meta'] = unserialize($arrLogo['meta']);
-	
-	                $strLogo = sprintf('<img src="%s" alt="%s" title="%s">',
-	                        $arrLogo['path'],
-	                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['caption'],
-	                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['title']
-	                );
-	
-	                $this->Template->logo    = $strLogo;
-	                $this->Template->arrLogo = $arrLogo;
-	            }
 
                     $entries = array();
                     $entries = $objStores->fetchAllAssoc();
@@ -199,6 +183,23 @@ class ModuleStoreLocatorList extends Module {
                             // get opening times
                             $entry['opening_times'] = unserialize( $entry['opening_times'] );
                             $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+                            
+                            // get store logo
+		            $objLogo = FilesModel::findByUuid($entry['logo']);
+		            if ( $objLogo !== null )
+		            {
+		                $arrLogo = $objLogo->row();
+		                $arrLogo['meta'] = unserialize($arrLogo['meta']);
+		
+		                $strLogo = sprintf('<img src="%s" alt="%s" title="%s">',
+		                        $arrLogo['path'],
+		                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['caption'],
+		                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['title']
+		                );
+		
+		                $entry['logo']    = $strLogo;
+		                $entry['arrLogo'] = $arrLogo;
+		            }
 
 
                             $aEntries[] = $entry;
