@@ -151,6 +151,23 @@ class ModuleStoreLocatorList extends Module {
                         );
 
                     }
+                    
+                    // get store logo
+	            $objLogo = FilesModel::findByUuid($store['logo']);
+	            if ( $objLogo !== null )
+	            {
+	                $arrLogo = $objLogo->row();
+	                $arrLogo['meta'] = unserialize($arrLogo['meta']);
+	
+	                $strLogo = sprintf('<img src="%s" alt="%s" title="%s">',
+	                        $arrLogo['path'],
+	                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['caption'],
+	                        $arrLogo['meta'][ $GLOBALS['TL_LANGUAGE'] ]['title']
+	                );
+	
+	                $this->Template->logo    = $strLogo;
+	                $this->Template->arrLogo = $arrLogo;
+	            }
 
                     $entries = array();
                     $entries = $objStores->fetchAllAssoc();
