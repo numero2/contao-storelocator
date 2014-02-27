@@ -118,7 +118,17 @@ array_insert($GLOBALS['TL_DCA']['tl_module']['fields'], 1337, array
         'label'     => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories'],
         'exclude'   => true,
         'inputType' => 'checkbox',
-        'options'   => StoreLocatorCategoryModel::findAll(array('order' => 'title'))->fetchEach('title'),
+        'options_callback'   =>  function()
+        {
+            $objCategories = StoreLocatorCategoryModel::findAll(array('order' => 'title'));
+
+            if ( $objCategories === NULL )
+            {
+                return;
+            }
+
+            return $objCategories->fetchEach('title');
+        },
         'eval'      => array
         (
             'mandatory' => true,
