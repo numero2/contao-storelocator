@@ -115,23 +115,11 @@ array_insert($GLOBALS['TL_DCA']['tl_module']['fields'], 1337, array
     ),
     'storelocator_list_categories' => array
     (
-        'label'            => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories'],
-        'exclude'          => true,
-        'inputType'        => 'checkbox',
-        'options_callback' => function()
-        {
-            //@todo: add model support
-            $arrCalendars = array();
-            $objCalendars = $this->Database->execute("SELECT id, title FROM tl_storelocator_category ORDER BY title");
-
-            while ($objCalendars->next())
-            {
-                $arrCalendars[$objCalendars->id] = $objCalendars->title;
-            }
-
-            return $arrCalendars;
-        },
-        'eval' => array
+        'label'     => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories'],
+        'exclude'   => true,
+        'inputType' => 'checkbox',
+        'options'   => StoreLocatorCategoryModel::findAll(array('order' => 'title'))->fetchEach('title'),
+        'eval'      => array
         (
             'mandatory' => true,
             'multiple' => true

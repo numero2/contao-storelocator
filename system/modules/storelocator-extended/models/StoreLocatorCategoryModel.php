@@ -35,6 +35,6 @@ class StoreLocatorCategoryModel extends Model
      * Table name
      * @var string
      */
-    protected static $strTable = 'tl_storelocator_categories';
+    protected static $strTable = 'tl_storelocator_category';
 
 }
