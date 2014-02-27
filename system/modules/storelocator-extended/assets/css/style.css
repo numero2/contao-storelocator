@@ -1,0 +1,11 @@
+.mod_storelocator_details .map
+{
+    height:220px;
+    width:400px;
+}
+
+.mod_storelocator_details #map_canvas 
+{
+    height:100%;
+    width:100%;
+}

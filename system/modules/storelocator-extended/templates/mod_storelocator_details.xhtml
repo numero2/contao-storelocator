@@ -1,0 +1,61 @@
+<!-- indexer::stop -->
+<div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+
+	<h1><?php echo $this->store['name']; ?></h1>
+
+	<div class="store-details">
+
+        <div class="logo"><?php echo $this->logo; ?></div>
+
+        <address class="address">
+            <div class="street"><?php echo $this->store['street']; ?></div>
+            <div class="postal-city"><span class="postal"><?php echo $this->store['postal']; ?></span> <span class="city"><?php echo $this->store['city']; ?></span></div>
+            <div class="country"><?php echo $this->store['country_name']; ?></div>
+        </address>
+
+        <p class="contact">
+			<?php if ( $this->store['phone'] ): ?>
+                <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $this->store['phone']; ?>
+            <?php endif; ?>
+			<?php if ( $this->store['fax'] ): ?>
+                <br /><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $this->store['fax']; ?>
+            <?php endif; ?>
+			<?php if ( $this->store['email'] ): ?>
+                <br /><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->store['email']; ?>}}
+            <?php endif; ?>
+			<?php if ( $this->store['url'] ): ?>
+                <br /><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->store['url']; ?>" target="_blank" title="<?php echo $this->store['name']; ?>"><?php echo $this->store['url']; ?></a>
+            <?php endif; ?>
+		</p>
+
+        <?php if ( $this->store['description'] ): ?>
+            <div class="description">
+                <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['description']; ?>:
+                <?php echo $this->store['description']; ?>
+            </div>
+        <?php endif; ?>
+
+		<?php if ( !empty($this->store['opening_times']) ): ?>
+            <ul class="opening-times">
+                <?php foreach( $this->store['opening_times'] as $v ): ?>
+                    <li>
+                        <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> – <?php echo $v['to']; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+		<?php endif; ?>
+
+		<?php if ( $this->gMap ): ?>
+            <div class="map">
+                <?php echo $this->gMap; ?>
+            </div>
+		<?php endif; ?>
+
+        <?php if ( $this->referer ): ?>
+            <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
+        <?php endif; ?>
+
+	</div>
+
+</div>
+<!-- indexer::continue -->
