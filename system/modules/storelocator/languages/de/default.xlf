@@ -1,0 +1,90 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/storelocator/languages/de/default.php" source-language="en">
+    <body>
+      <trans-unit id="tl_storelocator.weekdays.MO">
+        <source>Monday</source>
+        <target>Montag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.TU">
+        <source>Tuesday</source>
+        <target>Dienstag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.WE">
+        <source>Wednesday</source>
+        <target>Mittwoch</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.TH">
+        <source>Thursday</source>
+        <target>Donnerstag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.FR">
+        <source>Friday</source>
+        <target>Freitag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.SA">
+        <source>Saturday</source>
+        <target>Samstag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.weekdays.SO">
+        <source>Sunday</source>
+        <target>Sonntag</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.import.head">
+        <source>Import retailer from CSV</source>
+        <target>Händler aus CSV importieren</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.import.start">
+        <source>Start import</source>
+        <target>Import starten</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.import.file.0">
+        <source>Choose file</source>
+        <target>Datei auswählen</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.import.file.1">
+        <source>The file must be UTF8 encoded and follow the structure name, email, url, phone, fax, street, postal, city, countrycode (ISO 3166-2)</source>
+        <target>Die CSV-Datei muss mit dem UTF8-Zeichensatz kodiert und wie folgt aufgebaut sein: name, email, url, telefon, fax, strasse, plz, ort, ländercode (ISO 3166-2)</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.noresults">
+        <source>There have been no results for your search</source>
+        <target>Zu Ihrer Suchanfrage wurden leider keine Ergebnisse gefunden.</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.distance">
+        <source>Distance approx.</source>
+        <target>Entfernung ca.</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.phone">
+        <source>Phone</source>
+        <target>Tel.</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.fax">
+        <source>Fax</source>
+        <target>Fax</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.email">
+        <source>E-Mail</source>
+        <target>E-Mail</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.www">
+        <source>WWW</source>
+        <target>WWW</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.more">
+        <source>more information</source>
+        <target>mehr Informationen</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.postal">
+        <source>ZIP / City</source>
+        <target>PLZ / Ort</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.country">
+        <source>Country</source>
+        <target>Land</target>
+      </trans-unit>
+      <trans-unit id="tl_storelocator.field.search">
+        <source>Search</source>
+        <target>Suchen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,14 +1,31 @@
-<?php
+<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
  * Contao Open Source CMS
+ * Copyright (C) 2005-2012 Leo Feyer
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Formerly known as TYPOlight Open Source CMS.
  *
- * @package   StoreLocator
- * @author    Benny Born <benny.born@numero2.de>
- * @license   LGPL
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ * PHP version 5
+ * @copyright  numero2 - Agentur für Internetdienstleistungen <www.numero2.de>
+ * @author     Benny Born <benny.born@numero2.de>
+ * @package    storelocator
+ * @license    LGPL
+ * @filesource
  */
 
  
@@ -23,11 +40,6 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 	,	'onsubmit_callback'   	  	  => array(
 			array('tl_storelocator_stores', 'fillCoordinates')
 		)
-    ,   'sql' => array (
-            'keys' => array (
-                'id' => 'primary'
-            )
-        )
 	)
 ,	'list' => array(
 		'sorting' => array (
@@ -72,37 +84,26 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'coords' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
 			,	'href'                => 'act=show'
-			,	'icon'                => array( 'system/modules/storelocator/assets/coords0.png', 'system/modules/storelocator/assets/coords1.png' )
+			,	'icon'                => array( 'system/modules/storelocator/html/coords0.png', 'system/modules/storelocator/html/coords1.png' )
 			,	'button_callback'     => array( 'tl_storelocator_stores', 'coordsButton' )
             )
         )
 	)
 ,	'palettes' => array(
-		'default'                     => '{common_legend},name,email,url,phone,fax,description;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
+		'default'                     => '{common_legend},name,email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;'
 	)
 ,	'fields' => array(
-        'id' => array(
-            'sql'           => "int(10) unsigned NOT NULL auto_increment"
-        )
-    ,   'pid' => array(
-            'sql'           => "int(10) unsigned NOT NULL default '0'"
-        )
-    ,   'tstamp' => array(
-            'sql'           => "int(10) unsigned NOT NULL default '0'"
-        )
-    ,   'name' => array(
+        'name' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['name']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'email' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'email ', 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'url' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['url']
@@ -110,48 +111,36 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'url ', 'maxlength'=>255, 'tl_class'=>'w50')
 		,	'save_callback' 		  => array( array('tl_storelocator_stores', 'checkURL') )
-        ,   'sql'                     => "varchar(255) NOT NULL default ''"
         )
 	,	'phone' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['phone']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'phone ', 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'fax' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fax']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('rgxp' => 'phone ', 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
-        )
-    ,   'description' => array(
-            'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['description']
-        ,   'inputType'               => 'textarea'
-        ,   'eval'                    => array('rte'=>'tinyMCE', 'tl_class'=>'clr')
-        ,   'sql'                     => "text NULL"
         )
 	,	'street' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['street']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'postal' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['postal']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'city' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['city']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'country' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['country']
@@ -160,7 +149,6 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'default'				  => 'de'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50', 'chosen'=>true)
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'opening_times' => array(
 			'label'						=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['opening_times']
@@ -190,21 +178,18 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 					)
 				)
 			)
-        ,   'sql'                     => "text NULL"
 		)
 	,	'longitude' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['longitude']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'latitude' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
 		,	'inputType'               => 'text'
 		,	'search'                  => true
 		,	'eval'                    => array('mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50')
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'map' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
@@ -218,18 +203,11 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator']['import']['file']
 		,	'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'extensions'=>'csv', 'class'=>'mandatory')
 		)
-    ,   'highlight' => array(
-            'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
-        ,   'inputType'               => 'checkbox'
-        ,   'search'                  => true
-        ,   'eval'                    => array('mandatory'=>false, 'tl_class'=>'w50')
-        ,   'sql'                     => "char(1) NOT NULL default '0'"
-        )
 	)
 );
 
 
-class tl_storelocator_stores extends \Backend {
+class tl_storelocator_stores extends Backend {
 
 
 	/**
@@ -263,6 +241,16 @@ class tl_storelocator_stores extends \Backend {
 		return '<div class="limit_height block">
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
+	}
+	
+	
+	/**
+	 * Returns list of countries
+	 * @return array
+	 */
+	public function getCountries() {
+	
+		return parent::getCountries();
 	}
 	
 	
@@ -352,3 +340,5 @@ class tl_storelocator_stores extends \Backend {
 		return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
 	}
 }
+
+?>

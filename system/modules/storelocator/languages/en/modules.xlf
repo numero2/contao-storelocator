@@ -1,0 +1,142 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en">
+    <body>
+      <trans-unit id="tl_module.slmap_legend">
+        <source>Google Maps</source>
+        <target>Google Maps</target>
+      </trans-unit>
+      <trans-unit id="MOD.storelocator.0">
+        <source>Stores</source>
+        <target>Stores</target>
+      </trans-unit>
+      <trans-unit id="MOD.storelocator.0">
+        <source>Manage stores and search them using geodata</source>
+        <target>Manage stores and search them using geodata</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator.1">
+        <source>Stores</source>
+        <target>Stores</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_search.0">
+        <source>Storesearch</source>
+        <target>Storesearch</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_search.1">
+        <source>adds a search mask</source>
+        <target>adds a search mask</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_list.0">
+        <source>Storelist</source>
+        <target>Storelist</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_list.1">
+        <source>lists all available stores</source>
+        <target>lists all available stores</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_details.0">
+        <source>Storedetails</source>
+        <target>Storedetails</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_details.1">
+        <source>shows details for the chosen store</source>
+        <target>shows details for the chosen store</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_country.0">
+        <source>Default country</source>
+        <target>Default country</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_country.1">
+        <source>Which country should be used as default if user did not select any?</source>
+        <target>Which country should be used as default if user did not select any?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_show_full_country_names.0">
+        <source>Show full country names?</source>
+        <target>Show full country names?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_show_full_country_names.1">
+        <source>Should country not be shown as shortened codes?</source>
+        <target>Should country not be shown as shortened codes?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_tpl.1">
+        <source>Which template should be used to display the search mask.</source>
+        <target>Which template should be used to display the search mask.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_tpl.1">
+        <source>Chosse which template should be used to list the stores</source>
+        <target>Chosse which template should be used to list the stores</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_categories.0">
+        <source>Categories</source>
+        <target>Categories</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_categories.1">
+        <source>From which category should the stores be displayed</source>
+        <target>From which category should the stores be displayed</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_allow_empty_search.0">
+        <source>Allow empty search?</source>
+        <target>Allow empty search?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_allow_empty_search.1">
+        <source>Should the user be able to submit an empty search to see all results?</source>
+        <target>Should the user be able to submit an empty search to see all results?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_limit.0">
+        <source>Number of results</source>
+        <target>Number of results</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_limit.1">
+        <source>How many results should be shown?</source>
+        <target>How many results should be shown?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_tpl.1">
+        <source>Choose which template should be used to show details of the store</source>
+        <target>Choose which template should be used to show details of the store</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptype.0">
+        <source>Type</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptype.1">
+        <source>Which type of Google Map should be shown?</source>
+        <target>Which type of Google Map should be shown?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptypes.0">
+        <source>static</source>
+        <target>static</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptypes.1">
+        <source>dynamic</source>
+        <target>dynamic</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_limit_distance.0">
+        <source>Limit distance</source>
+        <target>Limit distance</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_limit_distance.1">
+        <source>Do not show stores which exceed the maximum distance.</source>
+        <target>Do not show stores which exceed the maximum distance.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_max_distance.0">
+        <source>Max distance</source>
+        <target>Max distance</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_max_distance.1">
+        <source>The maximum distance in km.</source>
+        <target>The maximum distance in km.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

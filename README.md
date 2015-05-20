@@ -18,14 +18,15 @@ Screenshot
 System requirements
 -------------------
 
-* [Contao](https://github.com/contao/core) 2.9.3 or higher
+* [Contao](https://github.com/contao/core) 2.9.3 or higher or 3.4.5
 * [MultiColumnWizard](https://github.com/menatwork/MultiColumnWizard) 2.0.0 rc1 or higher
 
 
 Installation & Configuration
 ----------------------------
 
-* Extract the archive on your server
+* Install MultiColumnWizard
+* Extract the archive on your server (Contao 2 version is placed in folder "contao2")
 * Update your database
 * Create at least one frontend module for searching and one for listing
 

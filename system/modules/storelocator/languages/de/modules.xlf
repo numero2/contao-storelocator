@@ -1,0 +1,142 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en">
+    <body>
+      <trans-unit id="tl_module.slmap_legend">
+        <source>Google Maps</source>
+        <target>Google Maps</target>
+      </trans-unit>
+      <trans-unit id="MOD.storelocator.0">
+        <source>Stores</source>
+        <target>Händler</target>
+      </trans-unit>
+      <trans-unit id="MOD.storelocator.1">
+        <source>Manage stores and search them using geodata</source>
+        <target>Händler-Listen verwalten und geographische Suche ermöglichen.</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator.0">
+        <source>Stores</source>
+        <target>Händler</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_search.0">
+        <source>Storesearch</source>
+        <target>Händlersuche</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_search.1">
+        <source>adds a search mask</source>
+        <target>fügt eine Suchmaske ein.</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_list.0">
+        <source>Storelist</source>
+        <target>Händlerliste</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_list.1">
+        <source>lists all available stores</source>
+        <target>fügt eine Liste aller Händler zur Seite hinzu.</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_details.0">
+        <source>Storedetails</source>
+        <target>Händlerdetails</target>
+      </trans-unit>
+      <trans-unit id="FMD.storelocator_details.1">
+        <source>shows details for the chosen store</source>
+        <target>zeigt Details zum ausgewählten Händler an.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_country.0">
+        <source>Default country</source>
+        <target>Standardland</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_country.1">
+        <source>Which country should be used as default if user did not select any?</source>
+        <target>In welchem Land sollen die Ergebnisse gesucht werden (falls der Benutzer kein anderes ausgewählt hat)?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_show_full_country_names.0">
+        <source>Show full country names?</source>
+        <target>Ländernamen ausgeschrieben?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_show_full_country_names.1">
+        <source>Should country not be shown as shortened codes?</source>
+        <target>Sollen die Ländernamen in kompletter Länge und nicht als Kürzel angezeigt werden?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_search_tpl.1">
+        <source>Which template should be used to display the search mask.</source>
+        <target>Wählen Sie mit welchen Template die Suchmaske dargestellt werden soll.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_tpl.1">
+        <source>Chosse which template should be used to list the stores</source>
+        <target>Wählen Sie mit welchen Template die Händler dargestellt werden sollen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_categories.0">
+        <source>Categories</source>
+        <target>Händlerkategorien</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_categories.1">
+        <source>From which category should the stores be displayed</source>
+        <target>Aus welchen Händlerlisten sollen Einträge angezeigt werden?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_allow_empty_search.0">
+        <source>Allow empty search?</source>
+        <target>Leersuche erlauben?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_allow_empty_search.1">
+        <source>Should the user be able to submit an empty search to see all results?</source>
+        <target>Soll der Benutzer eine leere Suchanfrage abschicken können um alle Ergebnisse angezeigt zu bekommen?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_limit.0">
+        <source>Number of results</source>
+        <target>Anzahl der Ergebnisse</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_list_limit.1">
+        <source>How many results should be shown?</source>
+        <target>Wieviele Ergebnisse sollen maximal angezeigt werden?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_tpl.1">
+        <source>Choose which template should be used to show details of the store</source>
+        <target>Wählen Sie mit welchen Template der Händler dargestellt werden soll.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptype.0">
+        <source>Type</source>
+        <target>Typ</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptype.1">
+        <source>Which type of Google Map should be shown?</source>
+        <target>Welche Art von Google Map soll angezeigt werden?</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptypes.0">
+        <source>static</source>
+        <target>statisch</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_details_maptypes.1">
+        <source>dynamic</source>
+        <target>dynamisch</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_limit_distance.0">
+        <source>Limit distance</source>
+        <target>Entfernung begrenzen</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_limit_distance.1">
+        <source>Do not show stores which exceed the maximum distance.</source>
+        <target>Einträge ab einer maximalen Entfernung nicht anzeigen.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_max_distance.0">
+        <source>Max distance</source>
+        <target>Maximale Entfernung</target>
+      </trans-unit>
+      <trans-unit id="tl_module.storelocator_max_distance.1">
+        <source>The maximum distance in km.</source>
+        <target>Die maximale Entfernung in km.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
