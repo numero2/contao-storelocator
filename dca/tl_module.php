@@ -3,15 +3,16 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
- 
+
 /**
  * Add palettes to tl_module
  */
@@ -52,10 +53,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 ,	'options_callback'        => array('tl_module_storelocator', 'getTemplates')
 ,   'eval'                    => array( 'tl_class'=>'w50' )
 ,	'sql'                     => "varchar(255) NOT NULL default ''"
-); 
+);
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
- 
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
 ,	'default'                 => 'mod_storelocator_list'
@@ -134,7 +135,7 @@ class tl_module_storelocator extends \Backend {
 
 
     public function getCategories() {
-    
+
 		$arrCalendars = array();
 		$objCalendars = $this->Database->execute("SELECT id, title FROM tl_storelocator_category ORDER BY title");
 
@@ -145,9 +146,9 @@ class tl_module_storelocator extends \Backend {
 
 		return $arrCalendars;
     }
-    
+
 	public function getTemplates( DataContainer $dc ) {
-    
+
 		$intPid = $dc->activeRecord->pid;
 
 		if( $this->Input->get('act') == 'overrideAll' ) {

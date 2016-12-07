@@ -3,12 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
 
@@ -26,8 +27,8 @@ class ModuleStoreLocatorList extends \Module {
 	 * @var string
 	 */
 	protected $strTemplate = 'mod_storelocator_list';
-	
-	
+
+
 	/**
 	 * Display a wildcard in the back end
 	 * @return string
@@ -46,35 +47,35 @@ class ModuleStoreLocatorList extends \Module {
 
 			return $objTemplate->parse();
 		}
-		
+
 		return parent::generate();
 	}
-	
-	
+
+
 	/**
 	 * Generate module
 	 */
 	protected function compile() {
 
 		$this->Template = new \FrontendTemplate($this->storelocator_list_tpl);
-		
+
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
 
         $aEntries = array();
-        
+
         // check if an empty search is allowed
         if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
-        
+
             $this->Template->error = true;
-            
+
         } else {
-		
+
             $term = NULL;
-        
+
             // add country code for correct search results
             if( !empty($sSearchCountry) ) {
-            
+
                 if( !empty($sSearchVal) ) {
                     $term = $sSearchVal.', '.$sSearchCountry;
                 } else {
@@ -84,11 +85,11 @@ class ModuleStoreLocatorList extends \Module {
 
             $aCategories = array();
             $aCategories = deserialize($this->storelocator_list_categories);
-            
+
 			$aCountryNames = $this->getCountries();
-			
+
             if( !empty($term) ) {
-			
+
                 // get coordinates of searched destination
 				$sl = new StoreLocator();
                 $aCoordinates = array();
@@ -100,7 +101,7 @@ class ModuleStoreLocatorList extends \Module {
 
                     // search all countries
                     if( !empty($sSearchVal) ) {
-                    
+
                         $objStores = $this->Database->prepare("
                             SELECT
                                 *
@@ -108,7 +109,7 @@ class ModuleStoreLocatorList extends \Module {
                             FROM `tl_storelocator_stores`
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
-                                AND latitude != '' 
+                                AND latitude != ''
                                 AND longitude != ''
                                 ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                             ORDER BY `highlight` DESC ,`distance` ASC
@@ -120,7 +121,7 @@ class ModuleStoreLocatorList extends \Module {
 
                     // search selected country only
                     } else {
-                    
+
                         $objStores = $this->Database->prepare("
                             SELECT
                                 *
@@ -128,8 +129,8 @@ class ModuleStoreLocatorList extends \Module {
                             FROM `tl_storelocator_stores`
                             WHERE
                                     pid IN(".implode(',',$aCategories).")
-                                AND latitude != '' 
-                                AND longitude != '' 
+                                AND latitude != ''
+                                AND longitude != ''
                                 ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
                                 AND country = ?
                             ORDER BY `highlight` DESC ,`distance` ASC
@@ -146,7 +147,7 @@ class ModuleStoreLocatorList extends \Module {
                     $entries = $objStores->fetchAllAssoc();
 
                     if( !empty($entries) ) {
-					
+
                         foreach( $entries as $entry ) {
 
                             if( empty($sSearchVal) ) {
@@ -157,10 +158,10 @@ class ModuleStoreLocatorList extends \Module {
 
                             $entry['country_code'] = $entry['country'];
                             $entry['country_name'] = $aCountryNames[$entry['country']];
-                        
+
                             // generate link
                             $link = null;
-                            
+
                             if( $this->jumpTo ) {
 
                                 $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
@@ -169,13 +170,13 @@ class ModuleStoreLocatorList extends \Module {
                                     $objLink->fetchAssoc()
                                 ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
                                 );
-                            }	
+                            }
 
                             // get opening times
                             $entry['opening_times'] = unserialize( $entry['opening_times'] );
                             $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
 
-                        
+
                             $aEntries[] = $entry;
                         }
                     }

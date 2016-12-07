@@ -3,12 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
 
@@ -29,7 +30,7 @@ class ModuleStoreLocator extends \Frontend
 
         $searchTerm = NULL;
         $searchTerm = $this->Input->post('storelocator_search_name');
-        
+
         if( empty($searchTerm) )
             return false;
 

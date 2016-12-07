@@ -3,15 +3,16 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
- 
+
 /**
  * Table tl_storelocator_stores
  */
@@ -249,10 +250,10 @@ class tl_storelocator_stores extends \Backend {
 
 		$icon = ($objEntry->latitude || $objEntry->longitude) ? $icon[1] : $icon[0];
 		$label = ($objEntry->latitude || $objEntry->longitude) ? $label[1] : $label[0];
-		
+
 		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
 	}
-	
+
 
 	/**
 	 * Listing for overview
@@ -264,21 +265,21 @@ class tl_storelocator_stores extends \Backend {
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
 	}
-	
-	
+
+
 	/**
 	 * Fills coordinates if not already set and saving
 	 * @param DataContainer
 	 * @return bool
 	 */
 	public function fillCoordinates( DataContainer $dc ) {
-	
+
 		if( !$dc->activeRecord ) {
 			return;
 		}
-		
+
 		$sl = new StoreLocator();
-		
+
 		// find coordinates using google maps api
 		$coords = $sl->getCoordinates(
 			$dc->activeRecord->street
@@ -286,12 +287,12 @@ class tl_storelocator_stores extends \Backend {
 		,	$dc->activeRecord->city
 		,	$dc->activeRecord->country
 		);
-		
+
 		if( !empty($coords) ) {
 			$this->Database->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($dc->id);
 			return $true;
 		}
-		
+
 		return false;
 	}
 
@@ -303,27 +304,27 @@ class tl_storelocator_stores extends \Backend {
 	 * @param string
 	 * @param string
 	 * @return array
-	 */	
+	 */
 	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
 
 		$sl = new StoreLocator();
 		return $sl->getCoordinates( $street, $postal, $city, $country );
 	}
-	
-	
+
+
 	/**
 	 * Displays a little static Google Map with position of the address
 	 * @param DataContainer
 	 * @return string
 	 */
 	public function showMap( DataContainer $dc ) {
-	
+
 		$sCoords = sprintf(
 			"%s,%s"
 		,	$dc->activeRecord->latitude
 		,	$dc->activeRecord->longitude
 		);
-	
+
 		return '<div style="float: right; height: 139px; margin-right: 23px; overflow: hidden; width: 320px;">'
 		.'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
 		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&sensor=false" />'
@@ -334,13 +335,13 @@ class tl_storelocator_stores extends \Backend {
 	/**
 	 * Shows a little info text what coordinates are
 	 * @return string
-	 */	
+	 */
 	public function showGeoExplain() {
-	
+
 		return '<div class="tl_help">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</div>';
 	}
-	
-	
+
+
 	/**
 	 * Add leading "http://" if missing
 	 * @param mixed
@@ -348,7 +349,7 @@ class tl_storelocator_stores extends \Backend {
 	 * @return string
 	 */
 	public function checkURL( $varValue, DataContainer $dc ) {
-	
+
 		return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
 	}
 }

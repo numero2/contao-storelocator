@@ -3,12 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2015 numero2 - Agentur f�r Internetdienstleistungen
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
 
@@ -26,8 +27,8 @@ class ModuleStoreLocatorSearch extends \Module {
 	 * @var string
 	 */
 	protected $strTemplate = 'mod_storelocator_search';
-	
-	
+
+
 	/**
 	 * Display a wildcard in the back end
 	 * @return string
@@ -46,27 +47,27 @@ class ModuleStoreLocatorSearch extends \Module {
 
 			return $objTemplate->parse();
 		}
-		
+
 		return parent::generate();
 	}
-	
-	
+
+
 	/**
 	 * Generate module
 	 */
 	protected function compile() {
 
 		global $objPage;
-	
+
 		$this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
-		
+
 		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->_escapeSearchVal( $this->Input->post('storelocator_search_name') ) : $this->Input->get('search');
 		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
 		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
 		$this->Template->formId = 'tl_storelocator';
         $this->Template->moduleId = $this->id;
         $this->Template->action = '';
-        
+
         // redirect to results page
         if( $this->Template->searchVal && ($this->Template->searchVal != $this->Input->get('search')) ) {
 
@@ -77,25 +78,25 @@ class ModuleStoreLocatorSearch extends \Module {
                 $objLink->fetchAssoc()
             ,	'/search/'.$this->Template->searchVal.'/country/'.strtolower($this->Template->country)
             );
-            
+
             $this->redirect( $results, 302);
             die();
         }
-		
+
 		// get list of countries
 		$objCountries = NULL;
         $objCountries = $this->Database->execute(" SELECT country FROM tl_storelocator_stores GROUP BY country ASC ");
-		
+
         $aCountries = array();
         $aCountries = $objCountries->fetchAllAssoc();
-        
+
         if( $aCountries ) {
-            
+
             $temp = array();
             $aCountryNames = $this->getCountries();
-			
+
             foreach( $aCountries as $i => $v ) {
-            
+
                 if( $this->storelocator_show_full_country_names ) {
                     $temp[ $v['country'] ] = $aCountryNames[ $v['country'] ];
                 } else {
@@ -106,7 +107,7 @@ class ModuleStoreLocatorSearch extends \Module {
             asort($temp);
             $aCountries = $temp;
         }
-        
+
         $this->Template->countries = $aCountries;
 	}
 
