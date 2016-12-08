@@ -15,9 +15,9 @@
 
 /* CONFIG */
 if( empty($GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][0])){
-	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'] = array( array('numero2\StoreLocator\StoreLocator','showGoogleKeysMissingMessage') );
+	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'] = array( array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage') );
 } else {
-	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('numero2\StoreLocator\StoreLocator','showGoogleKeysMissingMessage');
+	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage');
 }
 
 
