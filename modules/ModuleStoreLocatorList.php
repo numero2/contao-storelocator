@@ -57,6 +57,8 @@ class ModuleStoreLocatorList extends \Module {
 	 */
 	protected function compile() {
 
+        global $objPage;
+
 		$this->Template = new \FrontendTemplate($this->storelocator_list_tpl);
 
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
@@ -179,6 +181,8 @@ class ModuleStoreLocatorList extends \Module {
 
                             $aEntries[] = $entry;
                         }
+
+                        $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
                     }
                 }
             }
@@ -187,5 +191,3 @@ class ModuleStoreLocatorList extends \Module {
 		$this->Template->entries = $aEntries;
 	}
 }
-
-?>

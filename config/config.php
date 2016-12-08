@@ -14,6 +14,12 @@
 
 
 /**
+ * MODELS
+ */
+//$GLOBALS['TL_MODELS'][\numero2\StoreLocator\StoresModel::getTable()] = 'numero2\StoreLocator\StoresModel';
+
+
+/**
  * BACK END MODULES
  */
 $GLOBALS['BE_MOD']['content']['storelocator'] = array(
@@ -37,5 +43,4 @@ $GLOBALS['FE_MOD']['storelocator'] = array(
 /**
  * REGISTER HOOKS
  */
-$GLOBALS['TL_HOOKS']['generatePage'][] = array('\numero2\StoreLocator\ModuleStoreLocator', 'addResultsBodyClass');
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('\numero2\StoreLocator\ModuleStorelocatorInsertTags', 'replaceInsertTags');
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('\numero2\StoreLocator\StoreLocator', 'replaceInsertTags');
