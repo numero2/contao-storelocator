@@ -22,20 +22,30 @@ class StoreLocatorBackend extends \System {
 
 
     /**
-     * Gets coordinates for an adress without a specific format
+     * Show a message in backend if google keys are missing
      *
-     * @param string The adress
-     *
-     * @return array
+     * @param DataContainer $dc
      */
-    public function showGoogleKeysMissingMessage() {
+    public function showGoogleKeysMissingMessage( DataContainer $dc ) {
 
         if( TL_MODE != 'BE' )
             return;
 
+        if( \Input::get('table') == "tl_module" && \Input::get('act') == "edit" ) {
+
+            $objModule = \Database::getInstance()->prepare("
+                SELECT * FROM tl_module WHERE id = ?
+                ")->execute( $dc->id );
+
+            if( !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ){
+
+                return;
+            }
+        }
+
         self::loadLanguageFile('tl_settings');
 
-        if( !empty(\Config::get('google_maps_server_key')) ) {
+        if( empty(\Config::get('google_maps_server_key')) ) {
             \Message::addInfo(
                 sprintf($GLOBALS['TL_LANG']['tl_settings']['err']['missing_key'],
                     $GLOBALS['TL_LANG']['tl_settings']['google_maps_server_key'][0]
@@ -43,7 +53,7 @@ class StoreLocatorBackend extends \System {
             );
         }
 
-        if( !empty(\Config::get('google_maps_browser_key')) ) {
+        if( empty(\Config::get('google_maps_browser_key')) ) {
             \Message::addInfo(
                 sprintf($GLOBALS['TL_LANG']['tl_settings']['err']['missing_key'],
                     $GLOBALS['TL_LANG']['tl_settings']['google_maps_browser_key'][0]
