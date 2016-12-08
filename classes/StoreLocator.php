@@ -23,8 +23,10 @@ class StoreLocator extends \System {
 
     /**
 	 * Replace matching inserttags
+	 *
 	 * @param string InsertTag
 	 * @param bool Use cache
+	 *
 	 * @return string
 	 */
 	protected function replaceInsertTags($strBuffer, $blnCache=false) {
@@ -79,11 +81,13 @@ class StoreLocator extends \System {
 
     /**
      * Find coordinates for given adress
+     *
      * @param string Street
      * @param string Postal/ZIP Code
      * @param string Name of city
      * @param string 2-letter country code
      * @param string Adress string without specific format
+     *
      * @return array
      */
     public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ) {
@@ -159,7 +163,9 @@ class StoreLocator extends \System {
 
     /**
      * Gets coordinates for an adress without a specific format
+     *
      * @param string The adress
+     * 
      * @return array
      */
     public function getCoordinatesByString( $string=NULL ) {

@@ -145,5 +145,3 @@ class ModuleStoreLocatorImporter extends \Backend {
             </form>';
 	}
 }
-
-?>

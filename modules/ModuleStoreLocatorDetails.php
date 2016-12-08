@@ -156,5 +156,3 @@ class ModuleStoreLocatorDetails extends \Module {
 		}
 	}
 }
-
-?>
