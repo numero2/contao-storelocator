@@ -24,6 +24,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 	,	'onsubmit_callback'   	  	  => array(
 			array('tl_storelocator_stores', 'fillCoordinates')
 		)
+	,	'onload_callback' 		 	  => array( array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage') )
     ,   'sql' => array (
             'keys' => array (
                 'id' => 'primary'

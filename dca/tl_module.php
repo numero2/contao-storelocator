@@ -13,6 +13,14 @@
  */
 
 
+/* CONFIG */
+if( empty($GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][0])){
+	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'] = array( array('numero2\StoreLocator\StoreLocator','showGoogleKeysMissingMessage') );
+} else {
+	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('numero2\StoreLocator\StoreLocator','showGoogleKeysMissingMessage');
+}
+
+
 /**
  * Add palettes to tl_module
  */

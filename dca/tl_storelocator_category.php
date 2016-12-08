@@ -22,6 +22,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 		'dataContainer'               => 'Table'
 	,	'ctable'                      => array('tl_storelocator_stores')
 	,	'switchToEdit'                => true
+	,	'onload_callback' => array( array('numero2\StoreLocator\StoreLocator','showGoogleKeysMissingMessage') )
     ,   'sql' => array (
             'keys' => array (
                 'id' => 'primary'
