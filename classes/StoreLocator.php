@@ -3,12 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2015 Leo Feyer
+ * Copyright (c) 2005-2016 Leo Feyer
  *
- * @package   Software Licenses
+ * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
- * @license   StoreLocator
- * @copyright 2015 numero2 - Agentur für Internetdienstleistungen
+ * @author    Michael Bösherz <michael.boesherz@numero2.de>
+ * @license   LGPL
+ * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 
 
@@ -165,7 +166,7 @@ class StoreLocator extends \System {
      * Gets coordinates for an adress without a specific format
      *
      * @param string The adress
-     * 
+     *
      * @return array
      */
     public function getCoordinatesByString( $string=NULL ) {
