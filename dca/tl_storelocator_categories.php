@@ -103,12 +103,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 				array('tl_storelocator_categories', 'generateAlias')
 			)
         ,   'sql'           => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
-		),
+		)
 	)
 );
 
 
 class tl_storelocator_categories extends \Backend {
+
 
     /**
 	 * Auto-generate an category alias if it has not been set yet
@@ -130,11 +131,11 @@ class tl_storelocator_categories extends \Backend {
 			$varValue = StringUtil::generateAlias($dc->activeRecord->title);
 		}
 
-		$objAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_categories WHERE id=? OR alias=?")
-								   ->execute($dc->id, $varValue);
+        $oAlias = NULL;
+        $oAlias = \numero2\StoreLocator\CategoriesModel::findByAlias( $varValue );
 
 		// Check whether the alias exists
-		if( $objAlias->numRows > 1 ) {
+		if( $oAlias && count($oAlias) > 1 ) {
 
 			if( !$autoAlias ) {
 				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));

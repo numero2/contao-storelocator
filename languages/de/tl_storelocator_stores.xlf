@@ -9,6 +9,14 @@
         <source>Name of the store.</source>
         <target>Name des Händlers ein.</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.alias.0">
+        <source>Alias</source>
+        <target>Alias</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.alias.1">
+        <source>Will be generated automatically.</source>
+        <target>Wird automatisch generiert.</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.email.0">
         <source>E-Mail</source>
         <target>E-Mail</target>

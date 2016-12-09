@@ -71,6 +71,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 			,	'icon'                => 'delete.gif'
 			,	'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
+        ,   'highlight' => array(
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
+            ,   'icon'                => 'featured.gif'
+            ,   'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleFeatured(this,%s)"'
+            ,   'button_callback'     => array('tl_storelocator_stores', 'iconHighlight')
+			)
 		,	'coords' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
 			,	'href'                => 'act=show'
@@ -80,7 +86,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         )
 	)
 ,	'palettes' => array(
-		'default'                     => '{common_legend},name,email,url,phone,fax,description;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
+		'default'                     => '{common_legend},name,alias,email,url,phone,fax,description;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
 	)
 ,	'fields' => array(
         'id' => array(
@@ -99,6 +105,16 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
         ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
+    ,   'alias' => array(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['alias']
+        ,   'exclude'                 => true
+        ,   'inputType'               => 'text'
+        ,   'eval'                    => array( 'rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50' )
+        ,   'save_callback'           => array(
+				array('tl_storelocator_stores', 'generateAlias')
+			)
+        ,   'sql'           => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+		)
 	,	'email' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
 		,	'inputType'               => 'text'
@@ -165,10 +181,10 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         ,   'sql'                     => "varchar(64) NOT NULL default ''"
         )
 	,	'opening_times' => array(
-			'label'						=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['opening_times']
-		,	'exclude' 					=> true
-		,	'inputType' 				=> 'multiColumnWizard'
-		,	'eval' 						=> array(
+			'label'					  => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['opening_times']
+		,	'exclude' 				  => true
+		,	'inputType' 			  => 'multiColumnWizard'
+		,	'eval' 					  => array(
 				'columnFields' => array(
 					'weekday' => array(
 						'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
@@ -234,23 +250,113 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 class tl_storelocator_stores extends \Backend {
 
 
+    /**
+	 * Return the "highlight/unhighlight store" button
+	 *
+	 * @param array  $row
+	 * @param string $href
+	 * @param string $label
+	 * @param string $title
+	 * @param string $icon
+	 * @param string $attributes
+	 *
+	 * @return string
+	 */
+	public function iconHighlight( $row, $href, $label, $title, $icon, $attributes ) {
+
+		if( strlen(Input::get('fid')) ) {
+
+			$this->toggleFeatured( Input::get('fid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null) );
+			$this->redirect( $this->getReferer() );
+		}
+
+		$href .= '&amp;fid='.$row['id'].'&amp;state='.($row['highlight'] ? '' : 1);
+
+		if( !$row['highlight'] ) {
+			$icon = 'featured_.gif';
+		}
+
+		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
+	}
+
+
+    /**
+	 * Highlight/unhighlight a store
+	 *
+	 * @param integer       $intId
+	 * @param boolean       $blnVisible
+	 * @param DataContainer $dc
+	 *
+	 * @return string
+	 */
+	public function toggleFeatured( $intId, $blnVisible, DataContainer $dc=null ) {
+
+        $oStore = NULL;
+        $oStore = \numero2\StoreLocator\StoresModel::findById( $intId );
+
+        if( $oStore ) {
+            $oStore->highlight = ($blnVisible ? 1 : 0);
+            $oStore->save();
+        }
+	}
+
+
+    /**
+	 * Auto-generate an category alias if it has not been set yet
+	 *
+	 * @param mixed         $varValue
+	 * @param DataContainer $dc
+	 *
+	 * @return string
+	 *
+	 * @throws Exception
+	 */
+	public function generateAlias( $varValue, DataContainer $dc ) {
+
+		$autoAlias = false;
+
+		// Generate an alias if there is none
+		if( $varValue == '' ) {
+			$autoAlias = true;
+			$varValue = StringUtil::generateAlias($dc->activeRecord->name);
+		}
+
+        $oAlias = NULL;
+        $oAlias = \numero2\StoreLocator\StoresModel::findByAlias( $varValue );
+
+		// Check whether the alias exists
+		if( $oAlias && count($oAlias) > 1 ) {
+
+			if( !$autoAlias ) {
+				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+			}
+
+			$varValue .= '-' . $dc->id;
+		}
+
+		return $varValue;
+	}
+
+
 	/**
 	 * Generates button to show if coordinates are available
-	 * @param array
-	 * @param srting
-	 * @param array
-	 * @param string
-	 * @param mixed
-	 * @param array
+	 *
+	 * @param array    $row
+	 * @param srting   $href
+	 * @param array    $label
+	 * @param string   $title
+	 * @param mixed    $icon
+	 * @param array    $attributes
+	 *
 	 * @return string
 	 */
 	public function coordsButton( $row=NULL, $href=NULL, $label=NULL, $title=NULL, $icon=NULL, $attributes=NULL ) {
 
-		$objEntry = NULL;
-		$objEntry = $this->Database->prepare("SELECT latitude, longitude FROM tl_storelocator_stores WHERE id = ?")->limit(1)->execute( $row['id'] );
+        $oStore = NULL;
+        $oStore = \numero2\StoreLocator\StoresModel::findById( $row['id'] );
 
-		$icon = ($objEntry->latitude || $objEntry->longitude) ? $icon[1] : $icon[0];
-		$label = ($objEntry->latitude || $objEntry->longitude) ? $label[1] : $label[0];
+		$icon  = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $icon[1] : $icon[0];
+		$label = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $label[1] : $label[0];
 
 		return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
 	}
@@ -258,10 +364,12 @@ class tl_storelocator_stores extends \Backend {
 
 	/**
 	 * Listing for overview
-	 * @param array
+	 *
+	 * @param array $arrRow
+	 *
 	 * @return string
 	 */
-	public function listStores($arrRow) {
+	public function listStores( $arrRow ) {
 		return '<div class="limit_height block">
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
@@ -270,7 +378,9 @@ class tl_storelocator_stores extends \Backend {
 
 	/**
 	 * Fills coordinates if not already set and saving
-	 * @param DataContainer
+	 *
+	 * @param DataContainer $dc
+	 *
 	 * @return bool
 	 */
 	public function fillCoordinates( DataContainer $dc ) {
@@ -279,10 +389,11 @@ class tl_storelocator_stores extends \Backend {
 			return;
 		}
 
-		$sl = new StoreLocator();
+        $oSL = NULL;
+		$oSL = new \numero2\StoreLocator\StoreLocator();
 
 		// find coordinates using google maps api
-		$coords = $sl->getCoordinates(
+		$coords = $oSL->getCoordinates(
 			$dc->activeRecord->street
 		,	$dc->activeRecord->postal
 		,	$dc->activeRecord->city
@@ -299,23 +410,10 @@ class tl_storelocator_stores extends \Backend {
 
 
 	/**
-	 * Returns geographical coordinates
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return array
-	 */
-	public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL ) {
-
-		$sl = new StoreLocator();
-		return $sl->getCoordinates( $street, $postal, $city, $country );
-	}
-
-
-	/**
 	 * Displays a little static Google Map with position of the address
-	 * @param DataContainer
+	 *
+	 * @param DataContainer $dc
+	 *
 	 * @return string
 	 */
 	public function showMap( DataContainer $dc ) {
@@ -335,6 +433,7 @@ class tl_storelocator_stores extends \Backend {
 
 	/**
 	 * Shows a little info text what coordinates are
+	 *
 	 * @return string
 	 */
 	public function showGeoExplain() {
@@ -345,8 +444,10 @@ class tl_storelocator_stores extends \Backend {
 
 	/**
 	 * Add leading "http://" if missing
-	 * @param mixed
-	 * @param DataContainer
+	 *
+	 * @param mixed            $varValue
+	 * @param DataContainer    $dc
+	 *
 	 * @return string
 	 */
 	public function checkURL( $varValue, DataContainer $dc ) {
