@@ -71,7 +71,6 @@ class ModuleStoreLocatorList extends \Module {
 			$sSearchVal = explode(";", $sSearchVal);
 		}
 
-		echo "<pre>Val: ".print_r($sSearchVal,1)."</pre>";
 
         $aEntries = array();
 		$aCoordinates = array();
@@ -120,9 +119,6 @@ class ModuleStoreLocatorList extends \Module {
 			}
 
 			$aCountryNames = $this->getCountries();
-			echo "<pre>term: ".print_r($term,1)."</pre>";
-			echo "<pre>cat: ".print_r($category,1)."</pre>";
-			echo "<pre>cat: ".print_r($aCategories,1)."</pre>";
 
             if( !empty($term) || $this->storelocator_allow_empty_search ) {
 
@@ -139,7 +135,7 @@ class ModuleStoreLocatorList extends \Module {
 
 					$objStores = StoresModel::searchNearby(
 						$aCoordinates['latitude'], $aCoordinates['longitude'],
-						$this->storelocator_max_distance,
+						($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
 						$this->storelocator_list_limit,
 						($category?$category:$aCategories));
 

@@ -62,7 +62,6 @@ class StoresModel extends \Model {
 		,	$longitude
 		);
 
-		echo "<pre>".print_r($objStores,1)."</pre>";
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
