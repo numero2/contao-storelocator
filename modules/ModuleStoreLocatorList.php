@@ -173,7 +173,7 @@ class ModuleStoreLocatorList extends \Module {
 
                             $entry['link'] = $this->generateFrontendUrl(
                                 $objLink->fetchAssoc()
-                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
+                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['alias']
                             );
                         }
 
