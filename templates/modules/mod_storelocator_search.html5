@@ -5,8 +5,10 @@
     <form method="post" action="<?php echo $this->action; ?>" id="<?php echo $this->formId; ?>">
         <div class="formbody">
 
-            <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>">
-            <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}">
+            <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>" />
+            <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
+            <input type="hidden" name="longitude" value="" />
+            <input type="hidden" name="latitude" value="" />
 
             <div class="<?= $this->searchField->prefix; ?>">
                 <?= $this->searchField->generateLabel(); ?>
@@ -17,6 +19,7 @@
                 <?= $this->submitButton->generate(); ?>
             </div>
 
+            <?= $this->autoComplete; ?>
         </div>
     </form>
 

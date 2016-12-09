@@ -20,13 +20,15 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_allow_empty_search,storelocator_limit_distance,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{slmap_legend:hide},storelocator_details_maptype;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_search_country';
 
 
 /**
@@ -40,6 +42,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 ,	'search'                  => true
 ,	'eval'                    => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
 ,   'sql'                     => "varchar(2) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = array(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_enable_autocomplete']
+,	'inputType'               => 'checkbox'
+,	'default'                 => true
+,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
+,   'sql'                     => "char(1) NOT NULL default '1'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(

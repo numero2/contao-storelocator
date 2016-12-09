@@ -49,6 +49,14 @@
         <source>Which country should be used as default if user did not select any?</source>
         <target>In welchem Land sollen die Ergebnisse gesucht werden (falls der Benutzer kein anderes ausgewählt hat)?</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_enable_autocomplete.0">
+        <source>Enable autosuggest?</source>
+        <target>Vorschläge anzeigen?</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_enable_autocomplete.1">
+        <source>Displays suggestions while typing.</source>
+        <target>Zeigt dem Nutzer Suchvorschläge schon während dem Eingeben an.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_search_tpl.0">
         <source>Template</source>
         <target>Template</target>

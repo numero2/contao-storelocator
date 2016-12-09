@@ -111,6 +111,17 @@ class ModuleStoreLocatorSearch extends \Module {
             }
         }
 
+        // add autocomplete script
+        if( $this->storelocator_enable_autocomplete ) {
+
+            $oTemplateAutocomplete = new \FrontendTemplate('script_storelocator_autocomplete');
+            $oTemplateAutocomplete->mapsKey = \Config::get('google_maps_browser_key');
+            $oTemplateAutocomplete->country = $this->storelocator_search_country;
+            $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
+
+            $this->Template->autoComplete = $oTemplateAutocomplete->parse();
+        }
+
         $this->Template->searchField = $widgetSearch;
         $this->Template->submitButton = $widgetSubmit;
 	}

@@ -1,0 +1,27 @@
+<script>
+
+    var autocomplete;
+
+    function initializeAddressAutocomplete() {
+
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('<?=$this->fieldId;?>'),
+            { componentRestrictions: { country: "<?=$this->country;?>"} }
+        );
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+
+            var location = autocomplete.getPlace();
+
+            if( location.geometry ) {
+
+                jQuery('form input[name*="longitude"]').val( location.geometry.location.lng() );
+                jQuery('form input[name*="latitude"]').val( location.geometry.location.lat() );
+            }
+
+            jQuery('#<?=$this->fieldId;?>').parents('form').submit();
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=<?= $this->mapsKey; ?>&amp;callback=initializeAddressAutocomplete" async defer></script>
