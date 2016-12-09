@@ -33,6 +33,7 @@ ClassLoader::addClasses(array
 
 	// Models
     'numero2\StoreLocator\StoresModel'                  => 'system/modules/storelocator/models/StoresModel.php',
+    'numero2\StoreLocator\CategoriesModel'              => 'system/modules/storelocator/models/CategoriesModel.php',
 
 	// Modules
     'numero2\StoreLocator\ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',

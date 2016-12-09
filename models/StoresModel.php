@@ -31,7 +31,7 @@ class StoresModel extends \Model {
 
 
 	/**
-	 * return a list of stores near the given location
+	 * Return a list of stores near the given location
 	 *
 	 * @param  integer $latitude
 	 * @param  integer $longitude
@@ -42,7 +42,6 @@ class StoresModel extends \Model {
 	 *
 	 * @return [type]
 	 */
-
 	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL, $country=NULL) {
 
 		$country = strtoupper($country);

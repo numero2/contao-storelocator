@@ -29,7 +29,7 @@ class StoreLocatorBackend extends \System {
      *
      * @return none
      */
-    public function showGoogleKeysMissingMessage( DataContainer $dc ) {
+    public function showGoogleKeysMissingMessage( $dc ) {
 
         if( TL_MODE != 'BE' )
             return;
