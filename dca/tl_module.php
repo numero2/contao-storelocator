@@ -90,7 +90,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = array
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_distance']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => false
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50 clr', 'submitOnChange' => true)
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50 clr', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default ''"
 );
 
@@ -107,7 +107,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_allow_empty_search'] = a
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_allow_empty_search']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;' )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 );
 

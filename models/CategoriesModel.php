@@ -27,7 +27,7 @@ class CategoriesModel extends \Model {
 	 * Table name
 	 * @var string
 	 */
-	protected static $strTable = 'tl_storelocator_category';
+	protected static $strTable = 'tl_storelocator_categories';
 
 
     /**
@@ -43,7 +43,7 @@ class CategoriesModel extends \Model {
             SELECT
                 id,
                 title
-            FROM tl_storelocator_category
+            FROM ".self::$strTable."
         ")->execute();
 
         return self::createCollectionFromDbResult($objResult,self::$strTable);

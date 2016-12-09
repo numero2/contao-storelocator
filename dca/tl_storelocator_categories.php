@@ -14,9 +14,9 @@
 
 
 /**
-* Table tl_storelocator_category
+* Table tl_storelocator_categories
 */
-$GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
+$GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 
 	'config' => array(
 		'dataContainer'               => 'Table'
@@ -50,30 +50,30 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
 		)
 	,	'operations' => array(
 			'edit' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_category']['edit']
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['edit']
 			,	'href'                => 'table=tl_storelocator_stores'
 			,	'icon'                => 'edit.gif'
 			)
 		,	'copy' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_category']['copy']
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['copy']
 			,	'href'                => 'act=copy'
 			,	'icon'                => 'copy.gif'
 			)
 		,	'delete' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_category']['delete']
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['delete']
 			,	'href'                => 'act=delete'
 			,	'icon'                => 'delete.gif'
 			,	'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
 			)
 		,	'show' => array(
-				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_category']['show']
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['show']
 			,	'href'                => 'act=show'
 			,	'icon'                => 'show.gif'
 			)
 		)
 	)
 ,	'palettes' => array(
-		'default'                     => '{title_legend},title'
+		'default'                     => '{title_legend},title,alias'
 	)
 ,	'fields' => array(
         'id' => array(
@@ -83,11 +83,61 @@ $GLOBALS['TL_DCA']['tl_storelocator_category'] = array(
             'sql'           => "int(10) unsigned NOT NULL default '0'"
         )
     ,   'title' => array(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_category']['title']
-		,	'inputType'               => 'text'
-		,	'search'                  => true
-		,	'eval'                    => array('mandatory'=>true, 'maxlength'=>64)
-        ,   'sql'                     => "varchar(64) NOT NULL default ''"
+			'label'         => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['title']
+		,	'inputType'     => 'text'
+		,	'search'        => true
+		,	'eval'          => array( 'mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50' )
+        ,   'sql'           => "varchar(64) NOT NULL default ''"
 		)
+    ,   'alias' => array(
+			'label'         => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['alias']
+        ,   'exclude'       => true
+        ,   'inputType'     => 'text'
+        ,   'eval'          => array( 'rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50' )
+        ,   'save_callback' => array(
+				array('tl_storelocator_categories', 'generateAlias')
+			)
+        ,   'sql'           => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+		),
 	)
 );
+
+
+class tl_storelocator_categories extends \Backend {
+
+    /**
+	 * Auto-generate an category alias if it has not been set yet
+	 *
+	 * @param mixed         $varValue
+	 * @param DataContainer $dc
+	 *
+	 * @return string
+	 *
+	 * @throws Exception
+	 */
+	public function generateAlias( $varValue, DataContainer $dc ) {
+
+		$autoAlias = false;
+
+		// Generate an alias if there is none
+		if( $varValue == '' ) {
+			$autoAlias = true;
+			$varValue = StringUtil::generateAlias($dc->activeRecord->title);
+		}
+
+		$objAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_categories WHERE id=? OR alias=?")
+								   ->execute($dc->id, $varValue);
+
+		// Check whether the alias exists
+		if( $objAlias->numRows > 1 ) {
+
+			if( !$autoAlias ) {
+				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+			}
+
+			$varValue .= '-' . $dc->id;
+		}
+
+		return $varValue;
+	}
+}

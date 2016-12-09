@@ -20,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 
 	'config' => array (
 		'dataContainer'               => 'Table'
-	,	'ptable'                      => 'tl_storelocator_category'
+	,	'ptable'                      => 'tl_storelocator_categories'
 	,	'onsubmit_callback'   	  	  => array(
 			array('tl_storelocator_stores', 'fillCoordinates')
 		)
