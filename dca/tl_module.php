@@ -14,23 +14,20 @@
 
 
 /* CONFIG */
-if( empty($GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][0])){
-	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'] = array( array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage') );
-} else {
-	$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage');
-}
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage');
 
 
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country,storelocator_show_full_country_names;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_country;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_allow_empty_search,storelocator_limit_distance,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{slmap_legend:hide},storelocator_details_maptype;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
+
 
 /**
  * Add fields to tl_module
@@ -43,14 +40,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 ,	'search'                  => true
 ,	'eval'                    => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
 ,   'sql'                     => "varchar(2) NOT NULL default ''"
-);
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_full_country_names'] = array(
-	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_full_country_names']
-,	'inputType'               => 'checkbox'
-,	'default'                 => false
-,	'eval'                    => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;' )
-,   'sql'                     => "char(1) NOT NULL default '0'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(

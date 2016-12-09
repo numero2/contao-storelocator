@@ -61,58 +61,57 @@ class ModuleStoreLocatorSearch extends \Module {
 
 		$this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
 
-		$this->Template->searchVal = $this->Input->post('storelocator_search_name') ? $this->_escapeSearchVal( $this->Input->post('storelocator_search_name') ) : $this->Input->get('search');
-		$this->Template->country = $this->Input->post('storelocator_search_country') ? $this->Input->post('storelocator_search_country') : $this->Input->get('country');
-		$this->Template->country = $this->Template->country ? $this->Template->country : $this->storelocator_search_country;
-		$this->Template->formId = 'tl_storelocator';
-        $this->Template->moduleId = $this->id;
+        $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = '';
 
-        // redirect to results page
-        if( $this->Template->searchVal && ($this->Template->searchVal != $this->Input->get('search')) ) {
+        // generate form elements
+        $widgetSearch = NULL;
+        $widgetSearch = new \FormTextField(\FormTextField::getAttributesFromDca(
+                array(
+                    'name'      => 'location'
+                ,   'label'     => &$GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']
+                ,   'inputType' => 'text'
+                ,	'eval'		=> array( 'mandatory'=>true )
+                )
+            ,   'location'
+            ,   ''
+            )
+        );
 
-            $pageID = $this->jumpTo ? $this->jumpTo : $objPage->id;
-            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($pageID);
+        $widgetSubmit = NULL;
+        $widgetSubmit = new \FormSubmit();
+        $widgetSubmit->id = 'search';
+        $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['field']['search'];
 
-            $results = $this->generateFrontendUrl(
-                $objLink->fetchAssoc()
-            ,	'/search/'.$this->Template->searchVal.'/country/'.strtolower($this->Template->country)
-            );
+        // redirect to listing page
+        if( \Input::post('FORM_SUBMIT') == $this->Template->formId ) {
 
-            $this->redirect( $results, 302);
-            die();
-        }
+            $widgetSearch->validate();
+            $term = $widgetSearch->value;
 
-		// get list of countries
-		$objCountries = NULL;
-        $objCountries = $this->Database->execute(" SELECT country FROM tl_storelocator_stores GROUP BY country ASC ");
+            if( !empty($term) ) {
 
-        $aCountries = array();
-        $aCountries = $objCountries->fetchAllAssoc();
+                $aData = array($term);
 
-        if( $aCountries ) {
+                $longitude = \Input::post('longitude');
+                $latitude = \Input::post('latitude');
 
-            $temp = array();
-            $aCountryNames = $this->getCountries();
-
-            foreach( $aCountries as $i => $v ) {
-
-                if( $this->storelocator_show_full_country_names ) {
-                    $temp[ $v['country'] ] = $aCountryNames[ $v['country'] ];
-                } else {
-                    $temp[ $v['country'] ] = $v['country'];
+                if( $longitude && $latitude ) {
+                    $aData[] = $longitude;
+                    $aData[] = $latitude;
                 }
-            }
 
-            asort($temp);
-            $aCountries = $temp;
+                $strData = implode(';',$aData);
+
+                $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
+                $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
+                $href = sprintf($href, $strData);
+
+                $this->redirect( $href );
+            }
         }
 
-        $this->Template->countries = $aCountries;
-	}
-
-	private function _escapeSearchVal( $val=NULL ) {
-
-		return str_replace( array('?','/'), '', $val );
+        $this->Template->searchField = $widgetSearch;
+        $this->Template->submitButton = $widgetSubmit;
 	}
 }

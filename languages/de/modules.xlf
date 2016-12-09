@@ -49,14 +49,6 @@
         <source>Which country should be used as default if user did not select any?</source>
         <target>In welchem Land sollen die Ergebnisse gesucht werden (falls der Benutzer kein anderes ausgewählt hat)?</target>
     </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_full_country_names.0">
-        <source>Show full country names?</source>
-        <target>Ländernamen ausgeschrieben?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_full_country_names.1">
-        <source>Should country not be shown as shortened codes?</source>
-        <target>Sollen die Ländernamen in kompletter Länge und nicht als Kürzel angezeigt werden?</target>
-    </trans-unit>
     <trans-unit id="tl_module.storelocator_search_tpl.0">
         <source>Template</source>
         <target>Template</target>
@@ -70,7 +62,7 @@
         <target>Template</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_list_tpl.1">
-        <source>Chosse which template should be used to list the stores</source>
+        <source>Choose which template should be used to list the stores</source>
         <target>Wählen Sie mit welchen Template die Händler dargestellt werden sollen.</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_list_categories.0">

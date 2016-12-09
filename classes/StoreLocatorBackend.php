@@ -25,6 +25,8 @@ class StoreLocatorBackend extends \System {
      * Show a message in backend if google keys are missing
      *
      * @param DataContainer $dc
+     *
+     * @return none
      */
     public function showGoogleKeysMissingMessage( DataContainer $dc ) {
 
@@ -38,7 +40,6 @@ class StoreLocatorBackend extends \System {
                 ")->execute( $dc->id );
 
             if( !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ){
-
                 return;
             }
         }

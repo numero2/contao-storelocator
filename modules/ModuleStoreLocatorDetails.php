@@ -69,8 +69,6 @@ class ModuleStoreLocatorDetails extends \Module {
 
 		$entry = NULL;
 
-        $GLOBALS['TL_CSS'][] = 'system/modules/storelocator/assets/style.css';
-
 		// get store details
 		if( $entry = $objStore->fetchAssoc() ) {
 
