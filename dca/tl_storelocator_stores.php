@@ -190,7 +190,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 						'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
 					,	'exclude'                 	=> false
 					,	'inputType'               	=> 'select'
-					,	'options'        			=> &$GLOBALS['TL_LANG']['tl_storelocator']['weekdays']
+					,	'options_callback'          => array( '\numero2\StoreLocator\StoreLocator', 'getWeekdays' )
 					,	'search'                  	=> true
 					,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>255, 'style'=>'width:480px' )
 					)

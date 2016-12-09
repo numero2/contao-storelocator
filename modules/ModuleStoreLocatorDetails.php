@@ -74,6 +74,17 @@ class ModuleStoreLocatorDetails extends \Module {
 
             $this->Template->store = $objStore;
 
+            $this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
+            $this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
+            $this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
+            $this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
+
+            $this->Template->mapsURI = sprintf(
+                "https://www.google.com/maps/embed/v1/place?q=%s&key=%s"
+            ,   rawurlencode($objStore->name.', '.$objStore->street.', '.$objStore->postal.' '.$objStore->city)
+            ,   \Config::get('google_maps_browser_key')
+            );
+
 		// store not found? throw 404
 		} else {
 

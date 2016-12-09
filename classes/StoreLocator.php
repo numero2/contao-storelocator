@@ -32,8 +32,7 @@ class StoreLocator extends \System {
 	 */
 	public function replaceInsertTags( $strBuffer, $blnCache=false ) {
 
-		$this->import('Database');
-
+        $aParams = array();
         $aParams = explode('::', $strBuffer);
 
         switch( $aParams[0] ) {
@@ -82,8 +81,20 @@ class StoreLocator extends \System {
     public static function parseStoreData( StoresModel &$store ) {
 
         // get opening times
-        $store->opening_times = unserialize( $store->opening_times );
-        $store->opening_times = !empty($store->opening_times[0]['from']) ? $store->opening_times : NULL;
+        $aTimes = unserialize( $store->opening_times );
+        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : NULL;
+
+        if( !empty($aTimes) ) {
+
+            $aWeekdays = array();
+            $aWeekdays = StoreLocator::getWeekdays();
+
+            foreach( $aTimes as $i => $day ) {
+                $aTimes[$i]['label'] = $aWeekdays[ $day['weekday'] ];
+            }
+        }
+
+        $store->opening_times = $aTimes;
 
         // set country name
         $aCountryNames = array();
@@ -91,6 +102,25 @@ class StoreLocator extends \System {
 
         $store->country_code = $store->country;
         $store->country_name = $aCountryNames[ $store->country ];
+    }
+
+
+    /**
+     * Returns a list of weekdays
+     *
+     * @return array
+     */
+    public static function getWeekdays() {
+
+        return array(
+            'MO' => &$GLOBALS['TL_LANG']['DAYS'][1]
+        ,   'TU' => &$GLOBALS['TL_LANG']['DAYS'][2]
+        ,   'WE' => &$GLOBALS['TL_LANG']['DAYS'][3]
+        ,   'TH' => &$GLOBALS['TL_LANG']['DAYS'][4]
+        ,   'FR' => &$GLOBALS['TL_LANG']['DAYS'][5]
+        ,   'SA' => &$GLOBALS['TL_LANG']['DAYS'][6]
+        ,   'SU' => &$GLOBALS['TL_LANG']['DAYS'][0]
+        );
     }
 
 
