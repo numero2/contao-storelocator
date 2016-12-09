@@ -31,6 +31,9 @@ ClassLoader::addClasses(array
     'numero2\StoreLocator\StoreLocator'      	        => 'system/modules/storelocator/classes/StoreLocator.php',
 	'numero2\StoreLocator\StoreLocatorBackend' 	        => 'system/modules/storelocator/classes/StoreLocatorBackend.php',
 
+	// Models
+    'numero2\StoreLocator\StoresModel'                  => 'system/modules/storelocator/models/StoresModel.php',
+
 	// Modules
     'numero2\StoreLocator\ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
     'numero2\StoreLocator\ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',
