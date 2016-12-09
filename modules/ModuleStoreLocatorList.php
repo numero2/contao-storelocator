@@ -148,21 +148,18 @@ class ModuleStoreLocatorList extends \Module {
 						($category?$category:$aCategories));
                 }
 
-                $entries = array();
-                $entries = $objStores->fetchAll();
 
-                if( !empty($entries) ) {
+                if( !empty($objStores) ) {
 
-                    foreach( $entries as $entry ) {
+                    foreach( $objStores as $entry ) {
 
                         if( empty($sSearchVal) ) {
-                            $entry['distance'] = NULL;
+                            $entry->distance = NULL;
                         }
 
-                        $entry['class'] = $entry['highlight'] ? 'starred' : '';
+			            StoreLocator::parseStoreData( $entry );
 
-                        $entry['country_code'] = $entry['country'];
-                        $entry['country_name'] = $aCountryNames[$entry['country']];
+                        $entry->class = $entry->highlight ? 'starred' : '';
 
                         // generate link
                         $link = null;
@@ -171,16 +168,11 @@ class ModuleStoreLocatorList extends \Module {
 
                             $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
 
-                            $entry['link'] = $this->generateFrontendUrl(
+                            $entry->link = $this->generateFrontendUrl(
                                 $objLink->fetchAssoc()
-                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['alias']
+                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry->alias
                             );
                         }
-
-                        // get opening times
-                        $entry['opening_times'] = unserialize( $entry['opening_times'] );
-                        $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
-
 
                         $aEntries[] = $entry;
                     }
