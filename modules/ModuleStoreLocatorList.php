@@ -61,10 +61,20 @@ class ModuleStoreLocatorList extends \Module {
 
 		$this->Template = new \FrontendTemplate($this->storelocator_list_tpl);
 
+		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+			\Input::setGet('search', \Input::get('auto_item'));
+		}
+
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
-		$sSearchCountry = $this->Input->get('country') ? $this->Input->get('country') : NULL;
+
+		if( strpos($sSearchVal, ";") !== false ) {
+			$sSearchVal = explode(";", $sSearchVal);
+		}
+
+		echo "<pre>Val: ".print_r($sSearchVal,1)."</pre>";
 
         $aEntries = array();
+		$aCoordinates = array();
 
         // check if an empty search is allowed
         if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
@@ -73,117 +83,113 @@ class ModuleStoreLocatorList extends \Module {
 
         } else {
 
+			$aCategories = array();
+			$aCategories = deserialize($this->storelocator_list_categories);
+
             $term = NULL;
+			if( is_array($sSearchVal) ){
 
-            // add country code for correct search results
-            if( !empty($sSearchCountry) ) {
+				$term = $sSearchVal[0];
 
-                if( !empty($sSearchVal) ) {
-                    $term = $sSearchVal.', '.$sSearchCountry;
-                } else {
-                    $term = $aCountryNames[$entry['country']];
-                }
-            }
+				if( count($sSearchVal) == 3 ){
 
-            $aCategories = array();
-            $aCategories = deserialize($this->storelocator_list_categories);
+					$aCoordinates['longitude'] = $sSearchVal[1];
+					$aCoordinates['latitude'] = $sSearchVal[2];
+				} else if( count($sSearchVal) == 4 ){
+
+					$category = $sSearchVal[1];
+					$aCoordinates['longitude'] = $sSearchVal[2];
+					$aCoordinates['latitude'] = $sSearchVal[3];
+
+				} else if( count($sSearchVal) == 2 ){
+
+					$category = $sSearchVal[1];
+				}
+				if( $category ){
+
+					$objCategory = CategoriesModel::findByAlias($category);
+					if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id,$aCategories) ) {
+						$category = array($objCategory->id);
+					} else {
+						$category = null;
+					}
+				}
+			} else{
+
+				$term = $sSearchVal;
+			}
 
 			$aCountryNames = $this->getCountries();
+			echo "<pre>term: ".print_r($term,1)."</pre>";
+			echo "<pre>cat: ".print_r($category,1)."</pre>";
+			echo "<pre>cat: ".print_r($aCategories,1)."</pre>";
 
-            if( !empty($term) ) {
+            if( !empty($term) || $this->storelocator_allow_empty_search ) {
 
-                // get coordinates of searched destination
-				$sl = new StoreLocator();
-                $aCoordinates = array();
-				$aCoordinates = $sl->getCoordinatesByString($term);
-
-                if( !empty($aCoordinates) ) {
-
-                    $objStores = NULL;
-
-                    // search all countries
-                    if( !empty($sSearchVal) ) {
-
-                        $objStores = $this->Database->prepare("
-                            SELECT
-                                *
-                            , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS `distance`
-                            FROM `tl_storelocator_stores`
-                            WHERE
-                                    pid IN(".implode(',',$aCategories).")
-                                AND latitude != ''
-                                AND longitude != ''
-                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
-                            ORDER BY `highlight` DESC ,`distance` ASC
-                        ")->limit($this->storelocator_list_limit)->execute(
-                            $aCoordinates['latitude']
-                        ,	$aCoordinates['latitude']
-                        ,	$aCoordinates['longitude']
-                        );
-
-                    // search selected country only
-                    } else {
-
-                        $objStores = $this->Database->prepare("
-                            SELECT
-                                *
-                            , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS `distance`
-                            FROM `tl_storelocator_stores`
-                            WHERE
-                                    pid IN(".implode(',',$aCategories).")
-                                AND latitude != ''
-                                AND longitude != ''
-                                ".(($this->storelocator_limit_distance) ? "HAVING distance < {$this->storelocator_max_distance} ": '')."
-                                AND country = ?
-                            ORDER BY `highlight` DESC ,`distance` ASC
-                        ")->limit($this->storelocator_list_limit)->execute(
-                            $aCoordinates['latitude']
-                        ,	$aCoordinates['latitude']
-                        ,	$aCoordinates['longitude']
-                        ,   strtoupper($sSearchCountry)
-                        );
-
-                    }
-
-                    $entries = array();
-                    $entries = $objStores->fetchAllAssoc();
-
-                    if( !empty($entries) ) {
-
-                        foreach( $entries as $entry ) {
-
-                            if( empty($sSearchVal) ) {
-                                $entry['distance'] = NULL;
-                            }
-
-                            $entry['class'] = $entry['highlight'] ? 'starred' : '';
-
-                            $entry['country_code'] = $entry['country'];
-                            $entry['country_name'] = $aCountryNames[$entry['country']];
-
-                            // generate link
-                            $link = null;
-
-                            if( $this->jumpTo ) {
-
-                                $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
-
-                                $entry['link'] = $this->generateFrontendUrl(
-                                    $objLink->fetchAssoc()
-                                ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
-                                );
-                            }
-
-                            // get opening times
-                            $entry['opening_times'] = unserialize( $entry['opening_times'] );
-                            $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+				// search for longitude and latitude
+				if( !empty($term) && (empty($aCoordinates['longitude']) || empty($aCoordinates['latitude'])) ) {
+					$sl = new StoreLocator();
+					$aCoordinates = $sl->getCoordinatesByString($term);
+				}
 
 
-                            $aEntries[] = $entry;
+                $objStores = NULL;
+                // search all countries
+                if( !empty($term) ) {
+
+					$objStores = StoresModel::searchNearby(
+						$aCoordinates['latitude'], $aCoordinates['longitude'],
+						$this->storelocator_max_distance,
+						$this->storelocator_list_limit,
+						($category?$category:$aCategories));
+
+                // search selected country only
+                } else {
+
+                    $objStores = StoresModel::searchCountry(
+						$this->storelocator_search_country,
+						$this->storelocator_list_limit,
+						($category?$category:$aCategories));
+                }
+
+                $entries = array();
+                $entries = $objStores->fetchAll();
+
+                if( !empty($entries) ) {
+
+                    foreach( $entries as $entry ) {
+
+                        if( empty($sSearchVal) ) {
+                            $entry['distance'] = NULL;
                         }
 
-                        $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
+                        $entry['class'] = $entry['highlight'] ? 'starred' : '';
+
+                        $entry['country_code'] = $entry['country'];
+                        $entry['country_name'] = $aCountryNames[$entry['country']];
+
+                        // generate link
+                        $link = null;
+
+                        if( $this->jumpTo ) {
+
+                            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+
+                            $entry['link'] = $this->generateFrontendUrl(
+                                $objLink->fetchAssoc()
+                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry['id'].'-'.standardize($entry['name'].' '.$entry['city'])
+                            );
+                        }
+
+                        // get opening times
+                        $entry['opening_times'] = unserialize( $entry['opening_times'] );
+                        $entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+
+
+                        $aEntries[] = $entry;
                     }
+
+                    $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
                 }
             }
         }

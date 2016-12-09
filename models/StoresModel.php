@@ -42,20 +42,17 @@ class StoresModel extends \Model {
 	 *
 	 * @return [type]
 	 */
-	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL, $country=NULL) {
-
-		$country = strtoupper($country);
+	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL) {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
 				*
 			, 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS distance
-			FROM tl_storelocator_stores
+			FROM ".self::$strTable."
 			WHERE
 					pid IN(".implode(',',$categories).")
 				AND latitude != ''
 				AND longitude != ''
-				".(($country) ? "AND country = {$country} ": '')."
 				".(($distance>0) ? "HAVING distance < {$distance} ": '')."
 			ORDER BY highlight DESC, distance ASC
 			".(($limit>0) ? "LIMIT {$limit} ": '')."
@@ -65,6 +62,25 @@ class StoresModel extends \Model {
 		,	$longitude
 		);
 
-		return $objStores;
+		echo "<pre>".print_r($objStores,1)."</pre>";
+
+		return self::createCollectionFromDbResult($objStores,self::$strTable);
+	}
+
+
+	public static function searchCountry($country=NULL, $limit=0, $categories=NULL ) {
+
+		$objStores = \Database::getInstance()->prepare("
+			SELECT
+				*
+			FROM ".self::$strTable."
+			WHERE
+					pid IN(".implode(',',$categories).")
+				".(($country) ? "AND country = '{$country}' ": '')."
+			ORDER BY highlight DESC, RAND() ASC
+			".(($limit>0) ? "LIMIT {$limit} ": '')."
+		")->execute();
+
+		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
 }
