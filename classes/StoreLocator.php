@@ -30,7 +30,7 @@ class StoreLocator extends \System {
 	 *
 	 * @return string
 	 */
-	protected function replaceInsertTags($strBuffer, $blnCache=false) {
+	public function replaceInsertTags( $strBuffer, $blnCache=false ) {
 
 		$this->import('Database');
 
@@ -40,31 +40,22 @@ class StoreLocator extends \System {
 
             case 'store' :
 
-				$this->Template = new FrontendTemplate('mod_storelocator_inserttag');
+				$this->Template = new \FrontendTemplate('mod_storelocator_inserttag');
 
 				// find store
 				$objStore = NULL;
-				$objStore = $this->Database->prepare("SELECT * FROM `tl_storelocator_stores` WHERE `id` = ? ")->limit(1)->execute( $aParams[1] );
+				$objStore = StoresModel::findByIdOrAlias($aParams[1]);
 
-				$entry = NULL;
-				$entry = $objStore->fetchAssoc();
+                if( !$objStore ) {
+                    return false;
+                }
 
-				// get opening times
-				$entry['opening_times'] = unserialize( $entry['opening_times'] );
-				$entry['opening_times'] = !empty($entry['opening_times'][0]['from']) ? $entry['opening_times'] : NULL;
+                self::parseStoreData( $objStore );
 
-				// set country name
-				$aCountryNames = $this->getCountries();
-				$entry['country_code'] = $entry['country'];
-				$entry['country_name'] = $aCountryNames[$entry['country']];
-
-				if( !$objStore )
-					return false;
-
-				$this->Template->entry = $entry;
+				$this->Template->store = $objStore;
 
 				$sTemplate = $this->Template->parse();
-				$sTemplate = Controller::replaceInsertTags($sTemplate);
+				$sTemplate = \Controller::replaceInsertTags($sTemplate);
 
 				return $sTemplate;
 
@@ -77,6 +68,29 @@ class StoreLocator extends \System {
         }
 
         return false;
+    }
+
+
+    /**
+     * Parses the given store so we can use it directly to
+     * display the details template
+     *
+     * @param  StoresModel    $store
+     *
+     * @return none
+     */
+    public static function parseStoreData( StoresModel &$store ) {
+
+        // get opening times
+        $store->opening_times = unserialize( $store->opening_times );
+        $store->opening_times = !empty($store->opening_times[0]['from']) ? $store->opening_times : NULL;
+
+        // set country name
+        $aCountryNames = array();
+        $aCountryNames = \System::getCountries();
+
+        $store->country_code = $store->country;
+        $store->country_name = $aCountryNames[ $store->country ];
     }
 
 

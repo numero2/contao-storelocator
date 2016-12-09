@@ -23,8 +23,8 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_allow_empty_search,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{slmap_legend:hide},storelocator_details_maptype;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_allow_empty_search,jumpTo;{sl_map_legend},storelocator_show_map,storelocator_map_pin;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
@@ -120,6 +120,21 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_allow_empty_search'] = a
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_map'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_map']
+,	'inputType'           => 'checkbox'
+,	'default'             => true
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr' )
+,   'sql'                 => "char(1) NOT NULL default '1'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_pin'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_map_pin']
+,   'inputType'           => 'fileTree'
+,   'eval'                => array( 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'mandatory'=>false )
+,   'sql'                 => "binary(16) NULL"
+);
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
 ,	'default'             => 'mod_storelocator_list'
@@ -138,17 +153,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
 ,	'options_callback'    => array('tl_module_storelocator', 'getTemplates')
 ,	'eval'                => array( 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
-);
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_maptype'] = array(
-	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptype']
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options'             => array(
-        'static'    => $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][0]
-    ,   'dynamic'   => $GLOBALS['TL_LANG']['tl_module']['storelocator_details_maptypes'][1]
-    )
-,   'sql'                 => "char(10) NOT NULL default 'static'"
 );
 
 

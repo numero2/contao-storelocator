@@ -1,9 +1,8 @@
 <?xml version="1.0" ?><xliff version="1.1">
-<file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en">
-<body>
-    <trans-unit id="tl_module.slmap_legend">
-        <source>Google Maps</source>
-        <target>Google Maps</target>
+<file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en"><body>
+    <trans-unit id="tl_module.sl_map_legend">
+        <source>Google Map</source>
+        <target>Google Map</target>
     </trans-unit>
     <trans-unit id="MOD.storelocator.0">
         <source>Stores</source>
@@ -97,6 +96,22 @@
         <source>Should the user be able to submit an empty search to see all results?</source>
         <target>Soll der Benutzer eine leere Suchanfrage abschicken können um alle Ergebnisse angezeigt zu bekommen?</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_map.0">
+        <source>Show stores in Google Map?</source>
+        <target>Händler in Google Map anzeigen?</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_map.1">
+        <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
+        <target>Sollen die Händler neben der Ergebnisliste auch in einer Google Map angezeigt werden?</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_pin.0">
+        <source>Pin image</source>
+        <target>Pin-Bild</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_pin.1">
+        <source>The normal map pins will be replaced by the chosen image.</source>
+        <target>Die normalen Pins in der Karte werden durch die gewählte Grafik ersetzt.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_list_limit.0">
         <source>Number of results</source>
         <target>Anzahl der Ergebnisse</target>
@@ -112,22 +127,6 @@
     <trans-unit id="tl_module.storelocator_details_tpl.1">
         <source>Choose which template should be used to show details of the store</source>
         <target>Wählen Sie mit welchen Template der Händler dargestellt werden soll.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_maptype.0">
-        <source>Type</source>
-        <target>Typ</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_maptype.1">
-        <source>Which type of Google Map should be shown?</source>
-        <target>Welche Art von Google Map soll angezeigt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_maptypes.0">
-        <source>static</source>
-        <target>statisch</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_maptypes.1">
-        <source>dynamic</source>
-        <target>dynamisch</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_distance.0">
         <source>Limit distance</source>

@@ -69,6 +69,18 @@
         <source>Delete list with ID %s löschen</source>
         <target>Liste mit der ID %s löschen</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_legend">
+        <source>Google Map</source>
+        <target>Google Map</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_pin.0">
+        <source>Pin image</source>
+        <target>Pin-Bild</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_pin.1">
+        <source>The normal map pins for this category will be replaced by the chosen image.</source>
+        <target>Die normalen Pins dieser Kategorie in der Karte werden durch die gewählte Grafik ersetzt.</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

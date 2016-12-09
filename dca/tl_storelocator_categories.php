@@ -78,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 		)
 	)
 ,	'palettes' => array(
-		'default'                     => '{title_legend},title,alias'
+		'default'                     => '{title_legend},title,alias;{map_legend},map_pin;'
 	)
 ,	'fields' => array(
         'id' => array(
@@ -104,6 +104,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 			)
         ,   'sql'           => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
 		)
+    ,   'map_pin' => array(
+        	'label'         => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['map_pin']
+        ,   'inputType'     => 'fileTree'
+        ,   'eval'          => array( 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'mandatory'=>false )
+        ,   'sql'           => "binary(16) NULL"
+        )
 	)
 );
 
