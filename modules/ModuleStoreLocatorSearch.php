@@ -78,6 +78,34 @@ class ModuleStoreLocatorSearch extends \Module {
             )
         );
 
+        $widgetCategories = NULL;
+
+        if( $categories = deserialize($this->storelocator_search_categories) ) {
+
+            $aCategories = array(
+                '' => $GLOBALS['TL_LANG']['tl_storelocator']['field']['all_categories']
+            );
+
+            $oCategories = NULL;
+            $oCategories = CategoriesModel::findMultipleByIds($categories);
+
+            while( $oCategories->next() ) {
+                $aCategories[ $oCategories->alias ] = $oCategories->title;
+            }
+
+            $widgetCategories = new \FormRadioButton(\FormRadioButton::getAttributesFromDca(
+                    array(
+                        'name'      => 'category'
+                    ,   'inputType' => 'radio'
+                    ,	'eval'		=> array( 'mandatory'=>false )
+                    ,   'options'   => $aCategories
+                    )
+                ,   'category'
+                ,   ''
+                )
+            );
+        }
+
         $widgetSubmit = NULL;
         $widgetSubmit = new \FormSubmit();
         $widgetSubmit->id = 'search';
@@ -92,6 +120,11 @@ class ModuleStoreLocatorSearch extends \Module {
             if( !empty($term) ) {
 
                 $aData = array($term);
+
+                if( $widgetCategories ) {
+                    $widgetCategories->validate();
+                    $aData[] = $widgetCategories->value;
+                }
 
                 $longitude = \Input::post('longitude');
                 $latitude = \Input::post('latitude');
@@ -123,6 +156,7 @@ class ModuleStoreLocatorSearch extends \Module {
         }
 
         $this->Template->searchField = $widgetSearch;
+        $this->Template->categories = $widgetCategories;
         $this->Template->submitButton = $widgetSubmit;
 	}
 }

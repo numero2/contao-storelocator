@@ -85,6 +85,10 @@
         <source>Search</source>
         <target>Suchen</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.field.all_categories">
+        <source>All categories</source>
+        <target>alle Händler</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

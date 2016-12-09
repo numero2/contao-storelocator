@@ -54,6 +54,11 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 			,	'href'                => 'table=tl_storelocator_stores'
 			,	'icon'                => 'edit.gif'
 			)
+        ,   'editheader' => array(
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['editheader']
+            ,   'href'                => 'act=edit'
+            ,   'icon'                => 'header.gif'
+			)
 		,	'copy' => array(
 				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['copy']
 			,	'href'                => 'act=copy'

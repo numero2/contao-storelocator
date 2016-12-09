@@ -22,7 +22,7 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_allow_empty_search,jumpTo;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{slmap_legend:hide},storelocator_details_maptype;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
@@ -54,6 +54,15 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array
 ,	'search'              => true
 ,	'eval'                => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_categories'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_categories']
+,	'exclude'             => true
+,	'inputType'           => 'checkbox'
+,	'options_callback'    => array( 'tl_module_storelocator', 'getCategories' )
+,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true )
+,   'sql'                 => "text NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(

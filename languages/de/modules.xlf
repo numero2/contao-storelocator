@@ -73,6 +73,14 @@
         <source>Choose which template should be used to list the stores</source>
         <target>Wählen Sie mit welchen Template die Händler dargestellt werden sollen.</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_categories.0">
+        <source>Categories</source>
+        <target>Händlerkategorien</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_categories.1">
+        <source>From which categories can the user choose to show results?</source>
+        <target>Aus welchen Händlerlisten soll der Nutzer Einträge auswählen können?</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_list_categories.0">
         <source>Categories</source>
         <target>Händlerkategorien</target>

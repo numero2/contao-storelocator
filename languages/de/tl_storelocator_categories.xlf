@@ -38,10 +38,18 @@
         <target>Details der Liste mit der ID %s anzeigen</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_categories.edit.0">
+        <source>Edit stores</source>
+        <target>Händler bearbeiten</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.edit.1">
+        <source>Edit stores of list with ID %s</source>
+        <target>Händler der Liste mit der ID %s bearbeiten</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.editheader.0">
         <source>Edit list</source>
         <target>Liste bearbeiten</target>
     </trans-unit>
-    <trans-unit id="tl_storelocator_categories.edit.1">
+    <trans-unit id="tl_storelocator_categories.editheader.1">
         <source>Edit list with ID %s</source>
         <target>Liste mit der ID %s bearbeiten</target>
     </trans-unit>
