@@ -182,6 +182,13 @@ class ModuleStoreLocatorList extends \Module {
             }
         }
 
+		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
+		$this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
+		$this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
+		$this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
+		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
+
+
 		$this->Template->entries = $aEntries;
 	}
 }

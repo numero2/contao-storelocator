@@ -1,48 +1,59 @@
-<!-- indexer::stop -->
 <?php if (count($this->entries) > 0): ?>
-<section class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
 
 	<?php if( $this->headline ): ?>
-		<<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
+		<<?= $this->hl; ?>><?= $this->headline; ?></<?= $this->hl; ?>>
 	<?php endif; ?>
 
 
     <?php if( !$this->error ): ?>
         <?php foreach( $this->entries as $entry ): ?>
-        <div class="entry <?php echo $entry->class; ?>">
-            <h3><?php echo $entry->name; ?></h3>
+        <div class="entry <?= $entry->class; ?>">
+            <h3><?= $entry->name; ?></h3>
             <?php if( $entry->distance ): ?>
-            <em><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance']; ?> <?php echo number_format($entry->distance,2,',','.'); ?>km</em>
+			<div class="distance">
+            	<?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
+			</div>
             <?php endif; ?>
-            <p>
-                <?php echo $entry->street; ?><br />
-                <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
-                <?php echo $entry->country_name; ?>
-            </p>
-            <p>
-                <?php if( $entry->phone ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?php echo $entry->phone; ?><br /><?php endif; ?>
-                <?php if( $entry->fax ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?php echo $entry->fax; ?><br /><?php endif; ?>
-                <?php if( $entry->email ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $entry->email; ?>}}<br /><?php endif; ?>
-                <?php if( $entry->url ): ?><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $entry->url; ?>" target="_blank" title="<?php echo $entry->name; ?>"><?php echo $entry->url; ?></a><?php endif; ?>
-            </p>
-            <?php if( !empty($entry->opening_times) ): ?>
-            <ul class="times">
-                <?php foreach( $entry->opening_times as $i => $v ): ?>
-                <li>
-                    <?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-            <?php endif; ?>
+			<div class="address">
+				<?php echo $entry->street; ?>, <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
+				<?php echo $entry->country_name; ?>
+			</div>
+
+	        <?php if( $entry->phone ): ?>
+			<div class="phone">
+	            <?= $this->labelPhone; ?>: <a href="tel://<?= $entry->phone; ?>"><?= $entry->phone; ?></a>
+	        </div>
+	        <?php endif; ?>
+
+	        <?php if( $entry->fax ): ?>
+	            <div class="fax">
+	                <?= $this->labelFax ?>: <?= $entry->fax; ?>
+	            </div>
+	        <?php endif; ?>
+
+	        <?php if( $entry->email ): ?>
+	            <div class="email">
+	                <?= $this->labelEMail; ?>: {{email::<?php echo $entry->email; ?>}}
+	            </div>
+	        <?php endif; ?>
+
+	        <?php if( $entry->url ): ?>
+	            <div class="www">
+	                <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
+	            </div>
+	        <?php endif; ?>
+
             <?php if( $entry->link ): ?>
-                <a href="<?php echo $entry->link; ?>" class="more"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['more']; ?></a>
+                <a href="<?= $entry->link; ?>" class="more"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['more']; ?></a>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p class="error"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
+        <p class="error"><?= $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
     <?php endif; ?>
 
-</section>
+<?php $this->endblock(); ?>
 <?php endif; ?>
-<!-- indexer::continue -->
