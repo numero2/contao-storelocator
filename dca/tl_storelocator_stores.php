@@ -331,7 +331,7 @@ class tl_storelocator_stores extends \Backend {
         $oAlias = \numero2\StoreLocator\StoresModel::findByAlias( $varValue );
 
 		// Check whether the alias exists
-		if( $oAlias && count($oAlias) > 1 ) {
+		if( $oAlias && count($oAlias) > 0 ) {
 
 			if( !$autoAlias ) {
 				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));

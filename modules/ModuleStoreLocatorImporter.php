@@ -70,6 +70,14 @@ class ModuleStoreLocatorImporter extends \Backend {
             }
 
             if( !empty($arrFiles) ) {
+				$autoIncrement = $this->Database->prepare("
+						SELECT `AUTO_INCREMENT`
+						FROM  INFORMATION_SCHEMA.TABLES
+						WHERE TABLE_SCHEMA = ?
+							AND TABLE_NAME   = ?;
+					")->execute( \Config::get('dbDatabase'), "tl_storelocator_stores" );
+
+				$autoIncrement = $autoIncrement->AUTO_INCREMENT;
 
                 foreach( $arrFiles as $file ) {
 
@@ -79,6 +87,18 @@ class ModuleStoreLocatorImporter extends \Backend {
 
                         if( empty($data[0]) || empty($data[5]) || empty($data[6]) || empty($data[7]) || empty($data[8]) )
                             continue;
+
+                        // generate alias
+						$alias = \StringUtil::generateAlias($data[0]);
+
+						$oAlias = NULL;
+						$oAlias = StoresModel::findByAlias( $alias );
+
+						// Check whether the alias exists
+						if( $oAlias && count($oAlias) > 0 ) {
+
+							$alias .= '-' . $autoIncrement;
+						}
 
                         // get coordinates
                         $aCoords = $this->SL->getCoordinates(
@@ -94,10 +114,11 @@ class ModuleStoreLocatorImporter extends \Backend {
                         $pid = $this->Input->get('id');
 
                         try {
-                            $this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
+                            $this->Database->prepare("INSERT INTO `tl_storelocator_stores` (`pid`,`tstamp`,`name`,`alias`,`email`,`url`,`phone`,`fax`,`street`,`postal`,`city`,`country`,`longitude`,`latitude`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)")->execute(
                                 $pid
                             ,   time()
                             ,   $data[0]
+                            ,   $alias
                             ,   $data[1]
                             ,   $data[2]
                             ,   $data[3]
@@ -112,6 +133,7 @@ class ModuleStoreLocatorImporter extends \Backend {
                         } catch( Exception $e ) {
                             continue;
                         }
+						$autoIncrement++;
                     }
 
                     // Redirect
