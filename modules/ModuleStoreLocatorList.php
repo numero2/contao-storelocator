@@ -67,11 +67,6 @@ class ModuleStoreLocatorList extends \Module {
 
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 
-		if( strpos($sSearchVal, ";") !== false ) {
-			$sSearchVal = explode(";", $sSearchVal);
-		}
-
-
         $aEntries = array();
 		$aCoordinates = array();
 
@@ -85,56 +80,39 @@ class ModuleStoreLocatorList extends \Module {
 			$aCategories = array();
 			$aCategories = deserialize($this->storelocator_list_categories);
 
-            $term = NULL;
-			if( is_array($sSearchVal) ){
+            $aSearchValues = array();
+            $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
-				$term = $sSearchVal[0];
+			if( $aSearchValues['category'] ){
 
-				if( count($sSearchVal) == 3 ){
-
-					$aCoordinates['longitude'] = $sSearchVal[1];
-					$aCoordinates['latitude'] = $sSearchVal[2];
-				} else if( count($sSearchVal) == 4 ){
-
-					$category = $sSearchVal[1];
-					$aCoordinates['longitude'] = $sSearchVal[2];
-					$aCoordinates['latitude'] = $sSearchVal[3];
-
-				} else if( count($sSearchVal) == 2 ){
-
-					$category = $sSearchVal[1];
+				$objCategory = CategoriesModel::findByAlias($aSearchValues['category']);
+				if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id,$aCategories) ) {
+					$category = array($objCategory->id);
+				} else {
+					$category = null;
 				}
-				if( $category ){
-
-					$objCategory = CategoriesModel::findByAlias($category);
-					if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id,$aCategories) ) {
-						$category = array($objCategory->id);
-					} else {
-						$category = null;
-					}
-				}
-			} else{
-
-				$term = $sSearchVal;
 			}
 
 			$aCountryNames = $this->getCountries();
 
-            if( !empty($term) || $this->storelocator_allow_empty_search ) {
+            if( !empty($aSearchValues['term']) || $this->storelocator_allow_empty_search ) {
 
 				// search for longitude and latitude
-				if( !empty($term) && (empty($aCoordinates['longitude']) || empty($aCoordinates['latitude'])) ) {
+				if( !empty($aSearchValues['term']) && (empty($aSearchValues['longitude']) || empty($aSearchValues['latitude'])) ) {
 					$sl = new StoreLocator();
-					$aCoordinates = $sl->getCoordinatesByString($term);
+					$aCoordinates = $sl->getCoordinatesByString($aSearchValues['term']);
+
+					$aSearchValues['latitude'] = $aCoordinates['latitude'];
+					$aSearchValues['longitude'] = $aCoordinates['longitude'];
 				}
 
 
                 $objStores = NULL;
                 // search all countries
-                if( !empty($term) ) {
+                if( !empty($aSearchValues['term']) ) {
 
 					$objStores = StoresModel::searchNearby(
-						$aCoordinates['latitude'], $aCoordinates['longitude'],
+						$aSearchValues['latitude'], $aSearchValues['longitude'],
 						($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
 						$this->storelocator_list_limit,
 						($category?$category:$aCategories));

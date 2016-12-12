@@ -64,6 +64,15 @@ class ModuleStoreLocatorSearch extends \Module {
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = '';
 
+
+		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+			\Input::setGet('search', \Input::get('auto_item'));
+		}
+
+		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
+
+		$aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
+
         // generate form elements
         $widgetSearch = NULL;
         $widgetSearch = new \FormTextField(\FormTextField::getAttributesFromDca(
@@ -74,7 +83,7 @@ class ModuleStoreLocatorSearch extends \Module {
                 ,	'eval'		=> array( 'mandatory'=>true )
                 )
             ,   'location'
-            ,   ''
+            ,   $aSearchValues['term']
             )
         );
 
@@ -101,7 +110,7 @@ class ModuleStoreLocatorSearch extends \Module {
                     ,   'options'   => $aCategories
                     )
                 ,   'category'
-                ,   ''
+                ,   ($aSearchValues['category']?$aSearchValues['category']:'')
                 )
             );
         }

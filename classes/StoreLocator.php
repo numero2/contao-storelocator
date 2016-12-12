@@ -216,4 +216,49 @@ class StoreLocator extends \System {
     public function getCoordinatesByString( $string=NULL ) {
         return $this->getCoordinates(NULL, NULL, NULL, NULL, $string);
     }
+
+
+    /**
+     * Gets coordinates for an adress without a specific format
+     *
+     * @param string The adress
+     *
+     * @return array
+     */
+    public function parseSearchValue( $searchVal=NULL ) {
+
+        if( !$searchVal ){
+            return null;
+        }
+
+		if( strpos($searchVal, ";") !== false ) {
+			$searchVal = explode(";", $searchVal);
+		}
+
+        $ret['term'] = array();
+        if( is_array($searchVal) ){
+
+            $ret['term'] = $searchVal[0];
+
+            if( count($searchVal) == 3 ){
+
+                $ret['longitude'] = $searchVal[1];
+                $ret['latitude'] = $searchVal[2];
+            } else if( count($searchVal) == 4 ){
+
+                $ret['category'] = $searchVal[1];
+                $ret['longitude'] = $searchVal[2];
+                $ret['latitude'] = $searchVal[3];
+
+            } else if( count($searchVal) == 2 ){
+
+                $ret['category'] = $searchVal[1];
+            }
+        } else{
+
+            $ret['term'] = $searchVal;
+        }
+
+        return $ret;
+    }
 }
