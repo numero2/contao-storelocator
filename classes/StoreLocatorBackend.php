@@ -63,4 +63,65 @@ class StoreLocatorBackend extends \System {
             );
         }
     }
+
+
+    /**
+	 * Fills coordinates if not already set and saving
+	 *
+	 * @param DataContainer $dc
+	 *
+	 * @return bool
+	 */
+	public function fillCoordinates( DataContainer $dc ) {
+
+        if( \Input::get('key') == "fillCoordinates" ) {
+
+            $results = \Database::getInstance()->prepare("
+                SELECT *
+                FROM tl_storelocator_stores
+                WHERE pid = ?
+                    AND (longitude = '' OR latitude = '')
+                ")->execute($dc->id);
+            echo "<pre>".print_r($results,1)."</pre>";
+
+            $aResults = $results->fetchAllAssoc();
+
+        }
+
+        // creates array with data from activeRecord
+		if( $dc->activeRecord ) {
+            $aResults= array(
+                array(
+                    "id" => $dc->id
+                ,   "street" => $dc->activeRecord->street
+                ,   "postal" => $dc->activeRecord->postal
+                ,   "city" => $dc->activeRecord->city
+                ,   "country" => $dc->activeRecord->country
+                )
+            );
+        }
+
+        foreach( $aResults as $key => $value ) {
+
+            $oSL = NULL;
+            $oSL = new \numero2\StoreLocator\StoreLocator();
+            // find coordinates using google maps api
+            $coords = $oSL->getCoordinates(
+                $value['street']
+            ,	$value['postal']
+            ,	$value['city']
+            ,	$value['country']
+            );
+
+            if( !empty($coords) ) {
+                \Database::getInstance()->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($value['id']);
+            }
+        }
+
+        if( \Input::get('key') == "fillCoordinates" ) {
+            $this->redirect($this->getReferer());
+        }
+
+		return;
+	}
 }

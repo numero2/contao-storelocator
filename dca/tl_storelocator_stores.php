@@ -22,7 +22,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 		'dataContainer'               => 'Table'
 	,	'ptable'                      => 'tl_storelocator_categories'
 	,	'onsubmit_callback'   	  	  => array(
-			array('tl_storelocator_stores', 'fillCoordinates')
+			array('numero2\StoreLocator\StoreLocatorBackend', 'fillCoordinates')
 		)
 	,	'onload_callback' 		 	  => array( array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage') )
     ,   'sql' => array (
@@ -46,6 +46,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 			,	'href'                => 'act=select'
 			,	'class'               => 'header_edit_all'
 			,	'attributes'          => 'onclick="Backend.getScrollOffset();"'
+			)
+		,	'fillCoordinates' => array (
+				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fillCoordinates']
+			,	'href'                => 'key=fillCoordinates'
+			,	'class'               => 'header_fill_coordinates'
+			,	'attributes'          => 'onclick="Backend.getScrollOffset()"'
 			)
 		,	'importStores' => array (
 				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['importStores']
@@ -373,39 +379,6 @@ class tl_storelocator_stores extends \Backend {
 		return '<div class="limit_height block">
 			<p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
 			. '</div>' . "\n";
-	}
-
-
-	/**
-	 * Fills coordinates if not already set and saving
-	 *
-	 * @param DataContainer $dc
-	 *
-	 * @return bool
-	 */
-	public function fillCoordinates( DataContainer $dc ) {
-
-		if( !$dc->activeRecord ) {
-			return;
-		}
-
-        $oSL = NULL;
-		$oSL = new \numero2\StoreLocator\StoreLocator();
-
-		// find coordinates using google maps api
-		$coords = $oSL->getCoordinates(
-			$dc->activeRecord->street
-		,	$dc->activeRecord->postal
-		,	$dc->activeRecord->city
-		,	$dc->activeRecord->country
-		);
-
-		if( !empty($coords) ) {
-			$this->Database->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($dc->id);
-			return $true;
-		}
-
-		return false;
 	}
 
 

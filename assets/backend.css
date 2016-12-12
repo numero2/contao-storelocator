@@ -1,4 +1,8 @@
 a.header_stores_import {
-	padding-left: 18px;
-	background: url("import.png") no-repeat left center;
+	padding-left: 25px;
+	background: url("import.png") no-repeat 7px center;
+}
+a.header_fill_coordinates {
+	padding-left: 25px;
+	background: url("coords1.png") no-repeat 7px center;
 }

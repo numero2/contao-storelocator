@@ -24,10 +24,11 @@ $GLOBALS['TL_MODELS'][\numero2\StoreLocator\CategoriesModel::getTable()] = 'nume
  * BACK END MODULES
  */
 $GLOBALS['BE_MOD']['content']['storelocator'] = array(
-    'tables'        => array('tl_storelocator_categories', 'tl_storelocator_stores')
-,   'icon'          => 'system/modules/storelocator/assets/icon.gif'
-,   'stylesheet'    => 'system/modules/storelocator/assets/backend.css'
-,   'importStores'  => array( '\numero2\StoreLocator\ModuleStoreLocatorImporter', 'showImport' )
+    'tables'            => array('tl_storelocator_categories', 'tl_storelocator_stores')
+,   'icon'              => 'system/modules/storelocator/assets/icon.gif'
+,   'stylesheet'        => 'system/modules/storelocator/assets/backend.css'
+,   'importStores'      => array( '\numero2\StoreLocator\ModuleStoreLocatorImporter', 'showImport' )
+,   'fillCoordinates'   => array( '\numero2\StoreLocator\StoreLocatorBackend', 'fillCoordinates' )
 );
 
 

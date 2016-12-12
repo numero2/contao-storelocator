@@ -193,6 +193,14 @@
         <source>Import stores from a CSV file</source>
         <target>Händler aus CSV-Datei importieren</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fillCoordinates.0">
+        <source>Fill Coordinates</source>
+        <target>Koordinaten erzeugen</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fillCoordinates.1">
+        <source>Fills missing Geo-Coordinates</source>
+        <target>Fügt fehlende Koordinaten ein</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.highlight.0">
         <source>Highlight this store</source>
         <target>Hervorheben</target>
