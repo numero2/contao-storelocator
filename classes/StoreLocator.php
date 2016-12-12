@@ -219,9 +219,9 @@ class StoreLocator extends \System {
 
 
     /**
-     * Gets coordinates for an adress without a specific format
+     * Parses the given search value into its components.
      *
-     * @param string The adress
+     * @param string The generated search string
      *
      * @return array
      */
