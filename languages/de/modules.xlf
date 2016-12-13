@@ -110,7 +110,7 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_default_center.1">
         <source>Center of the map if an empty search was done. (Latitude, Longitude)</source>
-        <target>Zentrum der Karte, wenn eine Leersuche gemacht wurde. (Breitengrad, Längengrad)</target>
+        <target>Zentrum der Karte, wenn eine Leersuche ausgeführt wurde. (Breitengrad, Längengrad)</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_pin.0">
         <source>Pin image</source>
