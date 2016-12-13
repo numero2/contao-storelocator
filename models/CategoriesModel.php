@@ -48,4 +48,25 @@ class CategoriesModel extends \Model {
 
         return self::createCollectionFromDbResult($objResult,self::$strTable);
 	}
+
+
+    /**
+     * Returns a list of all map pins used and their category
+     *
+     * @return \StoresModel|null The model or null if there are no categories
+     */
+	public static function getMapPins() {
+
+        $objResult = NULL;
+
+        $objResult = \Database::getInstance()->prepare("
+            SELECT
+				id,
+				alias,
+				map_pin
+            FROM ".self::$strTable."
+        ")->execute();
+
+        return self::createCollectionFromDbResult($objResult,self::$strTable);
+	}
 }

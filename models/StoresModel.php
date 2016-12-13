@@ -82,4 +82,24 @@ class StoresModel extends \Model {
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
+
+	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL ) {
+
+		$objStores = \Database::getInstance()->prepare("
+			SELECT
+				tl_storelocator_stores.latitude,
+				tl_storelocator_stores.longitude,
+				tl_storelocator_stores.pid,
+				tl_storelocator_stores.id
+				FROM tl_storelocator_stores
+				WHERE
+					{$formLng} < longitude and longitude < {$toLng}
+				and {$formLat} < latitude and latitude < {$toLat}
+				".($categories? "AND pid = {$categories}":"")."
+		")->execute();
+
+		return self::createCollectionFromDbResult($objStores,self::$strTable);
+	}
+
+
 }

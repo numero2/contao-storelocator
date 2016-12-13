@@ -68,7 +68,6 @@ class ModuleStoreLocatorList extends \Module {
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 
         $aEntries = array();
-		$aCoordinates = array();
 
         // check if an empty search is allowed
         if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
@@ -93,6 +92,27 @@ class ModuleStoreLocatorList extends \Module {
 				}
 			}
 
+			// if ($_POST && \Environment::get('isAjaxRequest')){
+				if( \Input::get('action') == "getMarkers" ){
+
+					$stores = StoresModel::searchBetweenCoords( \Input::get('fromlng'), \Input::get('tolng'), \Input::get('fromlat'), \Input::get('tolat'), $category[0] );
+
+					$results = array();
+					// echo "<pre>".print_r($stores,1)."</pre>";
+					foreach( $stores as $key => $value ) {
+						$results[] = array(
+							"id" => $value->id
+						,	"pid" => $value->pid
+						,	"lat" => $value->latitude
+						,	"lng" => $value->longitude
+						);
+					}
+
+					echo json_encode($results);
+					die();
+				}
+			// }
+
 			$aCountryNames = $this->getCountries();
 
             if( !empty($aSearchValues['term']) || $this->storelocator_allow_empty_search ) {
@@ -100,10 +120,13 @@ class ModuleStoreLocatorList extends \Module {
 				// search for longitude and latitude
 				if( !empty($aSearchValues['term']) && (empty($aSearchValues['longitude']) || empty($aSearchValues['latitude'])) ) {
 					$sl = new StoreLocator();
+					$aCoordinates = array();
 					$aCoordinates = $sl->getCoordinatesByString($aSearchValues['term']);
 
 					$aSearchValues['latitude'] = $aCoordinates['latitude'];
 					$aSearchValues['longitude'] = $aCoordinates['longitude'];
+					$this->Template->mapLat = $aSearchValues['latitude'];
+					$this->Template->mapLng = $aSearchValues['longitude'];
 				}
 
 
@@ -144,11 +167,11 @@ class ModuleStoreLocatorList extends \Module {
 
                         if( $this->jumpTo ) {
 
-                            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?;")->execute($this->jumpTo);
+                            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?")->execute($this->jumpTo);
 
                             $entry->link = $this->generateFrontendUrl(
                                 $objLink->fetchAssoc()
-                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).$entry->alias
+                            ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).($entry->alias?$entry->alias:$entry->id)
                             );
                         }
 
@@ -158,6 +181,38 @@ class ModuleStoreLocatorList extends \Module {
                     $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
                 }
             }
+
+			if( $this->storelocator_show_map ) {
+
+				$this->Template->showMap = true;
+				$this->Template->mapsKey = \Config::get('google_maps_browser_key');
+				$mapPins = array();
+
+				if( $this->storelocator_map_pin ){
+					$mapPins['default'] = $this->storelocator_map_pin;
+				}
+
+				// gather pins
+				$pins = CategoriesModel::getMapPins();
+				$pins = $pins->fetchAll();
+
+				foreach( $pins as $key => $value ) {
+
+					if( !empty($value['map_pin']) ){
+						$mapPins[$value['id']] = $value['map_pin'];
+					}
+				}
+				foreach( $mapPins as $key => $value ) {
+					$file = \FilesModel::findByUuid($value);
+					if( !empty($file->path) ) {
+						$mapPins[$key] = $file->path;
+					}else{
+						unset($mapPins[$key]);
+					}
+				}
+
+				$this->Template->mapPins = $mapPins;
+			}
         }
 
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
@@ -166,7 +221,17 @@ class ModuleStoreLocatorList extends \Module {
 		$this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
 
+        // if( array_search('system/modules/storelocator/assets/markerclusterer.js',$GLOBALS['TL_JAVASCRIPT']) === FALSE ) {
+            // $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/storelocator/assets/markerclusterer.js';
+        // }
 
 		$this->Template->entries = $aEntries;
+
+		if( empty($this->Template->mapLat) ){
+			$this->Template->mapLat = deserialize($this->storelocator_map_default_center)[0];
+		}
+		if( empty($this->Template->mapLng) ){
+			$this->Template->mapLng = deserialize($this->storelocator_map_default_center)[1];
+		}
 	}
 }

@@ -9,6 +9,142 @@
 
 
     <?php if( !$this->error ): ?>
+    	<?php if( $this->showMap ): ?>
+			<div id="map-wrapper">
+			<div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+
+			    <script>
+
+			        var map;
+					var markers = [];
+			        var projects = jQuery('.mod_spd_projects_map .projects li');
+
+			        function initMapControls() {
+
+			            jQuery(projects).click(function(){
+
+			                var isActive = jQuery(this).hasClass('active');
+
+			                jQuery(projects).each(function(){
+			                    jQuery(this).removeClass('active');
+			                });
+
+			                if( !isActive ) {
+			                    jQuery(this).addClass('active');
+			                }
+
+			                updateMarkers();
+			            });
+			        }
+
+			        function updateMarkers() {
+
+						// load all
+						// only show elements in result list
+
+			            var bounds = map.getBounds();
+
+			            if( typeof(bounds) == "undefined" )
+			                return;
+
+			            var sw = bounds.getSouthWest();
+			            var ne = bounds.getNorthEast();
+
+			            jQuery.ajax({
+			                url: ''
+			            ,   data: {
+			                    'action': 'getMarkers'
+			                ,   'fromlat': sw.lat()
+			                ,   'tolat': ne.lat()
+			                ,   'fromlng': sw.lng()
+			                ,   'tolng': ne.lng()
+			                ,   'REQUEST_TOKEN': "{{request_token}}"
+			                }
+			            ,   dataType: 'json'
+			            ,   type: 'GET'
+			            ,   async: false
+			            ,   success: function( response ) {
+
+			                    if( response ) {
+
+									for( var i = 0; i < markers.length; i++) {
+										markers[i].setMap(null);
+									}
+									markers = [];
+
+									// use markers from db settings
+									var markerImages = {
+										<?php foreach( $this->mapPins as $key => $value ): ?>
+											"<?= $key; ?>" : {
+											url: "<?= $value; ?>",
+											size: new google.maps.Size(108, 150),
+											scaledSize: new google.maps.Size(36, 36),
+											origin: new google.maps.Point(0, 0),
+											anchor: new google.maps.Point(18, 50)
+										},
+										<?php endforeach; ?>
+									};
+
+			                        // insert new markers
+			                        jQuery.each(response, function (i, item) {
+
+			                            if( item.pid in markerImages ) {
+
+			                                var markerImage = markerImages[item.pid];
+			                            } else {
+											if( 'default' in markerImages ){
+												var markerImage = markerImages['default'];
+											}
+										}
+
+										markers.push(
+				                            marker = new google.maps.Marker({
+				                                position: new google.maps.LatLng(item.lat, item.lng),
+												map: map,
+				                                icon: markerImage,
+												draggable: false,
+				                                data: item
+				                            })
+										);
+
+			                            marker.addListener('click',function(){
+			                                // showMarkerInfo(this);
+			                                // scroll to List Element
+			                            });
+
+			                        });
+			                    }
+			                }
+			            });
+			        }
+
+			        function initializeGoogleMap() {
+
+			            var position = new google.maps.LatLng(<?= $this->mapLat; ?>, <?= $this->mapLng; ?>);
+
+			            var mapOptions = {
+			                minZoom: 8,
+			                maxZoom: 20,
+			                zoom: 8,
+			                center: position
+			            }
+
+			            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+						// only triggered once after loading
+			            map.addListener('projection_changed', updateMarkers);
+						/* triggered every time bounds are changed
+			            map.addListener('zoom_changed', updateMarkers);
+			            map.addListener('dragend', updateMarkers);
+			            map.addListener('tilt_changed', updateMarkers);
+						*/
+
+			            initMapControls();
+			        }
+			    </script>
+
+			    <script src="https://maps.googleapis.com/maps/api/js?key=<?= $this->mapsKey; ?>&amp;callback=initializeGoogleMap" async defer></script>
+			</div>
+		<?php endif; ?>
         <?php foreach( $this->entries as $entry ): ?>
         <div class="entry <?= $entry->class; ?>">
             <h3><?= $entry->name; ?></h3>
