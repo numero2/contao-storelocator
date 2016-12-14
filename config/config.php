@@ -33,6 +33,12 @@ $GLOBALS['BE_MOD']['content']['storelocator'] = array(
 
 
 /**
+ * BACK END FORM FIELDS
+ */
+$GLOBALS['BE_FFL']['openingTimes'] = '\numero2\StoreLocator\OpeningTimes';
+
+
+/**
  * FRONT END MODULES
  */
 $GLOBALS['FE_MOD']['storelocator'] = array(

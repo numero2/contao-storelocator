@@ -189,32 +189,9 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 	,	'opening_times' => array(
 			'label'					  => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['opening_times']
 		,	'exclude' 				  => true
-		,	'inputType' 			  => 'multiColumnWizard'
-		,	'eval' 					  => array(
-				'columnFields' => array(
-					'weekday' => array(
-						'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
-					,	'exclude'                 	=> false
-					,	'inputType'               	=> 'select'
-					,	'options_callback'          => array( '\numero2\StoreLocator\StoreLocator', 'getWeekdays' )
-					,	'search'                  	=> true
-					,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>255, 'style'=>'width:480px' )
-					)
-				,	'from' => array(
-						'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_from']
-					,	'exclude'                 	=> false
-					,	'inputType'               	=> 'text'
-					,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:50px' )
-					)
-				,	'to' => array(
-						'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_to']
-					,	'exclude'                 	=> false
-					,	'inputType'               	=> 'text'
-					,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:50px' )
-					)
-				)
-			)
-        ,   'sql'                     => "text NULL"
+		,	'inputType' 			  => 'openingTimes'
+		,	'eval' 					  => array()
+    	,   'sql'                     => "text NULL"
 		)
 	,	'longitude' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['longitude']
@@ -328,10 +305,11 @@ class tl_storelocator_stores extends \Backend {
 		}
 
         $oAlias = NULL;
-        $oAlias = \numero2\StoreLocator\StoresModel::findByAlias( $varValue );
+		$oAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_stores WHERE id=? OR alias=?")
+								   ->execute($dc->activeRecord->id, $varValue);
 
 		// Check whether the alias exists
-		if( $oAlias && count($oAlias) > 0 ) {
+		if( $oAlias && $oAlias->count() > 1 ) {
 
 			if( !$autoAlias ) {
 				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
