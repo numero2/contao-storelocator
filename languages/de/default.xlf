@@ -49,6 +49,22 @@
         <source>There have been no results for your search</source>
         <target>Zu Ihrer Suchanfrage wurden leider keine Ergebnisse gefunden.</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.nothing">
+        <source>Nothing</source>
+        <target>Nichts</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.showMarkerInfo">
+        <source>Show marker information</source>
+        <target>Zeige Marker Infos</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.scrollToListElement">
+        <source>Scroll to list element</source>
+        <target>Scrolle zum Listenelement</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.scrollToMapAndCenterMarker">
+        <source>Scroll to map and center marker</source>
+        <target>Scrolle zur Karte und zentriere den Pin</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator.field.distance">
         <source>Distance approx.</source>
         <target>Entfernung ca.</target>

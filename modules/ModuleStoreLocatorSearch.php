@@ -162,6 +162,8 @@ class ModuleStoreLocatorSearch extends \Module {
             $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
             $this->Template->autoComplete = $oTemplateAutocomplete->parse();
+			$objPage->loadedMapsApi = true;
+
         }
 
         $this->Template->searchField = $widgetSearch;

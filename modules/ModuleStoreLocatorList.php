@@ -92,26 +92,43 @@ class ModuleStoreLocatorList extends \Module {
 				}
 			}
 
-			// if ($_POST && \Environment::get('isAjaxRequest')){
+			if (\Environment::get('isAjaxRequest')){
 				if( \Input::get('action') == "getMarkers" ){
 
-					$stores = StoresModel::searchBetweenCoords( \Input::get('fromlng'), \Input::get('tolng'), \Input::get('fromlat'), \Input::get('tolat'), $category[0] );
+					if($this->storelocator_show_all_stores_on_map){
 
+						$stores = StoresModel::searchBetweenCoords(
+							\Input::get('fromlng'), \Input::get('tolng'),
+							\Input::get('fromlat'), \Input::get('tolat'),
+							($category?$category:$aCategories) );
+
+					} else {
+
+						$stores = StoresModel::searchNearby(
+							\Input::get('lng'), \Input::get('lng'),
+							($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
+							$this->storelocator_list_limit,
+							($category?$category:$aCategories));
+
+					}
 					$results = array();
 					// echo "<pre>".print_r($stores,1)."</pre>";
-					foreach( $stores as $key => $value ) {
-						$results[] = array(
-							"id" => $value->id
-						,	"pid" => $value->pid
-						,	"lat" => $value->latitude
-						,	"lng" => $value->longitude
-						);
+					if( $stores && $stores->count() > 0 ) {
+						foreach( $stores as $key => $value ) {
+							$results[] = array(
+								"id" => $value->id
+							,	"pid" => $value->pid
+							,	"lat" => $value->latitude
+							,	"lng" => $value->longitude
+							);
+						}
 					}
+
 
 					echo json_encode($results);
 					die();
 				}
-			// }
+			}
 
 			$aCountryNames = $this->getCountries();
 
@@ -221,16 +238,16 @@ class ModuleStoreLocatorList extends \Module {
 		$this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
 
-        // if( array_search('system/modules/storelocator/assets/markerclusterer.js',$GLOBALS['TL_JAVASCRIPT']) === FALSE ) {
-            // $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/storelocator/assets/markerclusterer.js';
-        // }
 
 		$this->Template->entries = $aEntries;
 
-		if( empty($this->Template->mapLat) ){
+		$this->Template->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
+		$this->Template->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
+		$this->Template->storelocator_map_interaction = $this->storelocator_map_interaction;
+		$this->Template->storelocator_list_interaction = $this->storelocator_list_interaction;
+		$this->Template->loadedMapsApi = $objPage->loadedMapsApi;
+		if( empty($this->Template->mapLat) || empty($this->Template->mapLng) ){
 			$this->Template->mapLat = deserialize($this->storelocator_map_default_center)[0];
-		}
-		if( empty($this->Template->mapLng) ){
 			$this->Template->mapLng = deserialize($this->storelocator_map_default_center)[1];
 		}
 	}

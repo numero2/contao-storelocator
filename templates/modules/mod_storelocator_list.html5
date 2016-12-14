@@ -17,24 +17,9 @@
 
 			        var map;
 					var markers = [];
-			        var projects = jQuery('.mod_spd_projects_map .projects li');
 
 			        function initMapControls() {
 
-			            jQuery(projects).click(function(){
-
-			                var isActive = jQuery(this).hasClass('active');
-
-			                jQuery(projects).each(function(){
-			                    jQuery(this).removeClass('active');
-			                });
-
-			                if( !isActive ) {
-			                    jQuery(this).addClass('active');
-			                }
-
-			                updateMarkers();
-			            });
 			        }
 
 			        function updateMarkers() {
@@ -54,10 +39,15 @@
 			                url: ''
 			            ,   data: {
 			                    'action': 'getMarkers'
+					<?php if($this->storelocator_show_all_stores_on_map): ?>
 			                ,   'fromlat': sw.lat()
 			                ,   'tolat': ne.lat()
 			                ,   'fromlng': sw.lng()
 			                ,   'tolng': ne.lng()
+					<?php else: ?>
+							,   'lat': <?= $this->mapLat; ?>
+							,   'lng': <?= $this->mapLng; ?>
+					<?php endif;?>
 			                ,   'REQUEST_TOKEN': "{{request_token}}"
 			                }
 			            ,   dataType: 'json'
@@ -123,26 +113,40 @@
 			            var position = new google.maps.LatLng(<?= $this->mapLat; ?>, <?= $this->mapLng; ?>);
 
 			            var mapOptions = {
-			                minZoom: 8,
+			                minZoom: 5,
 			                maxZoom: 20,
 			                zoom: 8,
 			                center: position
 			            }
 
 			            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-						// only triggered once after loading
-			            map.addListener('projection_changed', updateMarkers);
-						/* triggered every time bounds are changed
+						map.addListener('projection_changed', updateMarkers);
+
+
+				<?php if($this->storelocator_show_all_stores_on_map): ?>
 			            map.addListener('zoom_changed', updateMarkers);
 			            map.addListener('dragend', updateMarkers);
 			            map.addListener('tilt_changed', updateMarkers);
-						*/
+				<?php endif; ?>
 
 			            initMapControls();
 			        }
+					<?php if($this->loadedMapsApi): ?>
+					var busyWait = function(){
+						if( typeof google.maps.Map !== undefined){
+							initializeGoogleMap();
+						} else {
+							setTimeout(busyWait,300);
+						}
+					};
+					setTimeout(busyWait,300);
+					<?php endif; ?>
 			    </script>
 
+				<?php if(!$this->loadedMapsApi): ?>
 			    <script src="https://maps.googleapis.com/maps/api/js?key=<?= $this->mapsKey; ?>&amp;callback=initializeGoogleMap" async defer></script>
+				<?php endif; ?>
+
 			</div>
 		<?php endif; ?>
         <?php foreach( $this->entries as $entry ): ?>

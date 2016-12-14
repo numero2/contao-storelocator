@@ -34,7 +34,8 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_sh
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_search_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_allow_empty_search'] = 'storelocator_search_country';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_map_default_center,storelocator_map_pin';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_map_default_center,storelocator_map_pin,storelocator_show_all_stores_on_map,storelocator_put_stores_on_map_in_list,storelocator_map_interaction,storelocator_list_interaction';
+
 
 
 /**
@@ -43,7 +44,6 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'store
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = array(
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_enable_autocomplete']
 ,	'inputType'           => 'checkbox'
-,	'default'             => true
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '0'"
 );
@@ -136,6 +136,41 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_default_center'] = a
 ,	'inputType'           => 'text'
 ,	'eval'                => array( 'rgxp'=>'digit', 'multiple'=>true, 'size'=>'2', 'tl_class'=>'w50', 'mandatory'=>true )
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_all_stores_on_map'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_all_stores_on_map']
+,	'inputType'           => 'checkbox'
+,	'default'             => true
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50'  )
+,   'sql'                 => "char(1) NOT NULL default '1'"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_put_stores_on_map_in_list'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_put_stores_on_map_in_list']
+,	'inputType'           => 'checkbox'
+,	'default'             => true
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50'  )
+,   'sql'                 => "char(1) NOT NULL default '1'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_interaction'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_map_interaction']
+,	'default'             => 'nothing'
+,	'exclude'             => true
+,	'inputType'           => 'select'
+,	'options_callback'    => array('numero2\StoreLocator\StoreLocatorBackend', 'getMapInteractions')
+,   'eval'                => array( 'tl_class'=>'w50' )
+,	'sql'                 => "varchar(64) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_interaction'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_interaction']
+,	'default'             => 'nothing'
+,	'exclude'             => true
+,	'inputType'           => 'select'
+,	'options_callback'    => array('numero2\StoreLocator\StoreLocatorBackend', 'getListInteractions')
+,   'eval'                => array( 'tl_class'=>'w50' )
+,	'sql'                 => "varchar(64) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_pin'] = array(

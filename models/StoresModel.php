@@ -62,7 +62,6 @@ class StoresModel extends \Model {
 		,	$longitude
 		);
 
-
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
 
@@ -87,16 +86,13 @@ class StoresModel extends \Model {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
-				tl_storelocator_stores.latitude,
-				tl_storelocator_stores.longitude,
-				tl_storelocator_stores.pid,
-				tl_storelocator_stores.id
-				FROM tl_storelocator_stores
-				WHERE
-					{$formLng} < longitude and longitude < {$toLng}
-				and {$formLat} < latitude and latitude < {$toLat}
-				".($categories? "AND pid = {$categories}":"")."
-		")->execute();
+				*
+			FROM tl_storelocator_stores
+			WHERE
+				? < longitude AND longitude < ?
+			AND ? < latitude AND latitude < ?
+			".($categories? "AND pid IN(".implode(',',$categories).")":"")."
+		")->execute(floatval($formLng), floatval($toLng), floatval($formLat), floatval($toLat));
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}

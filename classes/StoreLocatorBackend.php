@@ -124,4 +124,33 @@ class StoreLocatorBackend extends \System {
 
 		return;
 	}
+
+
+    /**
+     * Returns a list of weekdays
+     *
+     * @return array
+     */
+    public static function getMapInteractions() {
+
+        return array(
+            'nothing'               => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['nothing']
+        ,   'showMarkerInfo'        => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['showMarkerInfo']
+        ,   'scrollToListElement'   => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['scrollToListElement']
+        );
+    }
+
+
+    /**
+     * Returns a list of weekdays
+     *
+     * @return array
+     */
+    public static function getListInteractions() {
+
+        return array(
+            'nothing'                       => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['nothing']
+        ,   'scrollToMapAndCenterMarker'    => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['scrollToMapAndCenterMarker']
+        );
+    }
 }

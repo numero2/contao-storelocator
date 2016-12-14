@@ -112,6 +112,38 @@
         <source>Center of the map if an empty search was done. (Latitude, Longitude)</source>
         <target>Zentrum der Karte, wenn eine Leersuche ausgeführt wurde. (Breitengrad, Längengrad)</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_all_stores_on_map.0">
+        <source>Show all stores on map</source>
+        <target>Zeige alle Händler auf der Karte</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_all_stores_on_map.1">
+        <source>or only stores in result list will be diplayed</source>
+        <target>oder zeigt nur Händler aus der Ergebnisliste an</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_put_stores_on_map_in_list.0">
+        <source>Put stores from map in result list</source>
+        <target>Fügt Händler von Karte in die Ergebnisliste ein</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_put_stores_on_map_in_list.1">
+        <source>This can only have any effect if "Show all stores on map" is active</source>
+        <target>Dies kann nur einen Effekt haben wenn "Zeige alle Händler auf der Karte" aktiv ist</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_interaction.0">
+        <source>Map interaction</source>
+        <target>Karten Interaktion</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_interaction.1">
+        <source>What action should be performed</source>
+        <target>Was für eine Aktion soll ausgeführt werden</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_interaction.0">
+        <source>Result list interaction</source>
+        <target>Ergebnislisten Interaktion</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_interaction.1">
+        <source>What action should be performed</source>
+        <target>Was für eine Aktion soll ausgeführt werden</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_map_pin.0">
         <source>Pin image</source>
         <target>Pin-Bild</target>
