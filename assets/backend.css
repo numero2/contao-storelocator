@@ -6,9 +6,20 @@ a.header_fill_coordinates {
 	padding-left: 25px;
 	background: url("coords1.png") no-repeat 7px center;
 }
-.opening_times > table{
+.opening_times > table {
 	width: 100%;
 }
-	.opening_times > table tr{
-		height: 1.5rem;
-	}
+.opening_times > table tr {
+	height: 1.5rem;
+}
+.opening_times > table tr:nth-child(1) {
+	height: 1rem;
+}
+.opening_times > table tr td:nth-child(1) {
+	width: 490px;
+}
+.opening_times > table tr td:nth-child(2),
+.opening_times > table tr td:nth-child(3) {
+	padding-top: 4px;
+	width: 70px;
+}
