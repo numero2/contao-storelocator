@@ -202,7 +202,12 @@ class ModuleStoreLocatorList extends \Module {
 			if( $this->storelocator_show_map ) {
 
 				$this->Template->showMap = true;
-				$this->Template->mapsKey = \Config::get('google_maps_browser_key');
+
+
+				$oTemplateGoogleMap = new \FrontendTemplate('script_storelocator_googlemap');
+				$oTemplateGoogleMap->country = $this->storelocator_search_country;
+				$oTemplateGoogleMap->fieldId = 'ctrl_'.$widgetSearch->id;
+				$oTemplateGoogleMap->mapsKey = \Config::get('google_maps_browser_key');
 				$mapPins = array();
 
 				if( $this->storelocator_map_pin ){
@@ -228,8 +233,25 @@ class ModuleStoreLocatorList extends \Module {
 					}
 				}
 
-				$this->Template->mapPins = $mapPins;
+				$oTemplateGoogleMap->mapPins = $mapPins;
+
+				$oTemplateGoogleMap->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
+				$oTemplateGoogleMap->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
+				$oTemplateGoogleMap->storelocator_map_interaction = $this->storelocator_map_interaction;
+				$oTemplateGoogleMap->storelocator_list_interaction = $this->storelocator_list_interaction;
+				$oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
+				if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
+					$oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];
+					$oTemplateGoogleMap->mapLng = deserialize($this->storelocator_map_default_center)[1];
+				}
+
+				$this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
+				// echo "<pre>".print_r($this->Template->scriptGoogleMap,1)."</pre>";
+				// die();
 			}
+
+
+
         }
 
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
@@ -241,14 +263,5 @@ class ModuleStoreLocatorList extends \Module {
 
 		$this->Template->entries = $aEntries;
 
-		$this->Template->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
-		$this->Template->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
-		$this->Template->storelocator_map_interaction = $this->storelocator_map_interaction;
-		$this->Template->storelocator_list_interaction = $this->storelocator_list_interaction;
-		$this->Template->loadedMapsApi = $objPage->loadedMapsApi;
-		if( empty($this->Template->mapLat) || empty($this->Template->mapLng) ){
-			$this->Template->mapLat = deserialize($this->storelocator_map_default_center)[0];
-			$this->Template->mapLng = deserialize($this->storelocator_map_default_center)[1];
-		}
 	}
 }
