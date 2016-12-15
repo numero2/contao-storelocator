@@ -63,29 +63,26 @@ class OpeningTimes extends \Widget {
         $dcas = array();
 		$dcas = self::generateWidgetsDCA();
 
-
-		echo "<pre>".print_r($varInput,1)."</pre>";
-		echo "<pre>".print_r($dcas,1)."</pre>";
-
         foreach( $varInput as $row => $rValue ) {
 	        foreach( $dcas as $key => $field ) {
 
 				$field['value'] = $rValue[$key];
 
-				$strClass = $GLOBALS['TL_FFL'][$field['inputType']];
+				$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
 				if( !class_exists($strClass) ) {
 					continue;
 				}
-				$cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'[0]['.$key.']'));
-				if( !empty($rValue[$key]) ){
-					$cField->value = $rValue[$key];
-				} else {
-					$cField->value = "";
-				}
-    			// TODO check why no validation
-    			echo "<pre>".print_r(var_dump($cField->validate()),1)."</pre>";
-    			echo "<pre>".print_r(var_dump($cField->hasErrors()),1)."</pre>";
+				$cField = new $strClass($strClass::getAttributesFromDca(
+					$field,
+					$this->arrConfiguration['strField'].'[0]['.$key.']',
+					( !empty($rValue[$key])?$rValue[$key]:null )
+				));
 
+    			$cField->validate();
+    			if( $cField->hasErrors() ){
+					$this->arrErrors[$row][$key] = $cField->arrErrors;
+				}
+				$this->blnHasError = $this->blnHasError || $cField->hasErrors();
 	        }
 		}
 
@@ -114,25 +111,25 @@ class OpeningTimes extends \Widget {
 
 		foreach( $dcas as $key => $field ) {
 
-			$strClass = $GLOBALS['TL_FFL'][$field['inputType']];
+			$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
 			if( !class_exists($strClass) ) {
 				continue;
 			}
 
-			$strClass = $GLOBALS['TL_FFL'][$field['inputType']];
+			$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
 			if( !class_exists($strClass) ) {
 				continue;
 			}
 
 			$cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'['.$i.']['.$key.']'));
-			$cField->tableless = true;
+
 			$label = $cField->parse();
 
 			$results = array();
 			if( preg_match("/<label(.*)<\\/label>/s", $label, $results) ){
-				$html .= '<th>'.$results[0].'</th>';
+				$html .= '<th><h3>'.$results[0].'</h3></th>';
 			} else {
-				$html .= '<th>'.$field['label'][0].'</th>';
+				$html .= '<th><h3>'.$field['label'][0].'</h3></th>';
 			}
 
 			unset($field['label']);
@@ -151,20 +148,25 @@ class OpeningTimes extends \Widget {
 
 	        foreach( $dcas as $key => $field ) {
 
-				$strClass = $GLOBALS['TL_FFL'][$field['inputType']];
+				$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
 				if( !class_exists($strClass) ) {
 					continue;
 				}
 
-				$cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'['.$i.']['.$key.']'));
-				if( !empty($this->value[$i][$key]) ){
-					$cField->value = $this->value[$i][$key];
+				$cField = new $strClass($strClass::getAttributesFromDca(
+					$field,
+					$this->arrConfiguration['strField'].'['.$i.']['.$key.']',
+					(!empty($this->value[$i][$key])?$this->value[$i][$key]:null)
+				));
+
+				// REVIEW Error text in backend will stop the loop?
+				if( !empty($this->arrErrors[$i][$key]) ){
+					$cField->arrErrors = $this->arrErrors[$i][$key];
 				}
 
-				$cField->tableless = true;
 				$cField->label = null;
 
-				$html .=  '<td>'.$cField->parse().'</td>' ;
+				$html .=  '<td>'.str_replace("<h3></h3>", "", $cField->parse()).'</td>' ;
 	        }
 			$html .= '<td class="operations">';
 			$html .=  	'<a rel="copy" href="#" class="widgetImage" title=""><img src="system/themes/default/images/copy.gif" width="14" height="16" alt="Die Reihe duplizieren" class="tl_listwizard_img"></a>';
@@ -250,5 +252,17 @@ class OpeningTimes extends \Widget {
 		);
 
 		return $widgetDCA;
+	}
+
+
+	/**
+	 * Return a particular error as HTML string
+	 *
+	 * @param integer $intIndex The message index
+	 *
+	 * @return string The HTML markup of the corresponding error message
+	 */
+	public function getErrorAsHTML($intIndex=0)	{
+		return $this->hasErrors() ? sprintf('<p class="%s">%s</p>', ((TL_MODE == 'BE') ? 'tl_error tl_tip' : 'error'), "FEHLER") : '';
 	}
 }
