@@ -246,12 +246,8 @@ class ModuleStoreLocatorList extends \Module {
 				}
 
 				$this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
-				// echo "<pre>".print_r($this->Template->scriptGoogleMap,1)."</pre>";
-				// die();
+
 			}
-
-
-
         }
 
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
