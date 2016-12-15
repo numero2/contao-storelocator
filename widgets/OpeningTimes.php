@@ -119,7 +119,22 @@ class OpeningTimes extends \Widget {
 				continue;
 			}
 
-			$html .= '<th>'.$field['label'][0].'</th>';
+			$strClass = $GLOBALS['TL_FFL'][$field['inputType']];
+			if( !class_exists($strClass) ) {
+				continue;
+			}
+
+			$cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'['.$i.']['.$key.']'));
+			$cField->tableless = true;
+			$label = $cField->parse();
+
+			$results = array();
+			if( preg_match("/<label(.*)<\\/label>/s", $label, $results) ){
+				$html .= '<th>'.$results[0].'</th>';
+			} else {
+				$html .= '<th>'.$field['label'][0].'</th>';
+			}
+
 			unset($field['label']);
 			$numFields++;
 		}
@@ -146,9 +161,10 @@ class OpeningTimes extends \Widget {
 					$cField->value = $this->value[$i][$key];
 				}
 
+				$cField->tableless = true;
 				$cField->label = null;
-				// REVIEW please no substr
-				$html .=  '<td>'.substr($cField->parse(), 112, -22).'</td>' ;
+
+				$html .=  '<td>'.$cField->parse().'</td>' ;
 	        }
 			$html .= '<td class="operations">';
 			$html .=  	'<a rel="copy" href="#" class="widgetImage" title=""><img src="system/themes/default/images/copy.gif" width="14" height="16" alt="Die Reihe duplizieren" class="tl_listwizard_img"></a>';
@@ -219,19 +235,17 @@ class OpeningTimes extends \Widget {
 				'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
 			,	'inputType'               	=> 'select'
 			,	'options_callback'          => array( '\numero2\StoreLocator\StoreLocator', 'getWeekdays' )
-			,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>255, 'style'=>'width:480px' )
+			,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>255, 'style'=>'width:480px' )
 			)
 		,	'from' => array(
 				'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_from']
-			,	'exclude'                 	=> false
 			,	'inputType'               	=> 'text'
-			,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:60px' )
+			,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>5, 'style'=>'width:60px' )
 			)
 		,	'to' => array(
 				'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_to']
-			,	'exclude'                 	=> false
 			,	'inputType'               	=> 'text'
-			,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:60px' )
+			,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>5, 'style'=>'width:60px' )
 			)
 		);
 
