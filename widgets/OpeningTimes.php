@@ -83,7 +83,6 @@ class OpeningTimes extends \Widget {
 					$cField->value = "";
 				}
     			// TODO check why no validation
-    			echo "<pre>".print_r(var_dump($cField->validator($rValue[$key])),1)."</pre>";
     			echo "<pre>".print_r(var_dump($cField->validate()),1)."</pre>";
     			echo "<pre>".print_r(var_dump($cField->hasErrors()),1)."</pre>";
 
@@ -110,7 +109,7 @@ class OpeningTimes extends \Widget {
 		$numFields = 0;
 
         $html = '<div class="opening_times">';
-		$html .= '<table style="width:100%;">';
+		$html .= '<table>';
 		$html .= '<tr>';
 
 		foreach( $dcas as $key => $field ) {
@@ -175,7 +174,9 @@ class OpeningTimes extends \Widget {
 				for (i = 0; i < as.length; i++) {
 					as[i].addEventListener("click", clickHandler);
 				}
-				// TODO select after copy not working
+				if( window.Stylect ) {
+	                Stylect.convertSelects();
+		        }
 			} else if( this.rel == "up" ){
 				if( row.previousSibling == null ) return;
 				row.parentElement.insertBefore(row, row.previousSibling)
@@ -188,7 +189,6 @@ class OpeningTimes extends \Widget {
 			var inputs = row.parentElement.querySelectorAll("input, select");
 			for (i = 0; i < inputs.length; i++) {
 				var iRow = Math.floor(i/'.$numFields.');
-				console.log(iRow+inputs[i].id);
 				inputs[i].id = inputs[i].id.replace(/\[\d\]/, "["+iRow+"]");
 				inputs[i].name = inputs[i].name.replace(/\[\d\]/, "["+iRow+"]");
 			}

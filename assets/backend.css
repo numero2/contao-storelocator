@@ -6,3 +6,9 @@ a.header_fill_coordinates {
 	padding-left: 25px;
 	background: url("coords1.png") no-repeat 7px center;
 }
+.opening_times > table{
+	width: 100%;
+}
+	.opening_times > table tr{
+		height: 1.5rem;
+	}
