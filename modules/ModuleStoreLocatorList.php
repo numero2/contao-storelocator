@@ -142,8 +142,8 @@ class ModuleStoreLocatorList extends \Module {
 
 					$aSearchValues['latitude'] = $aCoordinates['latitude'];
 					$aSearchValues['longitude'] = $aCoordinates['longitude'];
-					$this->Template->mapLat = $aSearchValues['latitude'];
-					$this->Template->mapLng = $aSearchValues['longitude'];
+					$this->mapLat = $aSearchValues['latitude'];
+					$this->mapLng = $aSearchValues['longitude'];
 				}
 
 
@@ -240,6 +240,9 @@ class ModuleStoreLocatorList extends \Module {
 				$oTemplateGoogleMap->storelocator_map_interaction = $this->storelocator_map_interaction;
 				$oTemplateGoogleMap->storelocator_list_interaction = $this->storelocator_list_interaction;
 				$oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
+				$oTemplateGoogleMap->mapLat = $this->mapLat;
+				$oTemplateGoogleMap->mapLng = $this->mapLng;
+
 				if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
 					$oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];
 					$oTemplateGoogleMap->mapLng = deserialize($this->storelocator_map_default_center)[1];
