@@ -18,7 +18,7 @@
 			</div>
 		<?php endif; ?>
         <?php foreach( $this->entries as $entry ): ?>
-        <div class="entry <?= $entry->class; ?>">
+        <div id="result_<?= $entry->id; ?>" class="entry <?= $entry->class; ?>">
             <h3><?= $entry->name; ?></h3>
             <?php if( $entry->distance ): ?>
 			<div class="distance">
@@ -59,6 +59,22 @@
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
+
+
+        <?php if( $this->storelocator_list_interaction == "scrollToMapAndCenterMarker" ): ?>
+		<script>
+			jQuery('.mod_storelocator_list > .entry').click(function(){
+
+				document.location.hash = "";
+				document.location.hash = "#map-wrapper";
+				var markerID = this.id.split("_")[1];
+
+				if( markerID in markers ){
+					map.setCenter(markers[markerID].getPosition());
+				}
+			});
+		</script>
+		<?php endif; ?>
     <?php else: ?>
         <p class="error"><?= $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
     <?php endif; ?>

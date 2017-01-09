@@ -9,9 +9,6 @@
 
     function updateMarkers() {
 
-        // load all
-        // only show elements in result list
-
         var bounds = map.getBounds();
 
         if( typeof(bounds) == "undefined" )
@@ -42,10 +39,10 @@
 
                 if( response ) {
 
-                    for( var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(null);
-                    }
-                    markers = [];
+                    // for( var i = 0; i < markers.length; i++) {
+                    //     markers[i].setMap(null);
+                    // }
+                    // markers = [];
 
                     // use markers from db settings
                     var markerImages = {
@@ -63,6 +60,10 @@
                     // insert new markers
                     jQuery.each(response, function (i, item) {
 
+                        if( item.id in markers ){
+                            return;
+                        }
+
                         if( item.pid in markerImages ) {
 
                             var markerImage = markerImages[item.pid];
@@ -72,20 +73,25 @@
                             }
                         }
 
-                        markers.push(
-                            marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(item.lat, item.lng),
                                 map: map,
                                 icon: markerImage,
                                 draggable: false,
                                 data: item
-                            })
-                        );
+                            });
+                        markers[item.id] = marker;
 
-                        marker.addListener('click',function(){
-                            // showMarkerInfo(this);
-                            // scroll to List Element
+                    <?php if( in_array($this->storelocator_map_interaction , array("showMarkerInfo", "scrollToListElement")) ): ?>
+                        marker.addListener('click', function(){
+
+                            <?php if( $this->storelocator_map_interaction == "showMarkerInfo" ): ?>
+                            // TODO
+                            <?php elseif( $this->storelocator_map_interaction == "scrollToListElement" ): ?>
+                                document.location.hash = "#result_"+this.data.id;
+                            <?php endif;?>
                         });
+                    <?php endif;?>
 
                     });
                 }
