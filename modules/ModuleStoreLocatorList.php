@@ -70,11 +70,12 @@ class ModuleStoreLocatorList extends \Module {
 
         $aEntries = array();
 
-        // check if an empty search is allowed
+        // do not render list module if no empty search is allowed
         if( !$this->storelocator_allow_empty_search && !$sSearchVal ) {
 
             $this->Template->preventRendering = true;
 
+        // normal search
         } else {
 
 			$aCategories = array();
@@ -83,9 +84,11 @@ class ModuleStoreLocatorList extends \Module {
             $aSearchValues = array();
             $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
-			if( $aSearchValues['category'] ){
+			if( $aSearchValues['category'] ) {
 
+				$objCategory = NULL;
 				$objCategory = CategoriesModel::findByAlias($aSearchValues['category']);
+
 				if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id,$aCategories) ) {
 					$category = array($objCategory->id);
 				} else {
@@ -93,10 +96,12 @@ class ModuleStoreLocatorList extends \Module {
 				}
 			}
 
-			if (\Environment::get('isAjaxRequest')){
-				if( \Input::get('action') == "getMarkers" ){
+            // handle ajax request for searching markers in map
+			if( \Environment::get('isAjaxRequest') ) {
 
-					if($this->storelocator_show_all_stores_on_map){
+				if( \Input::get('action') == "getMarkers" ) {
+
+					if( $this->storelocator_show_all_stores_on_map) {
 
 						$stores = StoresModel::searchBetweenCoords(
 							\Input::get('fromlng'), \Input::get('tolng'),
@@ -110,12 +115,14 @@ class ModuleStoreLocatorList extends \Module {
 							($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
 							$this->storelocator_list_limit,
 							($category?$category:$aCategories));
-
 					}
+
 					$results = array();
-					// echo "<pre>".print_r($stores,1)."</pre>";
+
 					if( $stores && $stores->count() > 0 ) {
+
 						foreach( $stores as $key => $value ) {
+
 							$results[] = array(
 								"id" => $value->id
 							,	"pid" => $value->pid
@@ -124,7 +131,6 @@ class ModuleStoreLocatorList extends \Module {
 							);
 						}
 					}
-
 
 					echo json_encode($results);
 					die();
@@ -180,15 +186,13 @@ class ModuleStoreLocatorList extends \Module {
 
                         $entry->class = $entry->highlight ? 'starred' : '';
 
-                        // generate link
-                        $link = null;
-
                         if( $this->jumpTo ) {
 
-                            $objLink = $this->Database->prepare("SELECT * FROM tl_page WHERE id = ?")->execute($this->jumpTo);
+                            $objLink = NULL;
+                            $objLink = \PageModel::findById($this->jumpTo);
 
                             $entry->link = $this->generateFrontendUrl(
-                                $objLink->fetchAssoc()
+                                $objLink->row()
                             ,	( !$GLOBALS['TL_CONFIG']['useAutoItem'] ? '/store/' : '/' ).($entry->alias?$entry->alias:$entry->id)
                             );
                         }
@@ -199,8 +203,8 @@ class ModuleStoreLocatorList extends \Module {
                     $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
 
                     if( $this->storelocator_show_map ) {
-                        $this->addGoogleMap();
-                        $oTemplateGoogleMap->storelocator_list_interaction = $this->storelocator_list_interaction;
+                        $this->addGoogleMap( $aEntries );
+                        $this->Template->listInteraction = $this->storelocator_list_interaction;
         			}
 
                 } else {
@@ -210,19 +214,19 @@ class ModuleStoreLocatorList extends \Module {
             }
         }
 
-
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
 		$this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
 		$this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
 		$this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
+		$this->Template->labelMore = $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'];
 		$this->Template->msgNoResults = $GLOBALS['TL_LANG']['tl_storelocator']['noresults'];
 
 
 		$this->Template->entries = $aEntries;
 	}
 
-    private function addGoogleMap() {
+    private function addGoogleMap( $aEntries=NULL ) {
 
         global $objPage;
 
@@ -264,6 +268,7 @@ class ModuleStoreLocatorList extends \Module {
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->mapLat = $this->mapLat;
         $oTemplateGoogleMap->mapLng = $this->mapLng;
+        $oTemplateGoogleMap->entries = $aEntries;
 
         if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
             $oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];

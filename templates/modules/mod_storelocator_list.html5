@@ -54,12 +54,12 @@
 	        <?php endif; ?>
 
             <?php if( $entry->link ): ?>
-                <a href="<?= $entry->link; ?>" class="more"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['more']; ?></a>
+                <a href="<?= $entry->link; ?>" class="more"><?= $this->labelMore; ?></a>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
 
-        <?php if( $this->storelocator_list_interaction == "scrollToMapAndCenterMarker" ): ?>
+        <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
 		<script>
 			jQuery('.mod_storelocator_list > .entry').click(function(){
 
@@ -67,7 +67,7 @@
 				document.location.hash = "#map-wrapper";
 				var markerID = this.id.split("_")[1];
 
-				if( markerID in markers ){
+				if( markerID in markers ) {
 					map.setCenter(markers[markerID].getPosition());
 				}
 			});
