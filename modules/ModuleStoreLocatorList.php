@@ -224,6 +224,8 @@ class ModuleStoreLocatorList extends \Module {
 
     private function addGoogleMap() {
 
+        global $objPage;
+
         $this->Template->showMap = true;
 
         $oTemplateGoogleMap = new \FrontendTemplate('script_storelocator_googlemap');
