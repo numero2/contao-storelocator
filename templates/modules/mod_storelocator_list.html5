@@ -1,4 +1,4 @@
-<?php if (count($this->entries) > 0): ?>
+<?php if( !$this->preventRendering ): ?>
 <?php $this->extend('block_searchable'); ?>
 
 <?php $this->block('content'); ?>
@@ -7,16 +7,15 @@
 		<<?= $this->hl; ?>><?= $this->headline; ?></<?= $this->hl; ?>>
 	<?php endif; ?>
 
+    <?php if( !$this->noResults ): ?>
 
-    <?php if( !$this->error ): ?>
     	<?php if( $this->showMap ): ?>
 			<div id="map-wrapper">
 			<div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
-
 				<?= $this->scriptGoogleMap; ?>
-
 			</div>
 		<?php endif; ?>
+
         <?php foreach( $this->entries as $entry ): ?>
         <div id="result_<?= $entry->id; ?>" class="entry <?= $entry->class; ?>">
             <h3><?= $entry->name; ?></h3>
@@ -60,7 +59,6 @@
         </div>
         <?php endforeach; ?>
 
-
         <?php if( $this->storelocator_list_interaction == "scrollToMapAndCenterMarker" ): ?>
 		<script>
 			jQuery('.mod_storelocator_list > .entry').click(function(){
@@ -75,8 +73,11 @@
 			});
 		</script>
 		<?php endif; ?>
+
     <?php else: ?>
-        <p class="error"><?= $GLOBALS['TL_LANG']['tl_storelocator']['noresults']; ?></p>
+
+        <p class="error"><?= $this->msgNoResults; ?></p>
+
     <?php endif; ?>
 
 <?php $this->endblock(); ?>

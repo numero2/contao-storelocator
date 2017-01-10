@@ -131,8 +131,12 @@ class ModuleStoreLocatorSearch extends \Module {
                 $aData = array($term);
 
                 if( $widgetCategories ) {
+
                     $widgetCategories->validate();
-                    $aData[] = $widgetCategories->value;
+
+                    if( $widgetCategories->value ) {
+                        $aData[] = $widgetCategories->value;
+                    }
                 }
 
                 $longitude = \Input::post('longitude');
@@ -143,7 +147,7 @@ class ModuleStoreLocatorSearch extends \Module {
                     $aData[] = $latitude;
                 }
 
-                $strData = implode(';',$aData);
+                $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $term;
 
                 $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
                 $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');

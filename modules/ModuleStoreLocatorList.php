@@ -65,14 +65,15 @@ class ModuleStoreLocatorList extends \Module {
 			\Input::setGet('search', \Input::get('auto_item'));
 		}
 
+		$sSearchVal = NULL;
 		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 
         $aEntries = array();
 
         // check if an empty search is allowed
-        if( !$this->storelocator_allow_empty_search && !$sSearchVal && $sSearchCountry ) {
+        if( !$this->storelocator_allow_empty_search && !$sSearchVal ) {
 
-            $this->Template->error = true;
+            $this->Template->preventRendering = true;
 
         } else {
 
@@ -130,6 +131,7 @@ class ModuleStoreLocatorList extends \Module {
 				}
 			}
 
+			$aCountryNames = array();
 			$aCountryNames = $this->getCountries();
 
             if( !empty($aSearchValues['term']) || $this->storelocator_allow_empty_search ) {
@@ -146,8 +148,8 @@ class ModuleStoreLocatorList extends \Module {
 					$this->mapLng = $aSearchValues['longitude'];
 				}
 
-
                 $objStores = NULL;
+
                 // search all countries
                 if( !empty($aSearchValues['term']) ) {
 
@@ -166,8 +168,7 @@ class ModuleStoreLocatorList extends \Module {
 						($category?$category:$aCategories));
                 }
 
-
-                if( !empty($objStores) ) {
+                if( count($objStores) ) {
 
                     foreach( $objStores as $entry ) {
 
@@ -196,71 +197,77 @@ class ModuleStoreLocatorList extends \Module {
                     }
 
                     $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
+
+                    if( $this->storelocator_show_map ) {
+                        $this->addGoogleMap();
+                        $oTemplateGoogleMap->storelocator_list_interaction = $this->storelocator_list_interaction;
+        			}
+
+                } else {
+
+                    $this->Template->noResults = true;
                 }
             }
-
-			if( $this->storelocator_show_map ) {
-
-				$this->Template->showMap = true;
-
-				$this->Template->storelocator_list_interaction = $this->storelocator_list_interaction;
-
-				$oTemplateGoogleMap = new \FrontendTemplate('script_storelocator_googlemap');
-				$oTemplateGoogleMap->country = $this->storelocator_search_country;
-				$oTemplateGoogleMap->fieldId = 'ctrl_'.$widgetSearch->id;
-				$oTemplateGoogleMap->mapsKey = \Config::get('google_maps_browser_key');
-				$mapPins = array();
-
-				if( $this->storelocator_map_pin ){
-					$mapPins['default'] = $this->storelocator_map_pin;
-				}
-
-				// gather pins
-				$pins = CategoriesModel::getMapPins();
-				$pins = $pins->fetchAll();
-
-				foreach( $pins as $key => $value ) {
-
-					if( !empty($value['map_pin']) ){
-						$mapPins[$value['id']] = $value['map_pin'];
-					}
-				}
-				foreach( $mapPins as $key => $value ) {
-					$file = \FilesModel::findByUuid($value);
-					if( !empty($file->path) ) {
-						$mapPins[$key] = $file->path;
-					}else{
-						unset($mapPins[$key]);
-					}
-				}
-
-				$oTemplateGoogleMap->mapPins = $mapPins;
-
-				$oTemplateGoogleMap->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
-				$oTemplateGoogleMap->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
-				$oTemplateGoogleMap->storelocator_map_interaction = $this->storelocator_map_interaction;
-				$oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
-				$oTemplateGoogleMap->mapLat = $this->mapLat;
-				$oTemplateGoogleMap->mapLng = $this->mapLng;
-
-				if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
-					$oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];
-					$oTemplateGoogleMap->mapLng = deserialize($this->storelocator_map_default_center)[1];
-				}
-
-				$this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
-
-			}
         }
+
 
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
 		$this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
 		$this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
 		$this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
+		$this->Template->msgNoResults = $GLOBALS['TL_LANG']['tl_storelocator']['noresults'];
 
 
 		$this->Template->entries = $aEntries;
-
 	}
+
+    private function addGoogleMap() {
+
+        $this->Template->showMap = true;
+
+        $oTemplateGoogleMap = new \FrontendTemplate('script_storelocator_googlemap');
+        $oTemplateGoogleMap->country = $this->storelocator_search_country;
+        $oTemplateGoogleMap->mapsKey = \Config::get('google_maps_browser_key');
+        $mapPins = array();
+
+        if( $this->storelocator_map_pin ){
+            $mapPins['default'] = $this->storelocator_map_pin;
+        }
+
+        // gather pins
+        $pins = CategoriesModel::getMapPins();
+        $pins = $pins->fetchAll();
+
+        foreach( $pins as $key => $value ) {
+
+            if( !empty($value['map_pin']) ){
+                $mapPins[$value['id']] = $value['map_pin'];
+            }
+        }
+        foreach( $mapPins as $key => $value ) {
+            $file = \FilesModel::findByUuid($value);
+            if( !empty($file->path) ) {
+                $mapPins[$key] = $file->path;
+            }else{
+                unset($mapPins[$key]);
+            }
+        }
+
+        $oTemplateGoogleMap->mapPins = $mapPins;
+
+        $oTemplateGoogleMap->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
+        $oTemplateGoogleMap->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
+        $oTemplateGoogleMap->storelocator_map_interaction = $this->storelocator_map_interaction;
+        $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
+        $oTemplateGoogleMap->mapLat = $this->mapLat;
+        $oTemplateGoogleMap->mapLng = $this->mapLng;
+
+        if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
+            $oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];
+            $oTemplateGoogleMap->mapLng = deserialize($this->storelocator_map_default_center)[1];
+        }
+
+        $this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
+    }
 }
