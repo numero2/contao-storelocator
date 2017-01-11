@@ -1,12 +1,91 @@
-<script>
 
+<script>
     var map;
-    var markers = [];
+    var markers = {
+        <?php foreach( $this->entries as $entry): ?>
+            "<?= $entry->id; ?>": {"id": "<?= $entry->id; ?>","pid": "<?= $entry->pid; ?>","lng": "<?= $entry->longitude; ?>","lat": "<?= $entry->latitude; ?>"},
+        <?php endforeach; ?>
+    };
+    var markerImages = {};
 
     function initMapControls() {
 
     }
 
+    function initMapMarker() {
+
+        markerImages = {
+            <?php foreach( $this->mapPins as $key => $value ): ?>
+            "<?= $key; ?>" : {
+                "url": "<?= $value; ?>",
+                "size": new google.maps.Size(108, 150),
+                "scaledSize": new google.maps.Size(36, 36),
+                "origin": new google.maps.Point(0, 0),
+                "anchor": new google.maps.Point(18, 50)
+            },
+            <?php endforeach; ?>
+        };
+
+        for( var id in markers ){
+            addMarker(markers[id]);
+        }
+        fitMapToMarkers();
+    }
+
+    function addMarker(item){
+
+        if( item.id in markers && "position" in markers[item.id] ){
+            return;
+        }
+
+        if( item.pid in markerImages ) {
+
+            var markerImage = markerImages[item.pid];
+        } else {
+            if( 'default' in markerImages ){
+                var markerImage = markerImages['default'];
+            }
+        }
+
+        marker = new google.maps.Marker({
+                position: new google.maps.LatLng(item.lat, item.lng),
+                map: map,
+                icon: markerImage,
+                draggable: false,
+                data: item
+            });
+        markers[item.id] = marker;
+
+    <?php if( in_array($this->mapInteraction , array("showMarkerInfo", "scrollToListElement")) ): ?>
+        marker.addListener('click', function(){
+
+            <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+            // TODO
+            <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
+                document.location.hash = "#result_"+this.data.id;
+            <?php endif;?>
+        });
+    <?php endif;?>
+
+    }
+
+    function fitMapToMarkers() {
+
+        var bounds = new google.maps.LatLngBounds();
+        for( var i in markers ){
+           bounds.extend(markers[i].getPosition());
+        }
+
+        map.setCenter(bounds.getCenter());
+        map.fitBounds(bounds);
+        map.setZoom(map.getZoom()-1);
+
+        if( map.getZoom() > 15 ){
+            map.setZoom(15);
+        }
+    }
+
+    <?php if($this->storelocator_show_all_stores_on_map): ?>
     function updateMarkers() {
 
         var bounds = map.getBounds();
@@ -21,15 +100,10 @@
             url: ''
         ,   data: {
                 'action': 'getMarkers'
-    <?php if($this->storelocator_show_all_stores_on_map): ?>
             ,   'fromlat': sw.lat()
             ,   'tolat': ne.lat()
             ,   'fromlng': sw.lng()
             ,   'tolng': ne.lng()
-    <?php else: ?>
-            ,   'lat': <?= $this->mapLat; ?>
-            ,   'lng': <?= $this->mapLng; ?>
-    <?php endif;?>
             ,   'REQUEST_TOKEN': "{{request_token}}"
             }
         ,   dataType: 'json'
@@ -39,65 +113,14 @@
 
                 if( response ) {
 
-                    // for( var i = 0; i < markers.length; i++) {
-                    //     markers[i].setMap(null);
-                    // }
-                    // markers = [];
-
-                    // use markers from db settings
-                    var markerImages = {
-                        <?php foreach( $this->mapPins as $key => $value ): ?>
-                            "<?= $key; ?>" : {
-                            url: "<?= $value; ?>",
-                            size: new google.maps.Size(108, 150),
-                            scaledSize: new google.maps.Size(36, 36),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(18, 50)
-                        },
-                        <?php endforeach; ?>
-                    };
-
-                    // insert new markers
-                    jQuery.each(response, function (i, item) {
-
-                        if( item.id in markers ){
-                            return;
-                        }
-
-                        if( item.pid in markerImages ) {
-
-                            var markerImage = markerImages[item.pid];
-                        } else {
-                            if( 'default' in markerImages ){
-                                var markerImage = markerImages['default'];
-                            }
-                        }
-
-                        marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(item.lat, item.lng),
-                                map: map,
-                                icon: markerImage,
-                                draggable: false,
-                                data: item
-                            });
-                        markers[item.id] = marker;
-
-                    <?php if( in_array($this->storelocator_map_interaction , array("showMarkerInfo", "scrollToListElement")) ): ?>
-                        marker.addListener('click', function(){
-
-                            <?php if( $this->storelocator_map_interaction == "showMarkerInfo" ): ?>
-                            // TODO
-                            <?php elseif( $this->storelocator_map_interaction == "scrollToListElement" ): ?>
-                                document.location.hash = "#result_"+this.data.id;
-                            <?php endif;?>
-                        });
-                    <?php endif;?>
-
-                    });
+                    for( var i in response ){
+                        addMarker(response[i]);
+                    }
                 }
             }
         });
     }
+    <?php endif;?>
 
     function initializeGoogleMap() {
 
@@ -120,6 +143,7 @@
         map.addListener('tilt_changed', updateMarkers);
 <?php endif; ?>
 
+        initMapMarker();
         initMapControls();
     }
     <?php if($this->loadedMapsApi): ?>

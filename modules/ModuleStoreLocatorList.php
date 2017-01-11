@@ -264,7 +264,7 @@ class ModuleStoreLocatorList extends \Module {
 
         $oTemplateGoogleMap->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
         $oTemplateGoogleMap->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
-        $oTemplateGoogleMap->storelocator_map_interaction = $this->storelocator_map_interaction;
+        $oTemplateGoogleMap->mapInteraction = $this->storelocator_map_interaction;
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->mapLat = $this->mapLat;
         $oTemplateGoogleMap->mapLng = $this->mapLng;
