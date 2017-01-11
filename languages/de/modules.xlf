@@ -112,21 +112,9 @@
         <source>Center of the map if an empty search was done. (Latitude, Longitude)</source>
         <target>Zentrum der Karte, wenn eine Leersuche ausgeführt wurde. (Breitengrad, Längengrad)</target>
     </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_all_stores_on_map.0">
-        <source>Show all stores on map</source>
-        <target>Zeige alle Händler auf der Karte</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_all_stores_on_map.1">
-        <source>or only stores in result list will be diplayed</source>
-        <target>oder zeigt nur Händler aus der Ergebnisliste an</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_put_stores_on_map_in_list.0">
-        <source>Put stores from map in result list</source>
-        <target>Fügt Händler von Karte in die Ergebnisliste ein</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_put_stores_on_map_in_list.1">
-        <source>This can only have any effect if "Show all stores on map" is active</source>
-        <target>Dies kann nur einen Effekt haben wenn "Zeige alle Händler auf der Karte" aktiv ist</target>
+    <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
+        <source>Load more results on pan </source>
+        <target>Weitere Ergebnisse beim Ziehen der Karte nachladen</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_interaction.0">
         <source>Map interaction</source>

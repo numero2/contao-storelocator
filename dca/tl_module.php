@@ -34,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_sh
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_search_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_allow_empty_search'] = 'storelocator_search_country';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_map_default_center,storelocator_map_pin,storelocator_show_all_stores_on_map,storelocator_put_stores_on_map_in_list,storelocator_map_interaction,storelocator_list_interaction';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_map_default_center,storelocator_map_pin,storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction';
 
 
 
@@ -138,15 +138,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_default_center'] = a
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_all_stores_on_map'] = array(
-	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_all_stores_on_map']
-,	'inputType'           => 'checkbox'
-,	'default'             => true
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50'  )
-,   'sql'                 => "char(1) NOT NULL default '1'"
-);
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_put_stores_on_map_in_list'] = array(
-	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_put_stores_on_map_in_list']
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_load_results_on_pan'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_load_results_on_pan']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50'  )
@@ -159,7 +152,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_interaction'] = arra
 ,	'exclude'             => true
 ,	'inputType'           => 'select'
 ,	'options_callback'    => array('numero2\StoreLocator\StoreLocatorBackend', 'getMapInteractions')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'eval'                => array( 'tl_class'=>'w50 clr' )
 ,	'sql'                 => "varchar(64) NOT NULL default ''"
 );
 

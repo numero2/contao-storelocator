@@ -3,7 +3,9 @@
     var map;
     var markers = {
         <?php foreach( $this->entries as $entry): ?>
-            "<?= $entry->id; ?>": {"id": "<?= $entry->id; ?>","pid": "<?= $entry->pid; ?>","lng": "<?= $entry->longitude; ?>","lat": "<?= $entry->latitude; ?>"},
+            "<?= $entry->id; ?>": {"id": "<?= $entry->id; ?>","pid": "<?= $entry->pid; ?>",
+                "lng": "<?= $entry->longitude; ?>","lat": "<?= $entry->latitude; ?>",
+                "info": <?= $entry->info; ?>},
         <?php endforeach; ?>
     };
     var markerImages = {};
@@ -18,10 +20,9 @@
             <?php foreach( $this->mapPins as $key => $value ): ?>
             "<?= $key; ?>" : {
                 "url": "<?= $value; ?>",
-                "size": new google.maps.Size(108, 150),
                 "scaledSize": new google.maps.Size(36, 36),
                 "origin": new google.maps.Point(0, 0),
-                "anchor": new google.maps.Point(18, 50)
+                "anchor": new google.maps.Point(18, 36)
             },
             <?php endforeach; ?>
         };
@@ -52,7 +53,10 @@
                 map: map,
                 icon: markerImage,
                 draggable: false,
-                data: item
+                data: item,
+                infoWindow: new google.maps.InfoWindow({
+                    content: item.info
+                })
             });
         markers[item.id] = marker;
 
@@ -60,6 +64,7 @@
         marker.addListener('click', function(){
 
             <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+                    markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
             // TODO
             <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
                 document.location.hash = "#result_"+this.data.id;
@@ -76,16 +81,16 @@
            bounds.extend(markers[i].getPosition());
         }
 
-        map.setCenter(bounds.getCenter());
         map.fitBounds(bounds);
         map.setZoom(map.getZoom()-1);
+
 
         if( map.getZoom() > 15 ){
             map.setZoom(15);
         }
     }
 
-    <?php if($this->storelocator_show_all_stores_on_map): ?>
+    <?php if($this->loadMoreResults): ?>
     function updateMarkers() {
 
         var bounds = map.getBounds();
@@ -134,28 +139,41 @@
         }
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        map.addListener('projection_changed', updateMarkers);
 
-
-<?php if($this->storelocator_show_all_stores_on_map): ?>
+    <?php if($this->loadMoreResults): ?>
         map.addListener('zoom_changed', updateMarkers);
         map.addListener('dragend', updateMarkers);
         map.addListener('tilt_changed', updateMarkers);
-<?php endif; ?>
+    <?php endif; ?>
+
+    <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
+        jQuery('.mod_storelocator_list > .entry').click(function(){
+
+            document.location.hash = "";
+            document.location.hash = "#map-wrapper";
+            var markerID = this.id.split("_")[1];
+
+            if( markerID in markers ) {
+                map.setCenter(markers[markerID].getPosition());
+                map.setZoom(15);
+            }
+        });
+    <?php endif; ?>
 
         initMapMarker();
         initMapControls();
     }
     <?php if($this->loadedMapsApi): ?>
-    var busyWait = function(){
-        if( typeof google.maps.Map !== undefined){
-            initializeGoogleMap();
-        } else {
-            setTimeout(busyWait,300);
-        }
-    };
-    setTimeout(busyWait,300);
+        var busyWait = function(){
+            if( typeof google !== undefined && typeof google.maps !== undefined && typeof google.maps.Map !== undefined ){
+                initializeGoogleMap();
+            } else {
+                setTimeout(busyWait,300);
+            }
+        };
+        setTimeout(busyWait,300);
     <?php endif; ?>
+
 </script>
 
 <?php if(!$this->loadedMapsApi): ?>

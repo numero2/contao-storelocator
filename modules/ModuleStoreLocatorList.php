@@ -101,33 +101,34 @@ class ModuleStoreLocatorList extends \Module {
 
 				if( \Input::get('action') == "getMarkers" ) {
 
-					if( $this->storelocator_show_all_stores_on_map) {
+					$stores = StoresModel::searchBetweenCoords(
+						\Input::get('fromlng'), \Input::get('tolng'),
+						\Input::get('fromlat'), \Input::get('tolat'),
+						($category?$category:$aCategories) );
 
-						$stores = StoresModel::searchBetweenCoords(
-							\Input::get('fromlng'), \Input::get('tolng'),
-							\Input::get('fromlat'), \Input::get('tolat'),
-							($category?$category:$aCategories) );
-
-					} else {
-
-						$stores = StoresModel::searchNearby(
-							\Input::get('lng'), \Input::get('lng'),
-							($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
-							$this->storelocator_list_limit,
-							($category?$category:$aCategories));
-					}
 
 					$results = array();
 
 					if( $stores && $stores->count() > 0 ) {
 
+						$oTemplateInfoWindow = new \FrontendTemplate('mod_storelocator_infowindow');
+						$oTemplateInfoWindow->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
+						$oTemplateInfoWindow->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
+						$oTemplateInfoWindow->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
+						$oTemplateInfoWindow->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
+						$oTemplateInfoWindow->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
+						$oTemplateInfoWindow->labelMore = $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'];
+
 						foreach( $stores as $key => $value ) {
+
+							$oTemplateInfoWindow->entry = $value;
 
 							$results[] = array(
 								"id" => $value->id
 							,	"pid" => $value->pid
 							,	"lat" => $value->latitude
 							,	"lng" => $value->longitude
+							,	"info" => $this->replaceInsertTags($oTemplateInfoWindow->parse())
 							);
 						}
 					}
@@ -203,8 +204,27 @@ class ModuleStoreLocatorList extends \Module {
                     $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
 
                     if( $this->storelocator_show_map ) {
+
+						if( $aEntries && count($aEntries) > 0 ) {
+
+							$oTemplateInfoWindow = new \FrontendTemplate('mod_storelocator_infowindow');
+							$oTemplateInfoWindow->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
+							$oTemplateInfoWindow->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
+							$oTemplateInfoWindow->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
+							$oTemplateInfoWindow->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
+							$oTemplateInfoWindow->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
+							$oTemplateInfoWindow->labelMore = $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'];
+
+							foreach( $aEntries as $key => $value ) {
+
+								$oTemplateInfoWindow->entry = $value;
+
+								$aEntries[$key]->info = json_encode($this->replaceInsertTags($oTemplateInfoWindow->parse()));
+
+							}
+						}
+
                         $this->addGoogleMap( $aEntries );
-                        $this->Template->listInteraction = $this->storelocator_list_interaction;
         			}
 
                 } else {
@@ -275,9 +295,9 @@ class ModuleStoreLocatorList extends \Module {
 
         $oTemplateGoogleMap->mapPins = $mapPins;
 
-        $oTemplateGoogleMap->storelocator_show_all_stores_on_map = $this->storelocator_show_all_stores_on_map;
-        $oTemplateGoogleMap->storelocator_put_stores_on_map_in_list = $this->storelocator_put_stores_on_map_in_list;
+        $oTemplateGoogleMap->loadMoreResults = $this->storelocator_load_results_on_pan;
         $oTemplateGoogleMap->mapInteraction = $this->storelocator_map_interaction;
+		$oTemplateGoogleMap->listInteraction = $this->storelocator_list_interaction;
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->mapLat = $this->mapLat;
         $oTemplateGoogleMap->mapLng = $this->mapLng;

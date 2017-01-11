@@ -54,6 +54,7 @@ TemplateLoader::addFiles(array
     'mod_storelocator_details'         => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_inserttag'       => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_list'            => 'system/modules/storelocator/templates/modules',
+    'mod_storelocator_infowindow'      => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_search'          => 'system/modules/storelocator/templates/modules',
 	'script_storelocator_autocomplete' => 'system/modules/storelocator/templates/modules',
 	'script_storelocator_googlemap'    => 'system/modules/storelocator/templates/modules',

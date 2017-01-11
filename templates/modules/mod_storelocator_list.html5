@@ -61,22 +61,7 @@
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
-
-        <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
-		<script>
-			jQuery('.mod_storelocator_list > .entry').click(function(){
-
-				document.location.hash = "";
-				document.location.hash = "#map-wrapper";
-				var markerID = this.id.split("_")[1];
-
-				if( markerID in markers ) {
-					map.setCenter(markers[markerID].getPosition());
-				}
-			});
-		</script>
-		<?php endif; ?>
-
+		
     <?php else: ?>
 
         <p class="error"><?= $this->msgNoResults; ?></p>
