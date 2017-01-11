@@ -93,7 +93,7 @@ class ModuleStoreLocatorSearch extends \Module {
         if( count($aAvailableCategories) > 1 ) {
 
             $aCategories = array(
-                '' => $GLOBALS['TL_LANG']['tl_storelocator']['field']['all_categories']
+                'all' => $GLOBALS['TL_LANG']['tl_storelocator']['field']['all_categories']
             );
 
             $oCategories = NULL;
@@ -111,7 +111,7 @@ class ModuleStoreLocatorSearch extends \Module {
                     ,   'options'   => $aCategories
                     )
                 ,   'category'
-                ,   ($aSearchValues['category']?$aSearchValues['category']:'')
+                ,   ($aSearchValues['category']?$aSearchValues['category']:'all')
                 )
             );
         }
@@ -135,7 +135,7 @@ class ModuleStoreLocatorSearch extends \Module {
 
                     $widgetCategories->validate();
 
-                    if( $widgetCategories->value ) {
+                    if( $widgetCategories->value && $widgetCategories->value != 'all' ) {
                         $aData[] = $widgetCategories->value;
                     }
                 }
@@ -163,7 +163,7 @@ class ModuleStoreLocatorSearch extends \Module {
 
             $oTemplateAutocomplete = new \FrontendTemplate('script_storelocator_autocomplete');
             $oTemplateAutocomplete->mapsKey = \Config::get('google_maps_browser_key');
-            $oTemplateAutocomplete->country = $this->storelocator_search_country;
+            $oTemplateAutocomplete->country = $this->storelocator_default_country;
             $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
             $this->Template->autoComplete = $oTemplateAutocomplete->parse();

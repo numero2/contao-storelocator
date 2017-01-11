@@ -71,7 +71,7 @@ class ModuleStoreLocatorList extends \Module {
         $aEntries = array();
 
         // do not render list module if no empty search is allowed
-        if( !$this->storelocator_allow_empty_search && !$sSearchVal ) {
+        if( !$this->storelocator_always_show_results && !$sSearchVal ) {
 
             $this->Template->preventRendering = true;
 
@@ -141,7 +141,7 @@ class ModuleStoreLocatorList extends \Module {
 			$aCountryNames = array();
 			$aCountryNames = $this->getCountries();
 
-            if( !empty($aSearchValues['term']) || $this->storelocator_allow_empty_search ) {
+            if( !empty($aSearchValues['term']) || $this->storelocator_always_show_results ) {
 
 				// search for longitude and latitude
 				if( !empty($aSearchValues['term']) && (empty($aSearchValues['longitude']) || empty($aSearchValues['latitude'])) ) {
@@ -168,7 +168,7 @@ class ModuleStoreLocatorList extends \Module {
                 } else {
 
                     $objStores = StoresModel::searchCountry(
-						$this->storelocator_search_country,
+						$this->storelocator_default_country,
 						$this->storelocator_list_limit,
 						($category?$category:$aCategories));
                 }
@@ -259,7 +259,7 @@ class ModuleStoreLocatorList extends \Module {
         $this->Template->showMap = true;
 
         $oTemplateGoogleMap = new \FrontendTemplate('script_storelocator_googlemap');
-        $oTemplateGoogleMap->country = $this->storelocator_search_country;
+        $oTemplateGoogleMap->country = $this->storelocator_default_country;
         $oTemplateGoogleMap->mapsKey = \Config::get('google_maps_browser_key');
         $mapPins = array();
 

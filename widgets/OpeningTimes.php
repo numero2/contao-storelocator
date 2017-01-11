@@ -242,12 +242,12 @@ class OpeningTimes extends \Widget {
 		,	'from' => array(
 				'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_from']
 			,	'inputType'               	=> 'text'
-			,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>5, 'style'=>'width:60px' )
+			,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:60px' )
 			)
 		,	'to' => array(
 				'label'                   	=> &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_to']
 			,	'inputType'               	=> 'text'
-			,	'eval'                    	=> array( 'mandatory'=>true, 'maxlength'=>5, 'style'=>'width:60px' )
+			,	'eval'                    	=> array( 'mandatory'=>false, 'maxlength'=>5, 'style'=>'width:60px' )
 			)
 		);
 

@@ -23,17 +23,17 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_allow_empty_search,jumpTo;{sl_map_legend},storelocator_show_map;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,jumpTo;{sl_map_legend},storelocator_show_map;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_allow_empty_search';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_always_show_results';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_show_map';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_search_country';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_allow_empty_search'] = 'storelocator_search_country';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_default_country';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
 
 
@@ -48,13 +48,13 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = 
 ,   'sql'                 => "char(1) NOT NULL default '0'"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_country'] = array(
-	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_country']
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_default_country']
 ,	'inputType'           => 'select'
 ,	'options_callback'    => array( 'tl_module_storelocator', 'getCountries' )
 ,	'default'			  => 'de'
 ,	'search'              => true
-,	'eval'                => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50' )
+,	'eval'                => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true )
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
 );
 
@@ -114,8 +114,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = array(
 ,   'sql'                 => "int(5) unsigned NOT NULL default '0'"
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_allow_empty_search'] = array(
-	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_allow_empty_search']
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_always_show_results'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_always_show_results']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
