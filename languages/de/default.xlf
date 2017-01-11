@@ -50,20 +50,20 @@
         <target>Zu Ihrer Suchanfrage wurden leider keine Ergebnisse gefunden.</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.interactions.nothing">
-        <source>Nothing</source>
-        <target>Nichts</target>
+        <source>do nothing</source>
+        <target>nichts tun</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.interactions.showMarkerInfo">
-        <source>Show marker information</source>
-        <target>Zeige Marker Infos</target>
+        <source>show further information</source>
+        <target>weitere Informationen anzeigen</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.interactions.scrollToListElement">
-        <source>Scroll to list element</source>
-        <target>Scrolle zum Listenelement</target>
+        <source>scroll to entry in results list</source>
+        <target>zum Eintrag in der Ergebnisliste scrollen</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.interactions.scrollToMapAndCenterMarker">
-        <source>Scroll to map and center marker</source>
-        <target>Scrolle zur Karte und zentriere den Pin</target>
+        <source>center map around the according pin</source>
+        <target>die Karte auf den passenden Pin zentrieren</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.field.distance">
         <source>Distance approx.</source>

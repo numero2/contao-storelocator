@@ -104,33 +104,29 @@
         <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
         <target>Sollen die Händler neben der Ergebnisliste auch in einer Google Map angezeigt werden?</target>
     </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_default_center.0">
-        <source>Center of Google Map</source>
-        <target>Zentrum der Google Map</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_default_center.1">
-        <source>Center of the map if an empty search was done. (Latitude, Longitude)</source>
-        <target>Zentrum der Karte, wenn eine Leersuche ausgeführt wurde. (Breitengrad, Längengrad)</target>
-    </trans-unit>
     <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
         <source>Load more results on pan </source>
-        <target>Weitere Ergebnisse beim Ziehen der Karte nachladen</target>
+        <target>Weitere Ergebnisse nachladen</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_load_results_on_pan.1">
+        <source>More results will be loaded when paning the map</source>
+        <target>Weitere Ergebnisse werden automatisch beim Ziehen der Karte nachgeladen</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_interaction.0">
-        <source>Map interaction</source>
-        <target>Karten Interaktion</target>
+        <source>When clicking a pin on the map …</source>
+        <target>Beim Anklicken eines Pins auf der Karte …</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_interaction.1">
-        <source>What action should be performed</source>
-        <target>Was für eine Aktion soll ausgeführt werden</target>
+        <source>What action should be performed when clicking a pin on the map?</source>
+        <target>Welche Aktion soll beim Anklicken eines Pins auf der Karte ausgeführt werden?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_list_interaction.0">
-        <source>Result list interaction</source>
-        <target>Ergebnislisten Interaktion</target>
+        <source>When clicking an entry in the results …</source>
+        <target>Beim Anklicken eines Eintrags in der Ergebnisliste …</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_list_interaction.1">
-        <source>What action should be performed</source>
-        <target>Was für eine Aktion soll ausgeführt werden</target>
+        <source>What action should be performed when clicking an entry in the results?</source>
+        <target>Welche Aktion soll beim Anklicken eines Eintrags in der Ergebnisliste ausgeführt werden?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_pin.0">
         <source>Pin image</source>
