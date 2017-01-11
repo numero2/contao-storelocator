@@ -31,16 +31,15 @@ class StoresModel extends \Model {
 
 
 	/**
-	 * Return a list of stores near the given location
+	 * Return a list of stores near the given location, results can be filtered by distance, number and categories
 	 *
 	 * @param  integer $latitude
 	 * @param  integer $longitude
 	 * @param  integer $distance
-	 * @param  array   $categories
-	 * @param  string  $country
 	 * @param  integer $limit
+	 * @param  array   $categories
 	 *
-	 * @return [type]
+	 * @return collection
 	 */
 	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL) {
 
@@ -66,6 +65,18 @@ class StoresModel extends \Model {
 	}
 
 
+	/**
+	 * Return a list of stores in the given country location, results can be filtered by number and categories
+	 *
+	 * @param  integer $latitude
+	 * @param  integer $longitude
+	 * @param  integer $distance
+	 * @param  string  $country
+	 * @param  integer $limit
+	 * @param  array   $categories
+	 *
+	 * @return collection
+	 */
 	public static function searchCountry($country=NULL, $limit=0, $categories=NULL ) {
 
 		$objStores = \Database::getInstance()->prepare("
@@ -82,6 +93,18 @@ class StoresModel extends \Model {
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
 
+	/**
+	 * Return a list of stores in the given geocoordinates, results can be filtered by categories
+	 *
+	 * @param  integer $latitude
+	 * @param  integer $longitude
+	 * @param  integer $distance
+	 * @param  string  $country
+	 * @param  integer $limit
+	 * @param  array   $categories
+	 *
+	 * @return collection
+	 */
 	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL ) {
 
 		$objStores = \Database::getInstance()->prepare("
@@ -96,6 +119,5 @@ class StoresModel extends \Model {
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
-
 
 }
