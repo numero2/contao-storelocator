@@ -22,8 +22,8 @@
         <target>Google Maps Browser-Schlüssel</target>
     </trans-unit>
     <trans-unit id="tl_settings.err.missing_key">
-        <source>The <![CDATA[<b>]]>%s<![CDATA[</b>]]> is missing in settings</source>
-        <target>Der <![CDATA[<b>]]>%s<![CDATA[</b>]]> wurde nicht in den Einstellungen eingetragen</target>
+        <source>The <![CDATA[<b>]]>%s<![CDATA[</b>]]> is missing in settings <![CDATA[<a href="https://github.com/numero2/contao-storelocator/wiki/Google-Keys" target="_blank">More information</a>]]></source>
+        <target>Der <![CDATA[<b>]]>%s<![CDATA[</b>]]> wurde nicht in den Einstellungen eingetragen. <![CDATA[<a href="https://github.com/numero2/contao-storelocator/wiki/Google-Keys" target="_blank">Mehr Informationen</a>]]></target>
     </trans-unit>
 </body>
 </file>

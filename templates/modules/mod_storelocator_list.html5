@@ -18,12 +18,15 @@
 
         <?php foreach( $this->entries as $entry ): ?>
         <div id="result_<?= $entry->id; ?>" class="entry <?= $entry->class; ?>">
+
             <h3><?= $entry->name; ?></h3>
+
             <?php if( $entry->distance ): ?>
 			<div class="distance">
             	<?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
 			</div>
             <?php endif; ?>
+
 			<div class="address">
 				<?php echo $entry->street; ?>, <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
 				<?php echo $entry->country_name; ?>

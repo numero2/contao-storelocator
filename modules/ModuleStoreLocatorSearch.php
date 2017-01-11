@@ -88,15 +88,16 @@ class ModuleStoreLocatorSearch extends \Module {
         );
 
         $widgetCategories = NULL;
+        $aAvailableCategories = deserialize($this->storelocator_search_categories);
 
-        if( $categories = deserialize($this->storelocator_search_categories) ) {
+        if( count($aAvailableCategories) > 1 ) {
 
             $aCategories = array(
                 '' => $GLOBALS['TL_LANG']['tl_storelocator']['field']['all_categories']
             );
 
             $oCategories = NULL;
-            $oCategories = CategoriesModel::findMultipleByIds($categories);
+            $oCategories = CategoriesModel::findMultipleByIds($aAvailableCategories);
 
             while( $oCategories->next() ) {
                 $aCategories[ $oCategories->alias ] = $oCategories->title;

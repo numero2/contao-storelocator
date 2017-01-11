@@ -226,6 +226,14 @@ class ModuleStoreLocatorList extends \Module {
 		$this->Template->entries = $aEntries;
 	}
 
+
+    /**
+     * Add necessary template for google map
+     *
+     * @param  array $aEntries
+     *
+     * @return none
+     */
     private function addGoogleMap( $aEntries=NULL ) {
 
         global $objPage;
@@ -241,21 +249,26 @@ class ModuleStoreLocatorList extends \Module {
             $mapPins['default'] = $this->storelocator_map_pin;
         }
 
-        // gather pins
-        $pins = CategoriesModel::getMapPins();
-        $pins = $pins->fetchAll();
+        // gather pins graphics
+        $oMapPins = NULL;
+        $oMapPins = CategoriesModel::getMapPins();
+        $oMapPins = $oMapPins->fetchAll();
 
-        foreach( $pins as $key => $value ) {
+        foreach( $oMapPins as $key => $value ) {
 
             if( !empty($value['map_pin']) ){
                 $mapPins[$value['id']] = $value['map_pin'];
             }
         }
+
         foreach( $mapPins as $key => $value ) {
-            $file = \FilesModel::findByUuid($value);
-            if( !empty($file->path) ) {
-                $mapPins[$key] = $file->path;
-            }else{
+
+            $oFile = NULL;
+            $oFile = \FilesModel::findByUuid($value);
+
+            if( !empty($oFile->path) ) {
+                $mapPins[$key] = $oFile->path;
+            } else {
                 unset($mapPins[$key]);
             }
         }
@@ -270,7 +283,7 @@ class ModuleStoreLocatorList extends \Module {
         $oTemplateGoogleMap->mapLng = $this->mapLng;
         $oTemplateGoogleMap->entries = $aEntries;
 
-        if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ){
+        if( empty($oTemplateGoogleMap->mapLat) || empty($oTemplateGoogleMap->mapLng) ) {
             $oTemplateGoogleMap->mapLat = deserialize($this->storelocator_map_default_center)[0];
             $oTemplateGoogleMap->mapLng = deserialize($this->storelocator_map_default_center)[1];
         }

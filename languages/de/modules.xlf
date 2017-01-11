@@ -54,7 +54,7 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_enable_autocomplete.1">
         <source>Displays suggestions while typing.</source>
-        <target>Zeigt dem Nutzer Suchvorschläge schon während dem Eingeben an.</target>
+        <target>Zeigt dem Nutzer Suchvorschläge schon während der Eingabe an.</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_search_tpl.0">
         <source>Template</source>
