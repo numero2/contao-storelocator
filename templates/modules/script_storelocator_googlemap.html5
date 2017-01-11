@@ -129,13 +129,10 @@
 
     function initializeGoogleMap() {
 
-        var position = new google.maps.LatLng(<?= $this->mapLat; ?>, <?= $this->mapLng; ?>);
-
         var mapOptions = {
             minZoom: 5,
             maxZoom: 20,
             zoom: 8,
-            center: position
         }
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
