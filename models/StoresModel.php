@@ -96,7 +96,7 @@ class StoresModel extends \Model {
 	 * @param  integer $formLng
 	 * @param  integer $toLng
 	 * @param  integer $formLat
-	 * @param  string  $toLat
+	 * @param  integer  $toLat
 	 * @param  array   $categories
 	 *
 	 * @return collection
