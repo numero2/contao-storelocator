@@ -68,9 +68,6 @@ class StoresModel extends \Model {
 	/**
 	 * Return a list of stores in the given country location, results can be filtered by number and categories
 	 *
-	 * @param  integer $latitude
-	 * @param  integer $longitude
-	 * @param  integer $distance
 	 * @param  string  $country
 	 * @param  integer $limit
 	 * @param  array   $categories
@@ -96,11 +93,10 @@ class StoresModel extends \Model {
 	/**
 	 * Return a list of stores in the given geocoordinates, results can be filtered by categories
 	 *
-	 * @param  integer $latitude
-	 * @param  integer $longitude
-	 * @param  integer $distance
-	 * @param  string  $country
-	 * @param  integer $limit
+	 * @param  integer $formLng
+	 * @param  integer $toLng
+	 * @param  integer $formLat
+	 * @param  string  $toLat
 	 * @param  array   $categories
 	 *
 	 * @return collection
