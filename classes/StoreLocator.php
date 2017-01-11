@@ -148,10 +148,12 @@ class StoreLocator extends \System {
 
         $sQuery = $fullAdress ? $fullAdress : $sQuery;
 
+        $apiKey = \Config::get('google_maps_server_key');
+
         $oRequest = NULL;
         $oRequest = new \Request();
 
-        $oRequest->send("http://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&sensor=false&language=de");
+        $oRequest->send("https://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&key=".$apiKey."&language=de");
 
         $hasError = false;
 
@@ -170,37 +172,18 @@ class StoreLocator extends \System {
 
             } else {
 
-                // try alternative api if google blocked us
-                $oRequest->send("http://maps.google.com/maps/geo?q=".rawurlencode($sQuery)."&output=json&oe=utf8&sensor=false&hl=de");
+                $hasError = true;
 
-                if( $oRequest->code == 200 ) {
-
-                    $aResponse = array();
-                    $aResponse = json_decode( $oRequest->response,1 );
-
-                    if( !empty($aResponse['Status']) && $aResponse['Status']['code'] == 200 ) {
-
-                        $coords = array();
-                        $coords['latitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][1];
-                        $coords['longitude'] = $aResponse['Placemark'][0]['Point']['coordinates'][0];
-
-                        return $coords;
-
-                    } else {
-                        $hasError = true;
-                    }
-
-                } else {
-                    $hasError = true;
-                }
+                // TODO: Find alternative geocoding service
             }
 
         } else {
             $hasError = true;
         }
 
-        if( $hasError )
+        if( $hasError ) {
             $this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
+        }
 
         return false;
     }
@@ -227,7 +210,7 @@ class StoreLocator extends \System {
      */
     public function parseSearchValue( $searchVal=NULL ) {
 
-        if( !$searchVal ){
+        if( !$searchVal ) {
             return null;
         }
 
@@ -236,24 +219,27 @@ class StoreLocator extends \System {
 		}
 
         $ret['term'] = array();
-        if( is_array($searchVal) ){
+
+        if( is_array($searchVal) ) {
 
             $ret['term'] = $searchVal[0];
 
-            if( count($searchVal) == 3 ){
+            if( count($searchVal) == 3 ) {
 
                 $ret['longitude'] = $searchVal[1];
                 $ret['latitude'] = $searchVal[2];
-            } else if( count($searchVal) == 4 ){
+
+            } else if( count($searchVal) == 4 ) {
 
                 $ret['category'] = $searchVal[1];
                 $ret['longitude'] = $searchVal[2];
                 $ret['latitude'] = $searchVal[3];
 
-            } else if( count($searchVal) == 2 ){
+            } else if( count($searchVal) == 2 ) {
 
                 $ret['category'] = $searchVal[1];
             }
+
         } else{
 
             $ret['term'] = $searchVal;
