@@ -68,11 +68,11 @@ class StoreLocatorBackend extends \System {
     /**
 	 * Fills coordinates if not already set and saving
 	 *
-	 * @param DataContainer $dc
+	 * @param $dc  current element ether a DC_Table or a DataContainer
 	 *
-	 * @return bool
+	 * @return none
 	 */
-	public function fillCoordinates( DataContainer $dc ) {
+	public function fillCoordinates( $dc ) {
 
         if( \Input::get('key') == "fillCoordinates" ) {
 
@@ -82,7 +82,6 @@ class StoreLocatorBackend extends \System {
                 WHERE pid = ?
                     AND (longitude = '' OR latitude = '')
                 ")->execute($dc->id);
-            echo "<pre>".print_r($results,1)."</pre>";
 
             $aResults = $results->fetchAllAssoc();
 
