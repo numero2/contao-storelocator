@@ -74,7 +74,13 @@
         marker.addListener('click', function(){
 
             <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
-                    markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
+                for( var id in markers) {
+                    if( "infoWindow" in markers[id] ){
+                        console.log(markers[id].infoWindow);
+                        markers[id].infoWindow.close();
+                    }
+                }
+                markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
             // TODO
             <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
                 document.location.hash = "#result_"+this.data.id;
@@ -102,6 +108,10 @@
 
     <?php if($this->loadMoreResults): ?>
     function updateMarkers() {
+
+        if( Object.keys(markers).length > 5000 ){
+            return;
+        }
 
         var bounds = map.getBounds();
 
