@@ -104,7 +104,8 @@ class StoreLocatorBackend extends \System {
         foreach( $aResults as $key => $value ) {
 
             $oSL = NULL;
-            $oSL = new \numero2\StoreLocator\StoreLocator();
+            $oSL = new StoreLocator();
+
             // find coordinates using google maps api
             $coords = $oSL->getCoordinates(
                 $value['street']

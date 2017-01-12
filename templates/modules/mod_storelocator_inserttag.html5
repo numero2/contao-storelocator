@@ -14,15 +14,15 @@
 	<?php if( $this->store->email ): ?><div class="email"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?php echo $this->store->email; ?>}}</div><?php endif; ?>
 	<?php if( $this->store->url ): ?><div class="www"><?php echo $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?php echo $this->store->url; ?>" target="_blank" title="<?php echo $this->store->name; ?>"><?php echo $this->store->url; ?></a></div><?php endif; ?>
 
-	<?php if( !empty($this->store->opening_times) ): ?>
-	<ul class="times">
-		<?php foreach( $this->store->opening_times as $i => $v ): ?>
-		<li>
-			<?php echo $GLOBALS['TL_LANG']['tl_storelocator']['weekdays'][ $v['weekday'] ];?> <?php echo $v['from']; ?> - <?php echo $v['to']; ?>
-		</li>
-		<?php endforeach; ?>
-	</ul>
-	<?php endif; ?>
+    <?php if( !empty($this->store->opening_times) ): ?>
+    <ul class="opening-times">
+        <?php foreach( $this->store->opening_times as $day ): ?>
+        <li>
+            <?= $day['label']; ?> <?= $day['from']; ?> - <?= $day['to']; ?>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
 
 </section>
 <!-- indexer::continue -->

@@ -13,9 +13,9 @@
  */
 
 
- /**
-  * Add config to tl_module
-  */
+/**
+ * Add config to tl_module
+ */
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage');
 
 

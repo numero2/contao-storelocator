@@ -5,10 +5,10 @@
  *
  * Copyright (c) 2005-2016 Leo Feyer
  *
- * @package   Ads
+ * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   Commercial
+ * @license   LGPL
  * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
  */
 

@@ -64,7 +64,6 @@ class ModuleStoreLocatorSearch extends \Module {
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = '';
 
-
 		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
 			\Input::setGet('search', \Input::get('auto_item'));
 		}

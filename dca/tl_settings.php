@@ -32,6 +32,7 @@ $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace(
 ,   $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']
 );
 
+
 /**
  * Add fields to tl_settings
  */

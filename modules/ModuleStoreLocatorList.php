@@ -107,7 +107,6 @@ class ModuleStoreLocatorList extends \Module {
 						($category?$category:$aCategories),
 					 	$this->storelocator_limit_marker);
 
-
 					$results = array();
 
 					if( $stores && $stores->count() > 0 ) {
@@ -146,9 +145,12 @@ class ModuleStoreLocatorList extends \Module {
 
 				// search for longitude and latitude
 				if( !empty($aSearchValues['term']) && (empty($aSearchValues['longitude']) || empty($aSearchValues['latitude'])) ) {
-					$sl = new StoreLocator();
+
+					$oSL = NULL;
+					$oSL = new StoreLocator();
+
 					$aCoordinates = array();
-					$aCoordinates = $sl->getCoordinatesByString($aSearchValues['term']);
+					$aCoordinates = $oSL->getCoordinatesByString($aSearchValues['term']);
 
 					$aSearchValues['latitude'] = $aCoordinates['latitude'];
 					$aSearchValues['longitude'] = $aCoordinates['longitude'];
@@ -240,7 +242,6 @@ class ModuleStoreLocatorList extends \Module {
 		$this->Template->labelDistance = $GLOBALS['TL_LANG']['tl_storelocator']['field']['distance'];
 		$this->Template->labelMore = $GLOBALS['TL_LANG']['tl_storelocator']['field']['more'];
 		$this->Template->msgNoResults = $GLOBALS['TL_LANG']['tl_storelocator']['noresults'];
-
 
 		$this->Template->entries = $aEntries;
 	}

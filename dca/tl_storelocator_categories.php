@@ -14,8 +14,8 @@
 
 
 /**
-* Table tl_storelocator_categories
-*/
+ * Table tl_storelocator_categories
+ */
 $GLOBALS['TL_DCA']['tl_storelocator_categories'] = array(
 
 	'config' => array(

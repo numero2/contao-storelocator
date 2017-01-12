@@ -33,7 +33,6 @@ class ModuleStoreLocatorImporter extends \Backend {
         $this->import('StoreLocator', 'SL');
         $class = $this->User->uploader;
 
-        // See #4086 and #7046
         if( !class_exists($class) || $class == 'DropZone' ) {
             $class = 'FileUpload';
         }

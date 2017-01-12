@@ -61,7 +61,7 @@
             <?php endif; ?>
         </div>
         <?php endforeach; ?>
-		
+
     <?php else: ?>
 
         <p class="error"><?= $this->msgNoResults; ?></p>

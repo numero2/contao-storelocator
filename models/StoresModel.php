@@ -90,6 +90,7 @@ class StoresModel extends \Model {
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
 
+
 	/**
 	 * Return a list of stores in the given geocoordinates, results can be filtered by categories
 	 *
@@ -112,10 +113,9 @@ class StoresModel extends \Model {
 				? < longitude AND longitude < ?
 			AND ? < latitude AND latitude < ?
 			".($categories? "AND pid IN(".implode(',',$categories).")":"")."
-			".(($limit>0) ? "LIMIT {$limit} ": '')."
+			".(($limit>0) ? "LIMIT {$limit} ": 'LIMIT 500')."
 		")->execute(floatval($formLng), floatval($toLng), floatval($formLat), floatval($toLat));
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);
 	}
-
 }
