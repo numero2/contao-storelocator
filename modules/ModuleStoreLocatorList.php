@@ -104,7 +104,8 @@ class ModuleStoreLocatorList extends \Module {
 					$stores = StoresModel::searchBetweenCoords(
 						\Input::get('fromlng'), \Input::get('tolng'),
 						\Input::get('fromlat'), \Input::get('tolat'),
-						($category?$category:$aCategories) );
+						($category?$category:$aCategories),
+					 	$this->storelocator_limit_marker);
 
 
 					$results = array();

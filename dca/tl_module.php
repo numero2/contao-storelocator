@@ -30,11 +30,13 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_li
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_always_show_results';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_show_map';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_load_results_on_pan';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan'] = 'storelocator_limit_marker';
 
 
 
@@ -126,7 +128,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_map'] = array(
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_map']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'submitOnChange' => true  )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 );
 
@@ -134,8 +136,17 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_load_results_on_pan'] = 
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_load_results_on_pan']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50'  )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50 clr', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '1'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_marker']
+,	'default'             => '100'
+,	'exclude'             => true
+,	'inputType'           => 'text'
+,	'eval'                => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
+,   'sql'                 => "int(5) unsigned NOT NULL default '0'"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_interaction'] = array(

@@ -31,6 +31,16 @@
             addMarker(markers[id]);
         }
         fitMapToMarkers();
+
+
+
+        <?php if($this->loadMoreResults): ?>
+        setTimeout(function(){
+            map.addListener('zoom_changed', updateMarkers);
+            map.addListener('dragend', updateMarkers);
+            map.addListener('tilt_changed', updateMarkers);
+        },500);
+        <?php endif; ?>
     }
 
     function addMarker(item){
@@ -136,12 +146,6 @@
         }
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-    <?php if($this->loadMoreResults): ?>
-        map.addListener('zoom_changed', updateMarkers);
-        map.addListener('dragend', updateMarkers);
-        map.addListener('tilt_changed', updateMarkers);
-    <?php endif; ?>
 
     <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
         jQuery('.mod_storelocator_list > .entry').click(function(){

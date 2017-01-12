@@ -98,10 +98,11 @@ class StoresModel extends \Model {
 	 * @param  integer $formLat
 	 * @param  integer  $toLat
 	 * @param  array   $categories
+	 * @param  integer $limit
 	 *
 	 * @return collection
 	 */
-	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL ) {
+	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL, $limit=0 ) {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
@@ -111,6 +112,7 @@ class StoresModel extends \Model {
 				? < longitude AND longitude < ?
 			AND ? < latitude AND latitude < ?
 			".($categories? "AND pid IN(".implode(',',$categories).")":"")."
+			".(($limit>0) ? "LIMIT {$limit} ": '')."
 		")->execute(floatval($formLng), floatval($toLng), floatval($formLat), floatval($toLat));
 
 		return self::createCollectionFromDbResult($objStores,self::$strTable);

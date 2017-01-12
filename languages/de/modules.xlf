@@ -106,12 +106,20 @@
         <target>Sollen die Händler neben der Ergebnisliste auch in einer Google Map angezeigt werden?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
-        <source>Load more results on pan </source>
+        <source>Load more results on pan</source>
         <target>Weitere Ergebnisse nachladen</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_load_results_on_pan.1">
         <source>More results will be loaded when paning the map</source>
         <target>Weitere Ergebnisse werden automatisch beim Ziehen der Karte nachgeladen</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker.0">
+        <source>Max amount of markers to add dynamically</source>
+        <target>Maximale Anzahl nachzuladener Marker</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker.1">
+        <source>this will not limit the number of markers on the map</source>
+        <target>Maximale Anzahl der Marker die gleichzeitig nachgeladen werden</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_map_interaction.0">
         <source>When clicking a pin on the map …</source>
