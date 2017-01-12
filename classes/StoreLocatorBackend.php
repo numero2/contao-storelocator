@@ -76,6 +76,7 @@ class StoreLocatorBackend extends \System {
 
         if( \Input::get('key') == "fillCoordinates" ) {
 
+            ini_set('max_execution_time', 0);
             $results = \Database::getInstance()->prepare("
                 SELECT *
                 FROM tl_storelocator_stores

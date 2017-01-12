@@ -26,6 +26,7 @@ class ModuleStoreLocatorImporter extends \Backend {
 	 * Generates a form to start import from csv file
 	 */
 	public function showImport() {
+		ini_set('max_execution_time', 0);
 
         $this->import('BackendUser', 'User');
         $this->import('StoreLocator', 'SL');
