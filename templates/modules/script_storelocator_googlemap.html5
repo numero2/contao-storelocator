@@ -76,12 +76,10 @@
             <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
                 for( var id in markers) {
                     if( "infoWindow" in markers[id] ){
-                        console.log(markers[id].infoWindow);
                         markers[id].infoWindow.close();
                     }
                 }
                 markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
-            // TODO
             <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
                 document.location.hash = "#result_"+this.data.id;
             <?php endif;?>
