@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
 				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fillCoordinates']
 			,	'href'                => 'key=fillCoordinates'
 			,	'class'               => 'header_fill_coordinates'
-			,	'attributes'          => 'onclick="Backend.getScrollOffset()"'
+			,	'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\''.$GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running'].'\');"'
 			)
 		,	'importStores' => array (
 				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['importStores']

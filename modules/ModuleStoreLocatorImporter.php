@@ -26,6 +26,7 @@ class ModuleStoreLocatorImporter extends \Backend {
 	 * Generates a form to start import from csv file
 	 */
 	public function showImport() {
+
 		ini_set('max_execution_time', 0);
 
         $this->import('BackendUser', 'User');
@@ -40,7 +41,6 @@ class ModuleStoreLocatorImporter extends \Backend {
         $objUploader = new $class();
 
         if( \Input::post('FORM_SUBMIT') == 'tl_storelocator_import' ) {
-
 
             $arrUploaded = $objUploader->uploadTo('system/tmp');
 
@@ -150,7 +150,7 @@ class ModuleStoreLocatorImporter extends \Backend {
                 <a href="'.ampersand(str_replace('&key=importStores', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
             </div>
             '.\Message::generate().'
-            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_storelocator_import" class="tl_form" method="post" enctype="multipart/form-data">
+            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_storelocator_import" class="tl_form" method="post" enctype="multipart/form-data" onsubmit="AjaxRequest.displayBox(\''.$GLOBALS['TL_LANG']['tl_storelocator']['import']['ajax_import_running'].'\');">
                 <div class="tl_formbody_edit">
                     <input type="hidden" name="FORM_SUBMIT" value="tl_storelocator_import">
                     <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
@@ -158,6 +158,7 @@ class ModuleStoreLocatorImporter extends \Backend {
                     <div class="tl_tbox">
                         <h3 style="margin-bottom: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['head'].'</h3>'.$objUploader->generateMarkup().(isset($GLOBALS['TL_LANG']['tl_storelocator']['import']['file'][1]) ? '
                         <p class="tl_help tl_tip" style="height: 30px; margin-top: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['file'][1].'</p>' : '').'
+                        <p style="margin-top: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['limit_info'].'</p>
                     </div>
                 </div>
                 <div class="tl_formbody_submit">

@@ -210,6 +210,10 @@
         <source>This store will be shown in front of all others regardless of the distance</source>
         <target>Dieser Händler wird bevorzugt angezeigt ungeachtet der Distanz</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
+        <source>Fetching coordinates, this may take up to several minutes …</source>
+        <target>Koordinaten werden ermittelt, dies kann je nach Anzahl mehrere Minuten dauern …</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>
