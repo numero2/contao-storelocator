@@ -15,11 +15,11 @@
                 <?= $this->searchField->generate(); ?>
             </div>
 
-            <? if( $this->categories ): ?>
+            <?php if( $this->categories ): ?>
             <div class="<?= $this->categories->prefix; ?>">
                 <?= $this->categories->generate(); ?>
             </div>
-            <? endif; ?>
+            <?php endif; ?>
 
             <div class="submit_container">
                 <?= $this->submitButton->generate(); ?>
