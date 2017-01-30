@@ -377,7 +377,7 @@ class tl_storelocator_stores extends \Backend {
 
 		return '<div style="float: right; height: 139px; margin-right: 23px; overflow: hidden; width: 320px;">'
 		.'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
-		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&sensor=false" />'
+		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.\Config::get('google_maps_browser_key').'" />'
 		.'</div>';
 	}
 
