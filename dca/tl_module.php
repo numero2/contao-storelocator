@@ -33,7 +33,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_sh
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_load_results_on_pan';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_default_country';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_autocomplete_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan'] = 'storelocator_limit_marker';
@@ -48,6 +48,16 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = 
 ,	'inputType'           => 'checkbox'
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '0'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_autocomplete_country']
+,	'inputType'           => 'select'
+,	'options_callback'    => array( 'tl_module_storelocator', 'getCountries' )
+,	'default'			  => 'de'
+,	'search'              => true
+,	'eval'                => array( 'mandatory'=>false, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true, 'includeBlankOption'=>true )
+,   'sql'                 => "varchar(2) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = array(

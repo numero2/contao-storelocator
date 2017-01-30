@@ -5,8 +5,7 @@
     function initializeAddressAutocomplete() {
 
         autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById('<?=$this->fieldId;?>'),
-            { componentRestrictions: { country: "<?=$this->country;?>"} }
+            document.getElementById('<?=$this->fieldId;?>')<?php if($this->country):?>,{ componentRestrictions: { country: "<?=$this->country;?>"} }<?php endif; ?>
         );
 
         google.maps.event.addListener(autocomplete, 'place_changed', function() {

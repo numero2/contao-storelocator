@@ -41,6 +41,14 @@
         <source>shows details for the chosen store</source>
         <target>zeigt Details zum ausgewählten Händler an.</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_autocomplete_country.0">
+        <source>Default country</source>
+        <target>Standardland</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_autocomplete_country.1">
+        <source>Please select from which country addresses should be suggested (leave empty for no restriction).</source>
+        <target>Bitte wählen Sie aus welchem Land Adressvorschläge angezeigt werden sollen (leer lassen um nicht zu beschränken).</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_default_country.0">
         <source>Default country</source>
         <target>Standardland</target>

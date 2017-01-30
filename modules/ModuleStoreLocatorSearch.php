@@ -162,7 +162,7 @@ class ModuleStoreLocatorSearch extends \Module {
 
             $oTemplateAutocomplete = new \FrontendTemplate('script_storelocator_autocomplete');
             $oTemplateAutocomplete->mapsKey = \Config::get('google_maps_browser_key');
-            $oTemplateAutocomplete->country = $this->storelocator_default_country;
+            $oTemplateAutocomplete->country = $this->storelocator_autocomplete_country;
             $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
             $this->Template->autoComplete = $oTemplateAutocomplete->parse();
