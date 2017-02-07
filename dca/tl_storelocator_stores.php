@@ -92,7 +92,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         )
 	)
 ,	'palettes' => array(
-		'default'                     => '{common_legend},name,alias,email,url,phone,fax,description;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
+		'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
 	)
 ,	'fields' => array(
         'id' => array(
@@ -155,6 +155,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         ,   'inputType'               => 'textarea'
         ,   'eval'                    => array('rte'=>'tinyMCE', 'tl_class'=>'clr')
         ,   'sql'                     => "text NULL"
+        )
+    ,   'singleSRC' => array(
+        	'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['singleSRC']
+        ,   'inputType'               => 'fileTree'
+        ,   'eval'                    => array( 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'mandatory'=>false )
+        ,   'sql'                     => "binary(16) NULL"
         )
 	,	'street' => array(
             'label'                   => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['street']

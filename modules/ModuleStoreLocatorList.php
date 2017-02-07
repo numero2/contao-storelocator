@@ -188,6 +188,14 @@ class ModuleStoreLocatorList extends \Module {
 
                         $entry->class = $entry->highlight ? 'starred' : '';
 
+                        // get image
+                        if( $entry->singleSRC ) {
+
+                            $objFile = NULL;
+                            $objFile = \FilesModel::findByUuid($entry->singleSRC);
+                            $entry->image = $objFile;
+                        }
+
                         if( $this->jumpTo ) {
 
                             $objLink = NULL;
@@ -221,7 +229,6 @@ class ModuleStoreLocatorList extends \Module {
 								$oTemplateInfoWindow->entry = $value;
 
 								$aEntries[$key]->info = json_encode($this->replaceInsertTags($oTemplateInfoWindow->parse()));
-
 							}
 						}
 

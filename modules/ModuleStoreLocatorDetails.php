@@ -72,6 +72,14 @@ class ModuleStoreLocatorDetails extends \Module {
 
             StoreLocator::parseStoreData( $objStore );
 
+            // get image
+            if( $objStore->singleSRC ) {
+
+                $objFile = NULL;
+                $objFile = \FilesModel::findByUuid($objStore->singleSRC);
+                $objStore->image = $objFile;
+            }
+
             $this->Template->store = $objStore;
 
             $this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];

@@ -21,6 +21,12 @@
 
             <h3><?= $entry->name; ?></h3>
 
+            <?php if( $entry->image ): ?>
+                <figure>
+                    {{image::<?=$entry->image->path;?>?width=200&height=180&mode=center_ceter}}
+                </figure>
+            <?php endif; ?>
+
             <?php if( $entry->distance ): ?>
 			<div class="distance">
             	<?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
