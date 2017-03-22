@@ -83,7 +83,7 @@ class StoresModel extends \Model {
 			WHERE
 					pid IN(".implode(',',$categories).")
 				".(($country) ? "AND country = '{$country}' ": '')."
-			ORDER BY highlight DESC, RAND() ASC
+			ORDER BY highlight DESC
 			".(($limit>0) ? "LIMIT {$limit} ": '')."
 		")->execute();
 

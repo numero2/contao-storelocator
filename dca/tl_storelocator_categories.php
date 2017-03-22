@@ -138,10 +138,10 @@ class tl_storelocator_categories extends \Backend {
 		}
 
         $oAlias = NULL;
-        $oAlias = \numero2\StoreLocator\CategoriesModel::findByAlias( $varValue );
+        $oAlias = \numero2\StoreLocator\CategoriesModel::findBy( array('id=? OR alias=?'), array($dc->activeRecord->id,$varValue) );
 
 		// Check whether the alias exists
-		if( $oAlias && count($oAlias) > 1 ) {
+		if( $oAlias && $oAlias->count() > 1 ) {
 
 			if( !$autoAlias ) {
 				throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
