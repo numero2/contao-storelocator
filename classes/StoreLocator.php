@@ -32,6 +32,8 @@ class StoreLocator extends \System {
 	 */
 	public function replaceInsertTags( $strBuffer, $blnCache=false ) {
 
+        \Controller::loadDataContainer( StoresModel::getTable() );
+
         $aParams = array();
         $aParams = explode('::', $strBuffer);
 
@@ -39,24 +41,47 @@ class StoreLocator extends \System {
 
             case 'store' :
 
-				$this->Template = new \FrontendTemplate('mod_storelocator_inserttag');
+                $aDCAFields = array();
+                $aDCAFields = array_keys($GLOBALS['TL_DCA'][ StoresModel::getTable() ]['fields']);
 
-				// find store
-				$objStore = NULL;
-				$objStore = StoresModel::findByIdOrAlias($aParams[1]);
+                // get data from current store
+                if( !empty($aParams[1]) && in_array($aParams[1], $aDCAFields) ) {
 
-                if( !$objStore ) {
-                    return false;
+                    $alias = NULL;
+            		$alias = \Input::get('auto_item') ? \Input::get('auto_item') : \Input::get('store');
+
+                    // find store
+    				$objStore = NULL;
+    				$objStore = StoresModel::findByIdOrAlias($alias);
+
+                    if( !$objStore ) {
+                        return false;
+                    }
+
+                    return $objStore->$aParams[1];
+
+                // get specific store
+                } else {
+
+                    $this->Template = new \FrontendTemplate('mod_storelocator_inserttag');
+
+    				// find store
+    				$objStore = NULL;
+    				$objStore = StoresModel::findByIdOrAlias($aParams[1]);
+
+                    if( !$objStore ) {
+                        return false;
+                    }
+
+                    self::parseStoreData( $objStore );
+
+                    $this->Template->store = $objStore;
+
+                    $sTemplate = $this->Template->parse();
+                    $sTemplate = \Controller::replaceInsertTags($sTemplate);
+
+                    return $sTemplate;
                 }
-
-                self::parseStoreData( $objStore );
-
-				$this->Template->store = $objStore;
-
-				$sTemplate = $this->Template->parse();
-				$sTemplate = \Controller::replaceInsertTags($sTemplate);
-
-				return $sTemplate;
 
             break;
 
