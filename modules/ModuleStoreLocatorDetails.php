@@ -93,6 +93,15 @@ class ModuleStoreLocatorDetails extends \Module {
             ,   \Config::get('google_maps_browser_key')
             );
 
+            // HOOK: add custom logic
+    		if( isset($GLOBALS['TL_HOOKS']['parseStoreDetails']) && is_array($GLOBALS['TL_HOOKS']['parseStoreDetails']) ) {
+
+    			foreach( $GLOBALS['TL_HOOKS']['parseStoreDetails'] as $callback ) {
+    				$this->import($callback[0]);
+    				$this->{$callback[0]}->{$callback[1]}($objStore, $this);
+    			}
+    		}
+
 		// store not found? throw 404
 		} else {
 
