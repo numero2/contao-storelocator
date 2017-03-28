@@ -127,6 +127,11 @@ class StoreLocator extends \System {
 
         $store->country_code = $store->country;
         $store->country_name = $aCountryNames[ $store->country ];
+
+        // create a clickable link for telephone number
+        if( !empty($store->phone) ) {
+            $store->phoneLink = 'tel://'.preg_replace("|[^\+0-9]|", "", $store->phone);
+        }
     }
 
 

@@ -19,7 +19,7 @@
 
         <?php if( $this->store->phone ): ?>
 		<div class="phone">
-            <?= $this->labelPhone; ?>: <a href="tel://<?= $this->store->phone; ?>"><?= $this->store->phone; ?></a>
+            <?= $this->labelPhone; ?>: <a href="<?= $this->store->phoneLink; ?>"><?= $this->store->phone; ?></a>
         </div>
         <?php endif; ?>
 
