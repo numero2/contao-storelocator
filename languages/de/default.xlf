@@ -114,6 +114,42 @@
         <source>All categories</source>
         <target>alle Händler</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_label">
+        <source>filter Stores</source>
+        <target>Händler filtern</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter">
+        <source>filter</source>
+        <target>filter</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_reset">
+        <source>reset</source>
+        <target>reset</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.name">
+        <source>Name</source>
+        <target>Name</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.postal">
+        <source>ZIP</source>
+        <target>PLZ</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.city">
+        <source>City</source>
+        <target>Ort</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order_label">
+        <source>Entries order by:</source>
+        <target>Einträge sortieren nach:</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order.asc">
+        <source>sorting ascending</source>
+        <target>aufsteigend sortieren</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order.desc">
+        <source>sorting descending</source>
+        <target>absteigend sortieren</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

@@ -128,26 +128,21 @@ class ModuleStoreLocatorSearch extends \Module {
 
             if( !empty($term) ) {
 
-                $aData = array($term);
+                $aSearchValues['term'] = $term;
 
                 if( $widgetCategories ) {
 
                     $widgetCategories->validate();
 
                     if( $widgetCategories->value && $widgetCategories->value != 'all' ) {
-                        $aData[] = $widgetCategories->value;
+                        $aSearchValues['category'] = $widgetCategories->value;
                     }
                 }
 
-                $longitude = \Input::post('longitude');
-                $latitude = \Input::post('latitude');
+                $aSearchValues['longitude'] = \Input::post('longitude');
+                $aSearchValues['latitude'] = \Input::post('latitude');
 
-                if( $longitude && $latitude ) {
-                    $aData[] = $longitude;
-                    $aData[] = $latitude;
-                }
-
-                $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $term;
+                $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
                 $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
                 $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');

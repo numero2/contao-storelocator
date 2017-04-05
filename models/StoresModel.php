@@ -41,7 +41,7 @@ class StoresModel extends \Model {
 	 *
 	 * @return collection
 	 */
-	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL) {
+	public static function searchNearby($latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL, $filter=NULL, $order=NULL) {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
@@ -52,8 +52,9 @@ class StoresModel extends \Model {
 					pid IN(".implode(',',$categories).")
 				AND latitude != ''
 				AND longitude != ''
+				".($filter? "AND ".$filter:"")."
 				".(($distance>0) ? "HAVING distance < {$distance} ": '')."
-			ORDER BY highlight DESC, distance ASC
+			ORDER BY ".($order?$order.", ":"")."highlight DESC, distance ASC
 			".(($limit>0) ? "LIMIT {$limit} ": '')."
 		")->execute(
 			$latitude
@@ -74,7 +75,7 @@ class StoresModel extends \Model {
 	 *
 	 * @return collection
 	 */
-	public static function searchCountry($country=NULL, $limit=0, $categories=NULL ) {
+	public static function searchCountry($country=NULL, $limit=0, $categories=NULL, $filter=NULL, $order=NULL ) {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
@@ -83,7 +84,8 @@ class StoresModel extends \Model {
 			WHERE
 					pid IN(".implode(',',$categories).")
 				".(($country) ? "AND country = '{$country}' ": '')."
-			ORDER BY highlight DESC
+				".($filter? "AND ".$filter:"")."
+			ORDER BY ".($order?$order.", ":"")."highlight DESC
 			".(($limit>0) ? "LIMIT {$limit} ": '')."
 		")->execute();
 
@@ -100,10 +102,11 @@ class StoresModel extends \Model {
 	 * @param  integer  $toLat
 	 * @param  array   $categories
 	 * @param  integer $limit
+	 * @param  String $filter
 	 *
 	 * @return collection
 	 */
-	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL, $limit=0 ) {
+	public static function searchBetweenCoords($formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL, $limit=0, $filter=NULL ) {
 
 		$objStores = \Database::getInstance()->prepare("
 			SELECT
@@ -113,6 +116,7 @@ class StoresModel extends \Model {
 				? < longitude AND longitude < ?
 			AND ? < latitude AND latitude < ?
 			".($categories? "AND pid IN(".implode(',',$categories).")":"")."
+			".($filter? "AND ".$filter:"")."
 			".(($limit>0) ? "LIMIT {$limit} ": 'LIMIT 500')."
 		")->execute(floatval($formLng), floatval($toLng), floatval($formLat), floatval($toLat));
 

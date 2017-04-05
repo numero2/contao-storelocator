@@ -1,10 +1,7 @@
 <?xml version="1.0" ?>
 <xliff version="1.1">
-<file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en"><body>
-    <trans-unit id="tl_module.sl_map_legend">
-        <source>Google Map</source>
-        <target>Google Map</target>
-    </trans-unit>
+<file datatype="php" original="system/modules/storelocator/languages/de/modules.php" source-language="en">
+<body>
     <trans-unit id="MOD.storelocator.0">
         <source>Stores</source>
         <target>Händler</target>
@@ -33,6 +30,14 @@
         <source>lists all available stores</source>
         <target>fügt eine Liste aller Händler zur Seite hinzu.</target>
     </trans-unit>
+    <trans-unit id="FMD.storelocator_filter.0">
+        <source>Storefilter</source>
+        <target>Händlerfilter</target>
+    </trans-unit>
+    <trans-unit id="FMD.storelocator_filter.1">
+        <source>adds a filter mask</source>
+        <target>fügt eine Filtermaske hinzu</target>
+    </trans-unit>
     <trans-unit id="FMD.storelocator_details.0">
         <source>Storedetails</source>
         <target>Händlerdetails</target>
@@ -40,150 +45,6 @@
     <trans-unit id="FMD.storelocator_details.1">
         <source>shows details for the chosen store</source>
         <target>zeigt Details zum ausgewählten Händler an.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_autocomplete_country.0">
-        <source>Default country</source>
-        <target>Standardland</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_autocomplete_country.1">
-        <source>Please select from which country addresses should be suggested (leave empty for no restriction).</source>
-        <target>Bitte wählen Sie aus welchem Land Adressvorschläge angezeigt werden sollen (leer lassen um nicht zu beschränken).</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_default_country.0">
-        <source>Default country</source>
-        <target>Standardland</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_default_country.1">
-        <source>Please select from which country stores should be shown.</source>
-        <target>Bitte wählen Sie aus welchem Land die Händler angezeigt werden sollen.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_enable_autocomplete.0">
-        <source>Enable autosuggest?</source>
-        <target>Vorschläge anzeigen?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_enable_autocomplete.1">
-        <source>Displays suggestions while typing.</source>
-        <target>Zeigt dem Nutzer Suchvorschläge schon während der Eingabe an.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.1">
-        <source>Which template should be used to display the search mask.</source>
-        <target>Wählen Sie mit welchen Template die Suchmaske dargestellt werden soll.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.1">
-        <source>Choose which template should be used to list the stores</source>
-        <target>Wählen Sie mit welchen Template die Händler dargestellt werden sollen.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_categories.0">
-        <source>Categories</source>
-        <target>Händlerkategorien</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_categories.1">
-        <source>From which categories can the user choose to show results?</source>
-        <target>Aus welchen Händlerlisten soll der Nutzer Einträge auswählen können?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_categories.0">
-        <source>Categories</source>
-        <target>Händlerkategorien</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_categories.1">
-        <source>From which category should the stores be displayed</source>
-        <target>Aus welchen Händlerlisten sollen Einträge angezeigt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_always_show_results.0">
-        <source>Always show stores?</source>
-        <target>Händler immer anzeigen?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_always_show_results.1">
-        <source>Should all stores be shown even if no search was performed?</source>
-        <target>Soll der Benutzer ohne vorherige Suchanfrage alle Händler sehen können?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_map.0">
-        <source>Show stores in Google Map?</source>
-        <target>Händler in Google Map anzeigen?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_show_map.1">
-        <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
-        <target>Sollen die Händler neben der Ergebnisliste auch in einer Google Map angezeigt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
-        <source>Load more results on pan</source>
-        <target>Weitere Ergebnisse nachladen</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_load_results_on_pan.1">
-        <source>More results will be loaded when paning the map</source>
-        <target>Weitere Ergebnisse werden automatisch beim Ziehen der Karte nachgeladen</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_limit_marker.0">
-        <source>Max amount of markers to add dynamically</source>
-        <target>Maximale Anzahl nachzuladener Marker</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_limit_marker.1">
-        <source>this will not limit the number of markers on the map</source>
-        <target>Maximale Anzahl der Marker die gleichzeitig nachgeladen werden</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_interaction.0">
-        <source>When clicking a pin on the map …</source>
-        <target>Beim Anklicken eines Pins auf der Karte …</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_interaction.1">
-        <source>What action should be performed when clicking a pin on the map?</source>
-        <target>Welche Aktion soll beim Anklicken eines Pins auf der Karte ausgeführt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_interaction.0">
-        <source>When clicking an entry in the results …</source>
-        <target>Beim Anklicken eines Eintrags in der Ergebnisliste …</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_interaction.1">
-        <source>What action should be performed when clicking an entry in the results?</source>
-        <target>Welche Aktion soll beim Anklicken eines Eintrags in der Ergebnisliste ausgeführt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_pin.0">
-        <source>Pin image</source>
-        <target>Pin-Bild</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_map_pin.1">
-        <source>The normal map pins will be replaced by the chosen image.</source>
-        <target>Die normalen Pins in der Karte werden durch die gewählte Grafik ersetzt.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_limit.0">
-        <source>Number of results</source>
-        <target>Anzahl der Ergebnisse</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_limit.1">
-        <source>How many results should be shown?</source>
-        <target>Wieviele Ergebnisse sollen maximal angezeigt werden?</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.1">
-        <source>Choose which template should be used to show details of the store</source>
-        <target>Wählen Sie mit welchen Template der Händler dargestellt werden soll.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_limit_distance.0">
-        <source>Limit distance</source>
-        <target>Entfernung begrenzen</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_limit_distance.1">
-        <source>Do not show stores which exceed the maximum distance.</source>
-        <target>Einträge ab einer maximalen Entfernung nicht anzeigen.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_max_distance.0">
-        <source>Max distance</source>
-        <target>Maximale Entfernung</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_max_distance.1">
-        <source>The maximum distance in km.</source>
-        <target>Die maximale Entfernung in km.</target>
     </trans-unit>
 </body>
 </file>

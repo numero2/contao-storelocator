@@ -42,9 +42,10 @@ $GLOBALS['BE_FFL']['openingTimes'] = '\numero2\StoreLocator\OpeningTimes';
  * FRONT END MODULES
  */
 $GLOBALS['FE_MOD']['storelocator'] = array(
-    'storelocator_search'   => '\numero2\StoreLocator\ModuleStoreLocatorSearch'
-,   'storelocator_list'     => '\numero2\StoreLocator\ModuleStoreLocatorList'
-,   'storelocator_details'  => '\numero2\StoreLocator\ModuleStoreLocatorDetails'
+    'storelocator_search'       => '\numero2\StoreLocator\ModuleStoreLocatorSearch'
+,   'storelocator_list'         => '\numero2\StoreLocator\ModuleStoreLocatorList'
+,   'storelocator_filter'       => '\numero2\StoreLocator\ModuleStoreLocatorFilter'
+,   'storelocator_details'      => '\numero2\StoreLocator\ModuleStoreLocatorDetails'
 );
 
 
