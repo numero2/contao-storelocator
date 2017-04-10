@@ -9,7 +9,7 @@
             <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>" />
             <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
 
-            <div class="<?= $this->searchField->prefix; ?>">
+            <div class="<?= $this->filterField->prefix; ?>">
                 <?= $this->filterField->generateLabel(); ?>
                 <?= $this->filterField->generate(); ?>
             </div>
