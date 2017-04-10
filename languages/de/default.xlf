@@ -119,15 +119,15 @@
         <target>Händler filtern</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.filter.filter">
-        <source>filter</source>
-        <target>filter</target>
+        <source>Find</source>
+        <target>Finden</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.filter.filter_reset.0">
-        <source>reset</source>
-        <target>reset</target>
+        <source>Reset</source>
+        <target>Reset</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.filter.filter_reset.1">
-        <source>reset all applied filter</source>
+        <source>Reset all applied filter</source>
         <target>Zurücksetzen aller Filter</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.filter.name">
