@@ -40,7 +40,7 @@
 
 	        <?php if( $entry->phone ): ?>
 			<div class="phone">
-	            <?= $this->labelPhone; ?>: <a href="tel://<?= $entry->phone; ?>"><?= $entry->phone; ?></a>
+	            <?= $this->labelPhone; ?>: <a href="<?= $entry->phoneLink; ?>"><?= $entry->phone; ?></a>
 	        </div>
 	        <?php endif; ?>
 
