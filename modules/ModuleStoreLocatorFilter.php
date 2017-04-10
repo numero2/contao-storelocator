@@ -63,7 +63,7 @@ class ModuleStoreLocatorFilter extends \Module {
 
 
         $this->Template->formId = 'storelocator_filter_'.$this->id;
-        $this->Template->action = '';
+        $this->Template->action = \Environment::get('request');
 
 		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
 			\Input::setGet('search', \Input::get('auto_item'));
@@ -91,7 +91,7 @@ class ModuleStoreLocatorFilter extends \Module {
 
         $widgetSubmit = NULL;
         $widgetSubmit = new \FormSubmit();
-        $widgetSubmit->id = 'filter';
+        $widgetSubmit->id = 'filtering';
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
 
         $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
