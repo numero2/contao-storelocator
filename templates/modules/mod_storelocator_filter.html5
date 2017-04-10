@@ -16,7 +16,7 @@
 
             <div class="submit_container">
                 <?= $this->submitButton->generate(); ?>
-                <?= $this->resetButton->generate(); ?>
+                <a href="<?= $this->hrefReset ?>" title="<?= $this->labelReset[1] ?>" class="<?= $value['class'] ?>" rel="nofollow"><?= $this->labelReset[0] ?></a>
             </div>
 
             <div class="sorting_container">

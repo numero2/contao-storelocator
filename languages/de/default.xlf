@@ -122,9 +122,13 @@
         <source>filter</source>
         <target>filter</target>
     </trans-unit>
-    <trans-unit id="tl_storelocator.filter.filter_reset">
+    <trans-unit id="tl_storelocator.filter.filter_reset.0">
         <source>reset</source>
         <target>reset</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_reset.1">
+        <source>reset all applied filter</source>
+        <target>Zurücksetzen aller Filter</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.filter.name">
         <source>Name</source>

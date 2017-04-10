@@ -94,10 +94,28 @@ class ModuleStoreLocatorFilter extends \Module {
         $widgetSubmit->id = 'filter';
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
 
-        $widgetSubmitReset = NULL;
-        $widgetSubmitReset = new \FormSubmit();
-        $widgetSubmitReset->id = 'reset';
-        $widgetSubmitReset->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
+        $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
+        $this->Template->hrefReset = $objPage->getFrontendUrl( '/clear/filter' );
+
+		if( isset($_GET['clear']) && \Input::get('clear') == 'filter' ) {
+
+			$aSearchValues['filter'] = null;
+			$aSearchValues['order'] = null;
+			$aSearchValues['sort'] = null;
+			$strData = StoreLocator::generateSearchvalue($aSearchValues);
+
+			if( count($trData) == 0 ){
+
+				$href = $objPage->getFrontendUrl();
+			} else {
+
+				$href = $objPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
+				$href = sprintf($href, $strData);
+			}
+
+			$this->redirect( $href );
+		}
+
 
         // redirect to listing page
         if( \Input::post('FORM_SUBMIT') == $this->Template->formId ) {
@@ -111,7 +129,7 @@ class ModuleStoreLocatorFilter extends \Module {
 
 				$strData = StoreLocator::generateSearchvalue($aSearchValues);
                 $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
-                $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
+                $href = $objPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
                 $href = sprintf($href, $strData);
 
                 $this->redirect( $href );
