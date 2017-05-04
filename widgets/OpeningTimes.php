@@ -80,6 +80,7 @@ class OpeningTimes extends \Widget {
 
     			$cField->validate();
     			if( $cField->hasErrors() ){
+					$this->class = 'error';
 					$this->arrErrors[$row][$key] = $cField->arrErrors;
 				}
 				$this->blnHasError = $this->blnHasError || $cField->hasErrors();
@@ -142,6 +143,9 @@ class OpeningTimes extends \Widget {
 		if( count($this->value) == 0 ){
 			$this->value = array(array());
 		}
+		if( is_string($this->value) ){
+			$this->value = deserialize($this->value);
+		}
 
 		for ($i = 0; $i < count($this->value); $i++) {
 			$html .= '<tr>';
@@ -168,11 +172,13 @@ class OpeningTimes extends \Widget {
 
 				$html .=  '<td>'.str_replace("<h3></h3>", "", $cField->parse()).'</td>' ;
 	        }
+			$theme = \Backend::getTheme();
+
 			$html .= '<td class="operations">';
-			$html .=  	'<a rel="copy" href="#" class="widgetImage" title=""><img src="system/themes/default/images/copy.gif" width="14" height="16" alt="Die Reihe duplizieren" class="tl_listwizard_img"></a>';
-			$html .=  	'<a rel="up" href="#" class="widgetImage" title=""><img src="system/themes/default/images/up.gif" width="13" height="16" alt="Die Reihe eine Position nach oben verschieben" class="tl_listwizard_img"></a>';
-			$html .=  	'<a rel="down" href="#" class="widgetImage" title=""><img src="system/themes/default/images/down.gif" width="13" height="16" alt="Die Reihe eine Position nach unten verschieben" class="tl_listwizard_img"></a>';
-			$html .=  	'<a rel="delete" href="#" class="widgetImage" title=""><img src="system/themes/default/images/delete.gif" width="14" height="16" alt="Die Reihe löschen" class="tl_listwizard_img"></a>';
+			$html .=  	'<a rel="copy" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/copy.svg" width="14" height="16" alt="Die Reihe duplizieren" class="tl_listwizard_img"></a>';
+			$html .=  	'<a rel="up" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/up.svg" width="13" height="16" alt="Die Reihe eine Position nach oben verschieben" class="tl_listwizard_img"></a>';
+			$html .=  	'<a rel="down" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/down.svg" width="13" height="16" alt="Die Reihe eine Position nach unten verschieben" class="tl_listwizard_img"></a>';
+			$html .=  	'<a rel="delete" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/delete.svg" width="14" height="16" alt="Die Reihe löschen" class="tl_listwizard_img"></a>';
 			$html .= '</td>';
 
 			$html .= '</tr>';
@@ -184,10 +190,11 @@ class OpeningTimes extends \Widget {
 		var clickHandler = function(e){
 			e.preventDefault();
 
-			var row = this.parentElement.parentElement
+			var row = this.parentElement.parentElement;
+			var table = row.parentElement;
 			if( this.rel == "copy" ){
 				var clone = row.cloneNode(true);
-				row.parentElement.insertBefore(clone, row);
+				table.insertBefore(clone, row);
 				var as=clone.querySelectorAll("a");
 				for (i = 0; i < as.length; i++) {
 					as[i].addEventListener("click", clickHandler);
@@ -196,15 +203,15 @@ class OpeningTimes extends \Widget {
 	                Stylect.convertSelects();
 		        }
 			} else if( this.rel == "up" ){
-				if( row.previousSibling == null ) return;
-				row.parentElement.insertBefore(row, row.previousSibling)
+				if( row.previousSibling == null || row.previousSibling.previousSibling == null ) return;
+				table.insertBefore(row, row.previousSibling)
 			} else if( this.rel == "down" ){
 				if( row.nextSibling == null ) return;
-				row.parentElement.insertBefore(row.nextSibling, row)
+				table.insertBefore(row.nextSibling, row)
 			} else if( this.rel == "delete" ){
-				row.parentElement.removeChild(row)
+				table.removeChild(row)
 			}
-			var inputs = row.parentElement.querySelectorAll("input, select");
+			var inputs = table.querySelectorAll("input, select");
 			for (i = 0; i < inputs.length; i++) {
 				var iRow = Math.floor(i/'.$numFields.');
 				inputs[i].id = inputs[i].id.replace(/\[\d\]/, "["+iRow+"]");
