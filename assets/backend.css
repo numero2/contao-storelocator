@@ -25,3 +25,9 @@ a.header_fill_coordinates {
 	padding-top: 4px;
 	width: 70px;
 }
+.opening_times > table tr:nth-child(1) td.operations a[rel="up"],
+.opening_times > table tr:nth-child(2) td.operations a[rel="up"],
+.opening_times > table tr:nth-last-child(1) td.operations a[rel="down"] {
+	cursor: default;
+	pointer-events: none;
+}
