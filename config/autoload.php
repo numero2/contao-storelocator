@@ -38,6 +38,7 @@ ClassLoader::addClasses(array
 	// Modules
     'numero2\StoreLocator\ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
     'numero2\StoreLocator\ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',
+    'numero2\StoreLocator\ModuleStoreLocatorFilter'     => 'system/modules/storelocator/modules/ModuleStoreLocatorFilter.php',
     'numero2\StoreLocator\ModuleStoreLocatorDetails'    => 'system/modules/storelocator/modules/ModuleStoreLocatorDetails.php',
     'numero2\StoreLocator\ModuleStoreLocatorImporter'   => 'system/modules/storelocator/modules/ModuleStoreLocatorImporter.php',
 
@@ -54,6 +55,7 @@ TemplateLoader::addFiles(array
     'mod_storelocator_details'         => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_inserttag'       => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_list'            => 'system/modules/storelocator/templates/modules',
+    'mod_storelocator_filter'          => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_infowindow'      => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_search'          => 'system/modules/storelocator/templates/modules',
 	'script_storelocator_autocomplete' => 'system/modules/storelocator/templates/modules',

@@ -70,6 +70,11 @@ class ModuleStoreLocatorList extends \Module {
 
         $aEntries = array();
 
+		if( $this->storelocator_use_filter ){
+
+			$modFilter = \ModuleModel::findById($this->storelocator_mod_filter);
+			$filterFields = deserialize($modFilter->storelocator_search_in);
+		}
         // do not render list module if no empty search is allowed
         if( !$this->storelocator_always_show_results && !$sSearchVal ) {
 
@@ -101,11 +106,15 @@ class ModuleStoreLocatorList extends \Module {
 
 				if( \Input::get('action') == "getMarkers" ) {
 
+
+
 					$stores = StoresModel::searchBetweenCoords(
 						\Input::get('fromlng'), \Input::get('tolng'),
 						\Input::get('fromlat'), \Input::get('tolat'),
 						($category?$category:$aCategories),
-					 	$this->storelocator_limit_marker);
+					 	$this->storelocator_limit_marker,
+					 	(!empty($aSearchValues['filter'])&&$this->storelocator_use_filter)?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):NULL
+					);
 
 					$results = array();
 
@@ -165,7 +174,11 @@ class ModuleStoreLocatorList extends \Module {
 						$aSearchValues['latitude'], $aSearchValues['longitude'],
 						($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
 						$this->storelocator_list_limit,
-						($category?$category:$aCategories));
+						($category?$category:$aCategories),
+						(!empty($aSearchValues['filter'])&&$this->storelocator_use_filter)?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):NULL,
+						(!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):NULL
+					);
+
 
                 // search selected country only
                 } else {
@@ -173,7 +186,11 @@ class ModuleStoreLocatorList extends \Module {
                     $objStores = StoresModel::searchCountry(
 						$this->storelocator_default_country,
 						$this->storelocator_list_limit,
-						($category?$category:$aCategories));
+						($category?$category:$aCategories),
+						(!empty($aSearchValues['filter'])&&$this->storelocator_use_filter)?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):NULL,
+						(!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):NULL
+					);
+
                 }
 
                 if( count($objStores) ) {
@@ -239,7 +256,7 @@ class ModuleStoreLocatorList extends \Module {
 
                     $this->Template->noResults = true;
                 }
-            }
+			}
         }
 
 		$this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];

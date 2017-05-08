@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <xliff version="1.1">
-<file datatype="php" original="system/modules/xmlrpc/languages/en/tl_page.php" source-language="en">
+<file datatype="php" original="system/modules/storelocator/languages/de/tl_settings.php" source-language="en">
 <body>
     <trans-unit id="tl_settings.storelocator_legend">
         <source>StoreLocator Settings</source>

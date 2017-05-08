@@ -134,7 +134,6 @@
             },
             dataType: 'json',
             type: 'GET',
-            async: false,
             success: function( response ) {
 
                 if( response ) {

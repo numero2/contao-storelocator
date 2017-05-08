@@ -248,32 +248,102 @@ class StoreLocator extends \System {
 			$searchVal = explode(";", $searchVal);
 		}
 
-        $ret['term'] = array();
+        $ret = array();
 
         if( is_array($searchVal) ) {
 
-            $ret['term'] = $searchVal[0];
-
             if( count($searchVal) == 3 ) {
 
-                $ret['longitude'] = $searchVal[1];
-                $ret['latitude'] = $searchVal[2];
+                $ret['filter'] = $searchVal[0];
+                $ret['order'] = $searchVal[1];
+                $ret['sort'] = $searchVal[2];
 
-            } else if( count($searchVal) == 4 ) {
+            } else {
 
-                $ret['category'] = $searchVal[1];
-                $ret['longitude'] = $searchVal[2];
-                $ret['latitude'] = $searchVal[3];
+                if( !empty($searchVal[0])) $ret['term'] = $searchVal[0];
+                if( !empty($searchVal[1])) $ret['category'] = $searchVal[1];
+                if( !empty($searchVal[2])) $ret['longitude'] = $searchVal[2];
+                if( !empty($searchVal[3])) $ret['latitude'] = $searchVal[3];
 
-            } else if( count($searchVal) == 2 ) {
-
-                $ret['category'] = $searchVal[1];
+                if( !empty($searchVal[4])) $ret['filter'] = $searchVal[4];
+                if( !empty($searchVal[5])) $ret['order'] = $searchVal[5];
+                if( !empty($searchVal[6])) $ret['sort'] = $searchVal[6];
             }
 
         } else{
 
             $ret['term'] = $searchVal;
         }
+
+        return $ret;
+    }
+
+
+    /**
+     * generates the search string
+     *
+     * @param string The generated search string
+     *
+     * @return array
+     */
+    public function generateSearchValue( $arrData ){
+
+        $aData = array();
+
+        if( !empty($arrData['term']) ){
+
+            $aData[0] = $arrData['term'];
+            if( !empty($arrData['category']) ){
+                $aData[1] = $arrData['category'];
+            }
+            if( $arrData['longitude'] && $arrData['latitude'] ){
+                $aData[1] = $aData[1]?$aData[1]:'';
+                $aData[2] = $arrData['longitude'];
+                $aData[3] = $arrData['latitude'];
+            }
+        }
+
+        if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) ){
+            if( count($aData) == 0 ){
+
+                $aData[0] = $arrData['filter'];
+                $aData[1] = $arrData['order'];
+                $aData[2] = $arrData['sort'];
+            } else {
+
+                $aData[0] = $aData[0]?$aData[0]:'';
+                $aData[1] = $aData[1]?$aData[1]:'';
+                $aData[2] = $aData[2]?$aData[2]:'';
+                $aData[3] = $aData[3]?$aData[3]:'';
+                $aData[4] = $arrData['filter'];
+                $aData[5] = $arrData['order'];
+                $aData[6] = $arrData['sort'];
+            }
+        }
+
+        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $aData[0];
+
+        return $strData;
+    }
+
+
+    /**
+     * Create filter where from value and field list
+     *
+     * @param  String $value
+     * @param  array $fields
+     *
+     * @return array
+     */
+    public static function createFilterWhereClause( $searchValue, $fields ){
+
+        $ret = array();
+
+        foreach( $fields as $key => $field ){
+            $ret[] = $field." LIKE '%".$searchValue."%'";
+        }
+
+        $ret = '('.implode(" OR ",$ret).')';
 
         return $ret;
     }

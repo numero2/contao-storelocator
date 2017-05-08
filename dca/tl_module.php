@@ -23,7 +23,8 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('\numero2
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,jumpTo;{sl_map_legend},storelocator_show_map;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend:hide},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend:hide},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},storelocator_filter_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
@@ -31,8 +32,10 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_en
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_always_show_results';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_show_map';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_load_results_on_pan';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_use_filter';
 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 'storelocator_max_distance';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_use_filter'] = 'storelocator_mod_filter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_autocomplete_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
@@ -207,6 +210,50 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
 );
 
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_filter_tpl'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_filter_tpl']
+,	'default'             => 'mod_storelocator_filter'
+,	'exclude'             => true
+,	'inputType'           => 'select'
+,	'options_callback'    => array('tl_module_storelocator', 'getTemplates')
+,	'eval'                => array( 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(255) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_in']
+,	'inputType'           => 'checkboxWizard'
+,	'options_callback'    => array('tl_module_storelocator', 'getStoreFields')
+,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'clr w50')
+,   'sql'                 => "blob NULL"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_sortable'] = array(
+	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_sortable']
+,	'inputType'           => 'checkboxWizard'
+,	'options_callback'    => array('tl_module_storelocator', 'getStoreFields')
+,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'w50')
+,   'sql'                 => "blob NULL"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_filter'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_use_filter']
+,	'inputType'           => 'checkbox'
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
+,   'sql'                 => "char(1) NOT NULL default '0'"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = array(
+    'label'             => &$GLOBALS['TL_LANG']['tl_module']['storelocator_mod_filter']
+,   'inputType'         => 'select'
+,   'exclude'           => true
+,   'options_callback'  => array('tl_module_storelocator', 'getFilterModules')
+,   'eval'              => array('mandatory'=>true, 'tl_class'=>'w50')
+,   'wizard'            => array( array('tl_module_storelocator', 'editModule') )
+,   'sql'               => "int(10) NOT NULL default '0'"
+);
+
+
+
 class tl_module_storelocator extends \Backend {
 
 
@@ -248,4 +295,65 @@ class tl_module_storelocator extends \Backend {
 
 		return $this->getTemplateGroup('mod_storelocator_', $intPid);
 	}
+
+
+    /**
+     * Returns a list of all templates
+     *
+     * @param  DataContainer $dc
+     *
+     * @return array
+     */
+	public function getStoreFields() {
+
+        self::loadLanguageFile('tl_storelocator_stores');
+
+        $arr = array(
+            'name' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['name'][0]
+        ,   'email' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['email'][0]
+        ,   'url' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['url'][0]
+        ,   'phone' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['phone'][0]
+        ,   'fax' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['fax'][0]
+        ,   'description' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['description'][0]
+        ,   'postal' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['postal'][0]
+        ,   'city' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['city'][0]
+        );
+
+		return $arr;
+	}
+
+
+    /**
+     * Generates a list of all Stores with Categorie 1
+     *
+     * @return array
+     */
+    public function getFilterModules() {
+
+        $oModule = \ModuleModel::findBy('type', 'storelocator_filter');
+        $aModule = array();
+
+        if( $oModule ) {
+
+            foreach( $oModule as $key => $value ) {
+
+                $aModule[$value->id] = $value->name.' (ID: '.$value->id.')';
+            }
+        }
+
+        return $aModule;
+    }
+
+
+    /**
+    * Return the edit module wizard
+    *
+    * @param DataContainer $dc
+    *
+    * @return string
+    */
+    public function editModule(DataContainer $dc) {
+
+        return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . sprintf(specialchars($GLOBALS['TL_LANG']['tl_module']['editalias'][1]), $dc->value) . '" style="padding-left:3px" onclick="Backend.openModalIframe({\'width\':768,\'title\':\'' . specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_module']['editalias'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.gif', $GLOBALS['TL_LANG']['tl_module']['editalias'][0], 'style="vertical-align:top"') . '</a>';
+    }
 }

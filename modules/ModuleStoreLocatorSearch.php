@@ -62,7 +62,7 @@ class ModuleStoreLocatorSearch extends \Module {
 		$this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
 
         $this->Template->formId = 'storelocator_search_'.$this->id;
-        $this->Template->action = '';
+        $this->Template->action = \Environment::get('request');
 
 		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
 			\Input::setGet('search', \Input::get('auto_item'));
@@ -128,26 +128,21 @@ class ModuleStoreLocatorSearch extends \Module {
 
             if( !empty($term) ) {
 
-                $aData = array($term);
+                $aSearchValues['term'] = $term;
 
                 if( $widgetCategories ) {
 
                     $widgetCategories->validate();
 
                     if( $widgetCategories->value && $widgetCategories->value != 'all' ) {
-                        $aData[] = $widgetCategories->value;
+                        $aSearchValues['category'] = $widgetCategories->value;
                     }
                 }
 
-                $longitude = \Input::post('longitude');
-                $latitude = \Input::post('latitude');
+                $aSearchValues['longitude'] = \Input::post('longitude');
+                $aSearchValues['latitude'] = \Input::post('latitude');
 
-                if( $longitude && $latitude ) {
-                    $aData[] = $longitude;
-                    $aData[] = $latitude;
-                }
-
-                $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $term;
+                $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
                 $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
                 $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
