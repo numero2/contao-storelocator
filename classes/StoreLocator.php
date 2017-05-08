@@ -58,7 +58,7 @@ class StoreLocator extends \System {
                         return false;
                     }
 
-                    return $objStore->$aParams[1];
+                    return $objStore->{$aParams[1]};
 
                 // get specific store
                 } else {
