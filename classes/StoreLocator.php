@@ -106,7 +106,7 @@ class StoreLocator extends \System {
     public static function parseStoreData( StoresModel &$store ) {
 
         // get opening times
-        $aTimes = unserialize( $store->opening_times );
+        $aTimes = deserialize( $store->opening_times );
         $aTimes = !empty($aTimes[0]['from']) ? $aTimes : NULL;
 
         if( !empty($aTimes) ) {
