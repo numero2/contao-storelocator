@@ -1,48 +1,74 @@
 a.header_stores_import {
-	padding-left: 25px;
-	background: url("import.png") no-repeat 7px center;
+    padding-left: 25px;
+    background: url("import.svg") no-repeat 7px center;
     background-size: 12px;
-}
-a.header_fill_coordinates {
-	padding-left: 25px;
-	background: url("coords1.png") no-repeat 7px center;
-    background-size: 12px;
-}
-.opening_times > table {
-	width: 100%;
-}
-.opening_times > table tr {
-	height: 1.5rem;
-}
-.opening_times > table tr:nth-child(1) {
-	height: 1rem;
-}
-.opening_times > table tr td:nth-child(1) {
-	width: 490px;
-}
-.opening_times > table tr td:nth-child(2),
-.opening_times > table tr td:nth-child(3) {
-	padding-top: 4px;
-	width: 70px;
-}
-.opening_times > table tr:nth-child(1) td.operations a[rel="up"],
-.opening_times > table tr:nth-child(2) td.operations a[rel="up"],
-.opening_times > table tr:nth-last-child(1) td.operations a[rel="down"] {
-	cursor: default;
-	pointer-events: none;
 }
 
-#pal_config_legend .heightAuto {
-	height: auto;
+a.header_fill_coordinates {
+    padding-left: 25px;
+    background: url("coords1.svg") no-repeat 7px center;
+    background-size: 12px;
 }
+
+fieldset.tl_box .heightAuto {
+    height: auto;
+}
+
 #pal_config_legend #ctrl_storelocator_search_in,
 #pal_config_legend #ctrl_storelocator_sortable {
     display: block;
     max-height: 255px;
 }
+
 #pal_config_legend #ctrl_storelocator_search_in .sortable,
 #pal_config_legend #ctrl_storelocator_sortable .sortable {
     max-height: 195px;
     width: 97%;
     overflow-y: scroll;
+}
+
+.widget .opening_times table {
+    width: 100%;
+}
+
+.widget .opening_times table tr:nth-child(1) td.operations a[rel="up"],
+.widget .opening_times table tr:nth-child(2) td.operations a[rel="up"],
+.widget .opening_times table tr:nth-last-child(1) td.operations a[rel="down"] {
+    cursor: default;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.widget .opening_times table tr th, .widget .opening_times table tr td {
+    padding-bottom: 4px;
+}
+
+.widget .opening_times table tr th:nth-child(4), .widget .opening_times table tr td:nth-child(4) {
+    width: 55px;
+}
+
+.widget .opening_times table tr th:nth-child(2), .widget .opening_times table tr th:nth-child(3), .widget .opening_times table tr td:nth-child(2), .widget .opening_times table tr td:nth-child(3) {
+    width: 65px;
+}
+
+.widget .opening_times table tr th select, .widget .opening_times table tr th input, .widget .opening_times table tr td select, .widget .opening_times table tr td input {
+    display: block;
+    width: calc(100% - 10px) !important;
+    margin: 0;
+}
+
+#pal_geo_legend .google-map {
+    margin: 0 2%;
+}
+
+#pal_geo_legend .google-map img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media screen and (min-width: 768px) {
+    #pal_geo_legend .google-map {
+        float: left;
+    }
 }

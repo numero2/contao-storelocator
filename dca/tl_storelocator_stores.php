@@ -64,35 +64,35 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             'edit' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['edit']
 			,	'href'                => 'act=edit'
-			,	'icon'                => 'edit.gif'
+			,	'icon'                => 'edit.svg'
             )
 		,	'copy' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['copy']
 			,	'href'                => 'act=copy'
-			,	'icon'                => 'copy.gif'
+			,	'icon'                => 'copy.svg'
             )
 		,	'delete' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['delete']
 			,	'href'                => 'act=delete'
-			,	'icon'                => 'delete.gif'
+			,	'icon'                => 'delete.svg'
 			,	'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
         ,   'highlight' => array(
 				'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
-            ,   'icon'                => 'featured.gif'
+            ,   'icon'                => 'featured.svg'
             ,   'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleFeatured(this,%s)"'
             ,   'button_callback'     => array('tl_storelocator_stores', 'iconHighlight')
 			)
 		,	'coords' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
 			,	'href'                => 'act=show'
-			,	'icon'                => array( 'system/modules/storelocator/assets/coords0.png', 'system/modules/storelocator/assets/coords1.png' )
+			,	'icon'                => array( 'system/modules/storelocator/assets/coords0.svg', 'system/modules/storelocator/assets/coords1.svg' )
 			,	'button_callback'     => array( 'tl_storelocator_stores', 'coordsButton' )
             )
         )
 	)
 ,	'palettes' => array(
-		'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,longitude,map,latitude;{publish_legend},highlight;'
+		'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},highlight;'
 	)
 ,	'fields' => array(
         'id' => array(
@@ -381,9 +381,9 @@ class tl_storelocator_stores extends \Backend {
 		,	$dc->activeRecord->longitude
 		);
 
-		return '<div style="float: right; height: 139px; margin-right: 23px; overflow: hidden; width: 320px;">'
+		return '<div class="google-map">'
 		.'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
-		.'<img style="margin-top: 1px;" src="http://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.\Config::get('google_maps_browser_key').'" />'
+		.'<img src="https://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.\Config::get('google_maps_browser_key').'" />'
 		.'</div>';
 	}
 
@@ -395,7 +395,7 @@ class tl_storelocator_stores extends \Backend {
 	 */
 	public function showGeoExplain() {
 
-		return '<div class="tl_help">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</div>';
+		return '<div class="widget clr"><p class="tl_help tl_tip heightAuto">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</p></div>';
 	}
 
 
