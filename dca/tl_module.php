@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = array(
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_enable_autocomplete']
 ,	'inputType'           => 'checkbox'
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '0'"
 );
 
@@ -133,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_always_show_results'] = 
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_always_show_results']
 ,	'inputType'           => 'checkbox'
 ,	'default'             => true
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 );
 
@@ -224,21 +224,21 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = array(
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_in']
 ,	'inputType'           => 'checkboxWizard'
 ,	'options_callback'    => array('tl_module_storelocator', 'getStoreFields')
-,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'clr w50')
+,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'clr w50 heightAuto')
 ,   'sql'                 => "blob NULL"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_sortable'] = array(
 	'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_sortable']
 ,	'inputType'           => 'checkboxWizard'
 ,	'options_callback'    => array('tl_module_storelocator', 'getStoreFields')
-,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'w50')
+,	'eval'                => array( 'mandatory'=>false, 'multiple'=>true, 'tl_class'=>'w50 heightAuto')
 ,   'sql'                 => "blob NULL"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_filter'] = array(
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_use_filter']
 ,	'inputType'           => 'checkbox'
-,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
+,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'submitOnChange' => true )
 ,   'sql'                 => "char(1) NOT NULL default '0'"
 );
 

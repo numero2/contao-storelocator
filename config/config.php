@@ -31,6 +31,10 @@ $GLOBALS['BE_MOD']['content']['storelocator'] = array(
 ,   'fillCoordinates'   => array( '\numero2\StoreLocator\StoreLocatorBackend', 'fillCoordinates' )
 );
 
+// Add backend.css to modules
+$GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = (array)$GLOBALS['BE_MOD']['design']['themes']['stylesheet'];
+$GLOBALS['BE_MOD']['design']['themes']['stylesheet'][] = 'system/modules/storelocator/assets/backend.css';
+
 
 /**
  * BACK END FORM FIELDS

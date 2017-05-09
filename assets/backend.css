@@ -31,3 +31,18 @@ a.header_fill_coordinates {
 	cursor: default;
 	pointer-events: none;
 }
+
+#pal_config_legend .heightAuto {
+	height: auto;
+}
+#pal_config_legend #ctrl_storelocator_search_in,
+#pal_config_legend #ctrl_storelocator_sortable {
+    display: block;
+    max-height: 255px;
+}
+#pal_config_legend #ctrl_storelocator_search_in .sortable,
+#pal_config_legend #ctrl_storelocator_sortable .sortable {
+    max-height: 195px;
+    width: 97%;
+    overflow-y: scroll;
+}
