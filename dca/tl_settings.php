@@ -22,13 +22,12 @@ if( empty($GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][0])){
     $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][] = array('numero2\StoreLocator\StoreLocatorBackend','showGoogleKeysMissingMessage');
 }
 
-
 /**
  * Add palettes to tl_settings
  */
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace(
-    ';{modules_legend'
-,   ';{storelocator_legend:hide},google_maps_server_key,google_maps_browser_key;{modules_legend'
+    ';{timeout_legend'
+,   ';{storelocator_legend:hide},google_maps_server_key,google_maps_browser_key;{timeout_legend'
 ,   $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']
 );
 
