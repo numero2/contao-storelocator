@@ -31,5 +31,5 @@ Installation & Configuration
   ```php
   new Contao\CoreBundle\HttpKernel\Bundle\ContaoModuleBundle('storelocator', $this->getRootDir())
   ```
-* Obtain an GoogleMaps API key and enter it into the System Settings under `StoreLocator`
 * Run a database update via the Installtool
+* Obtain an GoogleMaps API key and enter it into the System Settings under `StoreLocator`
