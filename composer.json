@@ -1,0 +1,19 @@
+{
+    "name": "numero2/storelocator",
+    "type": "contao-module",
+    "license": "LGPL-3.0+",
+    "require": {
+        "contao/core-bundle": "4.*",
+        "contao-community-alliance/composer-plugin": "3.*"
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "": "system/modules/storelocator"
+            }
+        }
+    },
+    "replace": {
+        "contao-legacy/extension-name": "self.version"
+    }
+}
