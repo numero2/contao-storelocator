@@ -1,7 +1,13 @@
 {
-    "name": "numero2/storelocator",
+    "name": "numero2/contao-storelocator",
     "type": "contao-module",
     "license": "LGPL-3.0+",
+    "authors": [{
+            "name": "numero2 - Agentur für Internetdienstleistungen",
+            "email": "post@numero2.de",
+            "homepage": "http://www.numero2.de"
+        }
+    ],
     "require": {
         "contao/core-bundle": "4.*",
         "contao-community-alliance/composer-plugin": "3.*"
