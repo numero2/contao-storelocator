@@ -18,8 +18,5 @@
                 "": "system/modules/storelocator"
             }
         }
-    },
-    "replace": {
-        "contao-legacy/extension-name": "self.version"
     }
 }
