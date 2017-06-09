@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<xliff version="1.1">
+<file datatype="php" original="system/modules/storelocator/languages/de/tl_settings.php" source-language="en">
+<body>
+    <trans-unit id="tl_settings.storelocator_legend">
+        <source>StoreLocator Settings</source>
+        <target>StoreLocator Settings</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.0">
+        <source>Google Maps server key</source>
+        <target>Google Maps server key</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.1">
+        <source>Google Maps server key</source>
+        <target>Google Maps server key</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.0">
+        <source>Google Maps browser key</source>
+        <target>Google Maps browser key</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.1">
+        <source>Google Maps browser key</source>
+        <target>Google Maps browser key</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_key">
+        <source>The <![CDATA[<b>]]>%s<![CDATA[</b>]]> is missing in settings <![CDATA[<a href="https://github.com/numero2/contao-storelocator/wiki/Google-Keys" target="_blank">More information</a>]]></source>
+        <target>The <![CDATA[<b>]]>%s<![CDATA[</b>]]> is missing in settings <![CDATA[<a href="https://github.com/numero2/contao-storelocator/wiki/Google-Keys" target="_blank">More information</a>]]></target>
+    </trans-unit>
+</body>
+</file>
+</xliff>
