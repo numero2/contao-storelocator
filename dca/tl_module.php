@@ -50,7 +50,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = 
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_enable_autocomplete']
 ,	'inputType'           => 'checkbox'
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
-,   'sql'                 => "char(1) NOT NULL default '0'"
+,   'sql'                 => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] = array(
@@ -239,7 +239,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_filter'] = array(
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_use_filter']
 ,	'inputType'           => 'checkbox'
 ,	'eval'                => array( 'mandatory'=>false, 'tl_class'=>'clr w50', 'style'=>'margin-top:12px;', 'submitOnChange' => true )
-,   'sql'                 => "char(1) NOT NULL default '0'"
+,   'sql'                 => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = array(
