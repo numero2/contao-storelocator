@@ -74,9 +74,12 @@ class StoreLocatorBackend extends \System {
 	 */
 	public function fillCoordinates( $dc ) {
 
+        $aResults = array();
+
         if( \Input::get('key') == "fillCoordinates" ) {
 
             ini_set('max_execution_time', 0);
+
             $results = \Database::getInstance()->prepare("
                 SELECT *
                 FROM tl_storelocator_stores
@@ -90,32 +93,39 @@ class StoreLocatorBackend extends \System {
 
         // creates array with data from activeRecord
 		if( $dc->activeRecord ) {
-            $aResults= array(
-                array(
-                    "id" => $dc->id
-                ,   "street" => $dc->activeRecord->street
-                ,   "postal" => $dc->activeRecord->postal
-                ,   "city" => $dc->activeRecord->city
-                ,   "country" => $dc->activeRecord->country
-                )
-            );
+
+            if( empty($dc->activeRecord->longitude) || empty($dc->activeRecord->latitude) ) {
+
+                $aResults= array(
+                    array(
+                        "id" => $dc->id
+                        ,   "street" => $dc->activeRecord->street
+                        ,   "postal" => $dc->activeRecord->postal
+                        ,   "city" => $dc->activeRecord->city
+                        ,   "country" => $dc->activeRecord->country
+                    )
+                );
+            }
         }
 
-        foreach( $aResults as $key => $value ) {
+        if( !empty($aResults) ) {
 
-            $oSL = NULL;
-            $oSL = new StoreLocator();
+            foreach( $aResults as $key => $value ) {
 
-            // find coordinates using google maps api
-            $coords = $oSL->getCoordinates(
-                $value['street']
-            ,	$value['postal']
-            ,	$value['city']
-            ,	$value['country']
-            );
+                $oSL = NULL;
+                $oSL = new StoreLocator();
 
-            if( !empty($coords) ) {
-                \Database::getInstance()->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($value['id']);
+                // find coordinates using google maps api
+                $coords = $oSL->getCoordinates(
+                    $value['street']
+                    ,	$value['postal']
+                    ,	$value['city']
+                    ,	$value['country']
+                );
+
+                if( !empty($coords) ) {
+                    \Database::getInstance()->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($value['id']);
+                }
             }
         }
 
