@@ -63,29 +63,31 @@ class OpeningTimes extends \Widget {
         $dcas = array();
 		$dcas = self::generateWidgetsDCA();
 
-        foreach( $varInput as $row => $rValue ) {
-	        foreach( $dcas as $key => $field ) {
+        if( $varInput && !empty($varInput) ) {
+            foreach( $varInput as $row => $rValue ) {
+    	        foreach( $dcas as $key => $field ) {
 
-				$field['value'] = $rValue[$key];
+    				$field['value'] = $rValue[$key];
 
-				$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
-				if( !class_exists($strClass) ) {
-					continue;
-				}
-				$cField = new $strClass($strClass::getAttributesFromDca(
-					$field,
-					$this->arrConfiguration['strField'].'[0]['.$key.']',
-					( !empty($rValue[$key])?$rValue[$key]:null )
-				));
+    				$strClass = $GLOBALS['BE_FFL'][$field['inputType']];
+    				if( !class_exists($strClass) ) {
+    					continue;
+    				}
+    				$cField = new $strClass($strClass::getAttributesFromDca(
+    					$field,
+    					$this->arrConfiguration['strField'].'[0]['.$key.']',
+    					( !empty($rValue[$key])?$rValue[$key]:null )
+    				));
 
-    			$cField->validate();
-    			if( $cField->hasErrors() ){
-					$this->class = 'error';
-					$this->arrErrors[$row][$key] = $cField->arrErrors;
-				}
-				$this->blnHasError = $this->blnHasError || $cField->hasErrors();
-	        }
-		}
+        			$cField->validate();
+        			if( $cField->hasErrors() ){
+    					$this->class = 'error';
+    					$this->arrErrors[$row][$key] = $cField->arrErrors;
+    				}
+    				$this->blnHasError = $this->blnHasError || $cField->hasErrors();
+    	        }
+    		}
+        }
 
         return ($this->blnHasError) ? false : empty($varInput)?'':serialize($varInput);
 	}
