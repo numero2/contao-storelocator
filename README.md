@@ -1,3 +1,6 @@
+> :warning: **DEPRECATED**
+> This version is deprecated and should not be used anymore. It only exists for historical reasons.
+
 StoreLocator
 ======================
 
