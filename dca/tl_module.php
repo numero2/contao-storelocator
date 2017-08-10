@@ -78,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_categories'] = ar
 ,	'exclude'             => true
 ,	'inputType'           => 'checkbox'
 ,	'options_callback'    => array( 'tl_module_storelocator', 'getCategories' )
-,	'eval'                => array( 'mandatory'=>true, 'multiple'=>true )
+,	'eval'                => array( 'mandatory'=>true, 'multiple'=>true, 'tl_class'=>'clr w50' )
 ,   'sql'                 => "text NULL"
 );
 
@@ -247,7 +247,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = array(
 ,   'inputType'         => 'select'
 ,   'exclude'           => true
 ,   'options_callback'  => array('tl_module_storelocator', 'getFilterModules')
-,   'eval'              => array('mandatory'=>true, 'tl_class'=>'w50')
+,   'eval'              => array('mandatory'=>true, 'tl_class'=>'w50 wizard')
 ,   'wizard'            => array( array('tl_module_storelocator', 'editModule') )
 ,   'sql'               => "int(10) NOT NULL default '0'"
 );
