@@ -23,14 +23,14 @@ class StoreLocator extends \System {
 
 
     /**
-	 * Replace matching inserttags
-	 *
-	 * @param string InsertTag
-	 * @param bool Use cache
-	 *
-	 * @return string
-	 */
-	public function replaceInsertTags( $strBuffer, $blnCache=false ) {
+     * Replace matching inserttags
+     *
+     * @param string InsertTag
+     * @param bool Use cache
+     *
+     * @return string
+     */
+    public function replaceInsertTags( $strBuffer, $blnCache=false ) {
 
         \Controller::loadDataContainer( StoresModel::getTable() );
 
@@ -48,11 +48,11 @@ class StoreLocator extends \System {
                 if( !empty($aParams[1]) && in_array($aParams[1], $aDCAFields) ) {
 
                     $alias = NULL;
-            		$alias = \Input::get('auto_item') ? \Input::get('auto_item') : \Input::get('store');
+                    $alias = \Input::get('auto_item') ? \Input::get('auto_item') : \Input::get('store');
 
                     // find store
-    				$objStore = NULL;
-    				$objStore = StoresModel::findByIdOrAlias($alias);
+                    $objStore = NULL;
+                    $objStore = StoresModel::findByIdOrAlias($alias);
 
                     if( !$objStore ) {
                         return false;
@@ -65,9 +65,9 @@ class StoreLocator extends \System {
 
                     $this->Template = new \FrontendTemplate('mod_storelocator_inserttag');
 
-    				// find store
-    				$objStore = NULL;
-    				$objStore = StoresModel::findByIdOrAlias($aParams[1]);
+                    // find store
+                    $objStore = NULL;
+                    $objStore = StoresModel::findByIdOrAlias($aParams[1]);
 
                     if( !$objStore ) {
                         return false;
@@ -244,9 +244,9 @@ class StoreLocator extends \System {
             return null;
         }
 
-		if( strpos($searchVal, ";") !== false ) {
-			$searchVal = explode(";", $searchVal);
-		}
+        if( strpos($searchVal, ";") !== false ) {
+            $searchVal = explode(";", $searchVal);
+        }
 
         $ret = array();
 

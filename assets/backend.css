@@ -63,8 +63,14 @@ fieldset.tl_box .heightAuto {
 
 #pal_geo_legend .google-map img {
     display: block;
-    width: 100%;
-    height: auto;
+    background: #f6f6f8;
+}
+
+@media screen and (max-width: 767px) {
+    #pal_geo_legend .google-map img {
+        width: 100%;
+        height: auto;
+    }
 }
 
 @media screen and (min-width: 768px) {

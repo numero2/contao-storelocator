@@ -98,7 +98,7 @@ class StoreLocatorBackend extends \System {
 
                 $aResults= array(
                     array(
-                        "id" => $dc->id
+                            "id" => $dc->id
                         ,   "street" => $dc->activeRecord->street
                         ,   "postal" => $dc->activeRecord->postal
                         ,   "city" => $dc->activeRecord->city

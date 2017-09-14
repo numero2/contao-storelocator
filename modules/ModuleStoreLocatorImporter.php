@@ -22,12 +22,12 @@ namespace numero2\StoreLocator;
 class ModuleStoreLocatorImporter extends \Backend {
 
 
-	/**
-	 * Generates a form to start import from csv file
-	 */
-	public function showImport() {
+    /**
+     * Generates a form to start import from csv file
+     */
+    public function showImport() {
 
-		ini_set('max_execution_time', 0);
+        ini_set('max_execution_time', 0);
 
         $this->import('BackendUser', 'User');
         $this->import('StoreLocator', 'SL');
@@ -70,14 +70,15 @@ class ModuleStoreLocatorImporter extends \Backend {
             }
 
             if( !empty($arrFiles) ) {
-				$autoIncrement = $this->Database->prepare("
-						SELECT `AUTO_INCREMENT`
-						FROM  INFORMATION_SCHEMA.TABLES
-						WHERE TABLE_SCHEMA = ?
-							AND TABLE_NAME   = ?;
-					")->execute( \Config::get('dbDatabase'), "tl_storelocator_stores" );
 
-				$autoIncrement = $autoIncrement->AUTO_INCREMENT;
+                $autoIncrement = $this->Database->prepare("
+                        SELECT `AUTO_INCREMENT`
+                        FROM  INFORMATION_SCHEMA.TABLES
+                        WHERE TABLE_SCHEMA = ?
+                            AND TABLE_NAME   = ?;
+                    ")->execute( \Config::get('dbDatabase'), "tl_storelocator_stores" );
+
+                $autoIncrement = $autoIncrement->AUTO_INCREMENT;
 
                 foreach( $arrFiles as $file ) {
 
@@ -89,16 +90,16 @@ class ModuleStoreLocatorImporter extends \Backend {
                             continue;
 
                         // generate alias
-						$alias = \StringUtil::generateAlias($data[0]);
+                        $alias = \StringUtil::generateAlias($data[0]);
 
-						$oAlias = NULL;
-						$oAlias = StoresModel::findByAlias( $alias );
+                        $oAlias = NULL;
+                        $oAlias = StoresModel::findByAlias( $alias );
 
-						// Check whether the alias exists
-						if( $oAlias && count($oAlias) > 0 ) {
+                        // Check whether the alias exists
+                        if( $oAlias && count($oAlias) > 0 ) {
 
-							$alias .= '-' . $autoIncrement;
-						}
+                            $alias .= '-' . $autoIncrement;
+                        }
 
                         // get coordinates
                         $aCoords = $this->SL->getCoordinates(
@@ -133,7 +134,7 @@ class ModuleStoreLocatorImporter extends \Backend {
                         } catch( Exception $e ) {
                             continue;
                         }
-						$autoIncrement++;
+                        $autoIncrement++;
                     }
 
                     // Redirect
@@ -149,12 +150,12 @@ class ModuleStoreLocatorImporter extends \Backend {
                 <a href="'.ampersand(str_replace('&key=importStores', '', \Environment::get('request'))).'" class="header_back" title="'.specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
             </div>
             '.\Message::generate().'
-            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_storelocator_import" class="tl_form" method="post" enctype="multipart/form-data" onsubmit="AjaxRequest.displayBox(\''.$GLOBALS['TL_LANG']['tl_storelocator']['import']['ajax_import_running'].'\');">
-                <div class="tl_formbody_edit">
+            <form action="'.ampersand(\Environment::get('request'), true).'" id="tl_storelocator_import" class="tl_form tl_edit_form" method="post" enctype="multipart/form-data" onsubmit="AjaxRequest.displayBox(\''.$GLOBALS['TL_LANG']['tl_storelocator']['import']['ajax_import_running'].'\');">
+                <div class="tl_formbody_edit sl_import">
                     <input type="hidden" name="FORM_SUBMIT" value="tl_storelocator_import">
                     <input type="hidden" name="REQUEST_TOKEN" value="'.REQUEST_TOKEN.'">
                     <input type="hidden" name="MAX_FILE_SIZE" value="'.\Config::get('maxFileSize').'">
-                    <div class="tl_tbox">
+                    <div class="tl_tbox widget">
                         <h3 style="margin-bottom: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['head'].'</h3>'.$objUploader->generateMarkup().(isset($GLOBALS['TL_LANG']['tl_storelocator']['import']['file'][1]) ? '
                         <p class="tl_help tl_tip" style="height: 30px; margin-top: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['file'][1].'</p>' : '').'
                         <p style="margin-top: 10px;">'.$GLOBALS['TL_LANG']['tl_storelocator']['import']['limit_info'].'</p>
@@ -166,5 +167,5 @@ class ModuleStoreLocatorImporter extends \Backend {
                     </div>
                 </div>
             </form>';
-	}
+    }
 }

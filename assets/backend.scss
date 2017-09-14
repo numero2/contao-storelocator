@@ -64,7 +64,6 @@ fieldset.tl_box .heightAuto {
     }
 }
 
-
 #pal_geo_legend {
 
     .google-map {
@@ -72,19 +71,17 @@ fieldset.tl_box .heightAuto {
 
         img {
             display: block;
-            width: 100%;
-            height: auto;
+            background: #f6f6f8;
+
+            @media screen and (max-width: 767px) {
+
+                width: 100%;
+                height: auto;
+            }
         }
-    }
 
-    @media screen and (min-width: 768px) {
-
-        .google-map {
+        @media screen and (min-width: 768px) {
             float: left;
         }
-    }
-
-    @media screen and (max-width: 768px) {
-
     }
 }

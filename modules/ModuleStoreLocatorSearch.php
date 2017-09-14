@@ -22,55 +22,55 @@ namespace numero2\StoreLocator;
 class ModuleStoreLocatorSearch extends \Module {
 
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_storelocator_search';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_storelocator_search';
 
 
-	/**
-	 * Display a wildcard in the back end
-	 * @return string
-	 */
-	public function generate() {
+    /**
+     * Display a wildcard in the back end
+     * @return string
+     */
+    public function generate() {
 
-		if( TL_MODE == 'BE' ) {
+        if( TL_MODE == 'BE' ) {
 
-			$objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new \BackendTemplate('be_wildcard');
 
-			$objTemplate->wildcard = '### STORELOCATOR SEARCH ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->wildcard = '### STORELOCATOR SEARCH ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
-			return $objTemplate->parse();
-		}
+            return $objTemplate->parse();
+        }
 
-		return parent::generate();
-	}
+        return parent::generate();
+    }
 
 
-	/**
-	 * Generate module
-	 */
-	protected function compile() {
+    /**
+     * Generate module
+     */
+    protected function compile() {
 
-		global $objPage;
+        global $objPage;
 
-		$this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
+        $this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
 
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = \Environment::get('request');
 
-		if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
-			\Input::setGet('search', \Input::get('auto_item'));
-		}
+        if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+            \Input::setGet('search', \Input::get('auto_item'));
+        }
 
-		$sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
+        $sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
 
-		$aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
+        $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
         $widgetSearch = NULL;
@@ -79,7 +79,7 @@ class ModuleStoreLocatorSearch extends \Module {
                     'name'      => 'location'
                 ,   'label'     => &$GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']
                 ,   'inputType' => 'text'
-                ,	'eval'		=> array( 'mandatory'=>true )
+                ,    'eval'        => array( 'mandatory'=>true )
                 )
             ,   'location'
             ,   $aSearchValues['term']
@@ -106,7 +106,7 @@ class ModuleStoreLocatorSearch extends \Module {
                     array(
                         'name'      => 'category'
                     ,   'inputType' => 'radio'
-                    ,	'eval'		=> array( 'mandatory'=>false )
+                    ,    'eval'        => array( 'mandatory'=>false )
                     ,   'options'   => $aCategories
                     )
                 ,   'category'
@@ -161,12 +161,12 @@ class ModuleStoreLocatorSearch extends \Module {
             $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
             $this->Template->autoComplete = $oTemplateAutocomplete->parse();
-			$objPage->loadedMapsApi = true;
+            $objPage->loadedMapsApi = true;
 
         }
 
         $this->Template->searchField = $widgetSearch;
         $this->Template->categories = $widgetCategories;
         $this->Template->submitButton = $widgetSubmit;
-	}
+    }
 }

@@ -22,53 +22,53 @@ namespace numero2\StoreLocator;
 class ModuleStoreLocatorDetails extends \Module {
 
 
-	/**
-	 * Template
-	 * @var string
-	 */
-	protected $strTemplate = 'mod_storelocator_details';
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'mod_storelocator_details';
 
 
-	/**
-	 * Display a wildcard in the back end
-	 * @return string
-	 */
-	public function generate() {
+    /**
+     * Display a wildcard in the back end
+     * @return string
+     */
+    public function generate() {
 
-		if( TL_MODE == 'BE' ) {
+        if( TL_MODE == 'BE' ) {
 
-			$objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new \BackendTemplate('be_wildcard');
 
-			$objTemplate->wildcard = '### STORELOCATOR DETAILS ###';
-			$objTemplate->title = $this->headline;
-			$objTemplate->id = $this->id;
-			$objTemplate->link = $this->name;
-			$objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->wildcard = '### STORELOCATOR DETAILS ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
-			return $objTemplate->parse();
-		}
+            return $objTemplate->parse();
+        }
 
-		return parent::generate();
-	}
+        return parent::generate();
+    }
 
 
-	/**
-	 * Generate module
-	 */
-	protected function compile() {
+    /**
+     * Generate module
+     */
+    protected function compile() {
 
-		$this->Template = new \FrontendTemplate($this->storelocator_details_tpl);
-		$this->Template->referer = 'javascript:history.go(-1)';
-		$this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
+        $this->Template = new \FrontendTemplate($this->storelocator_details_tpl);
+        $this->Template->referer = 'javascript:history.go(-1)';
+        $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
-		$alias = NULL;
-		$alias = \Input::get('auto_item') ? \Input::get('auto_item') : \Input::get('store');
+        $alias = NULL;
+        $alias = \Input::get('auto_item') ? \Input::get('auto_item') : \Input::get('store');
 
         $objStore = NULL;
         $objStore = StoresModel::findByIdOrAlias($alias);
 
-		// get store details
-		if( $objStore ) {
+        // get store details
+        if( $objStore ) {
 
             StoreLocator::parseStoreData( $objStore );
 
@@ -94,19 +94,19 @@ class ModuleStoreLocatorDetails extends \Module {
             );
 
             // HOOK: add custom logic
-    		if( isset($GLOBALS['TL_HOOKS']['parseStoreDetails']) && is_array($GLOBALS['TL_HOOKS']['parseStoreDetails']) ) {
+            if( isset($GLOBALS['TL_HOOKS']['parseStoreDetails']) && is_array($GLOBALS['TL_HOOKS']['parseStoreDetails']) ) {
 
-    			foreach( $GLOBALS['TL_HOOKS']['parseStoreDetails'] as $callback ) {
-    				$this->import($callback[0]);
-    				$this->{$callback[0]}->{$callback[1]}($objStore, $this);
-    			}
-    		}
+                foreach( $GLOBALS['TL_HOOKS']['parseStoreDetails'] as $callback ) {
+                    $this->import($callback[0]);
+                    $this->{$callback[0]}->{$callback[1]}($objStore, $this);
+                }
+            }
 
-		// store not found? throw 404
-		} else {
+        // store not found? throw 404
+        } else {
 
             $objHandler = new $GLOBALS['TL_PTY']['error_404']();
             $objHandler->generate('');
-		}
-	}
+        }
+    }
 }

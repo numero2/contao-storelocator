@@ -27,15 +27,15 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
-	// Classes
-    'numero2\StoreLocator\StoreLocator'      	        => 'system/modules/storelocator/classes/StoreLocator.php',
-	'numero2\StoreLocator\StoreLocatorBackend' 	        => 'system/modules/storelocator/classes/StoreLocatorBackend.php',
+    // Classes
+    'numero2\StoreLocator\StoreLocator'                 => 'system/modules/storelocator/classes/StoreLocator.php',
+    'numero2\StoreLocator\StoreLocatorBackend'          => 'system/modules/storelocator/classes/StoreLocatorBackend.php',
 
-	// Models
+    // Models
     'numero2\StoreLocator\StoresModel'                  => 'system/modules/storelocator/models/StoresModel.php',
     'numero2\StoreLocator\CategoriesModel'              => 'system/modules/storelocator/models/CategoriesModel.php',
 
-	// Modules
+    // Modules
     'numero2\StoreLocator\ModuleStoreLocatorSearch'     => 'system/modules/storelocator/modules/ModuleStoreLocatorSearch.php',
     'numero2\StoreLocator\ModuleStoreLocatorList'       => 'system/modules/storelocator/modules/ModuleStoreLocatorList.php',
     'numero2\StoreLocator\ModuleStoreLocatorFilter'     => 'system/modules/storelocator/modules/ModuleStoreLocatorFilter.php',
@@ -58,6 +58,6 @@ TemplateLoader::addFiles(array
     'mod_storelocator_filter'          => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_infowindow'      => 'system/modules/storelocator/templates/modules',
     'mod_storelocator_search'          => 'system/modules/storelocator/templates/modules',
-	'script_storelocator_autocomplete' => 'system/modules/storelocator/templates/modules',
-	'script_storelocator_googlemap'    => 'system/modules/storelocator/templates/modules',
+    'script_storelocator_autocomplete' => 'system/modules/storelocator/templates/modules',
+    'script_storelocator_googlemap'    => 'system/modules/storelocator/templates/modules',
 ));
