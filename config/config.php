@@ -49,6 +49,7 @@ $GLOBALS['FE_MOD']['storelocator'] = array(
 ,   'storelocator_list'         => '\numero2\StoreLocator\ModuleStoreLocatorList'
 ,   'storelocator_filter'       => '\numero2\StoreLocator\ModuleStoreLocatorFilter'
 ,   'storelocator_details'      => '\numero2\StoreLocator\ModuleStoreLocatorDetails'
+,   'storelocator_static_map'   => '\numero2\StoreLocator\ModuleStoreLocatorStaticMap'
 );
 
 

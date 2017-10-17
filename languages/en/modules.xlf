@@ -46,6 +46,14 @@
         <source>shows details for the chosen store</source>
         <target>shows details for the chosen store</target>
     </trans-unit>
+    <trans-unit id="FMD.storelocator_static_map.0">
+        <source>Static Storemap</source>
+        <target>Static Storemap</target>
+    </trans-unit>
+    <trans-unit id="FMD.storelocator_static_map.1">
+        <source>shows a static map with the stores</source>
+        <target>shows a static map with the stores</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

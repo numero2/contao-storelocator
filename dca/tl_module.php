@@ -26,6 +26,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_leg
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},storelocator_filter_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,type,headline;{config_legend:hide},jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},storelocator_static_map_tpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
@@ -68,7 +69,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = arra
 ,   'options_callback'    => array( 'tl_module_storelocator', 'getCountries' )
 ,   'default'             => 'de'
 ,   'search'              => true
-,   'eval'                => array( 'mandatory'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true )
+,   'eval'                => array( 'mandatory'=>false, 'includeBlankOption'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true )
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
 );
 
@@ -154,9 +155,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_load_results_on_pan'] = 
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker'] = array(
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_marker']
+,   'inputType'           => 'text'
 ,   'default'             => '100'
 ,   'exclude'             => true
-,   'inputType'           => 'text'
 ,   'eval'                => array( 'rgxp' => 'digit', 'tl_class'=>'w50', 'mandatory'=>true )
 ,   'sql'                 => "int(5) unsigned NOT NULL default '0'"
 );
@@ -250,6 +251,77 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = array(
 ,   'sql'               => "int(10) NOT NULL default '0'"
 );
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_center'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_center']
+,   'inputType'           => 'text'
+,   'exclude'             => true
+,   'eval'                => array('mandatory'=>false, 'maxlength'=>32, 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(32) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_zoom'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_zoom']
+,   'inputType'           => 'text'
+,   'exclude'             => true
+,   'eval'                => array('mandatory'=>false, 'rgxp'=>'digit', 'maxlength'=>2,  'tl_class'=>'w50' )
+,   'sql'                 => "varchar(2) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker_static'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_marker_static']
+,   'inputType'           => 'text'
+,   'exclude'             => true
+,   'eval'                => array('mandatory'=>true, 'rgxp'=>'digit', 'tl_class'=>'w50',  )
+,   'sql'                 => "varchar(3) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_maptype'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_maptype']
+,   'inputType'           => 'select'
+,   'default'             => 'roadmap'
+,   'exclude'             => true
+,   'options_callback'    => array('tl_module_storelocator', 'getMapType')
+,   'eval'                => array('mandatory'=>true, 'tl_class'=>'w50 clr' )
+,   'sql'                 => "varchar(16) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_size'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_size']
+,   'inputType'           => 'text'
+,   'exclude'             => true
+,   'eval'                => array('mandatory'=>true, 'multiple'=>true, 'size'=>2, 'rgxp'=>'natural', 'nospace'=>true, 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(64) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_format'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_format']
+,   'inputType'           => 'select'
+,   'default'             => 'jpeg'
+,   'exclude'             => true
+,   'options_callback'    => array('tl_module_storelocator', 'getMapFormat')
+,   'eval'                => array('mandatory'=>true, 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(16) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_scale'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_scale']
+,   'inputType'           => 'select'
+,   'default'             => '1'
+,   'exclude'             => true
+,   'options_callback'    => array('tl_module_storelocator', 'getMapScale')
+,   'eval'                => array('mandatory'=>true, 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(16) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_static_map_tpl'] = array(
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_static_map_tpl']
+,   'default'             => 'mod_storelocator_static_map'
+,   'exclude'             => true
+,   'inputType'           => 'select'
+,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
+,   'eval'                => array( 'tl_class'=>'w50' )
+,   'sql'                 => "varchar(255) NOT NULL default ''"
+);
 
 class tl_module_storelocator extends \Backend {
 
@@ -273,6 +345,62 @@ class tl_module_storelocator extends \Backend {
 
         return $aCategories;
     }
+
+    /**
+     * Returns a list of all store categories
+     *
+     * @return array
+     */
+    public function getMapType() {
+
+        $aType = array(
+            'roadmap' => $GLOBALS['TL_LANG']['tl_module']['storelocator_maptypes']['roadmap']
+        ,   'satellite' => $GLOBALS['TL_LANG']['tl_module']['storelocator_maptypes']['satellite']
+        ,   'terrain' => $GLOBALS['TL_LANG']['tl_module']['storelocator_maptypes']['terrain']
+        ,   'hybrid' => $GLOBALS['TL_LANG']['tl_module']['storelocator_maptypes']['hybrid']
+        );
+
+        return $aType;
+    }
+
+    /**
+     * Returns a list of all store categories
+     *
+     * @return array
+     */
+    public function getMapFormat() {
+
+        $aFormat = array(
+            'png' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['png']
+        ,   'png32' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['png32']
+        ,   'gif' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['gif']
+        ,   'jpg' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['jpg']
+        ,   'jpg-baseline' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['jpg-baseline']
+        );
+
+        return $aFormat;
+    }
+
+    /**
+     * Returns a list of all store categories
+     *
+     * @return array
+     */
+    public function getMapScale() {
+
+        $aScale = array(
+            $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['free'] => array(
+                '1' => $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['1']
+            ,   '2' => $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['2']
+            )
+        ,   $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['premium_plan'] => array(
+                '4' => $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['4']
+            )
+        );
+
+        return $aScale;
+    }
+
 
 
     /**

@@ -198,6 +198,114 @@
         <source>Filter module</source>
         <target>Filter Module</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_center.0">
+        <source>Center</source>
+        <target>Mittelpunkt</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_center.1">
+        <source>Center of the map, comma-separated {latitude,longitude} pair (e.g. "40.714728,-73.998672") or a string address (e.g. "city hall, new york, ny") identifying a unique location.</source>
+        <target>Mittelpunkt der Karte, Komma getrennte {Längengrad, Breitengrad} Paar (z. B. "40.714728,-73.998672") oder als Adresse, die einen eindeutigen Standort angibt (z. B. „city hall, new york, ny“).</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_zoom.0">
+        <source>Zoom level</source>
+        <target>Vergrößerungsstufe</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_zoom.1">
+        <source>1 shows the World, 5 Landmass/continent, 10 City, 15 Streets, 20 Buildings</source>
+        <target>1 zeigt die Welt, 5 Landmasse/Kontinent, 10 Stadt, 15 Straßen, 20 Gebäude</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker_static.0">
+        <source>Max amount of marker</source>
+        <target>Maximale Anzahl an Markern</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker_static.1">
+        <source>This can be maximal 50.</source>
+        <target>Dies wird zusätzlich beschränkt auf 50 Stück.</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptype.0">
+        <source>Map type</source>
+        <target>Kartentyp</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.roadmap">
+        <source>Roadmap image</source>
+        <target>Kartenbild</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.satellite">
+        <source>satellite image</source>
+        <target>Satellitenbild</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.terrain">
+        <source>Physical relief map image,</source>
+        <target>Kartenbild mit Reliefstruktur</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.hybrid">
+        <source>Hybrid of the satellite and roadmap image</source>
+        <target>Hybridbild aus Satelliten- und Roadmap-Bild</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_size.0">
+        <source>Image size</source>
+        <target>Bildgröße</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_size.1">
+        <source>free plan only allows size up to 640x640</source>
+        <target>Kostenlos nur bis 640x640 möglich.</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_format.0">
+        <source>Image format</source>
+        <target>Bildformat</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.png">
+        <source>PNG</source>
+        <target>PNG</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.png32">
+        <source>PNG (32-bit)</source>
+        <target>PNG (32 Bit)</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.gif">
+        <source>GIF</source>
+        <target>GIF</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.jpg">
+        <source>JPEG</source>
+        <target>JPEG</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.jpg-baseline">
+        <source>JPEG (non-progressive)</source>
+        <target>JPEG (nichtprogressives)</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scale.0">
+        <source>Scale value</source>
+        <target>Skalierungswert</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.free">
+        <source>Free</source>
+        <target>Kostenlos</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.1">
+        <source>1x</source>
+        <target>1x</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.2">
+        <source>2x</source>
+        <target>2x</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.premium_plan">
+        <source>Premium Plan</source>
+        <target>Premium Plan</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.4">
+        <source>4x</source>
+        <target>4x</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_static_map_tpl.0">
+        <source>Template</source>
+        <target>Template</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_static_map_tpl.1">
+        <source>Which template should be used to display the static map.</source>
+        <target>Wählen Sie mit welchen Template die statische Karte dargestellt werden soll.</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

@@ -41,6 +41,7 @@ ClassLoader::addClasses(array
     'numero2\StoreLocator\ModuleStoreLocatorFilter'     => 'system/modules/storelocator/modules/ModuleStoreLocatorFilter.php',
     'numero2\StoreLocator\ModuleStoreLocatorDetails'    => 'system/modules/storelocator/modules/ModuleStoreLocatorDetails.php',
     'numero2\StoreLocator\ModuleStoreLocatorImporter'   => 'system/modules/storelocator/modules/ModuleStoreLocatorImporter.php',
+    'numero2\StoreLocator\ModuleStoreLocatorStaticMap'   => 'system/modules/storelocator/modules/ModuleStoreLocatorStaticMap.php',
 
     // Widgets
     'numero2\StoreLocator\OpeningTimes'                 => 'system/modules/storelocator/widgets/OpeningTimes.php',
@@ -60,4 +61,5 @@ TemplateLoader::addFiles(array
     'mod_storelocator_search'          => 'system/modules/storelocator/templates/modules',
     'script_storelocator_autocomplete' => 'system/modules/storelocator/templates/modules',
     'script_storelocator_googlemap'    => 'system/modules/storelocator/templates/modules',
+    'mod_storelocator_static_map'      => 'system/modules/storelocator/templates/modules',
 ));

@@ -46,6 +46,14 @@
         <source>shows details for the chosen store</source>
         <target>zeigt Details zum ausgewählten Händler an.</target>
     </trans-unit>
+    <trans-unit id="FMD.storelocator_static_map.0">
+        <source>Static Storemap</source>
+        <target>Statische Händlerkarte</target>
+    </trans-unit>
+    <trans-unit id="FMD.storelocator_static_map.1">
+        <source>shows a static map with the stores</source>
+        <target>zeigt eine statische Karte mit den Händlern.</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

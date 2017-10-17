@@ -1,0 +1,15 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+    <?php if( $this->href ): ?>
+        <a href="<?= $this->href ?>">
+    <?php endif; ?>
+    <figure class="image_container">
+        <img src="<?= $this->mapLink ?>" alt="" width="<?= $this->size[0] ?>" height="<?= $this->size[1] ?>">
+    </figure>
+    <?php if( $this->href ): ?>
+        </a>
+    <?php endif; ?>
+
+<?php $this->endblock(); ?>
