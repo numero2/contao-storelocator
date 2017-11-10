@@ -150,7 +150,7 @@
     function initializeGoogleMap() {
 
         var mapOptions = {
-            minZoom: 5,
+            minZoom: 4,
             maxZoom: 20,
             zoom: 8,
         }
