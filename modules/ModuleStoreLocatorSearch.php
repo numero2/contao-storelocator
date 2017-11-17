@@ -145,8 +145,7 @@ class ModuleStoreLocatorSearch extends \Module {
                 $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
                 $objListPage = $this->jumpTo ? \PageModel::findWithDetails($this->jumpTo) : $objPage;
-                $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/%s' : '/search/%s');
-                $href = sprintf($href, $strData);
+                $href = $objListPage->getFrontendUrl((\Config::get('useAutoItem') && !\Config::get('disableAlias')) ? '/'.$strData : '/search/'.$strData);
 
                 $this->redirect( $href );
             }
