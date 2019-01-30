@@ -346,9 +346,9 @@ class tl_storelocator_stores extends \Backend {
         $oStore = \numero2\StoreLocator\StoresModel::findById( $row['id'] );
 
         $icon  = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $icon[1] : $icon[0];
-        $label = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $label[1] : $label[0];
+        $label = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $title : $label;
 
-        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
+        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
     }
 
 
