@@ -22,16 +22,3 @@ System requirements
 
 * [Contao 4](https://github.com/contao/core) or newer
 * [Google API Key](https://github.com/numero2/contao-storelocator/wiki/Google-Keys)
-
-
-Installation & Configuration
---
-
-* Create a folder named `storelocator` in `system/modules`
-* Clone this repository into the new folder
-* Open `app/AppKernel.php` and add the following line to the $bundles array
-  ```php
-  new Contao\CoreBundle\HttpKernel\Bundle\ContaoModuleBundle('storelocator', $this->getRootDir())
-  ```
-* Run a database update via the Installtool
-* Obtain an GoogleMaps API key and enter it into the System Settings under `StoreLocator`
