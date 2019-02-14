@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2019 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2019 numero2 - Agentur für digitales Marketing
  */
 
 
@@ -141,6 +141,7 @@ class ModuleStoreLocatorList extends \Module {
                         }
                     }
 
+                    header("Content-Type: application/json");
                     echo json_encode($results);
                     die();
                 }

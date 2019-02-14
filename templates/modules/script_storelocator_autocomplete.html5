@@ -1,11 +1,23 @@
 <script>
 
-    var autocomplete;
+
+    if( typeof findAncestor !== "function" ) {
+
+        function findAncestor( el, sel ) {
+            while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
+            return el;
+        }
+    }
 
     function initializeAddressAutocomplete() {
 
-        autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById('<?=$this->fieldId;?>')<?php if($this->country):?>,{ componentRestrictions: { country: "<?=$this->country;?>"} }<?php endif; ?>
+        var autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('<?=$this->fieldId;?>'),
+            {
+                <?php if( $this->country ):?>
+                componentRestrictions: { country: "<?=$this->country;?>"}
+                <?php endif; ?>
+            }
         );
 
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -14,11 +26,13 @@
 
             if( location.geometry ) {
 
-                jQuery('form input[name*="longitude"]').val( location.geometry.location.lng() );
-                jQuery('form input[name*="latitude"]').val( location.geometry.location.lat() );
+                document.querySelector('form input[name*="longitude"]').value = location.geometry.location.lng();
+                document.querySelector('form input[name*="latitude"]').value = location.geometry.location.lat();
             }
 
-            jQuery('#<?=$this->fieldId;?>').parents('form').submit();
+            var form = findAncestor( document.querySelector('#<?=$this->fieldId;?>'), 'form' );
+
+            if( form ) { form.submit(); }
         });
     }
 </script>

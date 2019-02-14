@@ -3,18 +3,18 @@
 
 <?php $this->block('content'); ?>
 
-	<?php if( $this->headline ): ?>
-		<<?= $this->hl; ?>><?= $this->headline; ?></<?= $this->hl; ?>>
-	<?php endif; ?>
+    <?php if( $this->headline ): ?>
+        <<?= $this->hl; ?>><?= $this->headline; ?></<?= $this->hl; ?>>
+    <?php endif; ?>
 
     <?php if( !$this->noResults ): ?>
 
-    	<?php if( $this->showMap ): ?>
-			<div id="map-wrapper">
-			<div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
-				<?= $this->scriptGoogleMap; ?>
-			</div>
-		<?php endif; ?>
+        <?php if( $this->showMap ): ?>
+            <div id="map-wrapper">
+            <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+                <?= $this->scriptGoogleMap; ?>
+            </div>
+        <?php endif; ?>
 
         <?php foreach( $this->entries as $entry ): ?>
         <div id="result_<?= $entry->id; ?>" class="entry <?= $entry->class; ?>">
@@ -28,39 +28,39 @@
             <?php endif; ?>
 
             <?php if( $entry->distance ): ?>
-			<div class="distance">
-            	<?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
-			</div>
+            <div class="distance">
+                <?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
+            </div>
             <?php endif; ?>
 
-			<div class="address">
-				<?php echo $entry->street; ?>, <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
-				<?php echo $entry->country_name; ?>
-			</div>
+            <div class="address">
+                <?php echo $entry->street; ?>, <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
+                <?php echo $entry->country_name; ?>
+            </div>
 
-	        <?php if( $entry->phone ): ?>
-			<div class="phone">
-	            <?= $this->labelPhone; ?>: <a href="<?= $entry->phoneLink; ?>"><?= $entry->phone; ?></a>
-	        </div>
-	        <?php endif; ?>
+            <?php if( $entry->phone ): ?>
+            <div class="phone">
+                <?= $this->labelPhone; ?>: <a href="<?= $entry->phoneLink; ?>"><?= $entry->phone; ?></a>
+            </div>
+            <?php endif; ?>
 
-	        <?php if( $entry->fax ): ?>
-	            <div class="fax">
-	                <?= $this->labelFax ?>: <?= $entry->fax; ?>
-	            </div>
-	        <?php endif; ?>
+            <?php if( $entry->fax ): ?>
+                <div class="fax">
+                    <?= $this->labelFax ?>: <?= $entry->fax; ?>
+                </div>
+            <?php endif; ?>
 
-	        <?php if( $entry->email ): ?>
-	            <div class="email">
-	                <?= $this->labelEMail; ?>: {{email::<?php echo $entry->email; ?>}}
-	            </div>
-	        <?php endif; ?>
+            <?php if( $entry->email ): ?>
+                <div class="email">
+                    <?= $this->labelEMail; ?>: {{email::<?php echo $entry->email; ?>}}
+                </div>
+            <?php endif; ?>
 
-	        <?php if( $entry->url ): ?>
-	            <div class="www">
-	                <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
-	            </div>
-	        <?php endif; ?>
+            <?php if( $entry->url ): ?>
+                <div class="www">
+                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
+                </div>
+            <?php endif; ?>
 
             <?php if( $entry->link ): ?>
                 <a href="<?= $entry->link; ?>" class="more"><?= $this->labelMore; ?></a>

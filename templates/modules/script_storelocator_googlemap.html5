@@ -1,5 +1,8 @@
 <script>
     var map;
+    var markerImages = {};
+    var markersUpdating = false;
+
     var markers = {
         <?php foreach( $this->entries as $entry): ?>
             "<?= $entry->id; ?>": {"id": "<?= $entry->id; ?>","pid": "<?= $entry->pid; ?>",
@@ -7,7 +10,6 @@
                 "info": <?= $entry->info; ?>},
         <?php endforeach; ?>
     };
-    var markerImages = {};
 
     function initMapMarker() {
 
@@ -28,7 +30,7 @@
 
         fitMapToMarkers();
 
-        <?php if($this->loadMoreResults): ?>
+        <?php if( $this->loadMoreResults ): ?>
         setTimeout(function(){
             map.addListener('zoom_changed', updateMarkers);
             map.addListener('dragend', updateMarkers);
@@ -106,10 +108,10 @@
         }
     }
 
-    <?php if($this->loadMoreResults): ?>
+    <?php if( $this->loadMoreResults ): ?>
     function updateMarkers() {
 
-        if( Object.keys(markers).length > 500 ) {
+        if( Object.keys(markers).length > 500 || markersUpdating ) {
             return;
         }
 
@@ -122,19 +124,26 @@
         var sw = bounds.getSouthWest();
         var ne = bounds.getNorthEast();
 
-        jQuery.ajax({
-            url: '',
-            data: {
-                'action': 'getMarkers',
-                'fromlat': sw.lat(),
-                'tolat': ne.lat(),
-                'fromlng': sw.lng(),
-                'tolng': ne.lng(),
-                'REQUEST_TOKEN': "{{request_token}}"
-            },
-            dataType: 'json',
-            type: 'GET',
-            success: function( response ) {
+        var xhr = new XMLHttpRequest();
+
+        var params = {
+            'action': 'getMarkers',
+            'fromlat': sw.lat(),
+            'tolat': ne.lat(),
+            'fromlng': sw.lng(),
+            'tolng': ne.lng(),
+            'REQUEST_TOKEN': "{{request_token}}"
+        };
+
+        var url = location.protocol + '//' + location.host + location.pathname + '?' + Object.keys(params).map(function(key){
+            return key+"="+encodeURIComponent(params[key])
+        }).join("&");
+
+        xhr.onload = function () {
+
+            if( xhr.status >= 200 && xhr.status < 300 ) {
+
+                var response = JSON.parse(xhr.response);
 
                 if( response ) {
 
@@ -143,7 +152,15 @@
                     }
                 }
             }
-        });
+
+            markersUpdating = false;
+        };
+
+        xhr.open('GET', url);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send();
+
+        markersUpdating = true;
     }
     <?php endif;?>
 
@@ -158,22 +175,30 @@
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
-        jQuery('.mod_storelocator_list > .entry').click(function(){
+        var entries = document.querySelectorAll('.mod_storelocator_list > .entry');
 
-            document.location.hash = "";
-            document.location.hash = "#map-wrapper";
-            var markerID = this.id.split("_")[1];
+        if( entries ) {
 
-            if( markerID in markers ) {
-                map.setCenter(markers[markerID].getPosition());
-                map.setZoom(15);
+            for( var i=0; i<entries.length; i++ ) {
+
+                entries[i].addEventListener('click',function(){
+
+                    document.location.hash = "";
+                    document.location.hash = "#map-wrapper";
+                    var markerID = this.id.split("_")[1];
+
+                    if( markerID in markers ) {
+                        map.setCenter(markers[markerID].getPosition());
+                        map.setZoom(15);
+                    }
+                });
             }
-        });
+        }
     <?php endif; ?>
 
         initMapMarker();
     }
-    <?php if($this->loadedMapsApi): ?>
+    <?php if( $this->loadedMapsApi ): ?>
         var busyWait = function(){
             if( typeof google !== "undefined" && typeof google.maps !== "undefined" && typeof google.maps.Map !== "undefined" ) {
                 initializeGoogleMap();
@@ -186,6 +211,6 @@
 
 </script>
 
-<?php if(!$this->loadedMapsApi): ?>
+<?php if( !$this->loadedMapsApi ): ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= $this->mapsKey; ?>&amp;callback=initializeGoogleMap" async defer></script>
 <?php endif; ?>

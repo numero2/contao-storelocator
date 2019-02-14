@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2016 Leo Feyer
+ * Copyright (c) 2005-2019 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2016 numero2 - Agentur für Internetdienstleistungen
+ * @copyright 2019 numero2 - Agentur für digitales Marketing
  */
 
 
@@ -64,13 +64,13 @@ class ModuleStoreLocatorStaticMap extends \Module {
 
         $parameters = array();
 
-        if( !empty($this->storelocator_center) ){
+        if( !empty($this->storelocator_center) ) {
             $parameters[] = "center=".$center;
         }
-        if( !empty($this->storelocator_zoom) ){
+
+        if( !empty($this->storelocator_zoom) ) {
             $parameters[] = "zoom=".$this->storelocator_zoom;
         }
-
 
         $size = deserialize($this->storelocator_size,1);
         if( !empty($size) ){

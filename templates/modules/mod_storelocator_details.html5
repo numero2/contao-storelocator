@@ -2,9 +2,9 @@
 
 <?php $this->block('content'); ?>
 
-	<h1><?php echo $this->store->name; ?></h1>
+    <h1><?php echo $this->store->name; ?></h1>
 
-	<div class="store">
+    <div class="store">
 
         <?php if( $this->store->image ): ?>
             <figure>
@@ -12,13 +12,13 @@
             </figure>
         <?php endif; ?>
 
-		<div class="address">
-			<?php echo $this->store->street; ?>, <?php echo $this->store->postal; ?> <?php echo $this->store->city; ?><br />
-			<?php echo $this->store->country_name; ?>
-		</div>
+        <div class="address">
+            <?php echo $this->store->street; ?>, <?php echo $this->store->postal; ?> <?php echo $this->store->city; ?><br />
+            <?php echo $this->store->country_name; ?>
+        </div>
 
         <?php if( $this->store->phone ): ?>
-		<div class="phone">
+        <div class="phone">
             <?= $this->labelPhone; ?>: <a href="<?= $this->store->phoneLink; ?>"><?= $this->store->phone; ?></a>
         </div>
         <?php endif; ?>
@@ -43,7 +43,7 @@
 
         <?php if( !empty($this->store->description) ): ?>
             <?= $this->store->description; ?>
-		<?php endif; ?>
+        <?php endif; ?>
 
         <?php if( !empty($this->store->opening_times) ): ?>
         <ul class="opening-times">
@@ -59,6 +59,6 @@
 
         <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
 
-	</div>
+    </div>
 
 <?php $this->endblock(); ?>

@@ -2,10 +2,10 @@
 
     <h3><?= $this->entry->name; ?></h3>
 
-	<div class="address">
-		<?php echo $this->entry->street; ?>, <?php echo $this->entry->postal; ?> <?php echo $this->entry->city; ?><br />
-		<?php echo $this->entry->country_name; ?>
-	</div>
+    <div class="address">
+        <?php echo $this->entry->street; ?>, <?php echo $this->entry->postal; ?> <?php echo $this->entry->city; ?><br />
+        <?php echo $this->entry->country_name; ?>
+    </div>
 
     <?php if( $this->entry->email ): ?>
         <div class="email">
