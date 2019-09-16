@@ -58,7 +58,7 @@
 
             <?php if( $entry->url ): ?>
                 <div class="www">
-                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
+                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
                 </div>
             <?php endif; ?>
 
