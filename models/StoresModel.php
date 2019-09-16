@@ -49,7 +49,8 @@ class StoresModel extends \Model {
             , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS distance
             FROM ".self::$strTable."
             WHERE
-                    pid IN(".implode(',',$categories).")
+                published='1'
+				AND pid IN(".implode(',',$categories).")
                 AND latitude != ''
                 AND longitude != ''
                 ".($filter? "AND ".$filter:"")."
@@ -82,7 +83,8 @@ class StoresModel extends \Model {
                 *
             FROM ".self::$strTable."
             WHERE
-                    pid IN(".implode(',',$categories).")
+                published='1'
+				AND pid IN(".implode(',',$categories).")
                 ".(($country) ? "AND country = '{$country}' ": '')."
                 ".($filter? "AND ".$filter:"")."
             ORDER BY ".($order?$order.", ":"")."highlight DESC
@@ -113,7 +115,8 @@ class StoresModel extends \Model {
                 *
             FROM tl_storelocator_stores
             WHERE
-                ? < longitude AND longitude < ?
+                published='1'
+				AND ? < longitude AND longitude < ?
             AND ? < latitude AND latitude < ?
             ".($categories? "AND pid IN(".implode(',',$categories).")":"")."
             ".($filter? "AND ".$filter:"")."
