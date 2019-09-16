@@ -37,7 +37,7 @@
 
         <?php if( $this->store->url ): ?>
             <div class="www">
-                <?= $this->labelWWW; ?>: <a href="<?= $this->store->url; ?>" target="_blank" title="<?= $this->store->name; ?>"><?= $this->store->url; ?></a>
+                <?= $this->labelWWW; ?>: <a href="<?= $this->store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name; ?>"><?= $this->store->url; ?></a>
             </div>
         <?php endif; ?>
 
