@@ -15,7 +15,7 @@
 
     <?php if( $this->entry->url ): ?>
         <div class="www">
-            <?= $this->labelWWW; ?>: <a href="<?= $this->entry->url; ?>" target="_blank" title="<?= $this->entry->name; ?>"><?= $this->entry->url; ?></a>
+            <?= $this->labelWWW; ?>: <a href="<?= $this->entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->entry->name; ?>"><?= $this->entry->url; ?></a>
         </div>
     <?php endif; ?>
 

@@ -77,6 +77,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             ,   'icon'                => 'delete.svg'
             ,   'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
+        ,   'toggle' => array
+			(
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish'],
+				'icon'                => 'visible.svg',
+				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
+				'button_callback'     => array('tl_storelocator_stores', 'toggleIcon')
+			)
         ,   'highlight' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
             ,   'icon'                => 'featured.svg'
@@ -92,7 +99,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         )
     )
 ,   'palettes' => array(
-        'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},highlight;'
+        'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},highlight,published;'
     )
 ,   'fields' => array(
         'id' => array(
@@ -232,6 +239,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         ,   'eval'                 => array('mandatory'=>false, 'tl_class'=>'w50')
         ,   'sql'                  => "char(1) NOT NULL default '0'"
         )
+    ,   'published' => array
+		(
+            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish'],
+			'inputType'               => 'checkbox',
+			'eval'                    => array('doNotCopy'=>true),
+			'sql'                     => "char(1) NOT NULL default ''"
+		)
     )
 );
 
@@ -410,5 +424,52 @@ class tl_storelocator_stores extends \Backend {
     public function checkURL( $varValue, DataContainer $dc ) {
 
         return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
+    }
+	
+	
+	/**
+	 * Return the "toggle visibility" button
+	 *
+	 * @param array  $row
+	 * @param string $href
+	 * @param string $label
+	 * @param string $title
+	 * @param string $icon
+	 * @param string $attributes
+	 *
+	 * @return string
+	 */
+	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+	{
+		if (Contao\Input::get('tid'))
+		{
+			$this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
+			$this->redirect($this->getReferer());
+		}
+		$href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+		if (!$row['published'])
+		{
+			$icon = 'invisible.svg';
+		}
+		return '<a href="'.$this->addToUrl($href).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+	}
+	
+	/**
+	 * publish/unpublish a store
+	 *
+	 * @param integer              $intId
+	 * @param boolean              $blnVisible
+	 * @param Contao\DataContainer $dc
+	 */
+	
+	public function toggleVisibility( $intId, $blnVisible, Contao\DataContainer $dc=null ) {
+
+        $oStore = NULL;
+        $oStore = \numero2\StoreLocator\StoresModel::findById( $intId );
+
+        if( $oStore ) {
+            $oStore->published = ($blnVisible ? 1 : 0);
+            $oStore->save();
+        }
     }
 }

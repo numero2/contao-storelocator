@@ -214,6 +214,14 @@
         <source>This store will be shown in front of all others regardless of the distance</source>
         <target>This store will be shown in front of all others regardless of the distance</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.publish.0">
+        <source>Publish this store</source>
+        <target>Publish this store</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.publish.1">
+        <source>This store will be shown in the Frontend</source>
+        <target>This store will be shown in the Frontend</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
         <source>Fetching coordinates, this may take up to several minutes …</source>
         <target>Fetching coordinates, this may take up to several minutes …</target>
