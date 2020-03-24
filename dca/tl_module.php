@@ -87,8 +87,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = array(
 ,   'default'             => 'mod_storelocator_search'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'options_callback'    => array( 'tl_module_storelocator', 'getTemplates' )
+,   'eval'                => array( 'includeBlankOption'=>true, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 );
 
@@ -194,8 +194,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = array(
 ,   'default'             => 'mod_storelocator_list'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'options_callback'    => array( 'tl_module_storelocator', 'getTemplates' )
+,   'eval'                => array( 'includeBlankOption'=>true, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 );
 
@@ -204,8 +204,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = array(
 ,   'default'             => 'mod_storelocator_details'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'options_callback'    => array( 'tl_module_storelocator', 'getTemplates' )
+,   'eval'                => array( 'includeBlankOption'=>true, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 );
 
@@ -214,8 +214,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_filter_tpl'] = array(
 ,   'default'             => 'mod_storelocator_filter'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'options_callback'    => array( 'tl_module_storelocator', 'getTemplates' )
+,   'eval'                => array( 'includeBlankOption'=>true, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 );
 
@@ -318,10 +318,11 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_static_map_tpl'] = array
 ,   'default'             => 'mod_storelocator_static_map'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => array('tl_module_storelocator', 'getTemplates')
-,   'eval'                => array( 'tl_class'=>'w50' )
+,   'options_callback'    => array( 'tl_module_storelocator', 'getTemplates' )
+,   'eval'                => array( 'includeBlankOption'=>true, 'tl_class'=>'w50' )
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 );
+
 
 class tl_module_storelocator extends \Backend {
 
@@ -412,13 +413,7 @@ class tl_module_storelocator extends \Backend {
      */
     public function getTemplates( DataContainer $dc ) {
 
-        $intPid = $dc->activeRecord->pid;
-
-        if( \Input::get('act') == 'overrideAll' ) {
-            $intPid =\Input::get('id');
-        }
-
-        return $this->getTemplateGroup('mod_storelocator_', $intPid);
+        return \Controller::getTemplateGroup('mod_storelocator_');
     }
 
 

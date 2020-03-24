@@ -59,7 +59,7 @@ class ModuleStoreLocatorSearch extends \Module {
 
         global $objPage;
 
-        $this->Template = new \FrontendTemplate($this->storelocator_search_tpl);
+        $this->Template = new \FrontendTemplate($this->storelocator_search_tpl?:$this->strTemplate);
 
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = \Environment::get('request');

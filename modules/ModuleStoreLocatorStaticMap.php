@@ -59,7 +59,7 @@ class ModuleStoreLocatorStaticMap extends \Module {
 
         global $objPage;
 
-        $this->Template = new \FrontendTemplate($this->storelocator_static_map_tpl);
+        $this->Template = new \FrontendTemplate($this->storelocator_static_map_tpl?:$this->strTemplate);
         $mapApiBase = "https://maps.googleapis.com/maps/api/staticmap";
 
         $parameters = array();

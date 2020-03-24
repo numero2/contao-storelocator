@@ -57,7 +57,7 @@ class ModuleStoreLocatorDetails extends \Module {
      */
     protected function compile() {
 
-        $this->Template = new \FrontendTemplate($this->storelocator_details_tpl);
+        $this->Template = new \FrontendTemplate($this->storelocator_details_tpl?:$this->strTemplate);
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 

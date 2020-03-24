@@ -59,9 +59,7 @@ class ModuleStoreLocatorFilter extends \Module {
 
         global $objPage;
 
-        $this->Template = new \FrontendTemplate($this->storelocator_filter_tpl);
-
-
+        $this->Template = new \FrontendTemplate($this->storelocator_filter_tpl?:$this->strTemplate);
         $this->Template->formId = 'storelocator_filter_'.$this->id;
         $this->Template->action = \Environment::get('request');
 

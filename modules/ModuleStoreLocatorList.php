@@ -59,7 +59,7 @@ class ModuleStoreLocatorList extends \Module {
 
         global $objPage;
 
-        $this->Template = new \FrontendTemplate($this->storelocator_list_tpl);
+        $this->Template = new \FrontendTemplate($this->storelocator_list_tpl?:$this->strTemplate);
 
         if( !isset($_GET['search']) && \Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
             \Input::setGet('search', \Input::get('auto_item'));
