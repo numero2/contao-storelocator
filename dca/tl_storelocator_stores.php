@@ -77,13 +77,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
             ,   'icon'                => 'delete.svg'
             ,   'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
             )
-        ,   'toggle' => array
-			(
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish'],
-				'icon'                => 'visible.svg',
-				'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-				'button_callback'     => array('tl_storelocator_stores', 'toggleIcon')
-			)
+        ,   'toggle' => array(
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
+            ,   'icon'                => 'visible.svg'
+            ,   'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"'
+            ,   'button_callback'     => array('tl_storelocator_stores', 'toggleIcon')
+            )
         ,   'highlight' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
             ,   'icon'                => 'featured.svg'
@@ -93,8 +92,8 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         ,   'coords' => array(
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
             ,   'href'                => 'act=show'
-            ,   'icon'                => array( 'system/modules/storelocator/assets/coords0.svg', 'system/modules/storelocator/assets/coords1.svg' )
-            ,   'button_callback'     => array( 'tl_storelocator_stores', 'coordsButton' )
+            ,   'icon'                => array('system/modules/storelocator/assets/coords0.svg', 'system/modules/storelocator/assets/coords1.svg')
+            ,   'button_callback'     => array('tl_storelocator_stores', 'coordsButton')
             )
         )
     )
@@ -239,13 +238,12 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = array(
         ,   'eval'                 => array('mandatory'=>false, 'tl_class'=>'w50')
         ,   'sql'                  => "char(1) NOT NULL default '0'"
         )
-    ,   'published' => array
-		(
+    ,   'published' => array(
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish'],
-			'inputType'               => 'checkbox',
-			'eval'                    => array('doNotCopy'=>true),
-			'sql'                     => "char(1) NOT NULL default ''"
-		)
+            'inputType'            => 'checkbox',
+            'eval'                 => array('doNotCopy'=>true),
+            'sql'                  => "char(1) NOT NULL default ''"
+        )
     )
 );
 
@@ -356,13 +354,10 @@ class tl_storelocator_stores extends \Backend {
      */
     public function coordsButton( $row=NULL, $href=NULL, $label=NULL, $title=NULL, $icon=NULL, $attributes=NULL ) {
 
-        $oStore = NULL;
-        $oStore = \numero2\StoreLocator\StoresModel::findById( $row['id'] );
+        $icon  = ($row['latitude'] || $row['longitude']) ? $icon[1] : $icon[0];
+        $label = ($row['latitude'] || $row['longitude']) ? $title : $label;
 
-        $icon  = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $icon[1] : $icon[0];
-        $label = ($oStore && ($oStore->latitude || $oStore->longitude)) ? $title : $label;
-
-        return '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</a> ';
+        return '<span title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</span> ';
     }
 
 
@@ -425,44 +420,46 @@ class tl_storelocator_stores extends \Backend {
 
         return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
     }
-	
-	
-	/**
-	 * Return the "toggle visibility" button
-	 *
-	 * @param array  $row
-	 * @param string $href
-	 * @param string $label
-	 * @param string $title
-	 * @param string $icon
-	 * @param string $attributes
-	 *
-	 * @return string
-	 */
-	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-	{
-		if (Contao\Input::get('tid'))
-		{
-			$this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
-			$this->redirect($this->getReferer());
-		}
-		$href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-		if (!$row['published'])
-		{
-			$icon = 'invisible.svg';
-		}
-		return '<a href="'.$this->addToUrl($href).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
-	}
-	
-	/**
-	 * publish/unpublish a store
-	 *
-	 * @param integer              $intId
-	 * @param boolean              $blnVisible
-	 * @param Contao\DataContainer $dc
-	 */
-	
-	public function toggleVisibility( $intId, $blnVisible, Contao\DataContainer $dc=null ) {
+
+
+    /**
+     * Return the "toggle visibility" button
+     *
+     * @param array  $row
+     * @param string $href
+     * @param string $label
+     * @param string $title
+     * @param string $icon
+     * @param string $attributes
+     *
+     * @return string
+     */
+    public function toggleIcon( $row, $href, $label, $title, $icon, $attributes ) {
+
+        if( Contao\Input::get('tid') ) {
+
+            $this->toggleVisibility(Contao\Input::get('tid'), (Contao\Input::get('state') == 1), (@func_get_arg(12) ?: null));
+            $this->redirect($this->getReferer());
+        }
+
+        $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+
+        if( !$row['published'] ) {
+            $icon = 'invisible.svg';
+        }
+
+        return '<a href="'.$this->addToUrl($href).'" title="'.Contao\StringUtil::specialchars($title).'"'.$attributes.'>'.Contao\Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+    }
+
+
+    /**
+     * publish/unpublish a store
+     *
+     * @param integer              $intId
+     * @param boolean              $blnVisible
+     * @param Contao\DataContainer $dc
+     */
+    public function toggleVisibility( $intId, $blnVisible, Contao\DataContainer $dc=null ) {
 
         $oStore = NULL;
         $oStore = \numero2\StoreLocator\StoresModel::findById( $intId );
