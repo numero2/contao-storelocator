@@ -21,9 +21,9 @@
 
             <h3><?= $entry->name; ?></h3>
 
-            <?php if( $entry->image ): ?>
+            <?php if( $entry->picture ): ?>
                 <figure>
-                    {{image::<?=$entry->image->path;?>?width=200&height=180&mode=center_ceter}}
+                    <?php $this->insert('picture_default', $entry->picture); ?>
                 </figure>
             <?php endif; ?>
 

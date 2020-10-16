@@ -141,6 +141,7 @@ class OpeningTimes extends \Widget {
         $html .= '<th>'.'</th>';
         $html .= '</tr>';
 
+        $this->value = (array)$this->value;
 
         if( count($this->value) == 0 ){
             $this->value = array(array());
@@ -149,7 +150,7 @@ class OpeningTimes extends \Widget {
             $this->value = deserialize($this->value);
         }
 
-        for ($i = 0; $i < count($this->value); $i++) {
+        for( $i=0; $i < count($this->value); $i++ ) {
             $html .= '<tr>';
 
             foreach( $dcas as $key => $field ) {

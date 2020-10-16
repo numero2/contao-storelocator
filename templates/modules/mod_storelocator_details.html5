@@ -8,7 +8,7 @@
 
         <?php if( $this->store->image ): ?>
             <figure>
-                {{image::<?=$this->store->image->path;?>?width=200&height=180&mode=center_ceter}}
+                <?php $this->insert('picture_default', $this->picture); ?>
             </figure>
         <?php endif; ?>
 

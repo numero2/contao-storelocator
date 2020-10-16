@@ -209,6 +209,20 @@ class ModuleStoreLocatorList extends \Module {
                             $objFile = NULL;
                             $objFile = \FilesModel::findByUuid($entry->singleSRC);
                             $entry->image = $objFile;
+
+                            $aImage = array(
+                                'id'         => $objFile->id
+                            ,   'name'       => $objFile->basename
+                            ,   'singleSRC'  => $objFile->path
+                            ,   'title'      => \StringUtil::specialchars($objFile->basename)
+                            ,   'filesModel' => $objFile
+                            ,   'size'       => $this->imgSize
+                            );
+
+                            $this->addImageToTemplate($this->Template, $aImage, null, null, $aImage['filesModel']);
+
+                            $entry->picture = $this->Template->picture;
+                            unset($this->Template->picture);
                         }
 
                         if( $this->jumpTo ) {

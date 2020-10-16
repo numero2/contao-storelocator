@@ -80,7 +80,6 @@ class ModuleStoreLocatorDetails extends \Module {
                 $objStore->image = $objFile;
             }
 
-            $this->Template->store = $objStore;
 
             $this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
             $this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
@@ -101,6 +100,21 @@ class ModuleStoreLocatorDetails extends \Module {
                     $this->{$callback[0]}->{$callback[1]}($objStore, $this);
                 }
             }
+
+            if( $objStore->image ) {
+                $aImage = array(
+                    'id'         => $objStore->image->id
+                ,   'name'       => $objStore->image->basename
+                ,   'singleSRC'  => $objStore->image->path
+                ,   'title'      => \StringUtil::specialchars($objStore->image->basename)
+                ,   'filesModel' => $objStore->image
+                ,   'size'       => $this->imgSize
+                );
+
+                $this->addImageToTemplate($this->Template, $aImage, null, null, $aImage['filesModel']);
+            }
+
+            $this->Template->store = $objStore;
 
         // store not found? throw 404
         } else {
