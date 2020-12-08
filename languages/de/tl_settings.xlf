@@ -4,7 +4,7 @@
 <body>
     <trans-unit id="tl_settings.storelocator_legend">
         <source>StoreLocator Settings</source>
-        <target>StoreLocator Einstellungnen</target>
+        <target>StoreLocator Einstellungen</target>
     </trans-unit>
     <trans-unit id="tl_settings.google_maps_server_key.0">
         <source>Google Maps server key</source>

@@ -216,8 +216,8 @@ class OpeningTimes extends \Widget {
             var inputs = table.querySelectorAll("input, select");
             for (i = 0; i < inputs.length; i++) {
                 var iRow = Math.floor(i/'.$numFields.');
-                inputs[i].id = inputs[i].id.replace(/\[\d\]/, "["+iRow+"]");
-                inputs[i].name = inputs[i].name.replace(/\[\d\]/, "["+iRow+"]");
+                inputs[i].id = inputs[i].id.replace(/\[\d+\]/, "["+iRow+"]");
+                inputs[i].name = inputs[i].name.replace(/\[\d+\]/, "["+iRow+"]");
             }
         }
 
