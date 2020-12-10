@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/tl_settings.php" source-language="en">
+<body>
+    <trans-unit id="tl_settings.storelocator_legend">
+        <source>StoreLocator Settings</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.0">
+        <source>Google Maps server key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.1">
+        <source>Google Maps server key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.0">
+        <source>Google Maps browser key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.1">
+        <source>Google Maps browser key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_key">
+    </trans-unit>
+</body>
+</file>
+</xliff>

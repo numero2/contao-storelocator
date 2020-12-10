@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/tl_module.php" source-language="en">
+<body>
+    <trans-unit id="tl_module.editalias.0">
+        <source>Edit source element</source>
+    </trans-unit>
+    <trans-unit id="tl_module.editalias.1">
+        <source>Edit the source element ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_module.sl_map_legend">
+        <source>Google Map</source>
+    </trans-unit>
+    <trans-unit id="tl_module.sl_filter_legend">
+        <source>Filter settings</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_autocomplete_country.0">
+        <source>Default country</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_autocomplete_country.1">
+        <source>Please select from which country addresses should be suggested (leave empty for no restriction).</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_default_country.0">
+        <source>Default country</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_default_country.1">
+        <source>Please select from which country stores should be shown.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_enable_autocomplete.0">
+        <source>Enable autosuggest?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_enable_autocomplete.1">
+        <source>Displays suggestions while typing.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_tpl.0">
+        <source>Template</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_tpl.1">
+        <source>Which template should be used to display the search mask.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_tpl.0">
+        <source>Template</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_tpl.1">
+        <source>Choose which template should be used to list the stores</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_filter_tpl.0">
+        <source>Template</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_filter_tpl.1">
+        <source>Which template should be used to display the filter mask.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_categories.0">
+        <source>Categories</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_categories.1">
+        <source>From which categories can the user choose to show results?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_categories.0">
+        <source>Categories</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_categories.1">
+        <source>From which category should the stores be displayed</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_always_show_results.0">
+        <source>Always show stores?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_always_show_results.1">
+        <source>Should all stores be shown even if no search was performed?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_map.0">
+        <source>Show stores in Google Map?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_show_map.1">
+        <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
+        <source>Load more results on pan</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_load_results_on_pan.1">
+        <source>More results will be loaded when paning the map</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker.0">
+        <source>Max amount of markers to add dynamically</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker.1">
+        <source>this will not limit the number of markers on the map</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_interaction.0">
+        <source>When clicking a pin on the map …</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_interaction.1">
+        <source>What action should be performed when clicking a pin on the map?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_interaction.0">
+        <source>When clicking an entry in the results …</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_interaction.1">
+        <source>What action should be performed when clicking an entry in the results?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_pin.0">
+        <source>Pin image</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_map_pin.1">
+        <source>The normal map pins will be replaced by the chosen image.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_limit.0">
+        <source>Number of results</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_limit.1">
+        <source>How many results should be shown?</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_details_tpl.0">
+        <source>Template</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_details_tpl.1">
+        <source>Choose which template should be used to show details of the store</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_distance.0">
+        <source>Limit distance</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_distance.1">
+        <source>Do not show stores which exceed the maximum distance.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_max_distance.0">
+        <source>Max distance</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_max_distance.1">
+        <source>The maximum distance in km.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_in.0">
+        <source>Search in</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_search_in.1">
+        <source>Sets which fields can be searched.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_sortable.0">
+        <source>Order by</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_sortable.1">
+        <source>Sets which fields can be be used to sort the results.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_filter.0">
+        <source>Use filter module</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_filter.1">
+        <source>Is there a filter module for this list.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_mod_filter.0">
+        <source>Filter module</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_center.0">
+        <source>Center</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_center.1">
+        <source>Center of the map, comma-separated {latitude,longitude} pair (e.g. "40.714728,-73.998672") or a string address (e.g. "city hall, new york, ny") identifying a unique location.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_zoom.0">
+        <source>Zoom level</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_zoom.1">
+        <source>1 shows the World, 5 Landmass/continent, 10 City, 15 Streets, 20 Buildings</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker_static.0">
+        <source>Max amount of marker</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_limit_marker_static.1">
+        <source>This can be maximal 50.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptype.0">
+        <source>Map type</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.roadmap">
+        <source>Roadmap image</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.satellite">
+        <source>satellite image</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.terrain">
+        <source>Physical relief map image,</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_maptypes.hybrid">
+        <source>Hybrid of the satellite and roadmap image</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_size.0">
+        <source>Image size</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_size.1">
+        <source>free plan only allows size up to 640x640</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_format.0">
+        <source>Image format</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.png">
+        <source>PNG</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.png32">
+        <source>PNG (32-bit)</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.gif">
+        <source>GIF</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.jpg">
+        <source>JPEG</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_formats.jpg-baseline">
+        <source>JPEG (non-progressive)</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scale.0">
+        <source>Scale value</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.free">
+        <source>Free</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.1">
+        <source>1x</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.2">
+        <source>2x</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.premium_plan">
+        <source>Premium Plan</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_scales.4">
+        <source>4x</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_static_map_tpl.0">
+        <source>Template</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_static_map_tpl.1">
+        <source>Which template should be used to display the static map.</source>
+    </trans-unit>
+</body>
+</file>
+</xliff>

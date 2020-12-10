@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/tl_storelocator_categories.php" source-language="en">
+<body>
+    <trans-unit id="tl_storelocator_categories.title.0">
+        <source>Title</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.title.1">
+        <source>Define a title for this list.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.alias.0">
+        <source>Alias</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.alias.1">
+        <source>Will be generated automatically.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.title_legend">
+        <source>Common</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.new.0">
+        <source>New list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.new.1">
+        <source>Create a new list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.show.0">
+        <source>Details</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.show.1">
+        <source>Show details of list with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.edit.0">
+        <source>Edit stores</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.edit.1">
+        <source>Edit stores of list with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.editheader.0">
+        <source>Edit list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.editheader.1">
+        <source>Edit list with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.copy.0">
+        <source>Copy list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.copy.1">
+        <source>Copy list with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.delete.0">
+        <source>Delete list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.delete.1">
+        <source>Delete list with ID %s löschen</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_legend">
+        <source>Google Map</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_pin.0">
+        <source>Pin image</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_categories.map_pin.1">
+        <source>The normal map pins for this category will be replaced by the chosen image.</source>
+    </trans-unit>
+</body>
+</file>
+</xliff>

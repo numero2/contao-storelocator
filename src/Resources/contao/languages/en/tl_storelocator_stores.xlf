@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/tl_storelocator_stores.php" source-language="en">
+<body>
+    <trans-unit id="tl_storelocator_stores.name.0">
+        <source>Name</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.name.1">
+        <source>Name of the store.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.alias.0">
+        <source>Alias</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.alias.1">
+        <source>Will be generated automatically.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.email.0">
+        <source>E-Mail</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.email.1">
+        <source>E-Mail Address</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.url.0">
+        <source>Website</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.url.1">
+        <source>Enter the URL of the stores website</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.phone.0">
+        <source>Phone</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.phone.1">
+        <source>Telephone number</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fax.0">
+        <source>Fax</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fax.1">
+        <source>Fax number</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.description.0">
+        <source>Description</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.singleSRC.0">
+        <source>Image</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.street.0">
+        <source>Street</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.street.1">
+        <source>Name of the street plus house number</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.postal.0">
+        <source>ZIP</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.postal.1">
+        <source>Zip code</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.city.0">
+        <source>City</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.city.1">
+        <source>Name of the city</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.country.0">
+        <source>Country</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.country.1">
+        <source>Please choose a country</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.opening_times.0">
+        <source>Opening times</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_weekday.0">
+        <source>Weekdays</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_from.0">
+        <source>from</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_to.0">
+        <source>to</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.longitude.0">
+        <source>Longitude</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.longitude.1">
+        <source>To be filled in automatically...</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.latitude.0">
+        <source>Latitude</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.latitude.1">
+        <source>To be filled in automatically...</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.map.0">
+        <source>Map</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.geo_explain.0">
+        <source>The geographic coordinates are needed for the search to be working correctly. Later on the user will be able to search for stores near his given location. Both of these fields will be filled in automatically but also can be fixed manually.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.common_legend">
+        <source>Common</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.adress_legend">
+        <source>Address</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.geo_legend">
+        <source>Coordinates</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_legend">
+        <source>Opening times</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.publish_legend">
+        <source>Publishing</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.new.0">
+        <source>New store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.new.1">
+        <source>Add a new store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.coords.0">
+        <source>No coordinates available!</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.coords.1">
+        <source>Coordinates available</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.edit.0">
+        <source>Edit store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.edit.1">
+        <source>Edit store with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.copy.0">
+        <source>Copy store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.copy.1">
+        <source>Copy store with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.delete.0">
+        <source>Delete store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.delete.1">
+        <source>Delete store with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.importStores.0">
+        <source>CSV import</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.importStores.1">
+        <source>Import stores from a CSV file</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fillCoordinates.0">
+        <source>Fill Coordinates</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.fillCoordinates.1">
+        <source>Fills missing Geo-Coordinates</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.highlight.0">
+        <source>Highlight this store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.highlight.1">
+        <source>This store will be shown in front of all others regardless of the distance</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.publish.0">
+        <source>Publish this store</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.publish.1">
+        <source>This store will be shown in the Frontend</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
+        <source>Fetching coordinates, this may take up to several minutes …</source>
+    </trans-unit>
+</body>
+</file>
+</xliff>

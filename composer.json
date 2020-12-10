@@ -8,14 +8,30 @@
         }
     ],
     "require": {
-        "contao/core-bundle": "4.*",
-        "contao-community-alliance/composer-plugin": "3.*"
+        "contao/core-bundle": "4.*"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0"
+    },
+    "conflict": {
+        "contao/core": "*",
+        "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "extra": {
-        "contao": {
-            "sources": {
-                "": "system/modules/storelocator"
-            }
-        }
+        "contao-manager-plugin": "numero2\\StoreLocatorBundle\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "numero2\\StoreLocatorBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao/"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config/",
+            "src/Resources/contao/dca/",
+            "src/Resources/contao/languages/",
+            "src/Resources/contao/templates/"
+        ]
     }
 }

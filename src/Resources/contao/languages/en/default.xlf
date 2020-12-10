@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en">
+<body>
+    <trans-unit id="tl_storelocator.weekdays.MO">
+        <source>Monday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.TU">
+        <source>Tuesday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.WE">
+        <source>Wednesday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.TH">
+        <source>Thursday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.FR">
+        <source>Friday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.SA">
+        <source>Saturday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.weekdays.SO">
+        <source>Sunday</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.head">
+        <source>Import retailer from CSV</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.start">
+        <source>Start import</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.file.0">
+        <source>Choose file</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.file.1">
+        <source>The file must be UTF8 encoded and follow the structure name, email, url, phone, fax, street, postal, city, countrycode (ISO 3166-2)</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.limit_info">
+        <source><![CDATA[<b>Please note:</b>]]> Using the free Version of Google APIs forces certain limits which, trying to import many stores at once, may lead to your visitors unable to use the StoreLocator for up to 24 hours. Therefore we suggest not trying to import more than 500 stores daily.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.import.ajax_import_running">
+        <source>Import started, this may take up to several minutes …</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.noresults">
+        <source>There have been no results for your search</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.nothing">
+        <source>do nothing</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.showMarkerInfo">
+        <source>show further information</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.scrollToListElement">
+        <source>scroll to entry in results list</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.interactions.scrollToMapAndCenterMarker">
+        <source>center map around the according pin</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.distance">
+        <source>Distance approx.</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.phone">
+        <source>Phone</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.fax">
+        <source>Fax</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.email">
+        <source>E-Mail</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.www">
+        <source>WWW</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.more">
+        <source>more information</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.postal">
+        <source>ZIP / City</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.country">
+        <source>Country</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.search">
+        <source>Search</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.field.all_categories">
+        <source>All categories</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_label">
+        <source>filter Stores</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter">
+        <source>Find</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_reset.0">
+        <source>Reset</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.filter_reset.1">
+        <source>Reset all applied filter</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.name">
+        <source>Name</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.postal">
+        <source>ZIP</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.city">
+        <source>City</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order_label">
+        <source>Entries order by:</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order.asc">
+        <source>sorting ascending</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.filter.order.desc">
+        <source>sorting descending</source>
+    </trans-unit>
+</body>
+</file>
+</xliff>
