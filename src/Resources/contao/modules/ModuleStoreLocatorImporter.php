@@ -36,7 +36,6 @@ class ModuleStoreLocatorImporter extends Backend {
         ini_set('max_execution_time', 0);
 
         $this->import('BackendUser', 'User');
-        $this->import('StoreLocator', 'SL');
         $class = $this->User->uploader;
 
         if( !class_exists($class) || $class == 'DropZone' ) {
@@ -107,8 +106,11 @@ class ModuleStoreLocatorImporter extends Backend {
                             $alias .= '-' . $autoIncrement;
                         }
 
+                        $oSL = NULL;
+                        $oSL = new StoreLocator();
+
                         // get coordinates
-                        $aCoords = $this->SL->getCoordinates(
+                        $aCoords = $oSL->getCoordinates(
                             $data[5]
                         ,   $data[6]
                         ,   $data[7]
