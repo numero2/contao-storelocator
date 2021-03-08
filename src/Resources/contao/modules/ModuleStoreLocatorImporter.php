@@ -117,8 +117,8 @@ class ModuleStoreLocatorImporter extends Backend {
                         ,   $data[8]
                         );
 
-                        // add "http" in front of website url
-                        $data[2] = ( $data[2] && strpos($data[2],'http') === FALSE ) ? 'http://'.$data[2] : $data[2];
+                        // add "https" in front of website url
+                        $data[2] = ( $data[2] && strpos($data[2],'https') === FALSE ) ? 'https://'.$data[2] : $data[2];
 
                         $pid = $this->Input->get('id');
 

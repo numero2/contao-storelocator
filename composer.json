@@ -8,7 +8,15 @@
         }
     ],
     "require": {
-        "contao/core-bundle": "4.*"
+        "contao/core-bundle": "4.*",
+        "willdurand/geocoder": "^4.3",
+        "geocoder-php/google-maps-provider": "^4.6"
+    },
+    "suggest": {
+        "geocoder-php/bing-maps-provider": "For use of Microsoft Bing Maps",
+        "geocoder-php/here-provider": "For use of Here Maps",
+        "geocoder-php/nominatim-provider": "For use of OpenStreetMap Nominatim Maps",
+        "geocoder-php/open-cage-provider": "For use of OpenStreetMap OpenCage Maps"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0"

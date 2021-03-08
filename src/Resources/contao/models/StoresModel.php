@@ -115,6 +115,8 @@ class StoresModel extends Model {
             FROM tl_storelocator_stores
             WHERE
                 published='1'
+                AND latitude != ''
+                AND longitude != ''
                 AND ? < longitude AND longitude < ?
                 AND ? < latitude AND latitude < ?
                 ".($categories? "AND pid IN(".implode(',',$categories).")":"")."

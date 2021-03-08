@@ -9,10 +9,16 @@
         <source>Edit the source element ID %s</source>
     </trans-unit>
     <trans-unit id="tl_module.sl_map_legend">
-        <source>Google Map</source>
+        <source>Map settings</source>
     </trans-unit>
     <trans-unit id="tl_module.sl_filter_legend">
         <source>Filter settings</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_provider.0">
+        <source>Map Provider</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_provider.1">
+        <source>Please select which map provider will be used in the browser.</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_autocomplete_country.0">
         <source>Default country</source>
@@ -69,10 +75,10 @@
         <source>Should all stores be shown even if no search was performed?</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_show_map.0">
-        <source>Show stores in Google Map?</source>
+        <source>Show stores in a map?</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_show_map.1">
-        <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
+        <source>Should the stores be shown in a map in addition to the normal results list?</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
         <source>Load more results on pan</source>
@@ -229,6 +235,9 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_static_map_tpl.1">
         <source>Which template should be used to display the static map.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_providers.google-maps">
+        <source>Google Maps</source>
     </trans-unit>
 </body>
 </file>

@@ -22,6 +22,7 @@ use Contao\Image;
 use Contao\DataContainer;
 use Contao\Config;
 use numero2\StoreLocator\StoresModel;
+use numero2\StoreLocator\Geocoder;
 
 
 class Stores extends Backend {
@@ -159,15 +160,26 @@ class Stores extends Backend {
      */
     public function showMap( DataContainer $dc ) {
 
-        $sCoords = sprintf(
-            "%s,%s"
-        ,    $dc->activeRecord->latitude
-        ,    $dc->activeRecord->longitude
-        );
+        $imgPath = '';
+
+        if( Geocoder::getInstance()->hasProvider('google-maps') ) {
+            if( !empty($dc->activeRecord->latitude) && !empty($dc->activeRecord->longitude) ) {
+
+                $sCoords = sprintf(
+                    "%s,%s"
+                    ,    $dc->activeRecord->latitude
+                    ,    $dc->activeRecord->longitude
+                );
+
+                $imgPath = 'https://maps.google.com/maps/api/staticmap?center='.$sCoords.
+                    '&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
+            }
+        }
+
 
         return '<div class="google-map">'
         .'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
-        .'<img width="320" height="139" src="https://maps.google.com/maps/api/staticmap?center='.$sCoords.'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key').'" />'
+        .($imgPath?'<img width="320" height="139" src="'.$imgPath.'" />':'<div class="img" style="width:320px;height:139px;"></div>')
         .'</div>';
     }
 

@@ -11,8 +11,8 @@
         <target>Das Quellelement ID %s bearbeiten</target>
     </trans-unit>
     <trans-unit id="tl_module.sl_map_legend">
-        <source>Google Map</source>
-        <target>Google Map</target>
+        <source>Map settings</source>
+        <target>Karten-Einstellungen</target>
     </trans-unit>
     <trans-unit id="tl_module.sl_filter_legend">
         <source>Filter settings</source>
@@ -91,12 +91,12 @@
         <target>Soll der Benutzer ohne vorherige Suchanfrage alle Händler sehen können?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_show_map.0">
-        <source>Show stores in Google Map?</source>
-        <target>Händler in Google Map anzeigen?</target>
+        <source>Show stores in a map?</source>
+        <target>Händler in einer Karte anzeigen?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_show_map.1">
-        <source>Should the stores be shown in a Google Map in addition to the normal results list?</source>
-        <target>Sollen die Händler neben der Ergebnisliste auch in einer Google Map angezeigt werden?</target>
+        <source>Should the stores be shown in a map in addition to the normal results list?</source>
+        <target>Sollen die Händler neben der Ergebnisliste auch in einer Karte angezeigt werden?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_load_results_on_pan.0">
         <source>Load more results on pan</source>

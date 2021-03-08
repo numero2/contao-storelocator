@@ -11,7 +11,7 @@
 
         <?php if( $this->showMap ): ?>
             <div id="map-wrapper">
-            <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+                <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
                 <?= $this->scriptGoogleMap; ?>
             </div>
         <?php endif; ?>

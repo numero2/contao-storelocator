@@ -104,7 +104,7 @@ class ModuleStoreLocatorList extends Module {
                 $objCategory = NULL;
                 $objCategory = CategoriesModel::findByAlias($aSearchValues['category']);
 
-                if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id,$aCategories) ) {
+                if( $objCategory && $objCategory->count() > 0 && in_array($objCategory->id, $aCategories) ) {
                     $category = [$objCategory->id];
                 } else {
                     $category = null;
@@ -310,7 +310,7 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->mapsKey = Config::get('google_maps_browser_key');
         $mapPins = [];
 
-        if( $this->storelocator_map_pin ){
+        if( $this->storelocator_map_pin ) {
             $mapPins['default'] = $this->storelocator_map_pin;
         }
 

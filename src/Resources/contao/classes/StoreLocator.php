@@ -21,6 +21,7 @@ use Contao\FrontendTemplate;
 use Contao\Controller;
 use Contao\Config;
 use Contao\Request;
+use Geocoder\Query\GeocodeQuery;
 
 
 class StoreLocator extends System {
@@ -180,46 +181,47 @@ class StoreLocator extends System {
         ,   $country
         );
 
-        $sQuery = $fullAdress ? $fullAdress : $sQuery;
+        $oGeo = Geocoder::getInstance();
+        $oResults = null;
 
-        $apiKey = Config::get('google_maps_server_key');
+        $aProviderNames = $oGeo->getAvailableProvider();
+        if( !empty($aProviderNames) ) {
 
-        $oRequest = NULL;
-        $oRequest = new Request();
+            foreach( $aProviderNames as $name ) {
 
-        $oRequest->send("https://maps.googleapis.com/maps/api/geocode/json?address=".rawurlencode($sQuery)."&key=".$apiKey."&language=de");
+                $oResults = null;
 
-        $hasError = false;
+                try {
+                    $provider = $oGeo->getProvider($name);
 
-        if( $oRequest->code == 200 ) {
+                    if( $provider ) {
+                        $oResults = $provider->geocodeQuery(GeocodeQuery::create($sQuery));
+                    }
+                } catch( \Exception $e ) {
+                    System::log('Error query geocode with '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
+                }
 
-            $aResponse = [];
-            $aResponse = json_decode( $oRequest->response,1 );
-
-            if( !empty($aResponse['status']) && $aResponse['status'] == 'OK' ) {
-
-                $coords = [];
-                $coords['latitude'] = $aResponse['results'][0]['geometry']['location']['lat'];
-                $coords['longitude'] = $aResponse['results'][0]['geometry']['location']['lng'];
-
-                return $coords;
-
-            } else {
-
-                $hasError = true;
-
-                // TODO: Find alternative geocoding service
+                if( $oResults ) {
+                    break;
+                }
             }
-
-        } else {
-            $hasError = true;
         }
 
-        if( $hasError ) {
-            $this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
+
+        if( $oResults && !$oResults->isEmpty() ) {
+
+            $aCoords = [];
+            $oCoords = $oResults->first()->getCoordinates();
+
+            $aCoords['latitude'] = $oCoords->getLatitude();
+            $aCoords['longitude'] = $oCoords->getLongitude();
+
+            return $aCoords;
         }
 
+        $this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
         return false;
+
     }
 
 
@@ -290,25 +292,25 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public function generateSearchValue( $arrData ){
+    public function generateSearchValue( $arrData ) {
 
         $aData = [];
 
-        if( !empty($arrData['term']) ){
+        if( !empty($arrData['term']) ) {
 
             $aData[0] = $arrData['term'];
-            if( !empty($arrData['category']) ){
+            if( !empty($arrData['category']) ) {
                 $aData[1] = $arrData['category'];
             }
-            if( $arrData['longitude'] && $arrData['latitude'] ){
+            if( $arrData['longitude'] && $arrData['latitude'] ) {
                 $aData[1] = $aData[1]?$aData[1]:'';
                 $aData[2] = $arrData['longitude'];
                 $aData[3] = $arrData['latitude'];
             }
         }
 
-        if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) ){
-            if( count($aData) == 0 ){
+        if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) ) {
+            if( count($aData) == 0 ) {
 
                 $aData[0] = $arrData['filter'];
                 $aData[1] = $arrData['order'];
@@ -343,7 +345,7 @@ class StoreLocator extends System {
 
         $ret = [];
 
-        foreach( $fields as $key => $field ){
+        foreach( $fields as $key => $field ) {
             $ret[] = $field." LIKE '%".$searchValue."%'";
         }
 

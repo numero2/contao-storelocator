@@ -61,13 +61,13 @@ fieldset.tl_box .heightAuto {
     margin: 0 2%;
 }
 
-#pal_geo_legend .google-map img {
+#pal_geo_legend .google-map img, #pal_geo_legend .google-map .img {
     display: block;
     background: #f6f6f8;
 }
 
 @media screen and (max-width: 767px) {
-    #pal_geo_legend .google-map img {
+    #pal_geo_legend .google-map img, #pal_geo_legend .google-map .img {
         width: 100%;
         height: auto;
     }

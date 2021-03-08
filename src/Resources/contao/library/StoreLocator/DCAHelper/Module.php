@@ -161,6 +161,28 @@ class Module extends Backend {
 
 
     /**
+     * Generates a list of all Stores with Categorie 1
+     *
+     * @return array
+     */
+    public function getJavascriptProviders() {
+
+        $aProviders = [];
+
+        foreach( $GLOBALS['N2SL']['javascript_providers'] as $name => $settings ) {
+
+            $isAvailable = $settings['init_callback']();
+
+            if( $isAvailable ) {
+                $aProviders[] = $name;
+            }
+        }
+
+        return $aProviders;
+    }
+
+
+    /**
     * Return the edit module wizard
     *
     * @param Contao\DataContainer $dc
