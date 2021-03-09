@@ -34,8 +34,8 @@
             <?php endif; ?>
 
             <div class="address">
-                <?php echo $entry->street; ?>, <?php echo $entry->postal; ?> <?php echo $entry->city; ?><br />
-                <?php echo $entry->country_name; ?>
+                <?= $entry->street; ?>, <?= $entry->postal; ?> <?= $entry->city; ?><br />
+                <?= $entry->country_name; ?>
             </div>
 
             <?php if( $entry->phone ): ?>
@@ -52,13 +52,13 @@
 
             <?php if( $entry->email ): ?>
                 <div class="email">
-                    <?= $this->labelEMail; ?>: {{email::<?php echo $entry->email; ?>}}
+                    <?= $this->labelEMail; ?>: {{email::<?= $entry->email; ?>}}
                 </div>
             <?php endif; ?>
 
             <?php if( $entry->url ): ?>
                 <div class="www">
-                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $entry->name; ?>"><?= $entry->url; ?></a>
+                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $entry->name; ?>"><?= $entry->prettyUrl; ?></a>
                 </div>
             <?php endif; ?>
 

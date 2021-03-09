@@ -121,22 +121,17 @@ class Module extends Backend {
      *
      * @return array
      */
-    public function getStoreFields() {
+    public function getStoreFields( DataContainer $dc ) {
 
         self::loadLanguageFile('tl_storelocator_stores');
 
-        $arr = [
-            'name' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['name'][0]
-        ,   'email' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['email'][0]
-        ,   'url' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['url'][0]
-        ,   'phone' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['phone'][0]
-        ,   'fax' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['fax'][0]
-        ,   'description' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['description'][0]
-        ,   'postal' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['postal'][0]
-        ,   'city' => $GLOBALS['TL_LANG']['tl_storelocator_stores']['city'][0]
-        ];
+        $aOptions = [];
 
-        return $arr;
+        foreach( $GLOBALS['TL_DCA']['tl_module']['fields'][$dc->field]['options'] as $key => $field ) {
+            $aOptions[$field] = $GLOBALS['TL_LANG']['tl_storelocator_stores'][$field][0];
+        }
+
+        return $aOptions;
     }
 
 

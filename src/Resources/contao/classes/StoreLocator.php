@@ -137,6 +137,17 @@ class StoreLocator extends System {
         if( !empty($store->phone) ) {
             $store->phoneLink = 'tel://'.preg_replace("|[^\+0-9]|", "", $store->phone);
         }
+
+        // create a "pretty" url
+        if( !empty($store->url) ) {
+
+            $aURL = [];
+            $aURL = parse_url($store->url);
+
+            if( !empty($aURL['host']) ) {
+                $store->prettyUrl = $aURL['host'];
+            }
+        }
     }
 
 

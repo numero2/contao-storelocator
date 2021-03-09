@@ -248,6 +248,19 @@ class ModuleStoreLocatorList extends Module {
                         $aEntries[] = $entry;
                     }
 
+                    // Call callback for filter
+                   if( is_array($GLOBALS['TL_HOOKS']['storelocator_list']['modifyEntries']) ) {
+
+                       foreach( $GLOBALS['TL_HOOKS']['storelocator_list']['modifyEntries'] as $callback ) {
+
+                           if( is_array($callback) ) {
+
+                               $this->import($callback[0]);
+                               $aEntries = $this->{$callback[0]}->{$callback[1]}($aEntries, $this);
+                           }
+                       }
+                   }
+
                     $objPage->cssClass = $objPage->cssClass . 'storelocatorresults';
 
                     if( $this->storelocator_show_map ) {

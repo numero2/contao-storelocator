@@ -153,12 +153,12 @@ class ModuleStoreLocatorFilter extends \Module {
         }
 
         $sortFilter = [];
-        foreach( deserialize($this->storelocator_sortable) as $key => $value) {
+        foreach( deserialize($this->storelocator_sortable) as $key => $value ) {
 
             $active = !empty($aSearchValues['order'])&&$aSearchValues['order']==$value;
             $newSort = ($active&&!empty($aSearchValues['sort'])&&$aSearchValues['sort']=='asc')?'desc':'asc';
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
-            if( $strData ){
+            if( $strData ) {
 
                 $href = $objPage->getFrontendUrl(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/order/%s/sort/%s');
                 $href = sprintf($href, $strData, $value, $newSort);
@@ -170,9 +170,9 @@ class ModuleStoreLocatorFilter extends \Module {
 
             $sortFilter[] = [
                 'label' => $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value]
-            ,    'href' => $href
-            ,    'title' => $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value]." ".$GLOBALS['TL_LANG']['tl_storelocator']['filter']['order'][$newSort]
-            ,    'class' => ($active?"active ".$newSort:"")
+            ,   'href' => $href
+            ,   'title' => $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value]." ".$GLOBALS['TL_LANG']['tl_storelocator']['filter']['order'][$newSort]
+            ,   'class' => ($active?"active ".$newSort:"")
             ];
         }
 

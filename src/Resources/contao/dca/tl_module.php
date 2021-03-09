@@ -26,7 +26,7 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_leg
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{source_legend},imgSize;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},storelocator_filter_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{config_legend},storelocator_provider;{source_legend},imgSize;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,headline,type;{config_legend},storelocator_provider,jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},storelocator_static_map_tpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},storelocator_static_map_tpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
@@ -51,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_provider'] = [
 ,   'inputType'           => 'select'
 ,   'options_callback'    => ['numero2\StoreLocator\DCAHelper\Module', 'getJavascriptProviders']
 ,   'reference'           => &$GLOBALS['TL_LANG']['tl_module']['storelocator_providers']
-,   'eval'                => ['mandatory'=>true, 'includeBlankOption'=>true, 'tl_class'=>'w50']
+,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(32) NOT NULL default ''"
 ];
 
@@ -231,6 +231,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_filter_tpl'] = [
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = [
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_in']
 ,   'inputType'           => 'checkboxWizard'
+,   'options'             => ['name', 'email', 'url', 'phone', 'fax', 'description', 'postal', 'city']
 ,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getStoreFields']
 ,   'eval'                => ['multiple'=>true, 'tl_class'=>'clr w50 heightAuto']
 ,   'sql'                 => "blob NULL"
@@ -238,6 +239,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = [
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_sortable'] = [
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_sortable']
 ,   'inputType'           => 'checkboxWizard'
+,   'options'             => ['name', 'email', 'url', 'phone', 'fax', 'description', 'postal', 'city']
 ,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getStoreFields']
 ,   'eval'                => ['multiple'=>true, 'tl_class'=>'w50 heightAuto']
 ,   'sql'                 => "blob NULL"

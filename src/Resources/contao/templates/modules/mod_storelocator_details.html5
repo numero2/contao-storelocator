@@ -2,7 +2,7 @@
 
 <?php $this->block('content'); ?>
 
-    <h1><?php echo $this->store->name; ?></h1>
+    <h1><?= $this->store->name; ?></h1>
 
     <div class="store">
 
@@ -13,8 +13,8 @@
         <?php endif; ?>
 
         <div class="address">
-            <?php echo $this->store->street; ?>, <?php echo $this->store->postal; ?> <?php echo $this->store->city; ?><br />
-            <?php echo $this->store->country_name; ?>
+            <?= $this->store->street; ?>, <?= $this->store->postal; ?> <?= $this->store->city; ?><br />
+            <?= $this->store->country_name; ?>
         </div>
 
         <?php if( $this->store->phone ): ?>
@@ -31,13 +31,13 @@
 
         <?php if( $this->store->email ): ?>
             <div class="email">
-                <?= $this->labelEMail; ?>: {{email::<?php echo $this->store->email; ?>}}
+                <?= $this->labelEMail; ?>: {{email::<?= $this->store->email; ?>}}
             </div>
         <?php endif; ?>
 
         <?php if( $this->store->url ): ?>
             <div class="www">
-                <?= $this->labelWWW; ?>: <a href="<?= $this->store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name; ?>"><?= $this->store->url; ?></a>
+                <?= $this->labelWWW; ?>: <a href="<?= $this->store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name; ?>"><?= $this->store->prettyUrl; ?></a>
             </div>
         <?php endif; ?>
 
@@ -57,7 +57,7 @@
 
         <iframe width="600" height="450" frameborder="0" src="<?=$this->mapsURI;?>" allowfullscreen></iframe>
 
-        <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
+        <p class="back"><a href="<?= $this->referer; ?>" title="<?= $this->back; ?>"><?= $this->back; ?></a></p>
 
     </div>
 
