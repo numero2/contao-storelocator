@@ -32,7 +32,7 @@ class CategoriesModel extends Model {
     /**
      * Returns a list containing all store categories
      *
-     * @return \StoresModel|null The model or null if there are no categories
+     * @return Contao\Collection|numero2\StoreLocator\CategoriesModel|null The model or null if there are no categories
      */
     public static function getCategories() {
 
@@ -52,7 +52,7 @@ class CategoriesModel extends Model {
     /**
      * Returns a list of all map pins used and their category
      *
-     * @return \StoresModel|null The model or null if there are no categories
+     * @return Contao\Collection|numero2\StoreLocator\CategoriesModel|null The model or null if there are no categories
      */
     public static function getMapPins() {
 

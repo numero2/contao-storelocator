@@ -103,7 +103,7 @@
         map.fitBounds(bounds);
         map.setZoom(map.getZoom()-1);
 
-        if( map.getZoom() > 15 ){
+        if( map.getZoom() > 15 ) {
             map.setZoom(15);
         }
     }
@@ -117,7 +117,7 @@
 
         var bounds = map.getBounds();
 
-        if( typeof(bounds) == "undefined" ) {
+        if( !(bounds instanceof google.maps.LatLngBounds) ) {
             return;
         }
 
@@ -170,7 +170,7 @@
             minZoom: 4,
             maxZoom: 20,
             zoom: 8,
-        }
+        };
 
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -199,7 +199,7 @@
         initMapMarker();
     }
     <?php if( $this->loadedMapsApi ): ?>
-        var busyWait = function(){
+        var busyWait = function() {
             if( typeof google !== "undefined" && typeof google.maps !== "undefined" && typeof google.maps.Map !== "undefined" ) {
                 initializeGoogleMap();
             } else {

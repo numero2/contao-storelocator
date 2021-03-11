@@ -31,26 +31,29 @@ class Module extends Backend {
      *
      * @return array
      */
-    public function getCategories() {
+    public function getCategories(): array {
 
         $aCategories = [];
 
         $oCategories = NULL;
         $oCategories = CategoriesModel::getCategories();
 
-        while( $oCategories->next() ) {
-            $aCategories[ $oCategories->id ] = $oCategories->title;
+        if( $oCategories) {
+            while( $oCategories->next() ) {
+                $aCategories[ $oCategories->id ] = $oCategories->title;
+            }
         }
 
         return $aCategories;
     }
+
 
     /**
      * Returns a list of all store categories
      *
      * @return array
      */
-    public function getMapType() {
+    public function getMapType(): array {
 
         $aType = [
             'roadmap' => $GLOBALS['TL_LANG']['tl_module']['storelocator_maptypes']['roadmap']
@@ -62,12 +65,13 @@ class Module extends Backend {
         return $aType;
     }
 
+
     /**
      * Returns a list of all store categories
      *
      * @return array
      */
-    public function getMapFormat() {
+    public function getMapFormat(): array {
 
         $aFormat = [
             'png' => $GLOBALS['TL_LANG']['tl_module']['storelocator_formats']['png']
@@ -80,12 +84,13 @@ class Module extends Backend {
         return $aFormat;
     }
 
+
     /**
      * Returns a list of all store categories
      *
      * @return array
      */
-    public function getMapScale() {
+    public function getMapScale(): array {
 
         $aScale = [
             $GLOBALS['TL_LANG']['tl_module']['storelocator_scales']['free'] => [
@@ -101,15 +106,14 @@ class Module extends Backend {
     }
 
 
-
     /**
      * Returns a list of all templates
      *
-     * @param  Contao\DataContainer $dc
+     * @param Contao\DataContainer $dc
      *
      * @return array
      */
-    public function getTemplates( DataContainer $dc ) {
+    public function getTemplates( DataContainer $dc ): array {
         return Controller::getTemplateGroup('mod_storelocator');
     }
 
@@ -121,7 +125,7 @@ class Module extends Backend {
      *
      * @return array
      */
-    public function getStoreFields( DataContainer $dc ) {
+    public function getStoreFields( DataContainer $dc ): array {
 
         self::loadLanguageFile('tl_storelocator_stores');
 
@@ -136,18 +140,19 @@ class Module extends Backend {
 
 
     /**
-     * Generates a list of all Stores with Categorie 1
+     * Generates a list of all Stores with Categorie id
      *
      * @return array
      */
-    public function getFilterModules() {
+    public function getFilterModules(): array {
 
-        $oModule = ModuleModel::findBy('type', 'storelocator_filter');
+        $oModules = ModuleModel::findBy('type', 'storelocator_filter');
+
         $aModule = [];
 
-        if( $oModule ) {
-            foreach( $oModule as $key => $value ) {
-                $aModule[$value->id] = $value->name.' (ID: '.$value->id.')';
+        if( $oModules ) {
+            foreach( $oModules as $key => $oModule ) {
+                $aModule[$oModule->id] = $oModule->name.' (ID: '.$oModule->id.')';
             }
         }
 
@@ -156,11 +161,11 @@ class Module extends Backend {
 
 
     /**
-     * Generates a list of all Stores with Categorie 1
+     * Generates a list of all available javascript providers
      *
      * @return array
      */
-    public function getJavascriptProviders() {
+    public function getJavascriptProviders(): array {
 
         $aProviders = [];
 
@@ -184,7 +189,7 @@ class Module extends Backend {
     *
     * @return string
     */
-    public function editModule( DataContainer $dc ) {
+    public function editModule( DataContainer $dc ): string {
 
         return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . sprintf(specialchars($GLOBALS['TL_LANG']['tl_module']['editalias'][1]), $dc->value) . '" style="padding-left:3px" onclick="Backend.openModalIframe({\'width\':768,\'title\':\'' . specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_module']['editalias'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.gif', $GLOBALS['TL_LANG']['tl_module']['editalias'][0]) . '</a>';
     }

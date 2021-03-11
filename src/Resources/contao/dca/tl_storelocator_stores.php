@@ -84,7 +84,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'highlight' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
             ,   'icon'                => 'featured.svg'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleFeatured(this,%s)"'
+            ,   'attributes'          => 'onclick="Backend.getScrollOffset();"'
             ,   'button_callback'     => ['\numero2\StoreLocator\DCAHelper\Stores', 'iconHighlight']
             ]
         ,   'coords' => [

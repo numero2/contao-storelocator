@@ -17,6 +17,7 @@ namespace numero2\StoreLocator;
 
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\FilesModel;
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -37,9 +38,10 @@ class ModuleStoreLocatorDetails extends Module {
 
     /**
      * Display a wildcard in the back end
+     *
      * @return string
      */
-    public function generate() {
+    public function generate(): string {
 
         if( TL_MODE == 'BE' ) {
 
@@ -61,72 +63,63 @@ class ModuleStoreLocatorDetails extends Module {
     /**
      * Generate module
      */
-    protected function compile() {
+    protected function compile(): void {
 
         $this->Template = new FrontendTemplate($this->storelocator_details_tpl?:$this->strTemplate);
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
-        $alias = NULL;
-        $alias = Input::get('auto_item') ? Input::get('auto_item') : Input::get('store');
+        if( !isset($_GET['store']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+            Input::setGet('store', Input::get('auto_item'));
+        }
+
+        $alias = Input::get('store') ? Input::get('store') : NULL;
 
         $objStore = NULL;
         $objStore = StoresModel::findByIdOrAlias($alias);
 
-        // get store details
-        if( $objStore ) {
+        if( !$objStore ) {
+            throw new PageNotFoundException('store not found');
+        }
 
-            StoreLocator::parseStoreData( $objStore );
+        // get image
+        if( $objStore->singleSRC ) {
 
-            // get image
-            if( $objStore->singleSRC ) {
+            $objFile = NULL;
+            $objFile = FilesModel::findByUuid($objStore->singleSRC);
+            $objStore->image = $objFile;
+        }
 
-                $objFile = NULL;
-                $objFile = FilesModel::findByUuid($objStore->singleSRC);
-                $objStore->image = $objFile;
-            }
+        $this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
+        $this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
+        $this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
+        $this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 
-
-            $this->Template->labelPhone = $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'];
-            $this->Template->labelFax = $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'];
-            $this->Template->labelEMail = $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'];
-            $this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
-
+        $this->Template->maps_provider = $this->storelocator_provider;
+        if( $this->storelocator_provider == 'google-maps' ) {
             $this->Template->mapsURI = sprintf(
                 "https://www.google.com/maps/embed/v1/place?q=%s&key=%s"
-            ,   rawurlencode($objStore->name.', '.$objStore->street.', '.$objStore->postal.' '.$objStore->city)
-            ,   Config::get('google_maps_browser_key')
+                ,   rawurlencode($objStore->name.', '.$objStore->street.', '.$objStore->postal.' '.$objStore->city)
+                ,   Config::get('google_maps_browser_key')
             );
-
-            // HOOK: add custom logic
-            if( isset($GLOBALS['TL_HOOKS']['parseStoreDetails']) && is_array($GLOBALS['TL_HOOKS']['parseStoreDetails']) ) {
-
-                foreach( $GLOBALS['TL_HOOKS']['parseStoreDetails'] as $callback ) {
-                    $this->import($callback[0]);
-                    $this->{$callback[0]}->{$callback[1]}($objStore, $this);
-                }
-            }
-
-            if( $objStore->image ) {
-                $aImage = [
-                    'id'         => $objStore->image->id
-                ,   'name'       => $objStore->image->basename
-                ,   'singleSRC'  => $objStore->image->path
-                ,   'title'      => StringUtil::specialchars($objStore->image->basename)
-                ,   'filesModel' => $objStore->image
-                ,   'size'       => $this->imgSize
-                ];
-
-                $this->addImageToTemplate($this->Template, $aImage, null, null, $aImage['filesModel']);
-            }
-
-            $this->Template->store = $objStore;
-
-        // store not found? throw 404
-        } else {
-
-            $objHandler = new $GLOBALS['TL_PTY']['error_404']();
-            $objHandler->generate('');
         }
+
+        if( $objStore->image ) {
+
+            $aImage = [
+                'id'         => $objStore->image->id
+            ,   'name'       => $objStore->image->basename
+            ,   'singleSRC'  => $objStore->image->path
+            ,   'title'      => StringUtil::specialchars($objStore->image->basename)
+            ,   'filesModel' => $objStore->image
+            ,   'size'       => $this->imgSize
+            ];
+
+            $this->addImageToTemplate($this->Template, $aImage, null, null, $aImage['filesModel']);
+        }
+
+        StoreLocator::parseStoreData($objStore, $this);
+
+        $this->Template->store = $objStore;
     }
 }

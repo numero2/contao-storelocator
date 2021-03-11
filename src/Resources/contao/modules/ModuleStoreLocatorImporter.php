@@ -30,8 +30,10 @@ class ModuleStoreLocatorImporter extends Backend {
 
     /**
      * Generates a form to start import from csv file
+     *
+     * @return string
      */
-    public function showImport() {
+    public function showImport(): string {
 
         ini_set('max_execution_time', 0);
 
@@ -55,7 +57,7 @@ class ModuleStoreLocatorImporter extends Backend {
 
             $arrFiles = [];
 
-            foreach( $arrUploaded as $strFile ){
+            foreach( $arrUploaded as $strFile ) {
 
                 // Skip folders
                 if( is_dir(TL_ROOT . '/' . $strFile) ) {
@@ -63,7 +65,7 @@ class ModuleStoreLocatorImporter extends Backend {
                     continue;
                 }
 
-                $objFile = new \File($strFile, true);
+                $objFile = new File($strFile, true);
 
                 // Skip anything but .cto files
                 if( $objFile->extension != 'csv' ) {
@@ -77,11 +79,10 @@ class ModuleStoreLocatorImporter extends Backend {
             if( !empty($arrFiles) ) {
 
                 $autoIncrement = $this->Database->prepare("
-                        SELECT `AUTO_INCREMENT`
-                        FROM  INFORMATION_SCHEMA.TABLES
-                        WHERE TABLE_SCHEMA = ?
-                            AND TABLE_NAME   = ?;
-                    ")->execute( Config::get('dbDatabase'), "tl_storelocator_stores" );
+                    SELECT `AUTO_INCREMENT`
+                    FROM  INFORMATION_SCHEMA.TABLES
+                    WHERE TABLE_SCHEMA=? AND TABLE_NAME=?;
+                ")->execute(Config::get('dbDatabase'), "tl_storelocator_stores");
 
                 $autoIncrement = $autoIncrement->AUTO_INCREMENT;
 
@@ -91,8 +92,9 @@ class ModuleStoreLocatorImporter extends Backend {
 
                     while( ($data = fgetcsv($objFile->handle)) !== FALSE ) {
 
-                        if( empty($data[0]) || empty($data[5]) || empty($data[6]) || empty($data[7]) || empty($data[8]) )
+                        if( empty($data[0]) || empty($data[5]) || empty($data[6]) || empty($data[7]) || empty($data[8]) ) {
                             continue;
+                        }
 
                         // generate alias
                         $alias = StringUtil::generateAlias($data[0]);
@@ -136,10 +138,10 @@ class ModuleStoreLocatorImporter extends Backend {
                             ,   $data[6]
                             ,   $data[7]
                             ,   strtolower($data[8])
-                            ,   $aCoords ? $aCoords['longitude'] : ''
-                            ,   $aCoords ? $aCoords['latitude'] : ''
+                            ,   !empty($aCoords['longitude']) ? $aCoords['longitude'] : ''
+                            ,   !empty($aCoords['latitude']) ? $aCoords['latitude'] : ''
                             );
-                        } catch( Exception $e ) {
+                        } catch( \Exception $e ) {
                             continue;
                         }
                         $autoIncrement++;
@@ -148,7 +150,6 @@ class ModuleStoreLocatorImporter extends Backend {
                     // Redirect
                     setcookie('BE_PAGE_OFFSET', 0, 0, '/');
                     $this->redirect(str_replace('&key=importStores', '', Environment::get('request')));
-                    return;
                 }
             }
         }

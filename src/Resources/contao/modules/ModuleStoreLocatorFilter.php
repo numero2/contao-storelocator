@@ -27,7 +27,7 @@ use Contao\PageModel;
 use Patchwork\Utf8;
 
 
-class ModuleStoreLocatorFilter extends \Module {
+class ModuleStoreLocatorFilter extends Module {
 
 
     /**
@@ -39,9 +39,10 @@ class ModuleStoreLocatorFilter extends \Module {
 
     /**
      * Display a wildcard in the back end
+     *
      * @return string
      */
-    public function generate() {
+    public function generate(): string {
 
         if( TL_MODE == 'BE' ) {
 
@@ -63,7 +64,7 @@ class ModuleStoreLocatorFilter extends \Module {
     /**
      * Generate module
      */
-    protected function compile() {
+    protected function compile(): void {
 
         global $objPage;
 
@@ -75,10 +76,9 @@ class ModuleStoreLocatorFilter extends \Module {
             Input::setGet('search', Input::get('auto_item'));
         }
 
-        $sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
+        $sSearchVal = Input::get('search') ? Input::get('search') : NULL;
 
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
-
 
         // generate form elements
         $widgetFilter = NULL;
@@ -102,14 +102,14 @@ class ModuleStoreLocatorFilter extends \Module {
         $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
         $this->Template->hrefReset = $objPage->getFrontendUrl( '/clear/filter' );
 
-        if( isset($_GET['clear']) && \Input::get('clear') == 'filter' ) {
+        if( isset($_GET['clear']) && Input::get('clear') == 'filter' ) {
 
             $aSearchValues['filter'] = null;
             $aSearchValues['order'] = null;
             $aSearchValues['sort'] = null;
-            $strData = StoreLocator::generateSearchvalue($aSearchValues);
+            $strData = StoreLocator::generateSearchValue($aSearchValues);
 
-            if( count($trData) == 0 ){
+            if( strlen($strData) == 0 ) {
 
                 $href = $objPage->getFrontendUrl();
             } else {
@@ -139,17 +139,17 @@ class ModuleStoreLocatorFilter extends \Module {
                 $this->redirect( $href );
             }
 
-        } else if( \Input::get('order') && \Input::get('sort') ){
+        } else if( Input::get('order') && Input::get('sort') ) {
 
-            $aSearchValues['order'] = \Input::get('order');
-            $aSearchValues['sort'] = \Input::get('sort');
+            $aSearchValues['order'] = Input::get('order');
+            $aSearchValues['sort'] = Input::get('sort');
 
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
             $href = $objPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s');
             $href = sprintf($href, $strData);
 
-            $this->redirect( $href );
+            $this->redirect($href);
         }
 
         $sortFilter = [];

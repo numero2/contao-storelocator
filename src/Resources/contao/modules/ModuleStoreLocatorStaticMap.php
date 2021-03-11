@@ -35,9 +35,10 @@ class ModuleStoreLocatorStaticMap extends Module {
 
     /**
      * Display a wildcard in the back end
+     *
      * @return string
      */
-    public function generate() {
+    public function generate(): string {
 
         if( TL_MODE == 'BE' ) {
 
@@ -125,14 +126,13 @@ class ModuleStoreLocatorStaticMap extends Module {
 
         $this->Template->mapLink = $mapApiBase."?".implode("&", $parameters);
 
-
         if( $this->jumpTo ) {
 
-            $objLink = NULL;
             $objLink = PageModel::findById($this->jumpTo);
 
-            $this->Template->href = $this->generateFrontendUrl($objLink->row());
+            if( $objLink ) {
+                $this->Template->href = $objLink->getFrontendUrl();
+            }
         }
-
     }
 }

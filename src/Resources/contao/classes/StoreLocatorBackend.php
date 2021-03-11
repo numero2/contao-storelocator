@@ -15,10 +15,11 @@
 
 namespace numero2\StoreLocator;
 
-use Contao\Input;
-use Contao\Database;
 use Contao\Config;
+use Contao\Database;
+use Contao\Input;
 use Contao\Message;
+use Contao\DataContainer;
 
 
 class StoreLocatorBackend extends \System {
@@ -28,21 +29,20 @@ class StoreLocatorBackend extends \System {
      * Show a message in backend if google keys are missing
      *
      * @param DataContainer $dc
-     *
-     * @return none
      */
-    public function showGoogleKeysMissingMessage( $dc ) {
+    public function showGoogleKeysMissingMessage( DataContainer $dc ): void {
 
-        if( TL_MODE != 'BE' )
+        if( TL_MODE != 'BE' ) {
             return;
+        }
 
         if( Input::get('table') == "tl_module" && Input::get('act') == "edit" ) {
 
             $objModule = Database::getInstance()->prepare("
                 SELECT * FROM tl_module WHERE id = ?
-                ")->execute( $dc->id );
+                ")->execute($dc->id);
 
-            if( !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ){
+            if( $objModule && !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ) {
                 return;
             }
         }
@@ -70,11 +70,9 @@ class StoreLocatorBackend extends \System {
     /**
      * Fills coordinates if not already set and saving
      *
-     * @param $dc  current element ether a DC_Table or a DataContainer
-     *
-     * @return none
+     * @param DataContainer $dc
      */
-    public function fillCoordinates( $dc ) {
+    public function fillCoordinates( DataContainer $dc ): void {
 
         $aResults = [];
 
@@ -85,9 +83,8 @@ class StoreLocatorBackend extends \System {
             $results = Database::getInstance()->prepare("
                 SELECT *
                 FROM tl_storelocator_stores
-                WHERE pid = ?
-                    AND (longitude = '' OR latitude = '')
-                ")->execute($dc->id);
+                WHERE pid=? AND (longitude='' OR latitude='')
+            ")->execute($dc->id);
 
             $aResults = $results->fetchAllAssoc();
 
@@ -134,8 +131,6 @@ class StoreLocatorBackend extends \System {
         if( Input::get('key') == "fillCoordinates" ) {
             $this->redirect($this->getReferer());
         }
-
-        return;
     }
 
 
@@ -144,7 +139,7 @@ class StoreLocatorBackend extends \System {
      *
      * @return array
      */
-    public static function getMapInteractions() {
+    public static function getMapInteractions(): array {
 
         return [
             'nothing'               => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['nothing']
@@ -159,7 +154,7 @@ class StoreLocatorBackend extends \System {
      *
      * @return array
      */
-    public static function getListInteractions() {
+    public static function getListInteractions(): array {
 
         return [
             'nothing'                       => $GLOBALS['TL_LANG']['tl_storelocator']['interactions']['nothing']

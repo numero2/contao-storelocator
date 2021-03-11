@@ -16,54 +16,54 @@
             </div>
         <?php endif; ?>
 
-        <?php foreach( $this->entries as $entry ): ?>
-        <div id="result_<?= $entry->id; ?>" class="entry <?= $entry->class; ?>">
+        <?php foreach( $this->stores as $store ): ?>
+        <div id="result_<?= $store->id; ?>" class="entry <?= $store->class; ?>">
 
-            <h3><?= $entry->name; ?></h3>
+            <h3><?= $store->name; ?></h3>
 
-            <?php if( $entry->picture ): ?>
+            <?php if( $store->picture ): ?>
                 <figure>
-                    <?php $this->insert('picture_default', $entry->picture); ?>
+                    <?php $this->insert('picture_default', $store->picture); ?>
                 </figure>
             <?php endif; ?>
 
-            <?php if( $entry->distance ): ?>
+            <?php if( $store->distance ): ?>
             <div class="distance">
-                <?= $this->labelDistance; ?> <?= number_format($entry->distance,2,',','.'); ?>km
+                <?= $this->labelDistance; ?> <?= number_format($store->distance,2,',','.'); ?>km
             </div>
             <?php endif; ?>
 
             <div class="address">
-                <?= $entry->street; ?>, <?= $entry->postal; ?> <?= $entry->city; ?><br />
-                <?= $entry->country_name; ?>
+                <?= $store->street; ?>, <?= $store->postal; ?> <?= $store->city; ?><br />
+                <?= $store->country_name; ?>
             </div>
 
-            <?php if( $entry->phone ): ?>
+            <?php if( $store->phone ): ?>
             <div class="phone">
-                <?= $this->labelPhone; ?>: <a href="<?= $entry->phoneLink; ?>"><?= $entry->phone; ?></a>
+                <?= $this->labelPhone; ?>: <a href="<?= $store->phoneLink; ?>"><?= $store->phone; ?></a>
             </div>
             <?php endif; ?>
 
-            <?php if( $entry->fax ): ?>
+            <?php if( $store->fax ): ?>
                 <div class="fax">
-                    <?= $this->labelFax ?>: <?= $entry->fax; ?>
+                    <?= $this->labelFax ?>: <?= $store->fax; ?>
                 </div>
             <?php endif; ?>
 
-            <?php if( $entry->email ): ?>
+            <?php if( $store->email ): ?>
                 <div class="email">
-                    <?= $this->labelEMail; ?>: {{email::<?= $entry->email; ?>}}
+                    <?= $this->labelEMail; ?>: {{email::<?= $store->email; ?>}}
                 </div>
             <?php endif; ?>
 
-            <?php if( $entry->url ): ?>
+            <?php if( $store->url ): ?>
                 <div class="www">
-                    <?= $this->labelWWW; ?>: <a href="<?= $entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $entry->name; ?>"><?= $entry->prettyUrl; ?></a>
+                    <?= $this->labelWWW; ?>: <a href="<?= $store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $store->name; ?>"><?= $store->prettyUrl; ?></a>
                 </div>
             <?php endif; ?>
 
-            <?php if( $entry->link ): ?>
-                <a href="<?= $entry->link; ?>" class="more"><?= $this->labelMore; ?></a>
+            <?php if( $store->link ): ?>
+                <a href="<?= $store->link; ?>" class="more"><?= $this->labelMore; ?></a>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>

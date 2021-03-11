@@ -32,15 +32,17 @@ class StoresModel extends Model {
     /**
      * Return a list of stores near the given location, results can be filtered by distance, number and categories
      *
-     * @param  integer $latitude
-     * @param  integer $longitude
-     * @param  integer $distance
-     * @param  integer $limit
-     * @param  array   $categories
+     * @param integer $latitude
+     * @param integer $longitude
+     * @param integer $distance
+     * @param integer $limit
+     * @param array $categories
+     * @param string $filter
+     * @param string $order
      *
-     * @return collection
+     * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchNearby( $latitude=NULL, $longitude=NULL, $distance=0, $limit=0, $categories=NULL, $filter=NULL, $order=NULL) {
+    public static function searchNearby( $latitude, $longitude, $distance=0, $limit=0, ?array $categories=NULL, ?string $filter=NULL, ?string $order=NULL) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT
@@ -69,13 +71,15 @@ class StoresModel extends Model {
     /**
      * Return a list of stores in the given country location, results can be filtered by number and categories
      *
-     * @param  string  $country
-     * @param  integer $limit
-     * @param  array   $categories
+     * @param string $country
+     * @param integer $limit
+     * @param array $categories
+     * @param string $filter
+     * @param string $order
      *
-     * @return collection
+     * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchCountry( $country=NULL, $limit=0, $categories=NULL, $filter=NULL, $order=NULL ) {
+    public static function searchCountry( string $country, $limit=0, ?array $categories=NULL, ?string $filter=NULL, ?string $order=NULL ) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT
@@ -97,17 +101,17 @@ class StoresModel extends Model {
     /**
      * Return a list of stores in the given geocoordinates, results can be filtered by categories
      *
-     * @param  integer $formLng
-     * @param  integer $toLng
-     * @param  integer $formLat
-     * @param  integer  $toLat
-     * @param  array   $categories
-     * @param  integer $limit
-     * @param  String $filter
+     * @param integer $formLng
+     * @param integer $toLng
+     * @param integer $formLat
+     * @param integer $toLat
+     * @param integer $limit
+     * @param array $categories
+     * @param string $filter
      *
-     * @return collection
+     * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchBetweenCoords( $formLng=NULL, $toLng=NULL, $formLat=NULL, $toLat=NULL, $categories=NULL, $limit=0, $filter=NULL ) {
+    public static function searchBetweenCoords( $formLng, $toLng, $formLat, $toLat, $limit=0, ?array $categories=NULL, ?string $filter=NULL ) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT

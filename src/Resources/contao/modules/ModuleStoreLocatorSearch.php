@@ -40,9 +40,10 @@ class ModuleStoreLocatorSearch extends Module {
 
     /**
      * Display a wildcard in the back end
+     *
      * @return string
      */
-    public function generate() {
+    public function generate(): string {
 
         if( TL_MODE == 'BE' ) {
 
@@ -64,7 +65,7 @@ class ModuleStoreLocatorSearch extends Module {
     /**
      * Generate module
      */
-    protected function compile() {
+    protected function compile(): void {
 
         global $objPage;
 
@@ -156,7 +157,7 @@ class ModuleStoreLocatorSearch extends Module {
                 $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $objPage;
                 $href = $objListPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/'.$strData : '/search/'.$strData);
 
-                $this->redirect( $href );
+                $this->redirect($href);
             }
         }
 
@@ -170,7 +171,6 @@ class ModuleStoreLocatorSearch extends Module {
 
             $this->Template->autoComplete = $oTemplateAutocomplete->parse();
             $objPage->loadedMapsApi = true;
-
         }
 
         $this->Template->searchField = $widgetSearch;

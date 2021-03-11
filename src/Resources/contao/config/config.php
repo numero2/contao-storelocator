@@ -53,9 +53,16 @@ $GLOBALS['FE_MOD']['storelocator'] = [
 ];
 
 
+$GLOBALS['TL_AUTO_ITEM'][] = 'store';
+
+
 /**
  * REGISTER HOOKS
  */
+$GLOBALS['N2SL_HOOKS'] = [
+    'modifyListEntries' => []
+,   'parseStoreData' => []
+];
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['\numero2\StoreLocator\StoreLocator', 'replaceInsertTags'];
 
 

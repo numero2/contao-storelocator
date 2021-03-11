@@ -18,7 +18,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 /**
  * Add config to tl_settings
  */
-if( empty($GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][0])){
+if( empty($GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][0]) ) {
     $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'] = [['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage']];
 } else {
     $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage'];
@@ -69,6 +69,7 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_server_key'] = [
 ,   'inputType'         => 'text'
 ,   'eval'              => ['tl_class'=>'w50']
 ];
+
 $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_browser_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['google_maps_browser_key']
 ,   'inputType'         => 'text'

@@ -15,12 +15,11 @@
 
 namespace numero2\StoreLocator;
 
-use Contao\System;
-use Contao\Input;
-use Contao\FrontendTemplate;
 use Contao\Controller;
-use Contao\Config;
-use Contao\Request;
+use Contao\FrontendTemplate;
+use Contao\Input;
+use Contao\Module;
+use Contao\System;
 use Geocoder\Query\GeocodeQuery;
 
 
@@ -30,10 +29,10 @@ class StoreLocator extends System {
     /**
      * Replace matching inserttags
      *
-     * @param string InsertTag
-     * @param bool Use cache
+     * @param string $strBuffer
+     * @param bool $blnCache
      *
-     * @return string
+     * @return string|boolean
      */
     public function replaceInsertTags( $strBuffer, $blnCache=false ) {
 
@@ -47,7 +46,7 @@ class StoreLocator extends System {
             case 'store' :
 
                 $aDCAFields = [];
-                $aDCAFields = array_keys($GLOBALS['TL_DCA'][ StoresModel::getTable() ]['fields']);
+                $aDCAFields = array_keys($GLOBALS['TL_DCA'][StoresModel::getTable()]['fields']);
 
                 // get data from current store
                 if( !empty($aParams[1]) && in_array($aParams[1], $aDCAFields) ) {
@@ -62,6 +61,8 @@ class StoreLocator extends System {
                     if( !$objStore ) {
                         return false;
                     }
+
+                    self::parseStoreData($objStore);
 
                     return $objStore->{$aParams[1]};
 
@@ -88,12 +89,12 @@ class StoreLocator extends System {
                     return $sTemplate;
                 }
 
-            break;
+                break;
 
             // not our insert tag?
             default :
                 return false;
-            break;
+                break;
         }
 
         return false;
@@ -104,11 +105,10 @@ class StoreLocator extends System {
      * Parses the given store so we can use it directly to
      * display the details template
      *
-     * @param  StoresModel    $store
-     *
-     * @return none
+     * @param numero2\StoreLocator\StoresModel $store
+     * @param Contao\Module $module
      */
-    public static function parseStoreData( StoresModel &$store ) {
+    public static function parseStoreData( StoresModel $store, ?Module $module=null ): void {
 
         // get opening times
         $aTimes = deserialize( $store->opening_times );
@@ -148,6 +148,18 @@ class StoreLocator extends System {
                 $store->prettyUrl = $aURL['host'];
             }
         }
+
+        // HOOK: add custom logic to parse the store details
+        if( isset($GLOBALS['TL_HOOKS']['parseStoreData']) && is_array($GLOBALS['TL_HOOKS']['parseStoreData']) ) {
+
+            foreach( $GLOBALS['TL_HOOKS']['parseStoreData'] as $callback ) {
+
+                if( is_array($callback) ) {
+                    $this->import($callback[0]);
+                    $this->{$callback[0]}->{$callback[1]}($store, $module);
+                }
+            }
+        }
     }
 
 
@@ -156,7 +168,7 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public static function getWeekdays() {
+    public static function getWeekdays(): array {
 
         return [
             'MO' => &$GLOBALS['TL_LANG']['DAYS'][1]
@@ -181,7 +193,7 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ) {
+    public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ): array {
 
         // find coordinates using google maps api
         $sQuery = sprintf(
@@ -191,6 +203,8 @@ class StoreLocator extends System {
         ,   $city
         ,   $country
         );
+
+        $sQuery = $fullAdress ? $fullAdress : $sQuery;
 
         $oGeo = Geocoder::getInstance();
         $oResults = null;
@@ -231,8 +245,7 @@ class StoreLocator extends System {
         }
 
         $this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
-        return false;
-
+        return [];
     }
 
 
@@ -243,8 +256,8 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public function getCoordinatesByString( $string=NULL ) {
-        return $this->getCoordinates(NULL, NULL, NULL, NULL, $string);
+    public function getCoordinatesByString( string $fullAdress=NULL ): array {
+        return $this->getCoordinates(NULL, NULL, NULL, NULL, $fullAdress);
     }
 
 
@@ -255,10 +268,10 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public function parseSearchValue( $searchVal=NULL ) {
+    public function parseSearchValue( $searchVal=NULL ): array {
 
         if( !$searchVal ) {
-            return null;
+            return [];
         }
 
         if( strpos($searchVal, ";") !== false ) {
@@ -277,17 +290,17 @@ class StoreLocator extends System {
 
             } else {
 
-                if( !empty($searchVal[0])) $ret['term'] = $searchVal[0];
-                if( !empty($searchVal[1])) $ret['category'] = $searchVal[1];
-                if( !empty($searchVal[2])) $ret['longitude'] = $searchVal[2];
-                if( !empty($searchVal[3])) $ret['latitude'] = $searchVal[3];
+                if( !empty($searchVal[0]) ) $ret['term'] = $searchVal[0];
+                if( !empty($searchVal[1]) ) $ret['category'] = $searchVal[1];
+                if( !empty($searchVal[2]) ) $ret['longitude'] = $searchVal[2];
+                if( !empty($searchVal[3]) ) $ret['latitude'] = $searchVal[3];
 
-                if( !empty($searchVal[4])) $ret['filter'] = $searchVal[4];
-                if( !empty($searchVal[5])) $ret['order'] = $searchVal[5];
-                if( !empty($searchVal[6])) $ret['sort'] = $searchVal[6];
+                if( !empty($searchVal[4]) ) $ret['filter'] = $searchVal[4];
+                if( !empty($searchVal[5]) ) $ret['order'] = $searchVal[5];
+                if( !empty($searchVal[6]) ) $ret['sort'] = $searchVal[6];
             }
 
-        } else{
+        } else {
 
             $ret['term'] = $searchVal;
         }
@@ -299,11 +312,15 @@ class StoreLocator extends System {
     /**
      * generates the search string
      *
-     * @param string The generated search string
+     * @param array $arrData
      *
-     * @return array
+     * @return string
      */
-    public function generateSearchValue( $arrData ) {
+    public function generateSearchValue( $arrData ): string {
+
+        if( !is_array($arrData) ) {
+            return '';
+        }
 
         $aData = [];
 
@@ -326,6 +343,7 @@ class StoreLocator extends System {
                 $aData[0] = $arrData['filter'];
                 $aData[1] = $arrData['order'];
                 $aData[2] = $arrData['sort'];
+
             } else {
 
                 $aData[0] = $aData[0]?$aData[0]:'';
@@ -338,7 +356,7 @@ class StoreLocator extends System {
             }
         }
 
-        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $aData[0];
+        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $aData[0]?:'';
 
         return $strData;
     }
@@ -347,17 +365,17 @@ class StoreLocator extends System {
     /**
      * Create filter where from value and field list
      *
-     * @param  String $value
-     * @param  array $fields
+     * @param string $value
+     * @param array $fields
      *
-     * @return array
+     * @return string
      */
-    public static function createFilterWhereClause( $searchValue, $fields ) {
+    public static function createFilterWhereClause( string $searchValue, array $fields ): string {
 
         $ret = [];
 
         foreach( $fields as $key => $field ) {
-            $ret[] = $field." LIKE '%".$searchValue."%'";
+            $ret[] = $field." LIKE '%%".$searchValue."%%'";
         }
 
         $ret = '('.implode(" OR ",$ret).')';

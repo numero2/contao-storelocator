@@ -16,16 +16,17 @@
 namespace numero2\StoreLocator\DCAHelper;
 
 use Contao\Backend;
+use Contao\Config;
+use Contao\DataContainer;
+use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
-use Contao\Image;
-use Contao\DataContainer;
-use Contao\Config;
-use numero2\StoreLocator\StoresModel;
 use numero2\StoreLocator\Geocoder;
+use numero2\StoreLocator\StoresModel;
 
 
 class Stores extends Backend {
+
 
     /**
      * Return the "highlight/unhighlight store" button
@@ -34,17 +35,17 @@ class Stores extends Backend {
      * @param string $href
      * @param string $label
      * @param string $title
-     * @param string $icon
+     * @param array|string|null $icon
      * @param string $attributes
      *
      * @return string
      */
-    public function iconHighlight( $row, $href, $label, $title, $icon, $attributes ) {
+    public function iconHighlight( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
 
         if( strlen(Input::get('fid')) ) {
 
-            $this->toggleFeatured( Input::get('fid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null) );
-            $this->redirect( $this->getReferer() );
+            $this->toggleFeatured(Input::get('fid'), (Input::get('state') == 1));
+            $this->redirect($this->getReferer());
         }
 
         $href .= '&amp;fid='.$row['id'].'&amp;state='.($row['highlight'] ? '' : 1);
@@ -60,19 +61,19 @@ class Stores extends Backend {
     /**
      * Highlight/unhighlight a store
      *
-     * @param integer       $intId
-     * @param boolean       $blnVisible
-     * @param DataContainer $dc
+     * @param string $intId
+     * @param bool $blnFeatured
+     * @param Contao\DataContainer $dc
      *
      * @return string
      */
-    public function toggleFeatured( $intId, $blnVisible, DataContainer $dc=null ) {
+    public function toggleFeatured( string $intId, bool $blnFeatured, ?DataContainer $dc=null ): void {
 
         $oStore = NULL;
         $oStore = StoresModel::findById( $intId );
 
         if( $oStore ) {
-            $oStore->highlight = ($blnVisible ? 1 : 0);
+            $oStore->highlight = ($blnFeatured ? '1' : '');
             $oStore->save();
         }
     }
@@ -81,14 +82,14 @@ class Stores extends Backend {
     /**
      * Auto-generate an category alias if it has not been set yet
      *
-     * @param mixed         $varValue
-     * @param DataContainer $dc
+     * @param mixed $varValue
+     * @param Contao\DataContainer $dc
      *
      * @return string
      *
      * @throws Exception
      */
-    public function generateAlias( $varValue, DataContainer $dc ) {
+    public function generateAlias( $varValue, DataContainer $dc ): string {
 
         $autoAlias = false;
 
@@ -100,7 +101,7 @@ class Stores extends Backend {
 
         $oAlias = NULL;
         $oAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_stores WHERE id=? OR alias=?")
-                                   ->execute($dc->activeRecord->id, $varValue);
+            ->execute($dc->activeRecord->id, $varValue);
 
         // Check whether the alias exists
         if( $oAlias && $oAlias->count() > 1 ) {
@@ -119,21 +120,21 @@ class Stores extends Backend {
     /**
      * Generates button to show if coordinates are available
      *
-     * @param array    $row
-     * @param srting   $href
-     * @param array    $label
-     * @param string   $title
-     * @param mixed    $icon
-     * @param array    $attributes
+     * @param array $row
+     * @param srting $href
+     * @param string $label
+     * @param string $title
+     * @param array|string|null $icon
+     * @param string $attributes
      *
      * @return string
      */
-    public function coordsButton( $row=NULL, $href=NULL, $label=NULL, $title=NULL, $icon=NULL, $attributes=NULL ) {
+    public function coordsButton( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
 
         $icon  = ($row['latitude'] || $row['longitude']) ? $icon[1] : $icon[0];
         $label = ($row['latitude'] || $row['longitude']) ? $title : $label;
 
-        return '<span title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon,$label).'</span> ';
+        return '<span title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</span> ';
     }
 
 
@@ -144,7 +145,7 @@ class Stores extends Backend {
      *
      * @return string
      */
-    public function listStores( $arrRow ) {
+    public function listStores( array $arrRow ): string {
         return '<div class="limit_height block">
             <p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
             . '</div>' . "\n";
@@ -158,7 +159,7 @@ class Stores extends Backend {
      *
      * @return string
      */
-    public function showMap( DataContainer $dc ) {
+    public function showMap( DataContainer $dc ): string {
 
         $imgPath = '';
 
@@ -171,16 +172,16 @@ class Stores extends Backend {
                     ,    $dc->activeRecord->longitude
                 );
 
-                $imgPath = 'https://maps.google.com/maps/api/staticmap?center='.$sCoords.
-                    '&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
+                $imgPath = 'https://maps.google.com/maps/api/staticmap?center='.$sCoords
+                    .'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
             }
         }
 
 
         return '<div class="google-map">'
-        .'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
-        .($imgPath?'<img width="320" height="139" src="'.$imgPath.'" />':'<div class="img" style="width:320px;height:139px;"></div>')
-        .'</div>';
+            .'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
+            .($imgPath?'<img width="320" height="139" src="'.$imgPath.'" />':'<div class="img" style="width:320px;height:139px;"></div>')
+            .'</div>';
     }
 
 
@@ -189,39 +190,39 @@ class Stores extends Backend {
      *
      * @return string
      */
-    public function showGeoExplain() {
+    public function showGeoExplain(): string {
 
         return '<div class="widget clr"><p class="tl_help tl_tip heightAuto">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</p></div>';
     }
 
 
     /**
-     * Add leading "http://" if missing
+     * Add leading "https://" if missing
      *
-     * @param mixed            $varValue
-     * @param DataContainer    $dc
+     * @param mixed $varValue
+     * @param Contao\DataContainer $dc
      *
      * @return string
      */
-    public function checkURL( $varValue, DataContainer $dc ) {
+    public function checkURL( $varValue, DataContainer $dc ): string {
 
-        return ( $varValue && strpos($varValue,'http') === FALSE ) ? 'http://'.$varValue : $varValue;
+        return ( $varValue && strpos($varValue,'https') === FALSE ) ? 'https://'.$varValue : $varValue;
     }
 
 
     /**
      * Return the "toggle visibility" button
      *
-     * @param array  $row
+     * @param array $row
      * @param string $href
      * @param string $label
      * @param string $title
-     * @param string $icon
+     * @param array|string|null $icon
      * @param string $attributes
      *
      * @return string
      */
-    public function toggleIcon( $row, $href, $label, $title, $icon, $attributes ) {
+    public function toggleIcon( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
 
         if( Input::get('tid') ) {
 
@@ -242,17 +243,17 @@ class Stores extends Backend {
     /**
      * publish/unpublish a store
      *
-     * @param integer              $intId
-     * @param boolean              $blnVisible
+     * @param string $intId
+     * @param bool $blnVisible
      * @param Contao\DataContainer $dc
      */
-    public function toggleVisibility( $intId, $blnVisible, DataContainer $dc=null ) {
+    public function toggleVisibility( string $intId, $blnVisible, DataContainer $dc=null ): void {
 
         $oStore = NULL;
         $oStore = StoresModel::findById( $intId );
 
         if( $oStore ) {
-            $oStore->published = ($blnVisible ? 1 : 0);
+            $oStore->published = ($blnVisible ? '1' : '');
             $oStore->save();
         }
     }

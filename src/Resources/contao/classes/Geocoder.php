@@ -16,9 +16,8 @@
 namespace numero2\StoreLocator;
 
 use Contao\System;
-use Contao\Config;
-use Http\Discovery\HttpClientDiscovery;
 use Geocoder\Provider\Provider;
+use Http\Discovery\HttpClientDiscovery;
 
 
 class Geocoder extends System {
@@ -96,7 +95,7 @@ class Geocoder extends System {
      *
      * @return bool
      */
-    public function hasProvider( $name ): bool {
+    public function hasProvider( string $name ): bool {
 
         if( !$name ) {
             return false;
@@ -112,15 +111,17 @@ class Geocoder extends System {
 
     /**
      * Get a provider by name
-     * @param  [type] $name
-     * @return [type]
+     *
+     * @param string $name
+     *
+     * @return Geocoder\Provider\Provider|null
+
      */
-    public function getProvider( $name ): ?Provider {
+    public function getProvider( string $name ): ?Provider {
 
         if( $name === null ) {
             return null;
         }
-
 
         // TODO return provider with cacheProvider and rate limiter
         if( array_key_exists($name, $this->aProviders) ) {
