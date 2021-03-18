@@ -231,7 +231,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'            => 'checkbox'
         ,   'search'               => true
         ,   'eval'                 => ['mandatory'=>false, 'tl_class'=>'w50']
-        ,   'sql'                  => "char(1) NOT NULL default '0'"
+        ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ,   'published' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
