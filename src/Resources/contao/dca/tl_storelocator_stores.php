@@ -143,14 +143,14 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['phone']
         ,   'inputType'         => 'text'
         ,   'search'            => true
-        ,   'eval'              => ['rgxp'=>'phone ', 'maxlength'=>64, 'tl_class'=>'w50']
+        ,   'eval'              => ['rgxp'=>'phone', 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'fax' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fax']
         ,   'inputType'         => 'text'
         ,   'search'            => true
-        ,   'eval'              => ['rgxp'=>'phone ', 'maxlength'=>64, 'tl_class'=>'w50']
+        ,   'eval'              => ['rgxp'=>'phone', 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'description' => [
@@ -235,7 +235,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'            => 'checkbox'
         ,   'search'               => true
         ,   'eval'                 => ['mandatory'=>false, 'tl_class'=>'w50']
-        ,   'sql'                  => "char(1) NOT NULL default '0'"
+        ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ,   'published' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
