@@ -164,6 +164,18 @@
     }
     <?php endif;?>
 
+    function mapInViewport() {
+
+        var rect = map.getDiv().getBoundingClientRect();
+
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
     function initializeGoogleMap() {
 
         var mapOptions = {
@@ -175,7 +187,7 @@
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
-        var entries = document.querySelectorAll('.mod_storelocator_list > .entry');
+        var entries = document.querySelectorAll('.mod_storelocator_list .entry');
 
         if( entries ) {
 
@@ -183,8 +195,12 @@
 
                 entries[i].addEventListener('click',function(){
 
-                    document.location.hash = "";
-                    document.location.hash = "#map-wrapper";
+                    // scroll to map (if necessary)
+                    if( !mapInViewport() ) {
+                        document.location.hash = "";
+                        document.location.hash = "#map-wrapper";
+                    }
+
                     var markerID = this.id.split("_")[1];
 
                     if( markerID in markers ) {
