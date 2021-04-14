@@ -143,9 +143,9 @@ class ModuleStoreLocatorList extends Module {
                         }
 
                         // HOOK: add custom logic to modify the entries of the list
-                        if( is_array($GLOBALS['TL_HOOKS']['modifyListEntries']) ) {
+                        if( is_array($GLOBALS['N2SL_HOOKS']['modifyListEntries']) ) {
 
-                            foreach( $GLOBALS['TL_HOOKS']['modifyListEntries'] as $callback ) {
+                            foreach( $GLOBALS['N2SL_HOOKS']['modifyListEntries'] as $callback ) {
 
                                 if( is_array($callback) ) {
 
@@ -221,6 +221,16 @@ class ModuleStoreLocatorList extends Module {
                 // search selected country only
                 } else {
 
+                    // default sorting
+                    if( !empty($this->storelocator_list_sort_field) && empty($aSearchValues['order']) ) {
+
+                        $aSearchValues['order'] = $this->storelocator_list_sort_field;
+
+                        if( $this->storelocator_list_sort_direction ) {
+                            $aSearchValues['sort'] = substr($this->storelocator_list_sort_direction,0,3);
+                        }
+                    }
+
                     $objStores = StoresModel::searchCountry(
                         $this->storelocator_default_country,
                         $this->storelocator_list_limit,
@@ -278,9 +288,9 @@ class ModuleStoreLocatorList extends Module {
                     }
 
                     // HOOK: add custom logic to modify the entries of the list
-                    if( is_array($GLOBALS['TL_HOOKS']['modifyListEntries']) ) {
+                    if( is_array($GLOBALS['N2SL_HOOKS']['modifyListEntries']) ) {
 
-                        foreach( $GLOBALS['TL_HOOKS']['modifyListEntries'] as $callback ) {
+                        foreach( $GLOBALS['N2SL_HOOKS']['modifyListEntries'] as $callback ) {
 
                             if( is_array($callback) ) {
 

@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\Stor
  * Add palettes to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend},storelocator_provider,jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{source_legend},imgSize;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_list_sort_field,storelocator_list_sort_direction,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{source_legend},imgSize;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},storelocator_filter_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{config_legend},storelocator_provider;{source_legend},imgSize;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},storelocator_static_map_tpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
@@ -119,6 +119,25 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = [
 ,   'inputType'           => 'text'
 ,   'eval'                => ['rgxp'=>'digit', 'tl_class'=>'w50', 'mandatory'=>true]
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_sort_field'] = [
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_sort_field']
+,   'inputType'           => 'select'
+,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getSortableFields']
+,   'exclude'             => true
+,   'eval'                => ['tl_class'=>'clr w50', 'chosen'=>true, 'includeBlankOption'=>true]
+,   'sql'                 => "varchar(255) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_sort_direction'] = [
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_sort_direction']
+,   'inputType'           => 'select'
+,   'options'             => ['ascending', 'descending']
+,   'reference'           => &$GLOBALS['TL_LANG']['MSC']
+,   'exclude'             => true
+,   'eval'                => ['tl_class'=>'w50']
+,   'sql'                 => "varchar(10) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = [

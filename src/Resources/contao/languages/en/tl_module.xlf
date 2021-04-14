@@ -116,6 +116,18 @@
     <trans-unit id="tl_module.storelocator_list_limit.1">
         <source>How many results should be shown?</source>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_field.0">
+        <source>Sort by</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_field.1">
+        <source>Choose by which field the entries should be sorted by.</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_direction.0">
+        <source>Sort order</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_direction.1">
+        <source>Please choose the sort order.</source>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_details_tpl.0">
         <source>Template</source>
     </trans-unit>

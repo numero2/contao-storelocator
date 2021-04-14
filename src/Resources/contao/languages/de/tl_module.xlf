@@ -146,6 +146,22 @@
         <source>How many results should be shown?</source>
         <target>Wieviele Ergebnisse sollen maximal angezeigt werden?</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_field.0">
+        <source>Sort by</source>
+        <target>Sortieren nach</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_field.1">
+        <source>Choose by which field the entries should be sorted by.</source>
+        <target>Bitte wählen Sie nach welchem Kriterium die Einträge sortiert werden sollen.</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_direction.0">
+        <source>Sort order</source>
+        <target>Sortierreihenfolge</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_list_sort_direction.1">
+        <source>Please choose the sort order.</source>
+        <target>Bitte wählen Sie die Sortierreihenfolge aus.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_details_tpl.0">
         <source>Template</source>
         <target>Template</target>
@@ -188,15 +204,15 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_use_filter.0">
         <source>Use filter module</source>
-        <target>Filter Module verwenden</target>
+        <target>Filter-Modul verwenden</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_use_filter.1">
         <source>Is there a filter module for this list.</source>
-        <target>Gibt es für dieses Listen Module ein Filter Module.</target>
+        <target>Soll auf diese Liste ein bestimmtes Filter-Modul angewendet werden?</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_mod_filter.0">
         <source>Filter module</source>
-        <target>Filter Module</target>
+        <target>Filter-Modul</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_center.0">
         <source>Center</source>
