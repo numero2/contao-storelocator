@@ -24,7 +24,6 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\PageModel;
-use Contao\StringUtil;
 use Patchwork\Utf8;
 
 
@@ -154,7 +153,7 @@ class ModuleStoreLocatorFilter extends Module {
         }
 
         $sortFilter = [];
-        foreach( StringUtil::deserialize($this->storelocator_sortable) as $key => $value ) {
+        foreach( deserialize($this->storelocator_sortable) as $key => $value ) {
 
             $active = !empty($aSearchValues['order'])&&$aSearchValues['order']==$value;
             $newSort = ($active&&!empty($aSearchValues['sort'])&&$aSearchValues['sort']=='asc')?'desc':'asc';

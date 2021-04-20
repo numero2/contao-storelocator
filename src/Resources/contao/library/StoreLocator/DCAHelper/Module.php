@@ -193,4 +193,30 @@ class Module extends Backend {
 
         return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . sprintf(specialchars($GLOBALS['TL_LANG']['tl_module']['editalias'][1]), $dc->value) . '" style="padding-left:3px" onclick="Backend.openModalIframe({\'width\':768,\'title\':\'' . specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_module']['editalias'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.gif', $GLOBALS['TL_LANG']['tl_module']['editalias'][0]) . '</a>';
     }
+
+
+    /**
+     * Returns a list of fields which a listing module can be sorted by
+     *
+     * @return array
+     */
+    public function getSortableFields(): array {
+
+        self::loadLanguageFile('tl_storelocator_stores');
+        self::loadDataContainer('tl_storelocator_stores');
+
+        $aFields = [];
+
+        if( !empty($GLOBALS['TL_DCA']['tl_storelocator_stores']['fields']) ) {
+
+            foreach( $GLOBALS['TL_DCA']['tl_storelocator_stores']['fields'] as $name => $field ) {
+
+                if( !empty($field['feSortable']) && $field['feSortable'] ) {
+                    $aFields[$name] = $field['label'][0];
+                }
+            }
+        }
+
+        return $aFields;
+    }
 }

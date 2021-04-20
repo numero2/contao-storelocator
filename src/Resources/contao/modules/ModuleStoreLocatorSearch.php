@@ -25,7 +25,6 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\PageModel;
-use Contao\StringUtil;
 use Patchwork\Utf8;
 
 
@@ -98,7 +97,7 @@ class ModuleStoreLocatorSearch extends Module {
         );
 
         $widgetCategories = NULL;
-        $aAvailableCategories = StringUtil::deserialize($this->storelocator_search_categories);
+        $aAvailableCategories = deserialize($this->storelocator_search_categories);
 
         if( count($aAvailableCategories) > 1 ) {
 

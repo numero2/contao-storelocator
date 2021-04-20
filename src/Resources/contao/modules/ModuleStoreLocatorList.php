@@ -88,7 +88,7 @@ class ModuleStoreLocatorList extends Module {
             $modFilter = ModuleModel::findById($this->storelocator_mod_filter);
 
             if( $modFilter ) {
-                $filterFields = StringUtil::deserialize($modFilter->storelocator_search_in);
+                $filterFields = deserialize($modFilter->storelocator_search_in);
             }
         }
 
@@ -101,7 +101,7 @@ class ModuleStoreLocatorList extends Module {
         } else {
 
             $aCategories = [];
-            $aCategories = StringUtil::deserialize($this->storelocator_list_categories);
+            $aCategories = deserialize($this->storelocator_list_categories);
 
             $aSearchValues = [];
             $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
@@ -143,9 +143,9 @@ class ModuleStoreLocatorList extends Module {
                         }
 
                         // HOOK: add custom logic to modify the entries of the list
-                        if( is_array($GLOBALS['TL_HOOKS']['modifyListEntries']) ) {
+                        if( is_array($GLOBALS['N2SL_HOOKS']['modifyListEntries']) ) {
 
-                            foreach( $GLOBALS['TL_HOOKS']['modifyListEntries'] as $callback ) {
+                            foreach( $GLOBALS['N2SL_HOOKS']['modifyListEntries'] as $callback ) {
 
                                 if( is_array($callback) ) {
 
@@ -221,6 +221,16 @@ class ModuleStoreLocatorList extends Module {
                 // search selected country only
                 } else {
 
+                    // default sorting
+                    if( !empty($this->storelocator_list_sort_field) && empty($aSearchValues['order']) ) {
+
+                        $aSearchValues['order'] = $this->storelocator_list_sort_field;
+
+                        if( $this->storelocator_list_sort_direction ) {
+                            $aSearchValues['sort'] = substr($this->storelocator_list_sort_direction,0,3);
+                        }
+                    }
+
                     $objStores = StoresModel::searchCountry(
                         $this->storelocator_default_country,
                         $this->storelocator_list_limit,
@@ -278,9 +288,9 @@ class ModuleStoreLocatorList extends Module {
                     }
 
                     // HOOK: add custom logic to modify the entries of the list
-                    if( is_array($GLOBALS['TL_HOOKS']['modifyListEntries']) ) {
+                    if( is_array($GLOBALS['N2SL_HOOKS']['modifyListEntries']) ) {
 
-                        foreach( $GLOBALS['TL_HOOKS']['modifyListEntries'] as $callback ) {
+                        foreach( $GLOBALS['N2SL_HOOKS']['modifyListEntries'] as $callback ) {
 
                             if( is_array($callback) ) {
 
@@ -383,6 +393,7 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->loadMoreResults = $this->storelocator_load_results_on_pan;
         $oTemplateGoogleMap->mapInteraction = $this->storelocator_map_interaction;
         $oTemplateGoogleMap->listInteraction = $this->storelocator_list_interaction;
+        $oTemplateGoogleMap->markerclusterer = $this->storelocator_markerclusterer;
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->entries = $aStores;
 

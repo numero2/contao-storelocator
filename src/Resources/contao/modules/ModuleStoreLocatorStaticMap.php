@@ -20,7 +20,6 @@ use Contao\Config;
 use Contao\FrontendTemplate;
 use Contao\Module;
 use Contao\PageModel;
-use Contao\StringUtil;
 use Patchwork\Utf8;
 
 
@@ -78,7 +77,7 @@ class ModuleStoreLocatorStaticMap extends Module {
             $parameters[] = "zoom=".$this->storelocator_zoom;
         }
 
-        $size = StringUtil::deserialize($this->storelocator_size,1);
+        $size = deserialize($this->storelocator_size,1);
         if( !empty($size) ){
             $parameters[] = "size=".$size[0]."x".$size[1];
             $this->Template->size = $size;
@@ -99,7 +98,7 @@ class ModuleStoreLocatorStaticMap extends Module {
         }
 
         // resolve markers
-        $cats = StringUtil::deserialize($this->storelocator_search_categories);
+        $cats = deserialize($this->storelocator_search_categories);
         if( !empty($cats) ){
 
             $limit = $this->storelocator_limit_marker_static;

@@ -150,9 +150,9 @@ class StoreLocator extends System {
         }
 
         // HOOK: add custom logic to parse the store details
-        if( isset($GLOBALS['TL_HOOKS']['parseStoreData']) && is_array($GLOBALS['TL_HOOKS']['parseStoreData']) ) {
+        if( isset($GLOBALS['N2SL_HOOKS']['parseStoreData']) && is_array($GLOBALS['N2SL_HOOKS']['parseStoreData']) ) {
 
-            foreach( $GLOBALS['TL_HOOKS']['parseStoreData'] as $callback ) {
+            foreach( $GLOBALS['N2SL_HOOKS']['parseStoreData'] as $callback ) {
 
                 if( is_array($callback) ) {
                     $this->import($callback[0]);
