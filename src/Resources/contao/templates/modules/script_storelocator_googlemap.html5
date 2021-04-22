@@ -1,3 +1,9 @@
+<?php
+if ($this->markerclusterer) {
+    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/markerclusterer/index.min.js';
+}
+?>
+
 <script>
     var map;
     var markerImages = {};
@@ -213,6 +219,12 @@
     <?php endif; ?>
 
         initMapMarker();
+
+        <?php if( $this->markerclusterer ): ?>
+            new MarkerClusterer(map, markers, {
+                imagePath: "bundles/storelocator/markerclusterer/m",
+            });
+        <?php endif; ?>
     }
     <?php if( $this->loadedMapsApi ): ?>
         var busyWait = function() {
