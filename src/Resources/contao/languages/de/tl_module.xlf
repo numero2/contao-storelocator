@@ -106,6 +106,14 @@
         <source>More results will be loaded when paning the map</source>
         <target>Weitere Ergebnisse werden automatisch beim Ziehen der Karte nachgeladen</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_markerclusterer.0">
+        <source>Merge pins into clusters</source>
+        <target>Pins in Cluster zusammenfassen</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_markerclusterer.1">
+        <source>This will merge multiple pins in the same location into one cluster.</source>
+        <target>Mehrere Pins am gleichen Standort werden in einen Cluster zusammengefasst.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_marker.0">
         <source>Max amount of markers to add dynamically</source>
         <target>Maximale Anzahl nachzuladener Marker</target>

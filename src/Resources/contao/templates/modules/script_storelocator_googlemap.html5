@@ -1,10 +1,10 @@
 <?php
-if ($this->markerclusterer) {
+if( $this->markerclusterer ) {
     $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/markerclusterer/index.min.js';
 }
 ?>
-
 <script>
+
     var map;
     var markerImages = {};
     var markersUpdating = false;
@@ -117,7 +117,13 @@ if ($this->markerclusterer) {
     <?php if( $this->loadMoreResults ): ?>
     function updateMarkers() {
 
-        if( Object.keys(markers).length > 500 || markersUpdating ) {
+        <?php if( !$this->markerclusterer ): ?>
+        if( Object.keys(markers).length > 500 ) {
+            return;
+        }
+        <?php endif; ?>
+
+        if( markersUpdating ) {
             return;
         }
 
@@ -221,9 +227,9 @@ if ($this->markerclusterer) {
         initMapMarker();
 
         <?php if( $this->markerclusterer ): ?>
-            new MarkerClusterer(map, markers, {
-                imagePath: "bundles/storelocator/markerclusterer/m",
-            });
+        new MarkerClusterer(map, markers, {
+            imagePath: "bundles/storelocator/markerclusterer/m",
+        });
         <?php endif; ?>
     }
     <?php if( $this->loadedMapsApi ): ?>

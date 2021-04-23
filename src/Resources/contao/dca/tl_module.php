@@ -39,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_use_filter'] = 'storelocator_mod_filter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_autocomplete_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_provider,storelocator_load_results_on_pan,storelocator_markerclusterer,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_provider,storelocator_markerclusterer,storelocator_load_results_on_pan,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan'] = 'storelocator_limit_marker';
 
 
@@ -173,19 +173,19 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_map'] = [
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 ];
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_markerclusterer'] = [
+    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_markerclusterer']
+,   'inputType'           => 'checkbox'
+,   'eval'                => ['tl_class'=>'w50 cbx m12 clr']
+,   'sql'                 => "char(1) NOT NULL default ''"
+];
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_load_results_on_pan'] = [
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_load_results_on_pan']
 ,   'inputType'           => 'checkbox'
 ,   'default'             => true
-,   'eval'                => ['tl_class'=>'w50 cbx m12 clr', 'submitOnChange'=>true]
+,   'eval'                => ['tl_class'=>'w50 cbx m12', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default '1'"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_markerclusterer'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_markerclusterer']
-,   'inputType'           => 'checkbox'
-,   'eval'                => ['tl_class'=>'w50 cbx m12']
-,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker'] = [
