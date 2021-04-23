@@ -88,7 +88,7 @@ class ModuleStoreLocatorList extends Module {
             $modFilter = ModuleModel::findById($this->storelocator_mod_filter);
 
             if( $modFilter ) {
-                $filterFields = deserialize($modFilter->storelocator_search_in);
+                $filterFields = StringUtil::deserialize($modFilter->storelocator_search_in);
             }
         }
 
@@ -101,7 +101,7 @@ class ModuleStoreLocatorList extends Module {
         } else {
 
             $aCategories = [];
-            $aCategories = deserialize($this->storelocator_list_categories);
+            $aCategories = StringUtil::deserialize($this->storelocator_list_categories);
 
             $aSearchValues = [];
             $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
@@ -393,6 +393,7 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->loadMoreResults = $this->storelocator_load_results_on_pan;
         $oTemplateGoogleMap->mapInteraction = $this->storelocator_map_interaction;
         $oTemplateGoogleMap->listInteraction = $this->storelocator_list_interaction;
+        $oTemplateGoogleMap->markerclusterer = $this->storelocator_markerclusterer;
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->entries = $aStores;
 
