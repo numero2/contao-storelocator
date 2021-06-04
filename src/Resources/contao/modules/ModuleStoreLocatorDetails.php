@@ -64,6 +64,8 @@ class ModuleStoreLocatorDetails extends Module {
      * Generate module
      */
     protected function compile(): void {
+        
+        global $pbjPage;
 
         $this->Template = new FrontendTemplate($this->storelocator_details_tpl?:$this->strTemplate);
         $this->Template->referer = 'javascript:history.go(-1)';
@@ -82,6 +84,9 @@ class ModuleStoreLocatorDetails extends Module {
             throw new PageNotFoundException('store not found');
         }
 
+        // change page title
+        $objPage->pageTitle = $objStore->name;
+        
         // get image
         if( $objStore->singleSRC ) {
 
