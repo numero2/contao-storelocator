@@ -203,8 +203,8 @@
         <target>Koordinaten erzeugen</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.fillCoordinates.1">
-        <source>Fills missing Geo-Coordinates</source>
-        <target>Fügt fehlende Koordinaten ein</target>
+        <source>Fills in missing Geo-Coordinates</source>
+        <target>Befüllt Einträge mit noch fehlenden Geo-Koordinaten</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.highlight.0">
         <source>Highlight this store</source>

@@ -36,6 +36,7 @@ class Geocoder extends System {
         $this->aProviders = [];
 
         foreach( $GLOBALS['N2SL']['geocoder_providers'] as $name => $settings ) {
+
             if( class_exists($settings['class']) ) {
 
                 $this->aProviders[$name] = null;
@@ -87,7 +88,6 @@ class Geocoder extends System {
     }
 
 
-
     /**
      * Checks if the given provider name is available
      *
@@ -115,7 +115,6 @@ class Geocoder extends System {
      * @param string $name
      *
      * @return Geocoder\Provider\Provider|null
-
      */
     public function getProvider( string $name ): ?Provider {
 

@@ -18,6 +18,14 @@
         <source>Filter settings</source>
         <target>Filter-Einstellungen</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_provider.0">
+        <source>Map Provider</source>
+        <target>Anbieter</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_provider.1">
+        <source>Please select which map provider will be used in the browser.</source>
+        <target>Bitte wählen Sie welcher Anbieter zur Darstellung der Karte genutzt werden soll.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_autocomplete_country.0">
         <source>Default country</source>
         <target>Standardland</target>
@@ -107,12 +115,12 @@
         <target>Weitere Ergebnisse werden automatisch beim Ziehen der Karte nachgeladen</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_markerclusterer.0">
-        <source>Merge pins into clusters</source>
-        <target>Pins in Cluster zusammenfassen</target>
+        <source>Merge markers into clusters</source>
+        <target>Marker in Cluster zusammenfassen</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_markerclusterer.1">
-        <source>This will merge multiple pins in the same location into one cluster.</source>
-        <target>Mehrere Pins am gleichen Standort werden in einen Cluster zusammengefasst.</target>
+        <source>This will merge multiple markers in the same location into one cluster (better performance if many markers are shown on the map).</source>
+        <target>Mehrere Marker am gleichen Standort werden in einen Cluster zusammengefasst (verbessert die Performance wenn viele Marker auf der Karte angezeigt werden).</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_marker.0">
         <source>Max amount of markers to add dynamically</source>
@@ -329,6 +337,10 @@
     <trans-unit id="tl_module.storelocator_static_map_tpl.1">
         <source>Which template should be used to display the static map.</source>
         <target>Wählen Sie mit welchen Template die statische Karte dargestellt werden soll.</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_providers.google-maps">
+        <source>Google Maps</source>
+        <target>Google Maps</target>
     </trans-unit>
 </body>
 </file>

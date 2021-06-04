@@ -71,8 +71,8 @@
         <target>Liste mit der ID %s löschen</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_categories.map_legend">
-        <source>Google Map</source>
-        <target>Google Map</target>
+        <source>Map</source>
+        <target>Karte</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_categories.map_pin.0">
         <source>Pin image</source>

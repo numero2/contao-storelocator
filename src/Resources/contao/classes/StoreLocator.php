@@ -356,7 +356,7 @@ class StoreLocator extends System {
             }
         }
 
-        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : $aData[0]?:'';
+        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : ($aData[0]?:'');
 
         return $strData;
     }

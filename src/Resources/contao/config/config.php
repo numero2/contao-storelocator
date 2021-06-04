@@ -67,7 +67,7 @@ $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['\numero2\StoreLocator\StoreLocat
 
 
 /**
- * Geocoder Providers
+ * GEOCODER PROVIDERS
  */
 $GLOBALS['N2SL']['geocoder_providers'] = [
     'google-maps' => [
@@ -76,7 +76,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !\Config::get('google_maps_server_key') ) {
                 return null;
             }
-
             return new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, \Config::get('google_maps_server_key'));
         }
     ]
@@ -86,7 +85,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !\Config::get('bing_map_server_key') ) {
                 return null;
             }
-
             return new \Geocoder\Provider\BingMaps\BingMap($httpClient, \Config::get('bing_map_server_key'));
         }
     ]
@@ -96,7 +94,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !\Config::get('here_server_key') ) {
                 return null;
             }
-
             return \Geocoder\Provider\Here\Here::createUsingApiKey($httpClient, \Config::get('here_server_key'));
         }
     ]
@@ -109,7 +106,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !\Config::get('nominatim_server') ) {
                 return new \Geocoder\Provider\Nominatim($httpClient, \Config::get('nominatim_server'), \Config::get('nominatim_user_agent'));
             }
-
             return \Geocoder\Provider\Nominatim\Nominatim::withOpenStreetMapServer($httpClient, \Config::get('nominatim_user_agent'));
         }
     ]
@@ -119,7 +115,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !\Config::get('opencage_api_key') ) {
                 return null;
             }
-
             return new \Geocoder\Provider\OpenCage\OpenCage($httpClient, \Config::get('opencage_api_key'));
         }
     ]
@@ -131,7 +126,6 @@ $GLOBALS['N2SL']['javascript_providers'] = [
             if( !\Config::get('google_maps_browser_key') ) {
                 return false;
             }
-
             return true;
         }
     ]

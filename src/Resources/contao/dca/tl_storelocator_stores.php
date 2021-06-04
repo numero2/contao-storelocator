@@ -96,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ]
 ,   'palettes' => [
-        'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},highlight,published;'
+        'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},published,highlight;'
     ]
 ,   'fields' => [
         'id' => [
@@ -240,7 +240,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'published' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
         ,   'inputType'            => 'checkbox'
-        ,   'eval'                 => ['doNotCopy'=>true]
+        ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ]

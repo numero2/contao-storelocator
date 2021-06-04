@@ -36,6 +36,8 @@ class StoreLocatorBackend extends \System {
             return;
         }
 
+        // TODO: this should be changed as soon as other providers are implemented
+
         if( Input::get('table') == "tl_module" && Input::get('act') == "edit" ) {
 
             $objModule = Database::getInstance()->prepare("

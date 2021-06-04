@@ -54,7 +54,7 @@
         <source>Delete list with ID %s löschen</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_categories.map_legend">
-        <source>Google Map</source>
+        <source>Map</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_categories.map_pin.0">
         <source>Pin image</source>
