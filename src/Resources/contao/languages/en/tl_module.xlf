@@ -91,6 +91,7 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_markerclusterer.1">
         <source>This will merge multiple markers in the same location into one cluster (better performance if many markers are shown on the map).</source>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_marker.0">
         <source>Max amount of markers to add dynamically</source>
     </trans-unit>
