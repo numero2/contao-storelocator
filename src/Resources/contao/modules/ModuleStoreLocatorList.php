@@ -397,7 +397,7 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->listInteraction = $this->storelocator_list_interaction;
         $oTemplateGoogleMap->markerclusterer = $this->storelocator_markerclusterer;
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
-        $oTemplateGoogleMap->entries = $aStores;
+        $oTemplateGoogleMap->entries = array_slice($aStores,0,500,true);
 
         $this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
     }
