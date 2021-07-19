@@ -51,7 +51,7 @@ class Geocoder extends System {
                             $this->aProviders[$name] = $provider;
                         }
 
-                    } catch( \Geocoder\Exception\InvalidCredentials $e ) {
+                    //} catch( \Geocoder\Exception\InvalidCredentials $e ) {
 
                     } catch( \Exception $e ) {
                         System::log('Error initialize '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);

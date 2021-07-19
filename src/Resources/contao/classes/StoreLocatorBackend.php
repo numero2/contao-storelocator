@@ -37,8 +37,6 @@ class StoreLocatorBackend extends \System {
             return;
         }
 
-        // TODO: this should be changed as soon as other providers are implemented
-
         if( Input::get('table') == "tl_module" && Input::get('act') == "edit" ) {
 
             $objModule = Database::getInstance()->prepare("
@@ -63,9 +61,10 @@ class StoreLocatorBackend extends \System {
         }
 
         if( !$hasActiveProvider ) {
-            Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_server_key']);
+            Message::addError($GLOBALS['TL_LANG']['tl_settings']['err']['missing_server_key']);
         }
 
+        // todo: only when editing a frontend-module
         if( !count($oGeo->getJavascriptProviders()) ) {
             Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_browser_key']);
         }

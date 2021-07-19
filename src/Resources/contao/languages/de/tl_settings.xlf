@@ -63,12 +63,12 @@
         <target>OpenCage Schlüssel</target>
     </trans-unit>
     <trans-unit id="tl_settings.err.missing_server_key">
-        <source>There is currently no geo provider available, maybe there are keys missing in settings or you need to install your provider</source>
-        <target>Aktuell sind keine Geo Provider konfiguriert, vielleicht fehlen Schlüssel in den Einstellungen oder Sie müsen diesen noch installieren.</target>
+        <source>No API keys have yet been configured for a provider in the StoreLocator settings.</source>
+        <target>In den StoreLocator-Einstellungen wurden noch keine API-Schlüssel für einen Anbieter konfiguriert.</target>
     </trans-unit>
     <trans-unit id="tl_settings.err.missing_browser_key">
-        <source>There is currently no javascript provider available, may be there are keys missing in settings or you need to install your provider</source>
-        <target>Aktuell sind keine Javascript Provider konfiguriert, vielleicht fehlen Schlüssel in den Einstellungen oder Sie müsen diesen noch installieren.</target>
+        <source>An API key from a compatible provider is required for the map display of stores in the frontend.</source>
+        <target>Für die Kartendarstellung von Händlern im Frontend ist ein API-Schlüssel eines kompatiblen Anbieters notwendig.</target>
     </trans-unit>
 </body>
 </file>
