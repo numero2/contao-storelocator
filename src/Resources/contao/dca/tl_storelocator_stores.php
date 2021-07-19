@@ -33,9 +33,9 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         'sorting' => [
             'mode'                    => 4
         ,   'fields'                  => ['city']
-        ,   'flag'                    => 1
+        ,   'flag'                    => 11
         ,   'headerFields'            => ['title']
-        ,   'panelLayout'             => 'search,limit'
+        ,   'panelLayout'             => 'filter;sort,search,limit'
         ,   'child_record_callback'   => ['\numero2\StoreLocator\DCAHelper\Stores', 'listStores']
         ]
     ,   'global_operations' => [
@@ -113,6 +113,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
+        ,   'sorting'           => true
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
@@ -177,6 +178,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
+        ,   'filter'            => true
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
@@ -185,16 +187,20 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
+        ,   'filter'            => true
+        ,   'sorting'           => true
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'country' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['country']
         ,   'inputType'         => 'select'
-        ,   'options_callback'  => ['\numero2\StoreLocator\DCAHelper\Stores', 'getCountries']
-        ,   'default'           => 'de'
         ,   'search'            => true
         ,   'feSortable'        => true
+        ,   'filter'            => true
+        ,   'sorting'           => true
+        ,   'options_callback'  => ['\numero2\StoreLocator\DCAHelper\Stores', 'getCountries']
+        ,   'default'           => 'de'
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50', 'chosen'=>true]
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
@@ -226,21 +232,18 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
         ,   'input_field_callback' => ['\numero2\StoreLocator\DCAHelper\Stores', 'showGeoExplain']
         ]
-    ,   'file' => [
-            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator']['import']['file']
-        ,   'eval'                 => ['fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'extensions'=>'csv', 'class'=>'mandatory']
-        ]
     ,   'highlight' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
         ,   'inputType'            => 'checkbox'
-        ,   'search'               => true
+        ,   'filter'               => true
         ,   'eval'                 => ['mandatory'=>false, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ,   'published' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
         ,   'inputType'            => 'checkbox'
-        ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
+        ,   'filter'               => true
+        ,   'eval'                 => ['doNotCopy'=>true]
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ]

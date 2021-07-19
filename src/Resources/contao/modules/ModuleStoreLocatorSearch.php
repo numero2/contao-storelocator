@@ -162,17 +162,22 @@ class ModuleStoreLocatorSearch extends Module {
             }
         }
 
-        // add autocomplete script
-        if( $this->storelocator_enable_autocomplete ) {
+        if( $this->storelocator_provider === 'google-maps' ) {
+            // add autocomplete script
+            if( $this->storelocator_enable_autocomplete ) {
 
-            $oTemplateAutocomplete = new FrontendTemplate('script_storelocator_autocomplete');
-            $oTemplateAutocomplete->mapsKey = Config::get('google_maps_browser_key');
-            $oTemplateAutocomplete->country = $this->storelocator_autocomplete_country;
-            $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
+                $oTemplateAutocomplete = new FrontendTemplate('script_storelocator_autocomplete');
+                $oTemplateAutocomplete->mapsKey = Config::get('google_maps_browser_key');
+                $oTemplateAutocomplete->country = $this->storelocator_autocomplete_country;
+                $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
-            $this->Template->autoComplete = $oTemplateAutocomplete->parse();
-            $objPage->loadedMapsApi = true;
+                $this->Template->autoComplete = $oTemplateAutocomplete->parse();
+                $objPage->loadedMapsApi = true;
+            }
+        } else {
+            // HOOK for adding custom javascript provider
         }
+
 
         $this->Template->searchField = $widgetSearch;
         $this->Template->categories = $widgetCategories;

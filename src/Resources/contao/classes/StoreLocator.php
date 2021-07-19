@@ -195,7 +195,7 @@ class StoreLocator extends System {
      */
     public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ): array {
 
-        // find coordinates using google maps api
+        // find coordinates using configured geo providers
         $sQuery = sprintf(
             "%s %s %s %s"
         ,   $street

@@ -17,8 +17,10 @@ namespace numero2\StoreLocator\DCAHelper;
 
 use Contao\Backend;
 use Contao\Controller;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
+use Contao\Input;
 use Contao\ModuleModel;
 use numero2\StoreLocator\CategoriesModel;
 
@@ -218,5 +220,33 @@ class Module extends Backend {
         }
 
         return $aFields;
+    }
+
+
+    public function hideProviderDependentField( DataContainer $dc ) {
+
+        if( TL_MODE != 'BE' ) {
+            return;
+        }
+
+        $provider = '';
+
+        if( Input::get('table') == "tl_module" && Input::get('act') == "edit" ) {
+
+            $objModule = Database::getInstance()->prepare("
+                SELECT * FROM tl_module WHERE id = ?
+            ")->execute($dc->id);
+
+            if( $objModule ) {
+                if( !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ) {
+                    return;
+                }
+                $provider = $objModule->storelocator_provider;
+            }
+        }
+
+        if( $provider && array_key_exists('storelocator_provider-'.$provider, $GLOBALS['TL_DCA']['tl_module']['subpalettes']) ) {
+            $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_provider-'.$provider];
+        }
     }
 }

@@ -322,6 +322,8 @@ class ModuleStoreLocatorList extends Module {
 
                         if( $this->storelocator_provider === 'google-maps' ) {
                             $this->addGoogleMap($aStores);
+                        } else {
+                            // HOOK for adding custom javascript provider
                         }
                     }
                 }
@@ -371,7 +373,7 @@ class ModuleStoreLocatorList extends Module {
 
         foreach( $oMapPins as $key => $value ) {
 
-            if( !empty($value['map_pin']) ){
+            if( !empty($value['map_pin']) ) {
                 $mapPins[$value['id']] = $value['map_pin'];
             }
         }

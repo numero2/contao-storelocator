@@ -17,7 +17,7 @@
  * Add config to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage'];
-
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\DCAHelper\Module', 'hideProviderDependentField'];
 
 /**
  * Add palettes to tl_module
@@ -39,7 +39,8 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_limit_distance'] = 
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_use_filter'] = 'storelocator_mod_filter';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete'] = 'storelocator_autocomplete_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_provider,storelocator_markerclusterer,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin,storelocator_load_results_on_pan';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_provider';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_provider-google-maps'] = 'storelocator_provider,storelocator_markerclusterer,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin,storelocator_load_results_on_pan';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan'] = 'storelocator_limit_marker';
 
 
@@ -51,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_provider'] = [
 ,   'inputType'           => 'select'
 ,   'options_callback'    => ['numero2\StoreLocator\DCAHelper\Module', 'getJavascriptProviders']
 ,   'reference'           => &$GLOBALS['TL_LANG']['tl_module']['storelocator_providers']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
+,   'eval'                => ['includeBlankOption'=>true, 'submitOnChange'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(32) NOT NULL default ''"
 ];
 
