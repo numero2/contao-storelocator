@@ -37,6 +37,8 @@ class StoreLocatorBackend extends \System {
             return;
         }
 
+        $isEditingModule = false;
+
         if( Input::get('table') == "tl_module" && Input::get('act') == "edit" ) {
 
             $objModule = Database::getInstance()->prepare("
@@ -46,6 +48,8 @@ class StoreLocatorBackend extends \System {
             if( $objModule && !array_key_exists($objModule->type, $GLOBALS['FE_MOD']['storelocator']) ) {
                 return;
             }
+
+            $isEditingModule = true;
         }
 
         self::loadLanguageFile('tl_settings');
@@ -61,11 +65,10 @@ class StoreLocatorBackend extends \System {
         }
 
         if( !$hasActiveProvider ) {
-            Message::addError($GLOBALS['TL_LANG']['tl_settings']['err']['missing_server_key']);
+            Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_server_key']);
         }
 
-        // todo: only when editing a frontend-module
-        if( !count($oGeo->getJavascriptProviders()) ) {
+        if( $isEditingModule && !count($oGeo->getJavascriptProviders()) ) {
             Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_browser_key']);
         }
     }
