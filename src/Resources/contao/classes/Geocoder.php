@@ -41,7 +41,7 @@ class Geocoder extends System {
 
                 $this->aProviders[$name] = null;
 
-                if( is_callable($settings['init_callback'])) {
+                if( is_callable($settings['init_callback']) ) {
 
                     try {
 
@@ -83,7 +83,7 @@ class Geocoder extends System {
      *
      * @return array
      */
-    public function getAvailableProvider(): array {
+    public function getAvailableProviders(): array {
         return array_keys($this->aProviders);
     }
 
@@ -128,5 +128,27 @@ class Geocoder extends System {
         }
 
         return null;
+    }
+
+
+    /**
+     * Generates a list of all available javascript providers
+     *
+     * @return array
+     */
+    public function getJavascriptProviders(): array {
+
+        $aProviders = [];
+
+        foreach( $GLOBALS['N2SL']['javascript_providers'] as $name => $settings ) {
+
+            $isAvailable = $settings['init_callback']();
+
+            if( $isAvailable ) {
+                $aProviders[] = $name;
+            }
+        }
+
+        return $aProviders;
     }
 }

@@ -19,9 +19,9 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
  * Add config to tl_settings
  */
 if( empty($GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][0]) ) {
-    $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'] = [['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage']];
+    $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'] = [['\numero2\StoreLocator\StoreLocatorBackend', 'showNoProviderAvailable']];
 } else {
-    $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage'];
+    $GLOBALS['TL_DCA']['tl_settings']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showNoProviderAvailable'];
 }
 
 
@@ -67,9 +67,8 @@ $pm->applyToPalette('default', 'tl_settings');
 $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_server_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['google_maps_server_key']
 ,   'inputType'         => 'text'
-,   'eval'              => ['tl_class'=>'w50']
+,   'eval'              => ['tl_class'=>'clr w50']
 ];
-
 $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_browser_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['google_maps_browser_key']
 ,   'inputType'         => 'text'
@@ -79,16 +78,21 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_browser_key'] = [
 $GLOBALS['TL_DCA']['tl_settings']['fields']['bing_map_server_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['bing_map_server_key']
 ,   'inputType'         => 'text'
-,   'eval'              => ['tl_class'=>'w50']
+,   'eval'              => ['tl_class'=>'clr w50']
 ];
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['here_server_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['here_server_key']
 ,   'inputType'         => 'text'
-,   'eval'              => ['tl_class'=>'w50']
+,   'eval'              => ['tl_class'=>'clr w50']
 ];
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['here_server_key'] = [
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nominatim_server'] = [
+    'label'             => &$GLOBALS['TL_LANG']['tl_settings']['nominatim_server']
+,   'inputType'         => 'text'
+,   'eval'              => ['tl_class'=>'clr w50']
+];
+$GLOBALS['TL_DCA']['tl_settings']['fields']['nominatim_user_agent'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['nominatim_user_agent']
 ,   'inputType'         => 'text'
 ,   'eval'              => ['tl_class'=>'w50']
@@ -97,5 +101,5 @@ $GLOBALS['TL_DCA']['tl_settings']['fields']['here_server_key'] = [
 $GLOBALS['TL_DCA']['tl_settings']['fields']['opencage_api_key'] = [
     'label'             => &$GLOBALS['TL_LANG']['tl_settings']['opencage_api_key']
 ,   'inputType'         => 'text'
-,   'eval'              => ['tl_class'=>'w50']
+,   'eval'              => ['tl_class'=>'clr w50']
 ];

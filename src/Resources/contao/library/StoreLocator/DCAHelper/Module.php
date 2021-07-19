@@ -23,6 +23,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\ModuleModel;
 use numero2\StoreLocator\CategoriesModel;
+use numero2\StoreLocator\Geocoder;
 
 
 class Module extends Backend {
@@ -169,18 +170,9 @@ class Module extends Backend {
      */
     public function getJavascriptProviders(): array {
 
-        $aProviders = [];
+        $oGeo = Geocoder::getInstance();
 
-        foreach( $GLOBALS['N2SL']['javascript_providers'] as $name => $settings ) {
-
-            $isAvailable = $settings['init_callback']();
-
-            if( $isAvailable ) {
-                $aProviders[] = $name;
-            }
-        }
-
-        return $aProviders;
+        return $oGeo->getJavascriptProviders();
     }
 
 

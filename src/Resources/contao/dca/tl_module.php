@@ -16,7 +16,7 @@
 /**
  * Add config to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showGoogleKeysMissingMessage'];
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showNoProviderAvailable'];
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\DCAHelper\Module', 'hideProviderDependentField'];
 
 /**

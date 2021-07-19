@@ -20,6 +20,7 @@ use Contao\Database;
 use Contao\Input;
 use Contao\Message;
 use Contao\DataContainer;
+use numero2\StoreLocator\Geocoder;
 
 
 class StoreLocatorBackend extends \System {
@@ -30,7 +31,7 @@ class StoreLocatorBackend extends \System {
      *
      * @param DataContainer $dc
      */
-    public function showGoogleKeysMissingMessage( DataContainer $dc ): void {
+    public function showNoProviderAvailable( DataContainer $dc ): void {
 
         if( TL_MODE != 'BE' ) {
             return;
@@ -51,20 +52,22 @@ class StoreLocatorBackend extends \System {
 
         self::loadLanguageFile('tl_settings');
 
-        if( empty(Config::get('google_maps_server_key')) ) {
-            Message::addInfo(
-                sprintf($GLOBALS['TL_LANG']['tl_settings']['err']['missing_key'],
-                    $GLOBALS['TL_LANG']['tl_settings']['google_maps_server_key'][0]
-                )
-            );
+        $oGeo = Geocoder::getInstance();
+        $hasActiveProvider = false;
+        foreach( $oGeo->getAvailableProviders() as $name ) {
+
+            if( $oGeo->getProvider($name) ) {
+                $hasActiveProvider = true;
+                break;
+            }
         }
 
-        if( empty(Config::get('google_maps_browser_key')) ) {
-            Message::addInfo(
-                sprintf($GLOBALS['TL_LANG']['tl_settings']['err']['missing_key'],
-                    $GLOBALS['TL_LANG']['tl_settings']['google_maps_browser_key'][0]
-                )
-            );
+        if( !$hasActiveProvider ) {
+            Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_server_key']);
+        }
+
+        if( !count($oGeo->getJavascriptProviders()) ) {
+            Message::addInfo($GLOBALS['TL_LANG']['tl_settings']['err']['missing_browser_key']);
         }
     }
 

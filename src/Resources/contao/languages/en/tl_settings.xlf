@@ -17,7 +17,41 @@
     <trans-unit id="tl_settings.google_maps_browser_key.1">
         <source>Google Maps browser key</source>
     </trans-unit>
-    <trans-unit id="tl_settings.err.missing_key">
+    <trans-unit id="tl_settings.bing_map_server_key.0">
+        <source>Bing Maps key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.bing_map_server_key.1">
+        <source>Bing Maps key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.here_server_key.0">
+        <source>here key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.here_server_key.1">
+        <source>here key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_server.0">
+        <source>Nominatim server</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_server.1">
+        <source>Nominatim server</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_user_agent.0">
+        <source>Nominatim user agent</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_user_agent.1">
+        <source>Nominatim user agent</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.opencage_api_key.0">
+        <source>OpenCage key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.opencage_api_key.1">
+        <source>OpenCage key</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_server_key">
+        <source>There is currently no geo provider available, maybe there are keys missing in settings or you need to install your provider</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_browser_key">
+        <source>There is currently no javascript provider available, may be there are keys missing in settings or you need to install your provider</source>
     </trans-unit>
 </body>
 </file>

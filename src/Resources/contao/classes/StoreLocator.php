@@ -209,7 +209,7 @@ class StoreLocator extends System {
         $oGeo = Geocoder::getInstance();
         $oResults = null;
 
-        $aProviderNames = $oGeo->getAvailableProvider();
+        $aProviderNames = $oGeo->getAvailableProviders();
         if( !empty($aProviderNames) ) {
 
             foreach( $aProviderNames as $name ) {
