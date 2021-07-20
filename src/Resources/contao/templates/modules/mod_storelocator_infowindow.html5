@@ -1,0 +1,25 @@
+<div class="entry <?= $this->entry->class; ?>">
+
+    <h3><?= $this->entry->name; ?></h3>
+
+    <div class="address">
+        <?= $this->entry->street; ?>, <?= $this->entry->postal; ?> <?= $this->entry->city; ?><br />
+        <?= $this->entry->country_name; ?>
+    </div>
+
+    <?php if( $this->entry->email ): ?>
+        <div class="email">
+            <?= $this->labelEMail; ?>: {{email::<?= $this->entry->email; ?>}}
+        </div>
+    <?php endif; ?>
+
+    <?php if( $this->entry->url ): ?>
+        <div class="www">
+            <?= $this->labelWWW; ?>: <a href="<?= $this->entry->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->entry->name; ?>"><?= $this->entry->prettyUrl; ?></a>
+        </div>
+    <?php endif; ?>
+
+    <?php if( $this->entry->link ): ?>
+        <a href="<?= $this->entry->link; ?>" class="more"><?= $this->labelMore; ?></a>
+    <?php endif; ?>
+</div>

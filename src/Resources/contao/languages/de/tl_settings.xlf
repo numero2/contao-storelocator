@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.1">
+<file datatype="php" original="src/Resources/contao/languages/en/tl_settings.php" source-language="en" target-language="de">
+<body>
+    <trans-unit id="tl_settings.storelocator_legend">
+        <source>StoreLocator Settings</source>
+        <target>StoreLocator Einstellungen</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.0">
+        <source>Google Maps server key</source>
+        <target>Google Maps Server-Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_server_key.1">
+        <source>Google Maps server key</source>
+        <target>Google Maps Server-Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.0">
+        <source>Google Maps browser key</source>
+        <target>Google Maps Browser-Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.google_maps_browser_key.1">
+        <source>Google Maps browser key</source>
+        <target>Google Maps Browser-Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.bing_map_server_key.0">
+        <source>Bing Maps key</source>
+        <target>Bing Maps Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.bing_map_server_key.1">
+        <source>Bing Maps key</source>
+        <target>Bing Maps Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.here_server_key.0">
+        <source>here key</source>
+        <target>here Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.here_server_key.1">
+        <source>here key</source>
+        <target>here Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_server.0">
+        <source>Nominatim server</source>
+        <target>Nominatim Server</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_server.1">
+        <source>Nominatim server</source>
+        <target>Nominatim Server</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_user_agent.0">
+        <source>Nominatim user agent</source>
+        <target>Nominatim User-Agent</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.nominatim_user_agent.1">
+        <source>Nominatim user agent</source>
+        <target>Nominatim User-Agent</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.opencage_api_key.0">
+        <source>OpenCage key</source>
+        <target>OpenCage Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.opencage_api_key.1">
+        <source>OpenCage key</source>
+        <target>OpenCage Schlüssel</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_server_key">
+        <source>No API keys have yet been configured for a provider in the StoreLocator settings.</source>
+        <target>In den StoreLocator-Einstellungen wurden noch keine API-Schlüssel für einen Anbieter konfiguriert.</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.err.missing_browser_key">
+        <source>An API key from a compatible provider is required for the map display of stores in the frontend.</source>
+        <target>Für die Kartendarstellung von Händlern im Frontend ist ein API-Schlüssel eines kompatiblen Anbieters notwendig.</target>
+    </trans-unit>
+</body>
+</file>
+</xliff>
