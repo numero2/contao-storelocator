@@ -27,7 +27,7 @@ class StoreLocatorBackend extends \System {
 
 
     /**
-     * Show a message in backend if google keys are missing
+     * Show a message in backend if provider keys are missing
      *
      * @param DataContainer $dc
      */

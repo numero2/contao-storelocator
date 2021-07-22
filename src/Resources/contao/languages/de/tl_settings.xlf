@@ -31,28 +31,28 @@
         <target>Bing Maps Schlüssel</target>
     </trans-unit>
     <trans-unit id="tl_settings.here_server_key.0">
-        <source>here key</source>
-        <target>here Schlüssel</target>
+        <source>HERE key</source>
+        <target>HERE Schlüssel</target>
     </trans-unit>
     <trans-unit id="tl_settings.here_server_key.1">
-        <source>here key</source>
-        <target>here Schlüssel</target>
+        <source>HERE key</source>
+        <target>HERE Schlüssel</target>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_server.0">
-        <source>Nominatim server</source>
-        <target>Nominatim Server</target>
+        <source>OpenStreetMap Nominatim server</source>
+        <target>OpenStreetMap Nominatim Server</target>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_server.1">
-        <source>Nominatim server</source>
-        <target>Nominatim Server</target>
+        <source>OpenStreetMap Nominatim server</source>
+        <target>OpenStreetMap Nominatim Server</target>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.0">
-        <source>Nominatim user agent</source>
-        <target>Nominatim User-Agent</target>
+        <source>OpenStreetMap Nominatim user agent</source>
+        <target>OpenStreetMap Nominatim User-Agent</target>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.1">
-        <source>Nominatim user agent</source>
-        <target>Nominatim User-Agent</target>
+        <source>OpenStreetMap Nominatim user agent</source>
+        <target>OpenStreetMap Nominatim User-Agent</target>
     </trans-unit>
     <trans-unit id="tl_settings.opencage_api_key.0">
         <source>OpenCage key</source>

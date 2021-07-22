@@ -24,22 +24,22 @@
         <source>Bing Maps key</source>
     </trans-unit>
     <trans-unit id="tl_settings.here_server_key.0">
-        <source>here key</source>
+        <source>HERE key</source>
     </trans-unit>
     <trans-unit id="tl_settings.here_server_key.1">
-        <source>here key</source>
+        <source>HERE key</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_server.0">
-        <source>Nominatim server</source>
+        <source>OpenStreetMap Nominatim server</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_server.1">
-        <source>Nominatim server</source>
+        <source>OpenStreetMap Nominatim server</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.0">
-        <source>Nominatim user agent</source>
+        <source>OpenStreetMap Nominatim user agent</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.1">
-        <source>Nominatim user agent</source>
+        <source>OpenStreetMap Nominatim user agent</source>
     </trans-unit>
     <trans-unit id="tl_settings.opencage_api_key.0">
         <source>OpenCage key</source>

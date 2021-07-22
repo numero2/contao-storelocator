@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 
 /**
- * Configures the Store Locator bundle.
+ * Configures the StoreLocator bundle.
  */
 class StoreLocatorBundle extends Bundle {
 

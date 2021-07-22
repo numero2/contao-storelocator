@@ -80,12 +80,12 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
         }
     ]
 ,   'bing-map' => [
-        'class' => '\Geocoder\Provider\BingMaps\BingMap'
+        'class' => '\Geocoder\Provider\BingMaps\BingMaps'
     ,   'init_callback' => function($httpClient) {
             if( !\Config::get('bing_map_server_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\BingMaps\BingMap($httpClient, \Config::get('bing_map_server_key'));
+            return new \Geocoder\Provider\BingMaps\BingMaps($httpClient, \Config::get('bing_map_server_key'));
         }
     ]
 ,   'here' => [

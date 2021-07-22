@@ -236,14 +236,14 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
         ,   'inputType'            => 'checkbox'
         ,   'filter'               => true
-        ,   'eval'                 => ['mandatory'=>false, 'tl_class'=>'w50']
+        ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ,   'published' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
         ,   'inputType'            => 'checkbox'
         ,   'filter'               => true
-        ,   'eval'                 => ['doNotCopy'=>true]
+        ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ]

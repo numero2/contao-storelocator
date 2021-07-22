@@ -13,10 +13,10 @@
         "geocoder-php/google-maps-provider": "^4.6"
     },
     "suggest": {
-        "geocoder-php/bing-maps-provider": "For use of Microsoft Bing Maps",
-        "geocoder-php/here-provider": "For use of Here Maps",
-        "geocoder-php/nominatim-provider": "For use of OpenStreetMap Nominatim Maps",
-        "geocoder-php/open-cage-provider": "For use of OpenStreetMap OpenCage Maps"
+        "numero2/contao-storelocator-bing-maps-provider": "For use of Bing Maps",
+        "numero2/contao-storelocator-here-provider": "For use of HERE Maps",
+        "numero2/contao-storelocator-nominatim-provider": "For use of OpenStreetMap Nominatim",
+        "numero2/contao-storelocator-open-cage-provider": "For use of OpenCage"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0"
