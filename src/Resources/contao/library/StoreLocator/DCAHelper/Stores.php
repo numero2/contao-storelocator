@@ -163,24 +163,31 @@ class Stores extends Backend {
 
         $imgPath = '';
 
-        if( Geocoder::getInstance()->hasProvider('google-maps') ) {
-            if( !empty($dc->activeRecord->latitude) && !empty($dc->activeRecord->longitude) ) {
+        $sCoords = sprintf(
+            "%s,%s"
+            ,    $dc->activeRecord->latitude
+            ,    $dc->activeRecord->longitude
+        );
 
-                $sCoords = sprintf(
-                    "%s,%s"
-                    ,    $dc->activeRecord->latitude
-                    ,    $dc->activeRecord->longitude
-                );
+        if( !empty($dc->activeRecord->latitude) && !empty($dc->activeRecord->longitude) ) {
 
-                $imgPath = 'https://maps.google.com/maps/api/staticmap?center='.$sCoords
-                    .'&zoom=16&size=320x139&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
+            if( Geocoder::getInstance()->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
+
+                $imgPath = '//maps.google.com/maps/api/staticmap?center='.$sCoords
+                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
+
+            } else if( Geocoder::getInstance()->hasProvider('bing-map') ) {
+
+                $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$sCoords.'/16?mapSize=565,150&pp='.$sCoords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
+
+            } else if( Geocoder::getInstance()->hasProvider('here') ) {
+
+                $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$sCoords.'&apiKey='.Config::get('here_server_key');
             }
         }
 
-
-        return '<div class="google-map">'
-            .'<h3><label>'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['map'][0].'</label></h3> '
-            .($imgPath?'<img width="320" height="139" src="'.$imgPath.'" />':'<div class="img" style="width:320px;height:139px;"></div>')
+        return '<div class="widget sl-google-map">'
+            .($imgPath?'<img width="565" height="150" src="'.$imgPath.'" />':'<div class="img"></div>')
             .'</div>';
     }
 

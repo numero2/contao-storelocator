@@ -9,11 +9,11 @@
 
     <?php if( !$this->noResults ): ?>
 
-        <?php if( $this->showMap ): ?>
-            <div id="map-wrapper">
-                <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
-                <?= $this->scriptGoogleMap; ?>
-            </div>
+        <?php if( $this->scriptMap ): ?>
+        <div id="map-wrapper">
+            <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+            <?= $this->scriptMap; ?>
+        </div>
         <?php endif; ?>
 
         <?php foreach( $this->stores as $store ): ?>
@@ -22,9 +22,9 @@
             <h3><?= $store->name; ?></h3>
 
             <?php if( $store->picture ): ?>
-                <figure>
-                    <?php $this->insert('picture_default', $store->picture); ?>
-                </figure>
+            <figure>
+                <?php $this->insert('picture_default', $store->picture); ?>
+            </figure>
             <?php endif; ?>
 
             <?php if( $store->distance ): ?>
@@ -34,7 +34,8 @@
             <?php endif; ?>
 
             <div class="address">
-                <?= $store->street; ?>, <?= $store->postal; ?> <?= $store->city; ?><br />
+                <?= $store->street; ?><br />
+                <?= $store->postal; ?> <?= $store->city; ?><br />
                 <?= $store->country_name; ?>
             </div>
 
@@ -45,25 +46,27 @@
             <?php endif; ?>
 
             <?php if( $store->fax ): ?>
-                <div class="fax">
-                    <?= $this->labelFax ?>: <?= $store->fax; ?>
-                </div>
+            <div class="fax">
+                <?= $this->labelFax ?>: <?= $store->fax; ?>
+            </div>
             <?php endif; ?>
 
             <?php if( $store->email ): ?>
-                <div class="email">
-                    <?= $this->labelEMail; ?>: {{email::<?= $store->email; ?>}}
-                </div>
+            <div class="email">
+                <?= $this->labelEMail; ?>: {{email::<?= $store->email; ?>}}
+            </div>
             <?php endif; ?>
 
             <?php if( $store->url ): ?>
-                <div class="www">
-                    <?= $this->labelWWW; ?>: <a href="<?= $store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $store->name; ?>"><?= $store->prettyUrl; ?></a>
-                </div>
+            <div class="www">
+                <?= $this->labelWWW; ?>: <a href="<?= $store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $store->name; ?>"><?= $store->prettyUrl; ?></a>
+            </div>
             <?php endif; ?>
 
             <?php if( $store->link ): ?>
-                <a href="<?= $store->link; ?>" class="more"><?= $this->labelMore; ?></a>
+            <a href="<?= $store->link; ?>" class="more">
+                <?= $this->labelMore; ?>
+            </a>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>

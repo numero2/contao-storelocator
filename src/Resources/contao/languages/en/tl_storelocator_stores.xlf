@@ -24,7 +24,7 @@
         <source>Website</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.url.1">
-        <source>Enter the URL of the stores website</source>
+        <source>Enter the URL of the stores website.</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.phone.0">
         <source>Phone</source>
@@ -48,7 +48,7 @@
         <source>Street</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.street.1">
-        <source>Name of the street plus house number</source>
+        <source>Name of the street plus house number.</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.postal.0">
         <source>ZIP</source>
@@ -60,13 +60,13 @@
         <source>City</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.city.1">
-        <source>Name of the city</source>
+        <source>Name of the city.</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.country.0">
         <source>Country</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.country.1">
-        <source>Please choose a country</source>
+        <source>Please choose a country.</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.opening_times.0">
         <source>Opening times</source>
@@ -100,6 +100,9 @@
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.common_legend">
         <source>Common</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.contact_legend">
+        <source>Contact</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.adress_legend">
         <source>Address</source>

@@ -96,7 +96,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ]
 ,   'palettes' => [
-        'default'                     => '{common_legend},name,alias,email,url,phone,fax,description,singleSRC;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},published,highlight;'
+        'default'                     => '{common_legend},name,alias,singleSRC,description;{contact_legend},email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},published,highlight;'
     ]
 ,   'fields' => [
         'id' => [
@@ -136,7 +136,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['url']
         ,   'inputType'         => 'text'
         ,   'search'            => true
-        ,   'eval'              => ['rgxp'=>'url ', 'maxlength'=>255, 'tl_class'=>'w50']
+        ,   'eval'              => ['rgxp'=>'url ', 'maxlength'=>255, 'tl_class'=>'w50', 'placeholder'=>'https://example.com']
         ,   'save_callback'     => [['\numero2\StoreLocator\DCAHelper\Stores', 'checkURL']]
         ,   'sql'               => "varchar(255) NOT NULL default ''"
         ]
@@ -163,7 +163,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'singleSRC' => [
             'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['singleSRC']
         ,   'inputType'         => 'fileTree'
-        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio']
+        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
         ,   'sql'               => "binary(16) NULL"
         ]
     ,   'street' => [

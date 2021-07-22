@@ -362,6 +362,10 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->mapsKey = Config::get('google_maps_browser_key');
         $mapPins = [];
 
+        if( !$oTemplateGoogleMap->mapsKey ) {
+            return;
+        }
+
         if( $this->storelocator_map_pin ) {
             $mapPins['default'] = $this->storelocator_map_pin;
         }
@@ -399,6 +403,6 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->loadedMapsApi = $objPage->loadedMapsApi;
         $oTemplateGoogleMap->entries = array_slice($aStores,0,500,true);
 
-        $this->Template->scriptGoogleMap = $oTemplateGoogleMap->parse();
+        $this->Template->scriptMap = $oTemplateGoogleMap->parse();
     }
 }

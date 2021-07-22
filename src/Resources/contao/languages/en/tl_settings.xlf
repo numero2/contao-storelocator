@@ -33,13 +33,13 @@
         <source>OpenStreetMap Nominatim server</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_server.1">
-        <source>OpenStreetMap Nominatim server</source>
+        <source>Optional, only necessary with own server</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.0">
         <source>OpenStreetMap Nominatim user agent</source>
     </trans-unit>
     <trans-unit id="tl_settings.nominatim_user_agent.1">
-        <source>OpenStreetMap Nominatim user agent</source>
+        <source>Unique identifier for your requests</source>
     </trans-unit>
     <trans-unit id="tl_settings.opencage_api_key.0">
         <source>OpenCage key</source>

@@ -66,22 +66,25 @@ fieldset.tl_box .heightAuto {
 
 #pal_geo_legend {
 
-    .google-map {
-        margin: 0 2%;
+    .sl-google-map {
+
+        float: left;
+        width: calc(50% - 30px);
 
         img, .img {
+
             display: block;
             background: #f6f6f8;
-
-            @media screen and (max-width: 767px) {
-
-                width: 100%;
-                height: auto;
-            }
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-top: 15px;
         }
 
-        @media screen and (min-width: 768px) {
-            float: left;
+        @media (max-width: 767px) {
+
+            float: none;
+            width: calc(100% - 30px);
         }
     }
 }
