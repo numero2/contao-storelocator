@@ -71,7 +71,7 @@ class ModuleStoreLocatorStaticMap extends Module {
         $parameters = [];
 
         if( !empty($this->storelocator_center) ) {
-            $parameters[] = "center=".$center;
+            $parameters[] = "center=".$this->storelocator_center;
         }
 
         if( !empty($this->storelocator_zoom) ) {
