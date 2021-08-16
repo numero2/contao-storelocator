@@ -1,6 +1,7 @@
 {
     "name": "numero2/contao-storelocator",
     "type": "contao-module",
+    "description": "Contao Plugin for managing stores (or in common address data) and providing a frontend-search based on geo data",
     "license": "LGPL-3.0+",
     "authors": [{
             "name": "numero2 - Agentur für digitales Marketing GbR",
