@@ -6,9 +6,7 @@ Contao StoreLocator
 About
 --
 
-This extension offers the possibility to create multiple lists containing address data, contact information as well as opening times.
-
-From the frontend the user can enter any possible address to see which stores are nearby (like on Google Maps).
+This extension offers the possibility to create multiple lists containing address data, contact information as well as opening times. From the Frontend the user can enter any possible address to see which stores are nearby (like on Google Maps). [Read more](https://www.numero2.de/contao/erweiterungen/storelocator.html)
 
 
 Screenshot
