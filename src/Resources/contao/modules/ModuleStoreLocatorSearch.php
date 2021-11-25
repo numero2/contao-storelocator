@@ -154,6 +154,7 @@ class ModuleStoreLocatorSearch extends Module {
                 $aSearchValues['latitude'] = Input::post('latitude');
 
                 $strData = StoreLocator::generateSearchvalue($aSearchValues);
+                $strData = str_replace('/', ' ', $strData);
 
                 $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $objPage;
                 $href = $objListPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/'.$strData : '/search/'.$strData);

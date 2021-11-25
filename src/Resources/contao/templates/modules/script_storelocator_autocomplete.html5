@@ -1,6 +1,5 @@
 <script>
 
-
     if( typeof findAncestor !== "function" ) {
 
         function findAncestor( el, sel ) {
@@ -11,8 +10,42 @@
 
     function initializeAddressAutocomplete() {
 
+        var input = document.getElementById('<?=$this->fieldId;?>');
+        var form = input.closest('form');
+
+        var _addEventListener = input.addEventListener;
+
+        var addEventListenerWrapper = function addEventListenerWrapper(type, listener) {
+
+            if( type === "keydown" ) {
+
+                var _listener = listener;
+
+                listener = function listener(event) {
+
+                    var suggestionSelected = document.getElementsByClassName('pac-item-selected').length;
+
+                    if( event.key === "Enter" && !suggestionSelected ) {
+
+                        var e = new KeyboardEvent("keydown", {
+                            key: "ArrowDown",
+                            code: "ArrowDown",
+                            keyCode: 40
+                        });
+
+                        _listener.apply(input, [e]);
+                    }
+                    _listener.apply(input, [event]);
+                };
+            }
+
+            _addEventListener.apply(input, [type, listener]);
+        };
+
+        input.addEventListener = addEventListenerWrapper;
+
         var autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById('<?=$this->fieldId;?>'),
+            input,
             {
                 <?php if( $this->country ):?>
                 componentRestrictions: { country: "<?=$this->country;?>"}
@@ -30,11 +63,12 @@
                 document.querySelector('form input[name*="latitude"]').value = location.geometry.location.lat();
             }
 
-            var form = findAncestor( document.querySelector('#<?=$this->fieldId;?>'), 'form' );
-
-            if( form ) { form.submit(); }
+            if( form ) {
+                form.submit();
+            }
         });
     }
+
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=<?= $this->mapsKey; ?>&amp;callback=initializeAddressAutocomplete" async defer></script>
