@@ -1,74 +1,80 @@
-<script>
+<?php $this->extend('script_loader_googlemap'); ?>
 
-    if( typeof findAncestor !== "function" ) {
+<?php $this->block('content'); ?>
 
-        function findAncestor( el, sel ) {
-            while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
-            return el;
+    <script>
+
+        if( typeof findAncestor !== "function" ) {
+
+            function findAncestor( el, sel ) {
+                while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
+                return el;
+            }
         }
-    }
 
-    function initializeAddressAutocomplete() {
+        function initializeAddressAutocomplete() {
 
-        var input = document.getElementById('<?=$this->fieldId;?>');
-        var form = input.closest('form');
+            var input = document.getElementById('<?=$this->fieldId;?>');
+            var form = input.closest('form');
 
-        var _addEventListener = input.addEventListener;
+            var _addEventListener = input.addEventListener;
 
-        var addEventListenerWrapper = function addEventListenerWrapper(type, listener) {
+            var addEventListenerWrapper = function addEventListenerWrapper(type, listener) {
 
-            if( type === "keydown" ) {
+                if( type === "keydown" ) {
 
-                var _listener = listener;
+                    var _listener = listener;
 
-                listener = function listener(event) {
+                    listener = function listener(event) {
 
-                    var suggestionSelected = document.getElementsByClassName('pac-item-selected').length;
+                        var suggestionSelected = document.getElementsByClassName('pac-item-selected').length;
 
-                    if( event.key === "Enter" && !suggestionSelected ) {
+                        if( event.key === "Enter" && !suggestionSelected ) {
 
-                        var e = new KeyboardEvent("keydown", {
-                            key: "ArrowDown",
-                            code: "ArrowDown",
-                            keyCode: 40
-                        });
+                            var e = new KeyboardEvent("keydown", {
+                                key: "ArrowDown",
+                                code: "ArrowDown",
+                                keyCode: 40
+                            });
 
-                        _listener.apply(input, [e]);
-                    }
-                    _listener.apply(input, [event]);
-                };
-            }
+                            _listener.apply(input, [e]);
+                        }
+                        _listener.apply(input, [event]);
+                    };
+                }
 
-            _addEventListener.apply(input, [type, listener]);
-        };
+                _addEventListener.apply(input, [type, listener]);
+            };
 
-        input.addEventListener = addEventListenerWrapper;
+            input.addEventListener = addEventListenerWrapper;
 
-        var autocomplete = new google.maps.places.Autocomplete(
-            input,
-            {
-                <?php if( $this->country ):?>
-                componentRestrictions: { country: "<?=$this->country;?>"}
-                <?php endif; ?>
-            }
-        );
+            var autocomplete = new google.maps.places.Autocomplete(
+                input,
+                {
+                    <?php if( $this->country ):?>
+                    componentRestrictions: { country: "<?=$this->country;?>"}
+                    <?php endif; ?>
+                }
+            );
 
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
 
-            var location = autocomplete.getPlace();
+                var location = autocomplete.getPlace();
 
-            if( location.geometry ) {
+                if( location.geometry ) {
 
-                document.querySelector('form input[name*="longitude"]').value = location.geometry.location.lng();
-                document.querySelector('form input[name*="latitude"]').value = location.geometry.location.lat();
-            }
+                    document.querySelector('form input[name*="longitude"]').value = location.geometry.location.lng();
+                    document.querySelector('form input[name*="latitude"]').value = location.geometry.location.lat();
+                }
 
-            if( form ) {
-                form.submit();
-            }
-        });
-    }
+                if( form ) {
+                    form.submit();
+                }
+            });
+        }
 
-</script>
+        document.addEventListener('storeLocatorGoogleMapLoaded', initializeAddressAutocomplete, {once:true});
 
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places&amp;key=<?= $this->mapsKey; ?>&amp;callback=initializeAddressAutocomplete" async defer></script>
+    </script>
+
+<?php $this->endblock(); ?>

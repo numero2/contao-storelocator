@@ -164,6 +164,7 @@ class ModuleStoreLocatorSearch extends Module {
         }
 
         if( $this->storelocator_provider === 'google-maps' ) {
+
             // add autocomplete script
             if( $this->storelocator_enable_autocomplete ) {
 
@@ -173,12 +174,11 @@ class ModuleStoreLocatorSearch extends Module {
                 $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
 
                 $this->Template->autoComplete = $oTemplateAutocomplete->parse();
-                $objPage->loadedMapsApi = true;
             }
+
         } else {
             // HOOK for adding custom javascript provider
         }
-
 
         $this->Template->searchField = $widgetSearch;
         $this->Template->categories = $widgetCategories;

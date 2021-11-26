@@ -1,0 +1,33 @@
+<!-- indexer::stop -->
+<?php $this->block('content'); ?>
+<?php $this->endblock(); ?>
+
+<script>
+
+    (function(){
+
+        if( typeof window.storeLocatorInitGoogleMap !== "function" ) {
+
+            var script = document.createElement('script');
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=<?= $this->mapsKey; ?>&callback=storeLocatorInitGoogleMap';
+            script.async = true;
+
+            window.storeLocatorInitGoogleMap = function() {
+
+                var e = new Event('storeLocatorGoogleMapLoaded');
+                document.dispatchEvent(e);
+            };
+
+            document.head.appendChild(script);
+        }
+
+        if( typeof window.google !== "undefined" && typeof window.google.maps !== "undefined" ) {
+
+            var e = new Event('storeLocatorGoogleMapLoaded');
+            document.dispatchEvent(e);
+        }
+
+    })();
+
+</script>
+<!-- indexer::continue -->
