@@ -18,9 +18,13 @@ if( $this->markerclusterer ) {
 
         var markers = {
             <?php foreach( $this->entries as $entry): ?>
-                "<?= $entry->id; ?>": {"id": "<?= $entry->id; ?>","pid": "<?= $entry->pid; ?>",
-                    "lng": "<?= $entry->longitude; ?>","lat": "<?= $entry->latitude; ?>",
-                    "info": <?= $entry->info; ?>},
+                "<?= $entry->id; ?>": {
+                    "id": "<?= $entry->id; ?>",
+                    "pid": "<?= $entry->pid; ?>",
+                    "lng": "<?= $entry->longitude; ?>",
+                    "lat": "<?= $entry->latitude; ?>",
+                    "info": <?= $entry->info; ?>
+                },
             <?php endforeach; ?>
         };
 
