@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -23,7 +23,6 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\StringUtil;
-use Patchwork\Utf8;
 
 
 class ModuleStoreLocatorDetails extends Module {
@@ -47,7 +46,7 @@ class ModuleStoreLocatorDetails extends Module {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['storelocator_details'][0]).' ###';
+            $objTemplate->wildcard = '### '.$GLOBALS['TL_LANG']['FMD']['storelocator_details'][0].' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
@@ -64,7 +63,7 @@ class ModuleStoreLocatorDetails extends Module {
      * Generate module
      */
     protected function compile(): void {
-        
+
         global $pbjPage;
 
         $this->Template = new FrontendTemplate($this->storelocator_details_tpl?:$this->strTemplate);
@@ -86,7 +85,7 @@ class ModuleStoreLocatorDetails extends Module {
 
         // change page title
         $objPage->pageTitle = $objStore->name;
-        
+
         // get image
         if( $objStore->singleSRC ) {
 
