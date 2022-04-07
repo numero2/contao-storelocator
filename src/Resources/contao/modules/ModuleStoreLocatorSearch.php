@@ -92,7 +92,7 @@ class ModuleStoreLocatorSearch extends Module {
                 ,    'eval'         => ['mandatory'=>true]
                 ]
             ,   'location'
-            ,   $aSearchValues['term']
+            ,   $aSearchValues['term']??''
             )
         );
 

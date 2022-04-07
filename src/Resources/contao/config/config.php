@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -31,7 +31,10 @@ $GLOBALS['BE_MOD']['content']['storelocator'] = [
 ];
 
 // Add backend.css to modules
-$GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = (array)$GLOBALS['BE_MOD']['design']['themes']['stylesheet'];
+if( !array_key_exists('stylesheet', $GLOBALS['BE_MOD']['design']['themes']) ) {
+    $GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = [];
+}
+$GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = (array) $GLOBALS['BE_MOD']['design']['themes']['stylesheet'];
 $GLOBALS['BE_MOD']['design']['themes']['stylesheet'][] = 'bundles/storelocator/backend.css';
 
 

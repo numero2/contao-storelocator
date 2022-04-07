@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -89,7 +89,7 @@ class OpeningTimes extends \Widget {
             }
         }
 
-        return ($this->blnHasError) ? false : empty($varInput)?'':serialize($varInput);
+        return ($this->blnHasError) ? false : (empty($varInput)?'':serialize($varInput));
     }
 
 
@@ -124,7 +124,7 @@ class OpeningTimes extends \Widget {
                 continue;
             }
 
-            $cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'['.$i.']['.$key.']'));
+            $cField = new $strClass($strClass::getAttributesFromDca($field, $this->arrConfiguration['strField'].'[]['.$key.']'));
 
             $label = $cField->parse();
 

@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fillCoordinates']
             ,   'href'                => 'key=fillCoordinates'
             ,   'class'               => 'header_fill_coordinates'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\''.$GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running'].'\');"'
+            ,   'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\''.($GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running']??'').'\');"'
             ]
         ,   'importStores' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['importStores']

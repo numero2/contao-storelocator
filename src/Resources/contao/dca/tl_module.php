@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -18,6 +18,7 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showNoProviderAvailable'];
 $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\DCAHelper\Module', 'hideProviderDependentField'];
+
 
 /**
  * Add palettes to tl_module
@@ -101,8 +102,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = [
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = [
     'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories']
@@ -360,3 +359,9 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_static_map_tpl'] = [
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
+
+if( !array_key_exists('tl_class', $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']) ) {
+    $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] = 'clr';
+} else {    
+    $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
+}

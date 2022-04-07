@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -268,7 +268,7 @@ class StoreLocator extends System {
      *
      * @return array
      */
-    public function parseSearchValue( $searchVal=NULL ): array {
+    public static function parseSearchValue( $searchVal=NULL ): array {
 
         if( !$searchVal ) {
             return [];
@@ -316,7 +316,7 @@ class StoreLocator extends System {
      *
      * @return string
      */
-    public function generateSearchValue( $arrData ): string {
+    public static function generateSearchValue( $arrData ): string {
 
         if( !is_array($arrData) ) {
             return '';
@@ -331,7 +331,7 @@ class StoreLocator extends System {
                 $aData[1] = $arrData['category'];
             }
             if( $arrData['longitude'] && $arrData['latitude'] ) {
-                $aData[1] = $aData[1]?$aData[1]:'';
+                $aData[1] = !empty($aData[1])?$aData[1]:'';
                 $aData[2] = $arrData['longitude'];
                 $aData[3] = $arrData['latitude'];
             }

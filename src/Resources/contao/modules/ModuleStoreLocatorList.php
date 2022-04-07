@@ -105,7 +105,9 @@ class ModuleStoreLocatorList extends Module {
             $aSearchValues = [];
             $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
-            if( $aSearchValues['category'] ) {
+            $category = null;
+
+            if( !empty($aSearchValues['category']) ) {
 
                 $objCategory = NULL;
                 $objCategory = CategoriesModel::findByAlias($aSearchValues['category']);
