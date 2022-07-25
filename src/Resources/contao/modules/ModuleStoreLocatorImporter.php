@@ -25,7 +25,7 @@ use Contao\StringUtil;
 use Patchwork\Utf8;
 
 
-class ModuleStoreLocatorImporter extends Backend {
+class ModuleStoreLocatorImporter {
 
 
     /**
@@ -37,8 +37,8 @@ class ModuleStoreLocatorImporter extends Backend {
 
         ini_set('max_execution_time', 0);
 
-        $this->import('BackendUser', 'User');
-        $class = $this->User->uploader;
+        $backendUser = BackendUser::getInstance();
+        $class = $backendUser->uploader;
 
         if( !class_exists($class) || $class == 'DropZone' ) {
             $class = 'FileUpload';

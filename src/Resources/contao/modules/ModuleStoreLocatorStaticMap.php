@@ -21,6 +21,7 @@ use Contao\FrontendTemplate;
 use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
+use Contao\System;
 
 
 class ModuleStoreLocatorStaticMap extends Module {
@@ -40,7 +41,10 @@ class ModuleStoreLocatorStaticMap extends Module {
      */
     public function generate(): string {
 
-        if( TL_MODE == 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 

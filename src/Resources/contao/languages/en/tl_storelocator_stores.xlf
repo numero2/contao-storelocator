@@ -164,10 +164,10 @@
     <trans-unit id="tl_storelocator_stores.highlight.1">
         <source>This store will be shown in front of all others regardless of the distance</source>
     </trans-unit>
-    <trans-unit id="tl_storelocator_stores.publish.0">
+    <trans-unit id="tl_storelocator_stores.published.0">
         <source>Publish this store</source>
     </trans-unit>
-    <trans-unit id="tl_storelocator_stores.publish.1">
+    <trans-unit id="tl_storelocator_stores.published.1">
         <source>This store will be shown in the Frontend</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">

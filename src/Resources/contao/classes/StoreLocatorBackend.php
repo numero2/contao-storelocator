@@ -3,27 +3,30 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
 use Contao\Config;
+use Contao\Controller;
 use Contao\Database;
+use Contao\DataContainer;
 use Contao\Input;
 use Contao\Message;
-use Contao\DataContainer;
+use Contao\System;
 use numero2\StoreLocator\Geocoder;
+use numero2\StoreLocator\StoreLocator;
 
 
-class StoreLocatorBackend extends \System {
+class StoreLocatorBackend {
 
 
     /**
@@ -33,7 +36,10 @@ class StoreLocatorBackend extends \System {
      */
     public function showNoProviderAvailable( DataContainer $dc ): void {
 
-        if( TL_MODE != 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
             return;
         }
 
@@ -52,7 +58,7 @@ class StoreLocatorBackend extends \System {
             $isEditingModule = true;
         }
 
-        self::loadLanguageFile('tl_settings');
+        System::loadLanguageFile('tl_settings');
 
         $oGeo = Geocoder::getInstance();
         $hasActiveProvider = false;
@@ -118,7 +124,7 @@ class StoreLocatorBackend extends \System {
 
             foreach( $aResults as $key => $value ) {
 
-                $oSL = NULL;
+                $oSL = null;
                 $oSL = new StoreLocator();
 
                 // find coordinates using google maps api
@@ -136,7 +142,7 @@ class StoreLocatorBackend extends \System {
         }
 
         if( Input::get('key') == "fillCoordinates" ) {
-            $this->redirect($this->getReferer());
+            Controller::redirect(System::getReferer());
         }
     }
 

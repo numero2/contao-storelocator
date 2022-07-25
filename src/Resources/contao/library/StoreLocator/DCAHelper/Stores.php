@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -21,6 +21,7 @@ use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
 use numero2\StoreLocator\Geocoder;
 use numero2\StoreLocator\StoresModel;
 
@@ -54,7 +55,7 @@ class Stores extends Backend {
             $icon = 'featured_.gif';
         }
 
-        return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
+        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
     }
 
 
@@ -134,7 +135,7 @@ class Stores extends Backend {
         $icon  = ($row['latitude'] || $row['longitude']) ? $icon[1] : $icon[0];
         $label = ($row['latitude'] || $row['longitude']) ? $title : $label;
 
-        return '<span title="'.specialchars($label).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</span> ';
+        return '<span title="'.StringUtil::specialchars($label).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</span> ';
     }
 
 
@@ -231,24 +232,33 @@ class Stores extends Backend {
      */
     public function toggleIcon( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
 
-        if( Input::get('tid') ) {
-
-            $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
-            $this->redirect($this->getReferer());
-        }
-
-        $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-
         if( !$row['published'] ) {
             $icon = 'invisible.svg';
         }
 
-        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+        // Contao >= 4.9
+        if( defined('VERSION') ) {
+
+            if( Input::get('tid') ) {
+
+                $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
+                $this->redirect($this->getReferer());
+            }
+
+            $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+            return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+
+        // Contao >= 5.0
+        } else {
+
+            $href .= '&amp;id='.$row['id'].'&amp;act=toggle&amp;field=published';
+            return '<a href="' . $this->addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">' . Image::getHtml($icon, $label, 'data-icon="' . Image::getPath('visible.svg') . '" data-icon-disabled="' . Image::getPath('invisible.svg') . '" data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
+        }
     }
 
 
     /**
-     * publish/unpublish a store
+     * Publish / unpublish a store
      *
      * @param string $intId
      * @param bool $blnVisible
@@ -256,12 +266,28 @@ class Stores extends Backend {
      */
     public function toggleVisibility( string $intId, $blnVisible, DataContainer $dc=null ): void {
 
-        $oStore = NULL;
+        $oStore = null;
         $oStore = StoresModel::findById( $intId );
 
         if( $oStore ) {
             $oStore->published = ($blnVisible ? '1' : '');
             $oStore->save();
+        }
+    }
+
+
+    /**
+     * Generate options for countries
+     *
+     * @return array
+     */
+    public static function getCountries(): array {
+
+        if( System::getContainer()->has('contao.intl.countries') ) {
+            $countries = System::getContainer()->get('contao.intl.countries')->getCountries();
+            return array_change_key_case($countries, CASE_LOWER);
+        } else {
+            return System::getCountries();
         }
     }
 }

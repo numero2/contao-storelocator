@@ -13,16 +13,22 @@
  */
 
 
+use Contao\Config;
+use Contao\DC_Table;
+use numero2\StoreLocator\DCAHelper\Stores;
+use numero2\StoreLocator\StoreLocatorBackend;
+
+
 /**
  * Table tl_storelocator_stores
  */
 $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
 
     'config' => [
-        'dataContainer'               => 'Table'
+        'dataContainer'               => defined('VERSION') ? 'Table' : DC_Table::class
     ,   'ptable'                      => 'tl_storelocator_categories'
-    ,   'onsubmit_callback'           => [['\numero2\StoreLocator\StoreLocatorBackend', 'fillCoordinates']]
-    ,   'onload_callback'             => [['\numero2\StoreLocator\StoreLocatorBackend','showNoProviderAvailable']]
+    ,   'onsubmit_callback'           => [[StoreLocatorBackend::class, 'fillCoordinates']]
+    ,   'onload_callback'             => [[StoreLocatorBackend::class,'showNoProviderAvailable']]
     ,   'sql' => [
             'keys' => [
                 'id' => 'primary'
@@ -36,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'flag'                    => 11
         ,   'headerFields'            => ['title']
         ,   'panelLayout'             => 'filter;sort,search,limit'
-        ,   'child_record_callback'   => ['\numero2\StoreLocator\DCAHelper\Stores', 'listStores']
+        ,   'child_record_callback'   => [Stores::class, 'listStores']
         ]
     ,   'global_operations' => [
             'all' => [
@@ -49,7 +55,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fillCoordinates']
             ,   'href'                => 'key=fillCoordinates'
             ,   'class'               => 'header_fill_coordinates'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\''.($GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running']??'').'\');"'
+            ,   'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\'' . ($GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running'] ?? null) . '\');"'
             ]
         ,   'importStores' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['importStores']
@@ -73,25 +79,24 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['delete']
             ,   'href'                => 'act=delete'
             ,   'icon'                => 'delete.svg'
-            ,   'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
+            ,   'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
             ]
         ,   'toggle' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['published']
             ,   'icon'                => 'visible.svg'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"'
-            ,   'button_callback'     => ['\numero2\StoreLocator\DCAHelper\Stores', 'toggleIcon']
+            ,   'button_callback'     => [Stores::class, 'toggleIcon']
             ]
         ,   'highlight' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
             ,   'icon'                => 'featured.svg'
             ,   'attributes'          => 'onclick="Backend.getScrollOffset();"'
-            ,   'button_callback'     => ['\numero2\StoreLocator\DCAHelper\Stores', 'iconHighlight']
+            ,   'button_callback'     => [Stores::class, 'iconHighlight']
             ]
         ,   'coords' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
             ,   'href'                => 'act=show'
             ,   'icon'                => ['bundles/storelocator/coords0.svg', 'bundles/storelocator/coords1.svg']
-            ,   'button_callback'     => ['\numero2\StoreLocator\DCAHelper\Stores', 'coordsButton']
+            ,   'button_callback'     => [Stores::class, 'coordsButton']
             ]
         ]
     ]
@@ -109,8 +114,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             'sql'           => "int(10) unsigned NOT NULL default '0'"
         ]
     ,   'name' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['name']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'sorting'           => true
@@ -118,64 +122,55 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'alias' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['alias']
-        ,   'exclude'           => true
+            'exclude'           => true
         ,   'inputType'         => 'text'
         ,   'eval'              => ['rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50']
-        ,   'save_callback'     => [['\numero2\StoreLocator\DCAHelper\Stores', 'generateAlias']]
+        ,   'save_callback'     => [[Stores::class, 'generateAlias']]
         ,   'sql'               => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
         ]
     ,   'email' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['email']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['rgxp'=>'email ', 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'url' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['url']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['rgxp'=>'url ', 'maxlength'=>255, 'tl_class'=>'w50', 'placeholder'=>'https://example.com']
-        ,   'save_callback'     => [['\numero2\StoreLocator\DCAHelper\Stores', 'checkURL']]
+        ,   'save_callback'     => [[Stores::class, 'checkURL']]
         ,   'sql'               => "varchar(255) NOT NULL default ''"
         ]
     ,   'phone' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['phone']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['rgxp'=>'phone', 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'fax' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fax']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['rgxp'=>'phone', 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'description' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['description']
-        ,   'inputType'         => 'textarea'
+            'inputType'         => 'textarea'
         ,   'eval'              => ['rte'=>'tinyMCE', 'tl_class'=>'clr']
         ,   'sql'               => "text NULL"
         ]
     ,   'singleSRC' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['singleSRC']
-        ,   'inputType'         => 'fileTree'
-        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
+            'inputType'         => 'fileTree'
+        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
         ,   'sql'               => "binary(16) NULL"
         ]
     ,   'street' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['street']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'postal' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['postal']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'filter'            => true
@@ -183,8 +178,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'city' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['city']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'filter'            => true
@@ -193,55 +187,50 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'country' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['country']
-        ,   'inputType'         => 'select'
+            'inputType'         => 'select'
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'filter'            => true
         ,   'sorting'           => true
-        ,   'options_callback'  => ['\numero2\StoreLocator\DCAHelper\Stores', 'getCountries']
+        ,   'options_callback'  => [Stores::class, 'getCountries']
         ,   'default'           => 'de'
         ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50', 'chosen'=>true]
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'opening_times' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['opening_times']
-        ,   'exclude'           => true
+            'exclude'           => true
         ,   'inputType'         => 'openingTimes'
         ,   'sql'               => "text NULL"
         ]
     ,   'longitude' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['longitude']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'latitude' => [
-            'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
-        ,   'inputType'         => 'text'
+            'inputType'         => 'text'
         ,   'search'            => true
         ,   'eval'              => ['mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'map' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
-        ,   'input_field_callback' => ['\numero2\StoreLocator\DCAHelper\Stores', 'showMap']
+        ,   'input_field_callback' => [Stores::class, 'showMap']
         ]
     ,   'geo_explain' => [
             'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
-        ,   'input_field_callback' => ['\numero2\StoreLocator\DCAHelper\Stores', 'showGeoExplain']
+        ,   'input_field_callback' => [Stores::class, 'showGeoExplain']
         ]
     ,   'highlight' => [
-            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
-        ,   'inputType'            => 'checkbox'
+            'inputType'            => 'checkbox'
         ,   'filter'               => true
         ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"
         ]
     ,   'published' => [
-            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['publish']
-        ,   'inputType'            => 'checkbox'
+            'inputType'            => 'checkbox'
+        ,   'toggle'               => true
         ,   'filter'               => true
         ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"

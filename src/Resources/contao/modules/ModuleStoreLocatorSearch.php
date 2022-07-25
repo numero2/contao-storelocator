@@ -24,6 +24,7 @@ use Contao\FormTextField;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
+use Contao\System;
 use Contao\PageModel;
 use Contao\StringUtil;
 
@@ -45,7 +46,10 @@ class ModuleStoreLocatorSearch extends Module {
      */
     public function generate(): string {
 
-        if( TL_MODE == 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 
@@ -78,12 +82,12 @@ class ModuleStoreLocatorSearch extends Module {
             Input::setGet('search', Input::get('auto_item'));
         }
 
-        $sSearchVal = $this->Input->get('search') ? $this->Input->get('search') : NULL;
+        $sSearchVal = Input::get('search') ? Input::get('search') : NULL;
 
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
-        $widgetSearch = NULL;
+        $widgetSearch = null;
         $widgetSearch = new FormTextField(FormTextField::getAttributesFromDca(
                 [
                     'name'          => 'location'

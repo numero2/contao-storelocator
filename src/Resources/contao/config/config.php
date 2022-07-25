@@ -76,49 +76,49 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
     'google-maps' => [
         'class' => '\Geocoder\Provider\GoogleMaps\GoogleMaps'
     ,   'init_callback' => function($httpClient) {
-            if( !\Config::get('google_maps_server_key') ) {
+            if( !Contao\Config::get('google_maps_server_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, \Config::get('google_maps_server_key'));
+            return new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, Contao\Config::get('google_maps_server_key'));
         }
     ]
 ,   'bing-map' => [
         'class' => '\Geocoder\Provider\BingMaps\BingMaps'
     ,   'init_callback' => function($httpClient) {
-            if( !\Config::get('bing_map_server_key') ) {
+            if( !Contao\Config::get('bing_map_server_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\BingMaps\BingMaps($httpClient, \Config::get('bing_map_server_key'));
+            return new \Geocoder\Provider\BingMaps\BingMaps($httpClient, Contao\Config::get('bing_map_server_key'));
         }
     ]
 ,   'here' => [
         'class' => '\Geocoder\Provider\Here\Here'
     ,   'init_callback' => function($httpClient) {
-            if( !\Config::get('here_server_key') ) {
+            if( !Contao\Config::get('here_server_key') ) {
                 return null;
             }
-            return \Geocoder\Provider\Here\Here::createUsingApiKey($httpClient, \Config::get('here_server_key'));
+            return \Geocoder\Provider\Here\Here::createUsingApiKey($httpClient, Contao\Config::get('here_server_key'));
         }
     ]
 ,   'nominatim' => [
         'class' => '\Geocoder\Provider\Nominatim\Nominatim'
     ,   'init_callback' => function($httpClient) {
-            if( !\Config::get('nominatim_user_agent') ) {
+            if( !Contao\Config::get('nominatim_user_agent') ) {
                 return null;
             }
-            if( !\Config::get('nominatim_server') ) {
-                return new \Geocoder\Provider\Nominatim($httpClient, \Config::get('nominatim_server'), \Config::get('nominatim_user_agent'));
+            if( !Contao\Config::get('nominatim_server') ) {
+                return new \Geocoder\Provider\Nominatim($httpClient, Contao\Config::get('nominatim_server'), Contao\Config::get('nominatim_user_agent'));
             }
-            return \Geocoder\Provider\Nominatim\Nominatim::withOpenStreetMapServer($httpClient, \Config::get('nominatim_user_agent'));
+            return \Geocoder\Provider\Nominatim\Nominatim::withOpenStreetMapServer($httpClient, Contao\Config::get('nominatim_user_agent'));
         }
     ]
 ,   'opencage' => [
         'class' => '\Geocoder\Provider\OpenCage\OpenCage'
     ,   'init_callback' => function($httpClient) {
-            if( !\Config::get('opencage_api_key') ) {
+            if( !Contao\Config::get('opencage_api_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\OpenCage\OpenCage($httpClient, \Config::get('opencage_api_key'));
+            return new \Geocoder\Provider\OpenCage\OpenCage($httpClient, Contao\Config::get('opencage_api_key'));
         }
     ]
 ];
@@ -126,7 +126,7 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
 $GLOBALS['N2SL']['javascript_providers'] = [
     'google-maps' => [
         'init_callback' => function() {
-            if( !\Config::get('google_maps_browser_key') ) {
+            if( !Contao\Config::get('google_maps_browser_key') ) {
                 return false;
             }
             return true;

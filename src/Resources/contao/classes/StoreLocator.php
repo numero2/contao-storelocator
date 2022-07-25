@@ -23,7 +23,7 @@ use Contao\System;
 use Geocoder\Query\GeocodeQuery;
 
 
-class StoreLocator extends System {
+class StoreLocator {
 
 
     /**
@@ -69,7 +69,7 @@ class StoreLocator extends System {
                 // get specific store
                 } else {
 
-                    $this->Template = new FrontendTemplate('mod_storelocator_inserttag');
+                    $oTemplate = new FrontendTemplate('mod_storelocator_inserttag');
 
                     // find store
                     $objStore = NULL;
@@ -81,9 +81,9 @@ class StoreLocator extends System {
 
                     self::parseStoreData($objStore);
 
-                    $this->Template->store = $objStore;
+                    $oTemplate->store = $objStore;
 
-                    $sTemplate = $this->Template->parse();
+                    $sTemplate = $oTemplate->parse();
                     $sTemplate = Controller::replaceInsertTags($sTemplate);
 
                     return $sTemplate;
@@ -155,8 +155,7 @@ class StoreLocator extends System {
             foreach( $GLOBALS['N2SL_HOOKS']['parseStoreData'] as $callback ) {
 
                 if( is_array($callback) ) {
-                    $this->import($callback[0]);
-                    $this->{$callback[0]}->{$callback[1]}($store, $module);
+                    System::importStatic($callback[0])->{$callback[1]}($store, $module);
                 }
             }
         }

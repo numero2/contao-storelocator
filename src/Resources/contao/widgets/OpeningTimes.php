@@ -19,7 +19,7 @@ use Contao\Backend;
 use Contao\Widget;
 
 
-class OpeningTimes extends \Widget {
+class OpeningTimes extends Widget {
 
 
     /**

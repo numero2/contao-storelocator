@@ -13,11 +13,16 @@
  */
 
 
+use Contao\Config;
+use numero2\StoreLocator\DCAHelper\Module;
+use numero2\StoreLocator\StoreLocatorBackend;
+
+
 /**
  * Add config to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\StoreLocatorBackend', 'showNoProviderAvailable'];
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = ['\numero2\StoreLocator\DCAHelper\Module', 'hideProviderDependentField'];
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [StoreLocatorBackend::class, 'showNoProviderAvailable'];
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [Module::class, 'hideProviderDependentField'];
 
 
 /**
@@ -49,25 +54,22 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan
  * Add fields to tl_module
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_provider'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_provider']
-,   'inputType'           => 'select'
-,   'options_callback'    => ['numero2\StoreLocator\DCAHelper\Module', 'getJavascriptProviders']
+    'inputType'           => 'select'
+,   'options_callback'    => [Module::class, 'getJavascriptProviders']
 ,   'reference'           => &$GLOBALS['TL_LANG']['tl_module']['storelocator_providers']
 ,   'eval'                => ['includeBlankOption'=>true, 'submitOnChange'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(32) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_enable_autocomplete']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'eval'                => ['submitOnChange'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_autocomplete_country']
-,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getCountries']
+    'inputType'           => 'select'
+,   'options_callback'    => [Module::class, 'getCountries']
 ,   'default'             => 'de'
 ,   'search'              => true
 ,   'eval'                => ['maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true, 'includeBlankOption'=>true]
@@ -75,9 +77,8 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] =
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_default_country']
-,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getCountries']
+    'inputType'           => 'select'
+,   'options_callback'    => [Module::class, 'getCountries']
 ,   'default'             => 'de'
 ,   'search'              => true
 ,   'eval'                => ['includeBlankOption'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true]
@@ -85,36 +86,32 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_categories'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_categories']
-,   'exclude'             => true
+    'exclude'             => true
 ,   'inputType'           => 'checkbox'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getCategories']
+,   'options_callback'    => [Module::class, 'getCategories']
 ,   'eval'                => ['mandatory'=>true, 'multiple'=>true, 'tl_class'=>'clr w50']
 ,   'sql'                 => "text NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_tpl']
-,   'default'             => 'mod_storelocator_search'
+    'default'             => 'mod_storelocator_search'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getTemplates']
+,   'options_callback'    => [Module::class, 'getTemplates']
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_categories']
-,   'exclude'             => true
+    'exclude'             => true
 ,   'inputType'           => 'checkbox'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getCategories']
+,   'options_callback'    => [Module::class, 'getCategories']
 ,   'eval'                => ['mandatory'=>true, 'multiple'=>true]
 ,   'sql'                 => "text NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_limit']
-,   'default'             => '10'
+    'default'             => '10'
 ,   'exclude'             => true
 ,   'inputType'           => 'text'
 ,   'eval'                => ['rgxp'=>'digit', 'tl_class'=>'w50', 'mandatory'=>true]
@@ -122,17 +119,15 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_limit'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_sort_field'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_sort_field']
-,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getSortableFields']
+    'inputType'           => 'select'
+,   'options_callback'    => [Module::class, 'getSortableFields']
 ,   'exclude'             => true
 ,   'eval'                => ['tl_class'=>'clr w50', 'chosen'=>true, 'includeBlankOption'=>true]
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_sort_direction'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_sort_direction']
-,   'inputType'           => 'select'
+    'inputType'           => 'select'
 ,   'options'             => ['ascending', 'descending']
 ,   'reference'           => &$GLOBALS['TL_LANG']['MSC']
 ,   'exclude'             => true
@@ -141,16 +136,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_sort_direction'] = 
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_distance'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_distance']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'default'             => false
 ,   'eval'                => ['tl_class'=>'w50 clr', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_max_distance']
-,   'default'             => '10'
+    'default'             => '10'
 ,   'exclude'             => true
 ,   'inputType'           => 'text'
 ,   'eval'                => ['rgxp'=>'digit', 'tl_class'=>'w50', 'mandatory'=>true]
@@ -158,39 +151,34 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_max_distance'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_always_show_results'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_always_show_results']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'default'             => true
 ,   'eval'                => ['tl_class'=>'clr w50', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_map'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_show_map']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'default'             => true
 ,   'eval'                => ['tl_class'=>'w50', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_markerclusterer'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_markerclusterer']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'eval'                => ['tl_class'=>'w50 cbx']
 ,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_load_results_on_pan'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_load_results_on_pan']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'default'             => true
 ,   'eval'                => ['tl_class'=>'w50 cbx m12', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default '1'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_marker']
-,   'inputType'           => 'text'
+    'inputType'           => 'text'
 ,   'default'             => '100'
 ,   'exclude'             => true
 ,   'eval'                => ['rgxp'=>'digit', 'tl_class'=>'w50', 'mandatory'=>true]
@@ -198,170 +186,152 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_interaction'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_map_interaction']
-,   'default'             => 'nothing'
+    'default'             => 'nothing'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['numero2\StoreLocator\StoreLocatorBackend', 'getMapInteractions']
+,   'options_callback'    => [StoreLocatorBackend::class, 'getMapInteractions']
 ,   'eval'                => [ 'tl_class'=>'w50 clr']
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_interaction'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_interaction']
-,   'default'             => 'nothing'
+    'default'             => 'nothing'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['numero2\StoreLocator\StoreLocatorBackend', 'getListInteractions']
+,   'options_callback'    => [StoreLocatorBackend::class, 'getListInteractions']
 ,   'eval'                => ['tl_class'=>'w50']
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_pin'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_map_pin']
-,   'inputType'           => 'fileTree'
-,   'eval'                => ['filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
+    'inputType'           => 'fileTree'
+,   'eval'                => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
 ,   'sql'                 => "binary(16) NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_list_tpl']
-,   'default'             => 'mod_storelocator_list'
+    'default'             => 'mod_storelocator_list'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getTemplates']
+,   'options_callback'    => [Module::class, 'getTemplates']
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_details_tpl']
-,   'default'             => 'mod_storelocator_details'
+    'default'             => 'mod_storelocator_details'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getTemplates']
+,   'options_callback'    => [Module::class, 'getTemplates']
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_filter_tpl'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_filter_tpl']
-,   'default'             => 'mod_storelocator_filter'
+    'default'             => 'mod_storelocator_filter'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getTemplates']
+,   'options_callback'    => [Module::class, 'getTemplates']
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_search_in']
-,   'inputType'           => 'checkboxWizard'
+    'inputType'           => 'checkboxWizard'
 ,   'options'             => ['name', 'email', 'url', 'phone', 'fax', 'description', 'postal', 'city']
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getStoreFields']
+,   'options_callback'    => [Module::class, 'getStoreFields']
 ,   'eval'                => ['multiple'=>true, 'tl_class'=>'clr w50 heightAuto']
 ,   'sql'                 => "blob NULL"
 ];
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_sortable'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_sortable']
-,   'inputType'           => 'checkboxWizard'
+    'inputType'           => 'checkboxWizard'
 ,   'options'             => ['name', 'email', 'url', 'phone', 'fax', 'description', 'postal', 'city']
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getStoreFields']
+,   'options_callback'    => [Module::class, 'getStoreFields']
 ,   'eval'                => ['multiple'=>true, 'tl_class'=>'w50 heightAuto']
 ,   'sql'                 => "blob NULL"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_filter'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_use_filter']
-,   'inputType'           => 'checkbox'
+    'inputType'           => 'checkbox'
 ,   'eval'                => ['tl_class'=>'clr w50', 'submitOnChange'=>true]
 ,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = [
-    'label'             => &$GLOBALS['TL_LANG']['tl_module']['storelocator_mod_filter']
-,   'inputType'         => 'select'
+    'inputType'         => 'select'
 ,   'exclude'           => true
-,   'options_callback'  => ['\numero2\StoreLocator\DCAHelper\Module', 'getFilterModules']
+,   'options_callback'  => [Module::class, 'getFilterModules']
 ,   'eval'              => ['mandatory'=>true, 'tl_class'=>'w50 wizard']
-,   'wizard'            => [['\numero2\StoreLocator\DCAHelper\Module', 'editModule']]
+,   'wizard'            => [[Module::class, 'editModule']]
 ,   'sql'               => "int(10) NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_center'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_center']
-,   'inputType'           => 'text'
+    'inputType'           => 'text'
 ,   'exclude'             => true
 ,   'eval'                => ['maxlength'=>32, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(32) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_zoom'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_zoom']
-,   'inputType'           => 'text'
+    'inputType'           => 'text'
 ,   'exclude'             => true
 ,   'eval'                => ['rgxp'=>'digit', 'maxlength'=>2, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_limit_marker_static'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_limit_marker_static']
-,   'inputType'           => 'text'
+    'inputType'           => 'text'
 ,   'exclude'             => true
 ,   'eval'                => ['mandatory'=>true, 'rgxp'=>'digit', 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(3) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_maptype'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_maptype']
-,   'inputType'           => 'select'
+    'inputType'           => 'select'
 ,   'default'             => 'roadmap'
 ,   'exclude'             => true
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getMapType']
+,   'options_callback'    => [Module::class, 'getMapType']
 ,   'eval'                => ['mandatory'=>true, 'tl_class'=>'w50 clr']
 ,   'sql'                 => "varchar(16) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_size'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_size']
-,   'inputType'           => 'text'
+    'inputType'           => 'text'
 ,   'exclude'             => true
 ,   'eval'                => ['mandatory'=>true, 'multiple'=>true, 'size'=>2, 'rgxp'=>'natural', 'nospace'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_format'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_format']
-,   'inputType'           => 'select'
+    'inputType'           => 'select'
 ,   'default'             => 'jpg'
 ,   'exclude'             => true
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getMapFormat']
+,   'options_callback'    => [Module::class, 'getMapFormat']
 ,   'eval'                => ['mandatory'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(16) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_scale'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_scale']
-,   'inputType'           => 'select'
+    'inputType'           => 'select'
 ,   'default'             => '1'
 ,   'exclude'             => true
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getMapScale']
+,   'options_callback'    => [Module::class, 'getMapScale']
 ,   'eval'                => ['mandatory'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(16) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_static_map_tpl'] = [
-    'label'               => &$GLOBALS['TL_LANG']['tl_module']['storelocator_static_map_tpl']
-,   'default'             => 'mod_storelocator_static_map'
+    'default'             => 'mod_storelocator_static_map'
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
-,   'options_callback'    => ['\numero2\StoreLocator\DCAHelper\Module', 'getTemplates']
+,   'options_callback'    => [Module::class, 'getTemplates']
 ,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 if( !array_key_exists('tl_class', $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']) ) {
     $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] = 'clr';
-} else {    
+} else {
     $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
 }
