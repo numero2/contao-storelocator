@@ -1,6 +1,6 @@
 <!-- indexer::stop -->
-<?php $this->block('content'); ?>
-<?php $this->endblock(); ?>
+<?php $this->block('content') ?>
+<?php $this->endblock() ?>
 
 <script>
 
@@ -9,7 +9,7 @@
         if( typeof window.storeLocatorInitGoogleMap !== "function" ) {
 
             var script = document.createElement('script');
-            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=<?= $this->mapsKey; ?>&callback=storeLocatorInitGoogleMap';
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=<?= $this->mapsKey ?>&callback=storeLocatorInitGoogleMap';
             script.async = true;
 
             window.storeLocatorInitGoogleMap = function() {

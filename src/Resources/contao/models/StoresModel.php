@@ -42,7 +42,7 @@ class StoresModel extends Model {
      *
      * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchNearby( $latitude, $longitude, $distance=0, $limit=0, ?array $categories=NULL, ?string $filter=NULL, ?string $order=NULL) {
+    public static function searchNearby( $latitude, $longitude, $distance=0, $limit=0, ?array $categories=null, ?string $filter=null, ?string $order=null) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT
@@ -79,7 +79,7 @@ class StoresModel extends Model {
      *
      * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchCountry( string $country, $limit=0, ?array $categories=NULL, ?string $filter=NULL, ?string $order=NULL ) {
+    public static function searchCountry( string $country, $limit=0, ?array $categories=null, ?string $filter=null, ?string $order=null ) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT
@@ -111,7 +111,7 @@ class StoresModel extends Model {
      *
      * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchBetweenCoords( $formLng, $toLng, $formLat, $toLat, $limit=0, ?array $categories=NULL, ?string $filter=NULL ) {
+    public static function searchBetweenCoords( $formLng, $toLng, $formLat, $toLat, $limit=0, ?array $categories=null, ?string $filter=null ) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT

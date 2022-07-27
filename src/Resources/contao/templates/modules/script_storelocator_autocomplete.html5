@@ -1,6 +1,6 @@
-<?php $this->extend('script_loader_googlemap'); ?>
+<?php $this->extend('script_loader_googlemap') ?>
 
-<?php $this->block('content'); ?>
+<?php $this->block('content') ?>
 
     <script>
 
@@ -14,7 +14,7 @@
 
         function initializeAddressAutocomplete() {
 
-            var input = document.getElementById('<?=$this->fieldId;?>');
+            var input = document.getElementById('<?= $this->fieldId ?>');
             var form = input.closest('form');
 
             var _addEventListener = input.addEventListener;
@@ -52,8 +52,8 @@
                 input,
                 {
                     <?php if( $this->country ):?>
-                    componentRestrictions: { country: "<?=$this->country;?>"}
-                    <?php endif; ?>
+                    componentRestrictions: { country: "<?= $this->country ?>"}
+                    <?php endif ?>
                 }
             );
 
@@ -77,4 +77,4 @@
 
     </script>
 
-<?php $this->endblock(); ?>
+<?php $this->endblock() ?>

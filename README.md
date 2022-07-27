@@ -8,17 +8,15 @@ About
 
 This extension offers the possibility to create multiple lists containing address data, contact information as well as opening times. From the Frontend the user can enter any possible address to see which stores are nearby (like on Google Maps). [Read more](https://www.numero2.de/contao/erweiterungen/storelocator.html)
 
-
 Screenshot
 --
 
 ![Editing a single store](./docs/screenshot.png)
 
-
 System requirements
 --
 
-* [Contao 4.4](https://github.com/contao/core) or newer
+* [Contao 4.9](https://github.com/contao/core) or newer
 * [Google API Key](https://github.com/numero2/contao-storelocator/wiki/Google-Keys)
 
 Installation

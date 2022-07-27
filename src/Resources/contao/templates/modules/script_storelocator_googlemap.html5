@@ -3,9 +3,9 @@ if( $this->markerclusterer ) {
     $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/markerclusterer/index.min.js';
 }
 ?>
-<?php $this->extend('script_loader_googlemap'); ?>
+<?php $this->extend('script_loader_googlemap') ?>
 
-<?php $this->block('content'); ?>
+<?php $this->block('content') ?>
 
     <script>
 
@@ -14,31 +14,31 @@ if( $this->markerclusterer ) {
         var markersUpdating = false;
         <?php if( $this->markerclusterer ): ?>
         var cluster;
-        <?php endif; ?>
+        <?php endif ?>
 
         var markers = {
             <?php foreach( $this->entries as $entry): ?>
-                "<?= $entry->id; ?>": {
-                    "id": "<?= $entry->id; ?>",
-                    "pid": "<?= $entry->pid; ?>",
-                    "lng": "<?= $entry->longitude; ?>",
-                    "lat": "<?= $entry->latitude; ?>",
-                    "info": <?= $entry->info; ?>
+                "<?= $entry->id ?>": {
+                    "id": "<?= $entry->id ?>",
+                    "pid": "<?= $entry->pid ?>",
+                    "lng": "<?= $entry->longitude ?>",
+                    "lat": "<?= $entry->latitude ?>",
+                    "info": <?= $entry->info ?>
                 },
-            <?php endforeach; ?>
+            <?php endforeach ?>
         };
 
         function initMapMarker() {
 
             markerImages = {
                 <?php foreach( $this->mapPins as $key => $value ): ?>
-                "<?= $key; ?>" : {
-                    "url": "<?= $value; ?>",
+                "<?= $key ?>" : {
+                    "url": "<?= $value ?>",
                     "scaledSize": new google.maps.Size(36, 36),
                     "origin": new google.maps.Point(0, 0),
                     "anchor": new google.maps.Point(18, 36)
                 },
-                <?php endforeach; ?>
+                <?php endforeach ?>
             };
 
             for( var id in markers ) {
@@ -53,7 +53,7 @@ if( $this->markerclusterer ) {
                 map.addListener('dragend', updateMarkers);
                 map.addListener('tilt_changed', updateMarkers);
             },500);
-            <?php endif; ?>
+            <?php endif ?>
         }
 
         function addMarker( item ) {
@@ -66,7 +66,7 @@ if( $this->markerclusterer ) {
             if( Object.keys(markers).length > 500 ) {
                 return false;
             }
-            <?php endif; ?>
+            <?php endif ?>
 
             var markerImage;
 
@@ -141,7 +141,7 @@ if( $this->markerclusterer ) {
             if( Object.keys(markers).length > 500 ) {
                 return;
             }
-            <?php endif; ?>
+            <?php endif ?>
 
             if( markersUpdating ) {
                 return;
@@ -164,7 +164,7 @@ if( $this->markerclusterer ) {
                 'tolat': ne.lat(),
                 'fromlng': sw.lng(),
                 'tolng': ne.lng(),
-                'REQUEST_TOKEN': "{{request_token}}"
+                'REQUEST_TOKEN': '<?= $this->requestToken ?>'
             };
 
             var url = location.protocol + '//' + location.host + location.pathname + '?' + Object.keys(params).map(function(key){
@@ -193,7 +193,7 @@ if( $this->markerclusterer ) {
                                 imagePath: "bundles/storelocator/markerclusterer/m",
                             });
                         }
-                        <?php endif; ?>
+                        <?php endif ?>
                     }
                 }
 
@@ -254,7 +254,7 @@ if( $this->markerclusterer ) {
                     });
                 }
             }
-            <?php endif; ?>
+            <?php endif ?>
 
             initMapMarker();
 
@@ -262,11 +262,11 @@ if( $this->markerclusterer ) {
             cluster = new MarkerClusterer(map, markers, {
                 imagePath: "bundles/storelocator/markerclusterer/m",
             });
-            <?php endif; ?>
+            <?php endif ?>
         }
 
         document.addEventListener('storeLocatorGoogleMapLoaded', initializeGoogleMap, {once:true});
 
     </script>
 
-<?php $this->endblock(); ?>
+<?php $this->endblock() ?>

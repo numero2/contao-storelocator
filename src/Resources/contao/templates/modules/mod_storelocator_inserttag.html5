@@ -1,28 +1,28 @@
 <!-- indexer::stop -->
 <section class="mod_storelocator_details tag">
 
-    <div class="name"><?= $this->store->name; ?></div>
+    <div class="name"><?= $this->store->name ?></div>
 
     <div class="address">
-        <div class="street"><?= $this->store->street; ?></div>
-        <div class="city"><?= $this->store->postal; ?> <?= $this->store->city; ?></div>
-        <div class="country"><?= $this->store->country_name; ?></div>
+        <div class="street"><?= $this->store->street ?></div>
+        <div class="city"><?= $this->store->postal ?> <?= $this->store->city ?></div>
+        <div class="country"><?= $this->store->country_name ?></div>
     </div>
 
-    <?php if( $this->store->phone ): ?><div class="phone"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone']; ?>: <?= $this->store->phone; ?></div><?php endif; ?>
-    <?php if( $this->store->fax ): ?><div class="fax"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax']; ?>: <?= $this->store->fax; ?></div><?php endif; ?>
-    <?php if( $this->store->email ): ?><div class="email"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['email']; ?>: {{email::<?= $this->store->email; ?>}}</div><?php endif; ?>
-    <?php if( $this->store->url ): ?><div class="www"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['www']; ?>: <a href="<?= $this->store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name; ?>"><?= $this->store->prettyUrl; ?></a></div><?php endif; ?>
+    <?php if( $this->store->phone ): ?><div class="phone"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['phone'] ?>: <?= $this->store->phone ?></div><?php endif ?>
+    <?php if( $this->store->fax ): ?><div class="fax"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['fax'] ?>: <?= $this->store->fax ?></div><?php endif ?>
+    <?php if( $this->store->email ): ?><div class="email"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'] ?>: {{email::<?= $this->store->email ?>}}</div><?php endif ?>
+    <?php if( $this->store->url ): ?><div class="www"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'] ?>: <a href="<?= $this->store->url ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name ?>"><?= $this->store->prettyUrl ?></a></div><?php endif ?>
 
     <?php if( !empty($this->store->opening_times) ): ?>
     <ul class="opening-times">
         <?php foreach( $this->store->opening_times as $day ): ?>
         <li>
-            <?= $day['label']; ?> <?= $day['from']; ?> - <?= $day['to']; ?>
+            <?= $day['label'] ?> <?= $day['from'] ?> - <?= $day['to'] ?>
         </li>
-        <?php endforeach; ?>
+        <?php endforeach ?>
     </ul>
-    <?php endif; ?>
+    <?php endif ?>
 
 </section>
 <!-- indexer::continue -->

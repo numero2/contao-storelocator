@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -22,6 +22,7 @@ use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\ModuleModel;
+use Contao\System;
 use numero2\StoreLocator\CategoriesModel;
 use numero2\StoreLocator\Geocoder;
 
@@ -38,7 +39,7 @@ class Module extends Backend {
 
         $aCategories = [];
 
-        $oCategories = NULL;
+        $oCategories = null;
         $oCategories = CategoriesModel::getCategories();
 
         if( $oCategories) {
@@ -217,7 +218,10 @@ class Module extends Backend {
 
     public function hideProviderDependentField( DataContainer $dc ) {
 
-        if( TL_MODE != 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( !$scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
             return;
         }
 

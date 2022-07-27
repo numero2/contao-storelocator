@@ -1,32 +1,32 @@
-<?php $this->extend('block_unsearchable'); ?>
+<?php $this->extend('block_unsearchable') ?>
 
-<?php $this->block('content'); ?>
+<?php $this->block('content') ?>
 
-    <form method="post" action="<?php echo $this->action; ?>" id="<?php echo $this->formId; ?>">
+    <form method="post" action="<?= $this->action ?>" id="<?= $this->formId ?>">
         <div class="formbody">
 
-            <input type="hidden" name="FORM_SUBMIT" value="<?php echo $this->formId; ?>" />
-            <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
+            <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formId ?>" />
+            <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>" />
             <input type="hidden" name="longitude" value="" />
             <input type="hidden" name="latitude" value="" />
 
-            <div class="<?= $this->searchField->prefix; ?>">
-                <?= $this->searchField->generateLabel(); ?>
-                <?= $this->searchField->generate(); ?>
+            <div class="<?= $this->searchField->prefix ?>">
+                <?= $this->searchField->generateLabel() ?>
+                <?= $this->searchField->generate() ?>
             </div>
 
             <?php if( $this->categories ): ?>
-            <div class="<?= $this->categories->prefix; ?>">
-                <?= $this->categories->generate(); ?>
+            <div class="<?= $this->categories->prefix ?>">
+                <?= $this->categories->generate() ?>
             </div>
-            <?php endif; ?>
+            <?php endif ?>
 
             <div class="submit_container">
-                <?= $this->submitButton->generate(); ?>
+                <?= $this->submitButton->generate() ?>
             </div>
 
-            <?= $this->autoComplete; ?>
+            <?= $this->autoComplete ?>
         </div>
     </form>
 
-<?php $this->endblock(); ?>
+<?php $this->endblock() ?>

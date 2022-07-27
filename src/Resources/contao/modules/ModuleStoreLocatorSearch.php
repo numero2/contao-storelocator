@@ -20,13 +20,12 @@ use Contao\Config;
 use Contao\Environment;
 use Contao\FormRadioButton;
 use Contao\FormSubmit;
-use Contao\FormTextField;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
-use Contao\System;
 use Contao\PageModel;
 use Contao\StringUtil;
+use Contao\System;
 
 
 class ModuleStoreLocatorSearch extends Module {
@@ -77,30 +76,33 @@ class ModuleStoreLocatorSearch extends Module {
 
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = Environment::get('request');
+        $this->Template->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
 
         if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
         }
 
-        $sSearchVal = Input::get('search') ? Input::get('search') : NULL;
+        $sSearchVal = Input::get('search') ? Input::get('search') : null;
 
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
+        $fieldClass = class_exists('\Contao\FormText')?'\Contao\FormText':'\Contao\FormTextField';
+
         $widgetSearch = null;
-        $widgetSearch = new FormTextField(FormTextField::getAttributesFromDca(
+        $widgetSearch = new $fieldClass($fieldClass::getAttributesFromDca(
                 [
                     'name'          => 'location'
                 ,   'label'         => &$GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']
                 ,   'inputType'     => 'text'
-                ,    'eval'         => ['mandatory'=>true]
+                ,   'eval'         => ['mandatory'=>true]
                 ]
             ,   'location'
             ,   $aSearchValues['term']??''
             )
         );
 
-        $widgetCategories = NULL;
+        $widgetCategories = null;
         $aAvailableCategories = StringUtil::deserialize($this->storelocator_search_categories);
 
         if( count($aAvailableCategories) > 1 ) {
@@ -109,7 +111,7 @@ class ModuleStoreLocatorSearch extends Module {
                 'all' => $GLOBALS['TL_LANG']['tl_storelocator']['field']['all_categories']
             ];
 
-            $oCategories = NULL;
+            $oCategories = null;
             $oCategories = CategoriesModel::findMultipleByIds($aAvailableCategories);
 
             while( $oCategories->next() ) {
@@ -129,7 +131,7 @@ class ModuleStoreLocatorSearch extends Module {
             );
         }
 
-        $widgetSubmit = NULL;
+        $widgetSubmit = null;
         $widgetSubmit = new FormSubmit();
         $widgetSubmit->id = 'search';
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['field']['search'];

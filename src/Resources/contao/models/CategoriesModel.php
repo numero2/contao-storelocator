@@ -36,7 +36,7 @@ class CategoriesModel extends Model {
      */
     public static function getCategories() {
 
-        $objResult = NULL;
+        $objResult = null;
 
         $objResult = Database::getInstance()->prepare("
             SELECT
@@ -56,7 +56,7 @@ class CategoriesModel extends Model {
      */
     public static function getMapPins() {
 
-        $objResult = NULL;
+        $objResult = null;
 
         $objResult = Database::getInstance()->prepare("
             SELECT

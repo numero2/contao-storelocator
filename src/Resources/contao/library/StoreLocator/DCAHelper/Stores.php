@@ -70,7 +70,7 @@ class Stores extends Backend {
      */
     public function toggleFeatured( string $intId, bool $blnFeatured, ?DataContainer $dc=null ): void {
 
-        $oStore = NULL;
+        $oStore = null;
         $oStore = StoresModel::findById( $intId );
 
         if( $oStore ) {
@@ -100,7 +100,7 @@ class Stores extends Backend {
             $varValue = StringUtil::generateAlias($dc->activeRecord->name);
         }
 
-        $oAlias = NULL;
+        $oAlias = null;
         $oAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_stores WHERE id=? OR alias=?")
             ->execute($dc->activeRecord->id, $varValue);
 

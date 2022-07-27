@@ -16,6 +16,7 @@
 use Contao\Config;
 use numero2\StoreLocator\DCAHelper\Module;
 use numero2\StoreLocator\StoreLocatorBackend;
+use numero2\StoreLocator\DCAHelper\Stores;
 
 
 /**
@@ -69,7 +70,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_enable_autocomplete'] = 
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] = [
     'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getCountries']
+,   'options_callback'    => [Stores::class, 'getCountries']
 ,   'default'             => 'de'
 ,   'search'              => true
 ,   'eval'                => ['maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true, 'includeBlankOption'=>true]
@@ -78,7 +79,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] =
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = [
     'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getCountries']
+,   'options_callback'    => [Stores::class, 'getCountries']
 ,   'default'             => 'de'
 ,   'search'              => true
 ,   'eval'                => ['includeBlankOption'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true]

@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -99,7 +99,7 @@ class ModuleStoreLocatorImporter {
                         // generate alias
                         $alias = StringUtil::generateAlias($data[0]);
 
-                        $oAlias = NULL;
+                        $oAlias = null;
                         $oAlias = StoresModel::findByAlias( $alias );
 
                         // Check whether the alias exists
@@ -108,7 +108,7 @@ class ModuleStoreLocatorImporter {
                             $alias .= '-' . $autoIncrement;
                         }
 
-                        $oSL = NULL;
+                        $oSL = null;
                         $oSL = new StoreLocator();
 
                         // get coordinates

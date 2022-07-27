@@ -19,15 +19,17 @@ use Contao\Controller;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
+use Contao\StringUtil;
 use Contao\System;
 use Geocoder\Query\GeocodeQuery;
+use numero2\StoreLocator\DCAHelper\Stores;
 
 
 class StoreLocator {
 
 
     /**
-     * Replace matching inserttags
+     * Replace matching Insert Tags
      *
      * @param string $strBuffer
      * @param bool $blnCache
@@ -51,11 +53,11 @@ class StoreLocator {
                 // get data from current store
                 if( !empty($aParams[1]) && in_array($aParams[1], $aDCAFields) ) {
 
-                    $alias = NULL;
+                    $alias = null;
                     $alias = Input::get('auto_item') ? Input::get('auto_item') : Input::get('store');
 
                     // find store
-                    $objStore = NULL;
+                    $objStore = null;
                     $objStore = StoresModel::findByIdOrAlias($alias);
 
                     if( !$objStore ) {
@@ -72,7 +74,7 @@ class StoreLocator {
                     $oTemplate = new FrontendTemplate('mod_storelocator_inserttag');
 
                     // find store
-                    $objStore = NULL;
+                    $objStore = null;
                     $objStore = StoresModel::findByIdOrAlias($aParams[1]);
 
                     if( !$objStore ) {
@@ -111,8 +113,8 @@ class StoreLocator {
     public static function parseStoreData( StoresModel $store, ?Module $module=null ): void {
 
         // get opening times
-        $aTimes = deserialize( $store->opening_times );
-        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : NULL;
+        $aTimes = StringUtil::deserialize( $store->opening_times );
+        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : null;
 
         if( !empty($aTimes) ) {
 
@@ -128,7 +130,7 @@ class StoreLocator {
 
         // set country name
         $aCountryNames = [];
-        $aCountryNames = System::getCountries();
+        $aCountryNames = Stores::getCountries();
 
         $store->country_code = $store->country;
         $store->country_name = $aCountryNames[ $store->country ];
@@ -192,7 +194,7 @@ class StoreLocator {
      *
      * @return array
      */
-    public function getCoordinates( $street=NULL, $postal=NULL, $city=NULL, $country=NULL, $fullAdress=NULL ): array {
+    public function getCoordinates( $street=null, $postal=null, $city=null, $country=null, $fullAdress=null ): array {
 
         // find coordinates using configured geo providers
         $sQuery = sprintf(
@@ -255,8 +257,8 @@ class StoreLocator {
      *
      * @return array
      */
-    public function getCoordinatesByString( string $fullAdress=NULL ): array {
-        return $this->getCoordinates(NULL, NULL, NULL, NULL, $fullAdress);
+    public function getCoordinatesByString( string $fullAdress=null ): array {
+        return $this->getCoordinates(null, null, null, null, $fullAdress);
     }
 
 
@@ -267,7 +269,7 @@ class StoreLocator {
      *
      * @return array
      */
-    public static function parseSearchValue( $searchVal=NULL ): array {
+    public static function parseSearchValue( $searchVal=null ): array {
 
         if( !$searchVal ) {
             return [];

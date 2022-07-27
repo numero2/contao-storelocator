@@ -23,6 +23,7 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\StringUtil;
+use Contao\System;
 
 
 class ModuleStoreLocatorDetails extends Module {
@@ -42,7 +43,10 @@ class ModuleStoreLocatorDetails extends Module {
      */
     public function generate(): string {
 
-        if( TL_MODE == 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 
@@ -74,9 +78,9 @@ class ModuleStoreLocatorDetails extends Module {
             Input::setGet('store', Input::get('auto_item'));
         }
 
-        $alias = Input::get('store') ? Input::get('store') : NULL;
+        $alias = Input::get('store') ? Input::get('store') : null;
 
-        $objStore = NULL;
+        $objStore = null;
         $objStore = StoresModel::findByIdOrAlias($alias);
 
         if( !$objStore ) {
@@ -89,7 +93,7 @@ class ModuleStoreLocatorDetails extends Module {
         // get image
         if( $objStore->singleSRC ) {
 
-            $objFile = NULL;
+            $objFile = null;
             $objFile = FilesModel::findByUuid($objStore->singleSRC);
             $objStore->image = $objFile;
         }
@@ -110,16 +114,29 @@ class ModuleStoreLocatorDetails extends Module {
 
         if( $objStore->image ) {
 
-            $aImage = [
-                'id'         => $objStore->image->id
-            ,   'name'       => $objStore->image->basename
-            ,   'singleSRC'  => $objStore->image->path
-            ,   'title'      => StringUtil::specialchars($objStore->image->basename)
-            ,   'filesModel' => $objStore->image
-            ,   'size'       => $this->imgSize
-            ];
+            $temp = new \stdClass();
 
-            $this->addImageToTemplate($this->Template, $aImage, null, null, $aImage['filesModel']);
+            // Contao >= 4.9
+            if( method_exists($this, 'addImageToTemplate') ) {
+
+                $this->addImageToTemplate($this->Template, [
+                    'singleSRC' => $objStore->image->path
+                ,   'size' => $this->imgSize
+                ], null, null, $objFile);
+
+            // Contao 5
+            } else {
+
+                $figureBuilder = System::getContainer()
+                    ->get('contao.image.studio')
+                    ->createFigureBuilder()
+                    ->from($objStore->image->path)
+                    ->setSize($this->imgSize);
+
+                if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
+                    $figure->applyLegacyTemplateData($this->Template);
+                }
+            }
         }
 
         StoreLocator::parseStoreData($objStore, $this);

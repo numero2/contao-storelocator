@@ -1,66 +1,64 @@
-<?php $this->extend('block_searchable'); ?>
+<?php $this->extend('block_searchable') ?>
 
-<?php $this->block('content'); ?>
+<?php $this->block('content') ?>
 
-    <h1><?= $this->store->name; ?></h1>
+    <h1><?= $this->store->name ?></h1>
 
     <div class="store">
 
-        <?php if( $this->store->image ): ?>
-            <figure>
-                <?php $this->insert('picture_default', $this->picture); ?>
-            </figure>
-        <?php endif; ?>
+        <?php if( $this->addImage ): ?>
+            <?php $this->insert('image', (array)$this->arrData) ?>
+        <?php endif ?>
 
         <div class="address">
-            <?= $this->store->street; ?>, <?= $this->store->postal; ?> <?= $this->store->city; ?><br />
-            <?= $this->store->country_name; ?>
+            <?= $this->store->street ?>, <?= $this->store->postal ?> <?= $this->store->city ?><br />
+            <?= $this->store->country_name ?>
         </div>
 
         <?php if( $this->store->phone ): ?>
         <div class="phone">
-            <?= $this->labelPhone; ?>: <a href="<?= $this->store->phoneLink; ?>"><?= $this->store->phone; ?></a>
+            <?= $this->labelPhone ?>: <a href="<?= $this->store->phoneLink ?>"><?= $this->store->phone ?></a>
         </div>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if( $this->store->fax ): ?>
         <div class="fax">
-            <?= $this->labelFax ?>: <?= $this->store->fax; ?>
+            <?= $this->labelFax ?>: <?= $this->store->fax ?>
         </div>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if( $this->store->email ): ?>
         <div class="email">
-            <?= $this->labelEMail; ?>: {{email::<?= $this->store->email; ?>}}
+            <?= $this->labelEMail ?>: {{email::<?= $this->store->email ?>}}
         </div>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if( $this->store->url ): ?>
         <div class="www">
-            <?= $this->labelWWW; ?>: <a href="<?= $this->store->url; ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name; ?>"><?= $this->store->prettyUrl; ?></a>
+            <?= $this->labelWWW ?>: <a href="<?= $this->store->url ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name ?>"><?= $this->store->prettyUrl ?></a>
         </div>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if( !empty($this->store->description) ): ?>
-            <?= $this->store->description; ?>
-        <?php endif; ?>
+            <?= $this->store->description ?>
+        <?php endif ?>
 
         <?php if( !empty($this->store->opening_times) ): ?>
         <ul class="opening-times">
             <?php foreach( $this->store->opening_times as $day ): ?>
             <li>
-                <?= $day['label']; ?> <?= $day['from']; ?> - <?= $day['to']; ?>
+                <?= $day['label'] ?> <?= $day['from'] ?> - <?= $day['to'] ?>
             </li>
-            <?php endforeach; ?>
+            <?php endforeach ?>
         </ul>
-        <?php endif; ?>
+        <?php endif ?>
 
         <?php if( !empty($this->mapsURI) ): ?>
             <iframe width="600" height="450" frameborder="0" src="<?=$this->mapsURI;?>" allowfullscreen></iframe>
-        <?php endif; ?>
+        <?php endif ?>
 
-        <p class="back"><a href="<?= $this->referer; ?>" title="<?= $this->back; ?>"><?= $this->back; ?></a></p>
+        <p class="back"><a href="<?= $this->referer ?>" title="<?= $this->back ?>"><?= $this->back ?></a></p>
 
     </div>
 
-<?php $this->endblock(); ?>
+<?php $this->endblock() ?>

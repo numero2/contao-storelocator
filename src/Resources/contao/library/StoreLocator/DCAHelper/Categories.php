@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -44,7 +44,7 @@ class Categories extends Backend {
             $varValue = StringUtil::generateAlias($dc->activeRecord->title);
         }
 
-        $oAlias = NULL;
+        $oAlias = null;
         $oAlias = CategoriesModel::findBy(['id=? OR alias=?'], [$dc->activeRecord->id, $varValue] );
 
         // Check whether the alias exists

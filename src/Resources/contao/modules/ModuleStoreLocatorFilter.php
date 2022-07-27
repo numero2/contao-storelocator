@@ -71,17 +71,18 @@ class ModuleStoreLocatorFilter extends Module {
         $this->Template = new FrontendTemplate($this->storelocator_filter_tpl?:$this->strTemplate);
         $this->Template->formId = 'storelocator_filter_'.$this->id;
         $this->Template->action = Environment::get('request');
+        $this->Template->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
 
         if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
         }
 
-        $sSearchVal = Input::get('search') ? Input::get('search') : NULL;
+        $sSearchVal = Input::get('search') ? Input::get('search') : null;
 
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
-        $widgetFilter = NULL;
+        $widgetFilter = null;
         $widgetFilter = new FormTextField(FormTextField::getAttributesFromDca(
                 [
                     'name'          => 'filter'
@@ -94,7 +95,7 @@ class ModuleStoreLocatorFilter extends Module {
             )
         );
 
-        $widgetSubmit = NULL;
+        $widgetSubmit = null;
         $widgetSubmit = new FormSubmit();
         $widgetSubmit->id = 'filtering';
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
