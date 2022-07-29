@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2021 Leo Feyer
+ * Copyright (c) 2005-2022 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2021 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -20,12 +20,10 @@ use Geocoder\Provider\Provider;
 use Http\Discovery\HttpClientDiscovery;
 
 
-class Geocoder extends System {
+class Geocoder {
 
 
     protected static $oInstance = null;
-
-
     private $aProviders;
 
 
@@ -51,10 +49,13 @@ class Geocoder extends System {
                             $this->aProviders[$name] = $provider;
                         }
 
-                    //} catch( \Geocoder\Exception\InvalidCredentials $e ) {
-
                     } catch( \Exception $e ) {
-                        System::log('Error initialize '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
+
+                        if( System::getContainer()->has('monolog.logger.contao.error') ) {
+                            System::getContainer()->get('monolog.logger.contao.error')->error('Error initializing '.$name.': ' . $e->getMessage());
+                        } else {
+                            System::log('Error initializing '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
+                        }
                     }
                 }
             }
@@ -70,7 +71,6 @@ class Geocoder extends System {
     public static function getInstance(): Geocoder {
 
         if( self::$oInstance === null ) {
-
             self::$oInstance = new self();
         }
 

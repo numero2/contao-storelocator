@@ -13,11 +13,30 @@
  */
 
 
+use Contao\Config;
+use Geocoder\Provider\BingMaps\BingMaps;
+use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Provider\Here\Here;
+use Geocoder\Provider\Nominatim\Nominatim;
+use Geocoder\Provider\OpenCage\OpenCage;
+use numero2\StoreLocator\CategoriesModel;
+use numero2\StoreLocator\ModuleStoreLocatorDetails;
+use numero2\StoreLocator\ModuleStoreLocatorFilter;
+use numero2\StoreLocator\ModuleStoreLocatorImporter;
+use numero2\StoreLocator\ModuleStoreLocatorList;
+use numero2\StoreLocator\ModuleStoreLocatorSearch;
+use numero2\StoreLocator\ModuleStoreLocatorStaticMap;
+use numero2\StoreLocator\OpeningTimes;
+use numero2\StoreLocator\StoreLocator;
+use numero2\StoreLocator\StoreLocatorBackend;
+use numero2\StoreLocator\StoresModel;
+
+
 /**
  * MODELS
  */
-$GLOBALS['TL_MODELS'][\numero2\StoreLocator\StoresModel::getTable()] = 'numero2\StoreLocator\StoresModel';
-$GLOBALS['TL_MODELS'][\numero2\StoreLocator\CategoriesModel::getTable()] = 'numero2\StoreLocator\CategoriesModel';
+$GLOBALS['TL_MODELS'][CategoriesModel::getTable()] = CategoriesModel::class;
+$GLOBALS['TL_MODELS'][StoresModel::getTable()] = StoresModel::class;
 
 
 /**
@@ -26,8 +45,8 @@ $GLOBALS['TL_MODELS'][\numero2\StoreLocator\CategoriesModel::getTable()] = 'nume
 $GLOBALS['BE_MOD']['content']['storelocator'] = [
     'tables'            => ['tl_storelocator_categories', 'tl_storelocator_stores']
 ,   'stylesheet'        => 'bundles/storelocator/backend.css'
-,   'importStores'      => ['\numero2\StoreLocator\ModuleStoreLocatorImporter', 'showImport']
-,   'fillCoordinates'   => ['\numero2\StoreLocator\StoreLocatorBackend', 'fillCoordinates']
+,   'importStores'      => [ModuleStoreLocatorImporter::class, 'showImport']
+,   'fillCoordinates'   => [StoreLocatorBackend::class, 'fillCoordinates']
 ];
 
 // Add backend.css to modules
@@ -41,18 +60,18 @@ $GLOBALS['BE_MOD']['design']['themes']['stylesheet'][] = 'bundles/storelocator/b
 /**
  * BACK END FORM FIELDS
  */
-$GLOBALS['BE_FFL']['openingTimes'] = '\numero2\StoreLocator\OpeningTimes';
+$GLOBALS['BE_FFL']['openingTimes'] = OpeningTimes::class;
 
 
 /**
  * FRONT END MODULES
  */
 $GLOBALS['FE_MOD']['storelocator'] = [
-    'storelocator_search'       => '\numero2\StoreLocator\ModuleStoreLocatorSearch'
-,   'storelocator_list'         => '\numero2\StoreLocator\ModuleStoreLocatorList'
-,   'storelocator_filter'       => '\numero2\StoreLocator\ModuleStoreLocatorFilter'
-,   'storelocator_details'      => '\numero2\StoreLocator\ModuleStoreLocatorDetails'
-,   'storelocator_static_map'   => '\numero2\StoreLocator\ModuleStoreLocatorStaticMap'
+    'storelocator_search'       => ModuleStoreLocatorSearch::class
+,   'storelocator_list'         => ModuleStoreLocatorList::class
+,   'storelocator_filter'       => ModuleStoreLocatorFilter::class
+,   'storelocator_details'      => ModuleStoreLocatorDetails::class
+,   'storelocator_static_map'   => ModuleStoreLocatorStaticMap::class
 ];
 
 
@@ -66,7 +85,7 @@ $GLOBALS['N2SL_HOOKS'] = [
     'modifyListEntries' => []
 ,   'parseStoreData' => []
 ];
-$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['\numero2\StoreLocator\StoreLocator', 'replaceInsertTags'];
+$GLOBALS['TL_HOOKS']['replaceInsertTags'][] = [StoreLocator::class, 'replaceInsertTags'];
 
 
 /**
@@ -74,51 +93,51 @@ $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = ['\numero2\StoreLocator\StoreLocat
  */
 $GLOBALS['N2SL']['geocoder_providers'] = [
     'google-maps' => [
-        'class' => '\Geocoder\Provider\GoogleMaps\GoogleMaps'
+        'class' => GoogleMaps::class
     ,   'init_callback' => function($httpClient) {
-            if( !Contao\Config::get('google_maps_server_key') ) {
+            if( !Config::get('google_maps_server_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, Contao\Config::get('google_maps_server_key'));
+            return new GoogleMaps($httpClient, null, Config::get('google_maps_server_key'));
         }
     ]
 ,   'bing-map' => [
-        'class' => '\Geocoder\Provider\BingMaps\BingMaps'
+        'class' => BingMaps::class
     ,   'init_callback' => function($httpClient) {
-            if( !Contao\Config::get('bing_map_server_key') ) {
+            if( !Config::get('bing_map_server_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\BingMaps\BingMaps($httpClient, Contao\Config::get('bing_map_server_key'));
+            return new BingMaps($httpClient, Config::get('bing_map_server_key'));
         }
     ]
 ,   'here' => [
-        'class' => '\Geocoder\Provider\Here\Here'
+        'class' => Here::class
     ,   'init_callback' => function($httpClient) {
-            if( !Contao\Config::get('here_server_key') ) {
+            if( !Config::get('here_server_key') ) {
                 return null;
             }
-            return \Geocoder\Provider\Here\Here::createUsingApiKey($httpClient, Contao\Config::get('here_server_key'));
+            return Here::createUsingApiKey($httpClient, Config::get('here_server_key'));
         }
     ]
 ,   'nominatim' => [
-        'class' => '\Geocoder\Provider\Nominatim\Nominatim'
+        'class' => Nominatim::class
     ,   'init_callback' => function($httpClient) {
-            if( !Contao\Config::get('nominatim_user_agent') ) {
+            if( !Config::get('nominatim_user_agent') ) {
                 return null;
             }
-            if( !Contao\Config::get('nominatim_server') ) {
-                return new \Geocoder\Provider\Nominatim($httpClient, Contao\Config::get('nominatim_server'), Contao\Config::get('nominatim_user_agent'));
+            if( !Config::get('nominatim_server') ) {
+                return new Nominatim($httpClient, Config::get('nominatim_server'), Config::get('nominatim_user_agent'));
             }
-            return \Geocoder\Provider\Nominatim\Nominatim::withOpenStreetMapServer($httpClient, Contao\Config::get('nominatim_user_agent'));
+            return Nominatim::withOpenStreetMapServer($httpClient, Config::get('nominatim_user_agent'));
         }
     ]
 ,   'opencage' => [
-        'class' => '\Geocoder\Provider\OpenCage\OpenCage'
+        'class' => OpenCage::class
     ,   'init_callback' => function($httpClient) {
-            if( !Contao\Config::get('opencage_api_key') ) {
+            if( !Config::get('opencage_api_key') ) {
                 return null;
             }
-            return new \Geocoder\Provider\OpenCage\OpenCage($httpClient, Contao\Config::get('opencage_api_key'));
+            return new OpenCage($httpClient, Config::get('opencage_api_key'));
         }
     ]
 ];
@@ -126,7 +145,7 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
 $GLOBALS['N2SL']['javascript_providers'] = [
     'google-maps' => [
         'init_callback' => function() {
-            if( !Contao\Config::get('google_maps_browser_key') ) {
+            if( !Config::get('google_maps_browser_key') ) {
                 return false;
             }
             return true;

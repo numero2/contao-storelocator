@@ -15,8 +15,9 @@
 
 namespace numero2\StoreLocator\DCAHelper;
 
-use Contao\Backend;
 use Contao\Config;
+use Contao\Controller;
+use Contao\Database;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
@@ -26,7 +27,7 @@ use numero2\StoreLocator\Geocoder;
 use numero2\StoreLocator\StoresModel;
 
 
-class Stores extends Backend {
+class Stores {
 
 
     /**
@@ -46,7 +47,7 @@ class Stores extends Backend {
         if( strlen(Input::get('fid')) ) {
 
             $this->toggleFeatured(Input::get('fid'), (Input::get('state') == 1));
-            $this->redirect($this->getReferer());
+            Controller::redirect(System::getReferer());
         }
 
         $href .= '&amp;fid='.$row['id'].'&amp;state='.($row['highlight'] ? '' : 1);
@@ -55,7 +56,7 @@ class Stores extends Backend {
             $icon = 'featured_.gif';
         }
 
-        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
+        return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
     }
 
 
@@ -81,7 +82,7 @@ class Stores extends Backend {
 
 
     /**
-     * Auto-generate an category alias if it has not been set yet
+     * Auto-generate a store alias if it has not been set yet
      *
      * @param mixed $varValue
      * @param Contao\DataContainer $dc
@@ -101,7 +102,7 @@ class Stores extends Backend {
         }
 
         $oAlias = null;
-        $oAlias = $this->Database->prepare("SELECT id FROM tl_storelocator_stores WHERE id=? OR alias=?")
+        $oAlias = Database::getInstance()->prepare("SELECT id FROM tl_storelocator_stores WHERE id=? OR alias=?")
             ->execute($dc->activeRecord->id, $varValue);
 
         // Check whether the alias exists
@@ -154,7 +155,7 @@ class Stores extends Backend {
 
 
     /**
-     * Displays a little static Google Map with position of the address
+     * Displays a little static map with the position of the stores address
      *
      * @param Contao\DataContainer $dc
      *
@@ -242,17 +243,17 @@ class Stores extends Backend {
             if( Input::get('tid') ) {
 
                 $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
-                $this->redirect($this->getReferer());
+                Controller::redirect(System::getReferer());
             }
 
             $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-            return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+            return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
 
         // Contao >= 5.0
         } else {
 
             $href .= '&amp;id='.$row['id'].'&amp;act=toggle&amp;field=published';
-            return '<a href="' . $this->addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">' . Image::getHtml($icon, $label, 'data-icon="' . Image::getPath('visible.svg') . '" data-icon-disabled="' . Image::getPath('invisible.svg') . '" data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
+            return '<a href="' . Controller::addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">' . Image::getHtml($icon, $label, 'data-icon="' . Image::getPath('visible.svg') . '" data-icon-disabled="' . Image::getPath('invisible.svg') . '" data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
         }
     }
 

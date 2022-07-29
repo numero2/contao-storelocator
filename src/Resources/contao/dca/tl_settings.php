@@ -13,8 +13,8 @@
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\StoreLocator\Geocoder;
+use numero2\StoreLocator\StoreLocatorBackend;
 
 
 /**

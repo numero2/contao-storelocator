@@ -84,7 +84,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
         ]
     ]
 ,   'palettes' => [
-        'default'                     => '{title_legend},title,alias;{map_legend},map_pin;'
+        'default'           => '{title_legend},title,alias;{map_legend},map_pin;'
     ]
 ,   'fields' => [
         'id' => [

@@ -15,7 +15,6 @@
 
 namespace numero2\StoreLocator\DCAHelper;
 
-use Contao\Backend;
 use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
@@ -27,7 +26,7 @@ use numero2\StoreLocator\CategoriesModel;
 use numero2\StoreLocator\Geocoder;
 
 
-class Module extends Backend {
+class Module {
 
 
     /**
@@ -53,7 +52,7 @@ class Module extends Backend {
 
 
     /**
-     * Returns a list of all store categories
+     * Returns a list of all map tyoes
      *
      * @return array
      */
@@ -71,7 +70,7 @@ class Module extends Backend {
 
 
     /**
-     * Returns a list of all store categories
+     * Returns a list of all map formats
      *
      * @return array
      */
@@ -90,7 +89,7 @@ class Module extends Backend {
 
 
     /**
-     * Returns a list of all store categories
+     * Returns a list of all map scaling options
      *
      * @return array
      */
@@ -123,15 +122,15 @@ class Module extends Backend {
 
 
     /**
-     * Returns a list of all templates
+     * Returns a list of all store fields
      *
-     * @param  Contao\DataContainer $dc
+     * @param Contao\DataContainer $dc
      *
      * @return array
      */
     public function getStoreFields( DataContainer $dc ): array {
 
-        self::loadLanguageFile('tl_storelocator_stores');
+        System::loadLanguageFile('tl_storelocator_stores');
 
         $aOptions = [];
 
@@ -144,7 +143,7 @@ class Module extends Backend {
 
 
     /**
-     * Generates a list of all Stores with Categorie id
+     * Generates a list of all available filter modules
      *
      * @return array
      */
@@ -165,12 +164,13 @@ class Module extends Backend {
 
 
     /**
-     * Generates a list of all available javascript providers
+     * Generates a list of all available JavaScript providers
      *
      * @return array
      */
     public function getJavascriptProviders(): array {
 
+        $oGeo = null;
         $oGeo = Geocoder::getInstance();
 
         return $oGeo->getJavascriptProviders();
@@ -197,8 +197,8 @@ class Module extends Backend {
      */
     public function getSortableFields(): array {
 
-        self::loadLanguageFile('tl_storelocator_stores');
-        self::loadDataContainer('tl_storelocator_stores');
+        System::loadLanguageFile('tl_storelocator_stores');
+        Controller::loadDataContainer('tl_storelocator_stores');
 
         $aFields = [];
 
@@ -216,7 +216,12 @@ class Module extends Backend {
     }
 
 
-    public function hideProviderDependentField( DataContainer $dc ) {
+    /**
+     * Hides fields depending on the available providers
+     *
+     * @param Contao\DataContainer $dc
+     */
+    public function hideProviderDependentField( DataContainer $dc ): void {
 
         $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
         $requestStack = System::getContainer()->get('request_stack');

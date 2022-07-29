@@ -15,13 +15,12 @@
 
 namespace numero2\StoreLocator\DCAHelper;
 
-use Contao\Backend;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use numero2\StoreLocator\CategoriesModel;
 
 
-class Categories extends Backend {
+class Categories {
 
 
     /**
@@ -34,7 +33,7 @@ class Categories extends Backend {
      *
      * @throws \Exception
      */
-    public function generateAlias( $varValue, DataContainer $dc ): string {
+    public static function generateAlias( $varValue, DataContainer $dc ): string {
 
         $autoAlias = false;
 

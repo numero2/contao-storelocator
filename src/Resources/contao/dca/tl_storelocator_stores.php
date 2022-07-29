@@ -101,7 +101,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ]
 ,   'palettes' => [
-        'default'                     => '{common_legend},name,alias,singleSRC,description;{contact_legend},email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},published,highlight;'
+        'default'           => '{common_legend},name,alias,singleSRC,description;{contact_legend},email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},geo_explain,map,longitude,latitude;{publish_legend},published,highlight;'
     ]
 ,   'fields' => [
         'id' => [

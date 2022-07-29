@@ -16,7 +16,9 @@
 namespace numero2\StoreLocator;
 
 use Contao\Backend;
+use Contao\System;
 use Contao\Widget;
+use numero2\StoreLocator\StoreLocator;
 
 
 class OpeningTimes extends Widget {
@@ -39,16 +41,6 @@ class OpeningTimes extends Widget {
      * @var string
      */
     protected $strTemplate = 'be_widget';
-
-
-    /**
-     * Initialize the FileUpload object
-     *
-     * @param array $arrAttributes
-     */
-    public function __construct($arrAttributes=null) {
-        parent::__construct($arrAttributes);
-    }
 
 
     /**
@@ -98,7 +90,7 @@ class OpeningTimes extends Widget {
      *
      * @return string
      */
-    public function generate() {
+    public function generate(): string {
 
         if( empty($GLOBALS['TL_CSS']) || array_search('bundles/storelocator/backend.css', $GLOBALS['TL_CSS']) === FALSE ) {
             $GLOBALS['TL_CSS'][] = 'bundles/storelocator/backend.css';
@@ -239,13 +231,13 @@ class OpeningTimes extends Widget {
      *
      * @return array
      */
-    protected function generateWidgetsDCA() {
+    protected function generateWidgetsDCA(): array {
 
         $widgetDCA = [
             'weekday' => [
                 'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
             ,   'inputType'         => 'select'
-            ,   'options_callback'  => ['\numero2\StoreLocator\StoreLocator', 'getWeekdays']
+            ,   'options_callback'  => [StoreLocator::class, 'getWeekdays']
             ,   'eval'              => ['mandatory'=>true, 'maxlength'=>255, 'style'=>'width:480px']
             ]
         ,   'from' => [
@@ -271,7 +263,17 @@ class OpeningTimes extends Widget {
      *
      * @return string The HTML markup of the corresponding error message
      */
-    public function getErrorAsHTML($intIndex=0)    {
-        return $this->hasErrors() ? sprintf('<p class="%s">%s</p>', ((TL_MODE == 'BE') ? 'tl_error tl_tip' : 'error'), "FEHLER") : '';
+    public function getErrorAsHTML( $intIndex=0 ): string {
+
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        $isBackend = false;
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
+            $isBackend = true;
+        }
+
+        return $this->hasErrors() ? sprintf('<p class="%s">%s</p>', (($isBackend == 'BE') ? 'tl_error tl_tip' : 'error'), "FEHLER") : '';
     }
 }

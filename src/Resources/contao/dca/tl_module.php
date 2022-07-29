@@ -15,8 +15,8 @@
 
 use Contao\Config;
 use numero2\StoreLocator\DCAHelper\Module;
-use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\StoreLocator\DCAHelper\Stores;
+use numero2\StoreLocator\StoreLocatorBackend;
 
 
 /**
