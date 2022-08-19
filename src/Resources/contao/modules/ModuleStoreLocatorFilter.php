@@ -17,14 +17,16 @@ namespace numero2\StoreLocator;
 
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Environment;
 use Contao\FormSubmit;
-use Contao\FormTextField;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
+use Contao\System;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class ModuleStoreLocatorFilter extends Module {
@@ -44,7 +46,10 @@ class ModuleStoreLocatorFilter extends Module {
      */
     public function generate(): string {
 
-        if( TL_MODE == 'BE' ) {
+        $scopeMatcher = System::getContainer()->get('contao.routing.scope_matcher');
+        $requestStack = System::getContainer()->get('request_stack');
+
+        if( $scopeMatcher->isBackendRequest($requestStack->getCurrentRequest()) ) {
 
             $objTemplate = new BackendTemplate('be_wildcard');
 
@@ -66,7 +71,8 @@ class ModuleStoreLocatorFilter extends Module {
      */
     protected function compile(): void {
 
-        global $objPage;
+        $page = null;
+        $page = System::getContainer()->get('request_stack')->getCurrentRequest()->get('pageModel');
 
         $this->Template = new FrontendTemplate($this->storelocator_filter_tpl?:$this->strTemplate);
         $this->Template->formId = 'storelocator_filter_'.$this->id;
@@ -82,8 +88,10 @@ class ModuleStoreLocatorFilter extends Module {
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
+        $fieldClass = class_exists('\Contao\FormText')?'\Contao\FormText':'\Contao\FormTextField';
+
         $widgetFilter = null;
-        $widgetFilter = new FormTextField(FormTextField::getAttributesFromDca(
+        $widgetFilter = new $fieldClass($fieldClass::getAttributesFromDca(
                 [
                     'name'          => 'filter'
                 ,   'label'         => &$GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_label']
@@ -91,7 +99,7 @@ class ModuleStoreLocatorFilter extends Module {
                 ,    'eval'         => ['mandatory'=>true]
                 ]
             ,   'filter'
-            ,   $aSearchValues['filter']
+            ,   $aSearchValues['filter']??null
             )
         );
 
@@ -101,22 +109,23 @@ class ModuleStoreLocatorFilter extends Module {
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
 
         $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
-        $this->Template->hrefReset = $objPage->getFrontendUrl( '/clear/filter' );
+        $this->Template->hrefReset = $page->getFrontendUrl('/clear/filter');
 
-        if( isset($_GET['clear']) && Input::get('clear') == 'filter' ) {
+        if( Input::get('clear') == 'filter' ) {
 
             $aSearchValues['filter'] = null;
             $aSearchValues['order'] = null;
             $aSearchValues['sort'] = null;
+
             $strData = StoreLocator::generateSearchValue($aSearchValues);
 
             if( strlen($strData) == 0 ) {
 
-                $href = $objPage->getFrontendUrl();
+                $href = $page->getFrontendUrl();
+
             } else {
 
-                $href = $objPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s');
-                $href = sprintf($href, $strData);
+                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s'), $strData));
             }
 
             $this->redirect( $href );
@@ -133,11 +142,11 @@ class ModuleStoreLocatorFilter extends Module {
                 $aSearchValues['filter'] = $filter;
 
                 $strData = StoreLocator::generateSearchvalue($aSearchValues);
-                $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $objPage;
-                $href = $objPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s');
-                $href = sprintf($href, $strData);
+                $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $page;
 
-                $this->redirect( $href );
+                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s'), $strData));
+
+                $this->redirect($href);
             }
 
         } else if( Input::get('order') && Input::get('sort') ) {
@@ -147,26 +156,26 @@ class ModuleStoreLocatorFilter extends Module {
 
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
-            $href = $objPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s');
-            $href = sprintf($href, $strData);
+            $href = $page->getFrontendUrl(sprintf((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s', $strData));
 
             $this->redirect($href);
         }
 
         $sortFilter = [];
-        foreach( StringUtil::deserialize($this->storelocator_sortable) as $key => $value ) {
+        $sortableFields = StringUtil::deserialize($this->storelocator_sortable)??[];
+        foreach( $sortableFields as $key => $value ) {
 
             $active = !empty($aSearchValues['order'])&&$aSearchValues['order']==$value;
             $newSort = ($active&&!empty($aSearchValues['sort'])&&$aSearchValues['sort']=='asc')?'desc':'asc';
+
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
             if( $strData ) {
 
-                $href = $objPage->getFrontendUrl(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/order/%s/sort/%s');
-                $href = sprintf($href, $strData, $value, $newSort);
+                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/order/%s/sort/%s', $strData, $value, $newSort));
+
             } else {
 
-                $href = $objPage->getFrontendUrl('/order/%s/sort/%s');
-                $href = sprintf($href, $value, $newSort);
+                $href = $page->getFrontendUrl(sprintf('/order/%s/sort/%s', $value, $newSort));
             }
 
             $sortFilter[] = [
@@ -183,6 +192,5 @@ class ModuleStoreLocatorFilter extends Module {
         $this->Template->filterField = $widgetFilter;
         $this->Template->sortFields = $sortFilter;
         $this->Template->submitButton = $widgetSubmit;
-        $this->Template->resetButton = $widgetSubmitReset;
     }
 }

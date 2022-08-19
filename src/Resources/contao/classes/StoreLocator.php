@@ -311,7 +311,7 @@ class StoreLocator {
 
 
     /**
-     * generates the search string
+     * Generates the search string
      *
      * @param array $arrData
      *
@@ -328,9 +328,11 @@ class StoreLocator {
         if( !empty($arrData['term']) ) {
 
             $aData[0] = $arrData['term'];
+
             if( !empty($arrData['category']) ) {
                 $aData[1] = $arrData['category'];
             }
+
             if( $arrData['longitude'] && $arrData['latitude'] ) {
                 $aData[1] = !empty($aData[1])?$aData[1]:'';
                 $aData[2] = $arrData['longitude'];
@@ -339,25 +341,26 @@ class StoreLocator {
         }
 
         if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) ) {
+
             if( count($aData) == 0 ) {
 
-                $aData[0] = $arrData['filter'];
-                $aData[1] = $arrData['order'];
-                $aData[2] = $arrData['sort'];
+                $aData[0] = $arrData['filter']??'';
+                $aData[1] = $arrData['order']??'';
+                $aData[2] = $arrData['sort']??'';
 
             } else {
 
-                $aData[0] = $aData[0]?$aData[0]:'';
-                $aData[1] = $aData[1]?$aData[1]:'';
-                $aData[2] = $aData[2]?$aData[2]:'';
-                $aData[3] = $aData[3]?$aData[3]:'';
-                $aData[4] = $arrData['filter'];
-                $aData[5] = $arrData['order'];
-                $aData[6] = $arrData['sort'];
+                $aData[0] = $aData[0]??'';
+                $aData[1] = $aData[1]??'';
+                $aData[2] = $aData[2]??'';
+                $aData[3] = $aData[3]??'';
+                $aData[4] = $arrData['filter']??'';
+                $aData[5] = $arrData['order']??'';
+                $aData[6] = $arrData['sort']??'';
             }
         }
 
-        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : ($aData[0]?:'');
+        $strData = ( count($aData) > 1 ) ? implode(';',$aData) : ($aData[0]??'');
 
         return $strData;
     }
