@@ -95,7 +95,7 @@ class ModuleStoreLocatorSearch extends Module {
                     'name'          => 'location'
                 ,   'label'         => &$GLOBALS['TL_LANG']['tl_storelocator']['field']['postal']
                 ,   'inputType'     => 'text'
-                ,   'eval'         => ['mandatory'=>true]
+                ,   'eval'          => ['mandatory'=>true]
                 ]
             ,   'location'
             ,   $aSearchValues['term']??''
@@ -122,8 +122,8 @@ class ModuleStoreLocatorSearch extends Module {
                     [
                         'name'          => 'category'
                     ,   'inputType'     => 'radio'
-                    ,    'eval'         => ['mandatory'=>false]
                     ,   'options'       => $aCategories
+                    ,   'eval'          => ['mandatory'=>false]
                     ]
                 ,   'category'
                 ,   ($aSearchValues['category']?$aSearchValues['category']:'all')
@@ -150,8 +150,12 @@ class ModuleStoreLocatorSearch extends Module {
 
                     $widgetCategories->validate();
 
-                    if( $widgetCategories->value && $widgetCategories->value != 'all' ) {
-                        $aSearchValues['category'] = $widgetCategories->value;
+                    if( $widgetCategories->value ) {
+                        if( $widgetCategories->value === 'all' ) {
+                            $aSearchValues['category'] = '';
+                        } else {
+                            $aSearchValues['category'] = $widgetCategories->value;
+                        }
                     }
                 }
 
@@ -186,6 +190,7 @@ class ModuleStoreLocatorSearch extends Module {
         }
 
         $this->Template->searchField = $widgetSearch;
+        $this->Template->searchValues = $aSearchValues;
         $this->Template->categories = $widgetCategories;
         $this->Template->submitButton = $widgetSubmit;
     }

@@ -7,8 +7,8 @@
 
             <input type="hidden" name="FORM_SUBMIT" value="<?= $this->formId ?>" />
             <input type="hidden" name="REQUEST_TOKEN" value="<?= $this->requestToken ?>" />
-            <input type="hidden" name="longitude" value="" />
-            <input type="hidden" name="latitude" value="" />
+            <input type="hidden" name="longitude" value="<?= $this->searchValues['longitude'] ?? ''; ?>" />
+            <input type="hidden" name="latitude" value="<?= $this->searchValues['latitude'] ?? ''; ?>" />
 
             <div class="<?= $this->searchField->prefix ?>">
                 <?= $this->searchField->generateLabel() ?>
