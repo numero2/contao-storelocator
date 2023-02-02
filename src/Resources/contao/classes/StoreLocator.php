@@ -245,7 +245,7 @@ class StoreLocator {
             return $aCoords;
         }
 
-        $this->log('Could not find coordinates for adress "'.$sQuery.'"', 'StoreLocator getCoordinates()', TL_ERROR);
+        System::log('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured', __METHOD__, TL_ERROR);
         return [];
     }
 
