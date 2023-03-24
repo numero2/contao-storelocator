@@ -263,37 +263,41 @@ class ModuleStoreLocatorList extends Module {
 
                             $objFile = null;
                             $objFile = FilesModel::findByUuid($entry->singleSRC);
-                            $entry->image = $objFile;
 
-                            $temp = new \stdClass();
+                            if( $objFile ) {
 
-                            // Contao >= 4.9
-                            if( method_exists($this, 'addImageToTemplate') ) {
+                                $entry->image = $objFile;
 
-                                $this->addImageToTemplate($temp, [
-                                    'singleSRC' => $objFile->path
-                                ,   'size' => $this->imgSize
-                                ], null, null, $objFile);
-
-                            // Contao 5
-                            } else {
-
-                                $figureBuilder = System::getContainer()
-                                    ->get('contao.image.studio')
-                                    ->createFigureBuilder()
-                                    ->from($objFile->path)
-                                    ->setSize($this->imgSize);
-
-                                if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
-                                    $figure->applyLegacyTemplateData($temp);
+                                $temp = new \stdClass();
+    
+                                // Contao >= 4.9
+                                if( method_exists($this, 'addImageToTemplate') ) {
+    
+                                    $this->addImageToTemplate($temp, [
+                                        'singleSRC' => $objFile->path
+                                    ,   'size' => $this->imgSize
+                                    ], null, null, $objFile);
+    
+                                // Contao 5
+                                } else {
+    
+                                    $figureBuilder = System::getContainer()
+                                        ->get('contao.image.studio')
+                                        ->createFigureBuilder()
+                                        ->from($objFile->path)
+                                        ->setSize($this->imgSize);
+    
+                                    if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
+                                        $figure->applyLegacyTemplateData($temp);
+                                    }
                                 }
+    
+                                foreach( $temp as $k => $v ) {
+                                    $entry->$k = $v;
+                                }
+    
+                                unset($temp);
                             }
-
-                            foreach( $temp as $k => $v ) {
-                                $entry->$k = $v;
-                            }
-
-                            unset($temp);
                         }
 
                         if( $this->jumpTo ) {
