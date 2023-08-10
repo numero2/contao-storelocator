@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
+ * Copyright (c) 2005-2023 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2023 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -306,6 +306,10 @@ class StoreLocator {
             $ret['term'] = $searchVal;
         }
 
+        foreach( $ret as $i => $d ) {
+            $ret[$i] = urldecode($d);
+        }
+
         return $ret;
     }
 
@@ -327,7 +331,7 @@ class StoreLocator {
 
         if( !empty($arrData['term']) ) {
 
-            $aData[0] = $arrData['term'];
+            $aData[0] = html_entity_decode($arrData['term']);
 
             if( !empty($arrData['category']) ) {
                 $aData[1] = $arrData['category'];
@@ -358,6 +362,10 @@ class StoreLocator {
                 $aData[5] = $arrData['order']??'';
                 $aData[6] = $arrData['sort']??'';
             }
+        }
+
+        foreach( $aData as $i => $d ) {
+            $aData[$i] = urlencode($d);
         }
 
         $strData = ( count($aData) > 1 ) ? implode(';',$aData) : ($aData[0]??'');
