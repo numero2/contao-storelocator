@@ -1,0 +1,254 @@
+
+<?php $this->extend('script_loader_googlemap') ?>
+
+<?php $this->block('content') ?>
+
+    <script>
+
+        let map;
+        let markerImages = {};
+        let markersUpdating = false;
+
+
+        const markers = {
+            <?php foreach( $this->entries as $entry): ?>
+                "<?= $entry->id ?>": {
+                    "id": "<?= $entry->id ?>",
+                    "pid": "<?= $entry->pid ?>",
+                    "lng": "<?= $entry->longitude ?>",
+                    "lat": "<?= $entry->latitude ?>",
+                    "info": <?= $entry->info ?>
+                },
+            <?php endforeach ?>
+        };
+
+        function initMapMarker() {
+
+            let markerImages = {
+                <?php foreach( $this->mapPins as $key => $value ): ?>
+                    "<?= $key ?>" : {
+                        iconUrl: "<?= $value ?>",
+                        iconSize: [24,24],
+                        iconAnchor: [24, 24],
+                        popupAnchor: [-12,-24],
+
+                    },
+                <?php endforeach ?>
+            };
+
+
+
+
+            for( var id in markers ) {
+                addMarker(markers[id],markerImages);
+            }
+
+            fitMapToMarkers();
+
+            <?php if( $this->loadMoreResults ): ?>
+                setTimeout(function(){
+                    map.on('zoomlevelchange', updateMarkers);
+                    map.on('moveend', updateMarkers);
+                },500);
+            <?php endif ?>
+        }
+
+        function addMarker( item, markerImages ) {
+
+            if( item.id in markers && "position" in markers[item.id] ) {
+                return false;
+            }
+
+
+            let markerImage;
+
+            if( item.pid in markerImages ) {
+
+                markerImage = markerImages[item.pid];
+
+            } else {
+
+                if( 'default' in markerImages ) {
+                    markerImage = markerImages['default'];
+                }
+            }
+
+
+
+            let marker = new L.marker( L.latLng(item.lat, item.lng),{
+                icon: L.icon(markerImage),
+                draggable: false,
+                data: item,
+
+            });
+            marker.bindPopup(item.info);
+
+            marker.addTo(map);
+
+            markers[item.id] = marker;
+
+            <?php if( in_array($this->mapInteraction , ["showMarkerInfo", "scrollToListElement"]) ): ?>
+                marker.addListener('click', function(){
+
+                    <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+                        for( var id in markers ) {
+                            if( "infoWindow" in markers[id] ) {
+                                markers[id].infoWindow.close();
+                            }
+                        }
+                        markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
+                    <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
+                        document.location.hash = "#result_"+this.data.id;
+                    <?php endif;?>
+                });
+            <?php endif;?>
+
+            return true;
+        }
+
+        function fitMapToMarkers() {
+
+            let bounds = L.latLngBounds();
+
+            for( var i in markers ) {
+                try {
+
+                    bounds.extend(markers[i].getPosition());
+                }catch(e) {
+                    console.log(markers[i])
+                }
+            }
+
+            map.fitBounds(bounds);
+            map.setZoom(map.getZoom()-1);
+
+            if( map.getZoom() > 15 ) {
+                map.setZoom(15);
+            }
+        }
+
+        <?php if( $this->loadMoreResults ): ?>
+        function updateMarkers() {
+
+
+
+            if( markersUpdating ) {
+                return;
+            }
+
+            var bounds = map.getBounds();
+
+            if( !(bounds instanceof L.latLngBounds) ) {
+                return;
+            }
+
+            var sw = bounds.getSouthWest();
+            var ne = bounds.getNorthEast();
+
+            var xhr = new XMLHttpRequest();
+
+            var params = {
+                'action': 'getMarkers',
+                'fromlat': sw.lat(),
+                'tolat': ne.lat(),
+                'fromlng': sw.lng(),
+                'tolng': ne.lng(),
+                'REQUEST_TOKEN': '<?= $this->requestToken ?>'
+            };
+
+            var url = location.protocol + '//' + location.host + location.pathname + '?' + Object.keys(params).map(function(key){
+                return key+"="+encodeURIComponent(params[key])
+            }).join("&");
+
+            xhr.onload = function () {
+
+                if( xhr.status >= 200 && xhr.status < 300 ) {
+
+                    var response = JSON.parse(xhr.response);
+
+                    if( response ) {
+
+                        var markersAdded = false;
+
+                        for( var i in response ) {
+                            markersAdded |= addMarker(response[i]);
+                        }
+
+
+                    }
+                }
+
+                markersUpdating = false;
+            };
+
+            xhr.open('GET', url);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.send();
+
+            markersUpdating = true;
+        }
+        <?php endif;?>
+
+        function mapInViewport() {
+
+            var rect = map.getDiv().getBoundingClientRect();
+
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function initializeMap() {
+
+            const mapOptions = {
+                minZoom: 4,
+                maxZoom: 20,
+                zoom: 8,
+            };
+
+            map = L.map('map-canvas',mapOptions).setView([51.0, 10.0], 6);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			    maxZoom: 19,
+			    attribution: '© OpenStreetMap'
+			}).addTo(map);
+
+            <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
+                let entries = document.querySelectorAll('.mod_storelocator_list .entry');
+
+                if( entries ) {
+
+                    for( var i=0; i<entries.length; i++ ) {
+
+                        entries[i].addEventListener('click',function(){
+
+                            // scroll to map (if necessary)
+                            if( !mapInViewport() ) {
+                                document.location.hash = "";
+                                document.location.hash = "#map-wrapper";
+                            }
+
+                            const markerID = this.id.split("_")[1];
+
+                            if( markerID in markers ) {
+                                map.setView(markers[markerID].getPosition());
+                                map.setZoom(15);
+                            }
+                        });
+                    }
+                }
+            <?php endif ?>
+
+            initMapMarker();
+
+        }
+
+        document.addEventListener('storeLocatorMapLoaded', initializeMap, {once:true});
+
+    </script>
+
+
+
+<?php $this->endblock() ?>
