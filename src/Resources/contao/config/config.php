@@ -125,7 +125,7 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             if( !Config::get('nominatim_user_agent') ) {
                 return null;
             }
-            if( !Config::get('nominatim_server') ) {
+            if( Config::get('nominatim_server') ) {
                 return new Nominatim($httpClient, Config::get('nominatim_server'), Config::get('nominatim_user_agent'));
             }
             return Nominatim::withOpenStreetMapServer($httpClient, Config::get('nominatim_user_agent'));
