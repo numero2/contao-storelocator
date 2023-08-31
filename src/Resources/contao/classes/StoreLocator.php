@@ -137,7 +137,12 @@ class StoreLocator {
 
         // create a clickable link for telephone number
         if( !empty($store->phone) ) {
-            $store->phoneLink = 'tel://'.preg_replace("|[^\+0-9]|", "", $store->phone);
+            $store->phoneLink = 'tel:'.preg_replace("|[^\+0-9]|", "", $store->phone);
+        }
+
+        // create a clickable link for fax number
+        if( !empty($store->fax) ) {
+            $store->faxLink = 'fax:'.preg_replace("|[^\+0-9]|", "", $store->fax);
         }
 
         // create a "pretty" url
