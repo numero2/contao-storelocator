@@ -32,8 +32,8 @@
             <?php endif ?>
 
             <div class="address">
-                <?= $store->street ?><br />
-                <?= $store->postal ?> <?= $store->city ?><br />
+                <?= $store->street ?><br>
+                <?= $store->postal ?> <?= $store->city ?><br>
                 <?= $store->country_name ?>
             </div>
 
@@ -45,7 +45,7 @@
 
             <?php if( $store->fax ): ?>
             <div class="fax">
-                <?= $this->labelFax ?>: <?= $store->fax ?>
+                <?= $this->labelFax ?>: <a href="<?= $store->faxLink ?>"><?= $store->fax ?></a>
             </div>
             <?php endif ?>
 

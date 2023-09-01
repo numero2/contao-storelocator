@@ -23,7 +23,7 @@
 
         <?php if( $this->store->fax ): ?>
         <div class="fax">
-            <?= $this->labelFax ?>: <?= $this->store->fax ?>
+            <?= $this->labelFax ?>: <a href="<?= $this->store->faxLink ?>"><?= $this->store->fax ?></a>
         </div>
         <?php endif ?>
 

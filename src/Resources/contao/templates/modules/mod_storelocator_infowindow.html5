@@ -3,7 +3,7 @@
     <h3><?= $this->entry->name ?></h3>
 
     <div class="address">
-        <?= $this->entry->street ?>, <?= $this->entry->postal ?> <?= $this->entry->city ?><br />
+        <?= $this->entry->street ?>, <?= $this->entry->postal ?> <?= $this->entry->city ?><br>
         <?= $this->entry->country_name ?>
     </div>
 
