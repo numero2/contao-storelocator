@@ -3,13 +3,13 @@
 /**
  * Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
+ * Copyright (c) 2005-2023 Leo Feyer
  *
  * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @copyright 2023 numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -233,7 +233,7 @@ class ModuleStoreLocatorList extends Module {
                         $aSearchValues['order'] = $this->storelocator_list_sort_field;
 
                         if( $this->storelocator_list_sort_direction ) {
-                            $aSearchValues['sort'] = substr($this->storelocator_list_sort_direction,0,3);
+                            $aSearchValues['sort'] = $this->storelocator_list_sort_direction=='ascending'?'ASC':'DESC';
                         }
                     }
 
@@ -311,6 +311,16 @@ class ModuleStoreLocatorList extends Module {
                         }
 
                         $aStores[] = $entry;
+                    }
+
+                    // use translated country names when sorting by country
+                    if( !empty($this->storelocator_list_sort_field) && $this->storelocator_list_sort_field == 'country' ) {
+
+                        usort($aStores, fn($a, $b) => strcmp($a->country_name, $b->country_name));
+
+                        if( $this->storelocator_list_sort_direction == 'descending' ) {
+                            $aStores = array_reverse($aStores);
+                        }
                     }
 
                     // HOOK: add custom logic to modify the entries of the list

@@ -174,7 +174,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'filter'            => true
-        ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
+        ,   'eval'              => ['mandatory'=>false, 'maxlength'=>64, 'tl_class'=>'w50']
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'city' => [
