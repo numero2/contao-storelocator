@@ -58,6 +58,10 @@
         <source>There have been no results for your search</source>
         <target>Zu Ihrer Suchanfrage wurden leider keine Ergebnisse gefunden.</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.backend_map_error">
+        <source>Map cannot be displayed because no supported map provider is installed or the map provider is not configured.</source>
+        <target>Karte kann nicht angezeigt werden, da kein unterstützer Karten-Provider installiert bzw. der Karten-Provider nicht konfiguriert ist.</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator.interactions.nothing">
         <source>do nothing</source>
         <target>nichts tun</target>

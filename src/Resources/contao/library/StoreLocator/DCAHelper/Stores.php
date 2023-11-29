@@ -164,33 +164,48 @@ class Stores {
     public function showMap( DataContainer $dc ): string {
 
         $imgPath = '';
+        $provider = Config::get('sl_provider_backend');
 
-        $sCoords = sprintf(
-            "%s,%s"
-            ,    $dc->activeRecord->latitude
-            ,    $dc->activeRecord->longitude
-        );
+        if( $provider === 'hide' ) {
+            return '';
+        }
 
         if( !empty($dc->activeRecord->latitude) && !empty($dc->activeRecord->longitude) ) {
 
-            if( Geocoder::getInstance()->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
+            $sCoords = sprintf(
+                "%s,%s"
+                ,    $dc->activeRecord->latitude
+                ,    $dc->activeRecord->longitude
+            );
+
+            if( (empty($provider) || $provider === 'google-maps' )
+                && Geocoder::getInstance()->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
 
                 $imgPath = '//maps.google.com/maps/api/staticmap?center='.$sCoords
                 .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
 
-            } else if( Geocoder::getInstance()->hasProvider('bing-map') ) {
+            } else if( (empty($provider) || $provider === 'bing-map' )
+                && Geocoder::getInstance()->hasProvider('bing-map') ) {
 
                 $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$sCoords.'/16?mapSize=565,150&pp='.$sCoords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
 
-            } else if( Geocoder::getInstance()->hasProvider('here') ) {
+            } else if( (empty($provider) || $provider === 'here' )
+                && Geocoder::getInstance()->hasProvider('here') ) {
 
                 $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$sCoords.'&apiKey='.Config::get('here_server_key');
             }
         }
 
-        return '<div class="widget sl-google-map">'
-            .($imgPath?'<img width="565" height="150" src="'.$imgPath.'" />':'<div class="img"></div>')
-            .'</div>';
+        $html = '<div class="widget sl-google-map">';
+        if( !empty($imgPath) ) {
+            $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
+        } else {
+            $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
+        }
+
+        $html .= '</div>';
+
+        return $html;
     }
 
 

@@ -5,6 +5,12 @@
     <trans-unit id="tl_settings.storelocator_legend">
         <source>StoreLocator Settings</source>
     </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend.0">
+        <source>Map provider backend</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend.1">
+        <source>Choose which map provider will be used in the contao backend.</source>
+    </trans-unit>
     <trans-unit id="tl_settings.google_maps_server_key.0">
         <source>Google Maps server key</source>
     </trans-unit>
@@ -52,6 +58,18 @@
     </trans-unit>
     <trans-unit id="tl_settings.err.missing_browser_key">
         <source>There is currently no javascript provider available, may be there are keys missing in settings or you need to install your provider</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.hide">
+        <source>Do not show</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.google-maps">
+        <source>Google Maps</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.bing-map">
+        <source>Bing Maps</source>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.here">
+        <source>HERE</source>
     </trans-unit>
 </body>
 </file>

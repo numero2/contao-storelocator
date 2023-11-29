@@ -79,6 +79,20 @@ fieldset.tl_box .heightAuto {
             height: 150px;
             object-fit: cover;
             margin-top: 15px;
+
+        }
+
+        .img {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                text-align: center;
+                line-height: 1.4;
+                max-width: 80%;
+            }
         }
 
         @media (max-width: 767px) {

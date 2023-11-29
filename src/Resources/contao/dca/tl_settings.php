@@ -34,6 +34,9 @@ $pm = PaletteManipulator::create()
     ->addLegend('storelocator_legend', 'timeout_legend', 'before')
 ;
 
+// general fields
+$pm->addField(['sl_provider_backend'], 'storelocator_legend', 'append');
+
 // google maps
 if( Geocoder::getInstance()->hasProvider('google-maps') ) {
     $pm->addField(['google_maps_server_key'], 'storelocator_legend', 'append');
@@ -66,6 +69,13 @@ $pm->applyToPalette('default', 'tl_settings');
 /**
  * Add fields to tl_settings
  */
+$GLOBALS['TL_DCA']['tl_settings']['fields']['sl_provider_backend'] = [
+    'inputType'         => 'select'
+,   'options'           => ['hide', 'google-maps', 'bing-map', 'here']
+,   'reference'         => &$GLOBALS['TL_LANG']['tl_settings']['sl_provider_backend_options']
+,   'eval'              => ['includeBlankOption'=>true, 'tl_class'=>'clr w50']
+];
+
 $GLOBALS['TL_DCA']['tl_settings']['fields']['google_maps_server_key'] = [
     'inputType'         => 'text'
 ,   'eval'              => ['tl_class'=>'clr w50']

@@ -215,12 +215,10 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'sql'               => "varchar(64) NOT NULL default ''"
         ]
     ,   'map' => [
-            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
-        ,   'input_field_callback' => [Stores::class, 'showMap']
+            'input_field_callback' => [Stores::class, 'showMap']
         ]
     ,   'geo_explain' => [
-            'label'                => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['latitude']
-        ,   'input_field_callback' => [Stores::class, 'showGeoExplain']
+            'input_field_callback' => [Stores::class, 'showGeoExplain']
         ]
     ,   'highlight' => [
             'inputType'            => 'checkbox'

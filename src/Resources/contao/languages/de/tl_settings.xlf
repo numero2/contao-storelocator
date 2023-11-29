@@ -6,6 +6,14 @@
         <source>StoreLocator Settings</source>
         <target>StoreLocator Einstellungen</target>
     </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend.0">
+        <source>Map provider backend</source>
+        <target>Karten-Provider Backend</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend.1">
+        <source>Choose which map provider will be used in the contao backend.</source>
+        <target>Bitte wählen Sie welchen Karten-Provider im Contao backend verwendet werden soll.</target>
+    </trans-unit>
     <trans-unit id="tl_settings.google_maps_server_key.0">
         <source>Google Maps server key</source>
         <target>Google Maps Server-Schlüssel</target>
@@ -69,6 +77,22 @@
     <trans-unit id="tl_settings.err.missing_browser_key">
         <source>An API key from a compatible provider is required for the map display of stores in the frontend.</source>
         <target>Für die Kartendarstellung von Händlern im Frontend ist ein API-Schlüssel eines kompatiblen Anbieters notwendig.</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.hide">
+        <source>Do not show</source>
+        <target>Keine Anzeige</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.google-maps">
+        <source>Google Maps</source>
+        <target>Google Maps</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.bing-map">
+        <source>Bing Maps</source>
+        <target>Bing Maps</target>
+    </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.here">
+        <source>HERE</source>
+        <target>HERE</target>
     </trans-unit>
 </body>
 </file>
