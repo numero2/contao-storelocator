@@ -93,7 +93,7 @@ class ModuleStoreLocatorList extends Module {
             $modFilter = ModuleModel::findById($this->storelocator_mod_filter);
 
             if( $modFilter ) {
-                $filterFields = StringUtil::deserialize($modFilter->storelocator_search_in);
+                $filterFields = StringUtil::deserialize($modFilter->storelocator_search_in, true);
             }
         }
 

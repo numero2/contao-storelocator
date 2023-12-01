@@ -118,7 +118,7 @@ class ModuleStoreLocatorFilter extends Module {
                     if( $strData ) {
                         $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/tags/%s', $strData, $tagsStd));
                     } else {
-                        $href = $page->getFrontendUrl(sprintf('/tags/%s/', $tagsStd));
+                        $href = $page->getFrontendUrl(sprintf('/tags/%s', $tagsStd));
                     }
 
                     $active = $tagsStd === ($aSearchValues['tags']??null);
