@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -26,6 +23,7 @@ use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
+use numero2\TagsBundle\TagsBundle;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 
@@ -88,20 +86,55 @@ class ModuleStoreLocatorFilter extends Module {
         $aSearchValues = StoreLocator::parseSearchValue($sSearchVal);
 
         // generate form elements
-        $fieldClass = class_exists('\Contao\FormText')?'\Contao\FormText':'\Contao\FormTextField';
+        $fieldClass = $GLOBALS['TL_FFL']['text'];
 
         $widgetFilter = null;
-        $widgetFilter = new $fieldClass($fieldClass::getAttributesFromDca(
-                [
-                    'name'          => 'filter'
-                ,   'label'         => &$GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_label']
-                ,   'inputType'     => 'text'
-                ,    'eval'         => ['mandatory'=>true]
-                ]
-            ,   'filter'
-            ,   $aSearchValues['filter']??null
-            )
-        );
+        $widgetFilter = new $fieldClass($fieldClass::getAttributesFromDca([
+                'name'          => 'filter'
+            ,   'label'         => &$GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_label']
+            ,   'inputType'     => 'text'
+            ,   'eval'          => ['mandatory'=>true]
+            ]
+        ,   'filter'
+        ,   $aSearchValues['filter']??null
+        ));
+
+        $widgetTags = null;
+        if( $this->storelocator_use_tags ?? null && class_exists(TagsBundle::class) ) {
+
+            $this->Template->use_tags = 1;
+
+            $categories = StringUtil::deserialize($this->storelocator_list_categories, true);
+
+            $tags = TagsModel::findByStorelocatorCategories($categories);
+            $tagsFilter = [];
+
+            if( $tags ) {
+                foreach( $tags as $tag ) {
+
+                    $tagsStd = StringUtil::standardize($tag->tag);
+
+                    $strData = StoreLocator::generateSearchvalue($aSearchValues);
+                    if( $strData ) {
+                        $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/tags/%s', $strData, $tagsStd));
+                    } else {
+                        $href = $page->getFrontendUrl(sprintf('/tags/%s/', $tagsStd));
+                    }
+
+                    $active = $tagsStd === ($aSearchValues['tags']??null);
+
+                    $tagsFilter[] = [
+                        'label' => $tag->tag
+                    ,   'href' => $href
+                    ,   'title' => $tag->tag
+                    ,   'class' => ($active?'active':'')
+                    ,   'count' => TagsModel::countByIdAndStorelocatorCategories($tag->id, $categories)
+                    ];
+                }
+            }
+
+            $this->Template->tagsFilter = $tagsFilter;
+        }
 
         $widgetSubmit = null;
         $widgetSubmit = new FormSubmit();
@@ -149,10 +182,15 @@ class ModuleStoreLocatorFilter extends Module {
                 $this->redirect($href);
             }
 
-        } else if( Input::get('order') && Input::get('sort') ) {
+        } else if( (Input::get('order') && Input::get('sort')) || Input::get('tags') ) {
 
-            $aSearchValues['order'] = Input::get('order');
-            $aSearchValues['sort'] = Input::get('sort');
+            if( Input::get('order') && Input::get('sort') ) {
+                $aSearchValues['order'] = Input::get('order');
+                $aSearchValues['sort'] = Input::get('sort');
+            }
+            if( Input::get('tags') ) {
+                $aSearchValues['tags'] = Input::get('tags');
+            }
 
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
@@ -178,15 +216,17 @@ class ModuleStoreLocatorFilter extends Module {
                 $href = $page->getFrontendUrl(sprintf('/order/%s/sort/%s', $value, $newSort));
             }
 
+            $label = $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value] ??  $value;
             $sortFilter[] = [
-                'label' => $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value]
+                'label' => $label
             ,   'href' => $href
-            ,   'title' => $GLOBALS['TL_LANG']['tl_storelocator']['filter'][$value]." ".$GLOBALS['TL_LANG']['tl_storelocator']['filter']['order'][$newSort]
+            ,   'title' => $label." ".$GLOBALS['TL_LANG']['tl_storelocator']['filter']['order'][$newSort]
             ,   'class' => ($active?"active ".$newSort:"")
             ];
         }
 
         $this->Template->labelFilter = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_label'];
+        $this->Template->labelTags = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['tags_label'];
         $this->Template->labelSorting = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['order_label'];
 
         $this->Template->filterField = $widgetFilter;

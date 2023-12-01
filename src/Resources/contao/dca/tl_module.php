@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -17,6 +14,8 @@ use Contao\Config;
 use numero2\StoreLocator\DCAHelper\Module;
 use numero2\StoreLocator\DCAHelper\Stores;
 use numero2\StoreLocator\StoreLocatorBackend;
+use numero2\TagsBundle\TagsBundle;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 
 /**
@@ -72,7 +71,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_autocomplete_country'] =
     'inputType'           => 'select'
 ,   'options_callback'    => [Stores::class, 'getCountries']
 ,   'default'             => 'de'
-,   'search'              => true
 ,   'eval'                => ['maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true, 'includeBlankOption'=>true]
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
 ];
@@ -81,7 +79,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_default_country'] = [
     'inputType'           => 'select'
 ,   'options_callback'    => [Stores::class, 'getCountries']
 ,   'default'             => 'de'
-,   'search'              => true
 ,   'eval'                => ['includeBlankOption'=>true, 'maxlength'=>2, 'tl_class'=>'w50', 'chosen'=>true]
 ,   'sql'                 => "varchar(2) NOT NULL default ''"
 ];
@@ -259,12 +256,12 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_filter'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_mod_filter'] = [
-    'inputType'         => 'select'
-,   'exclude'           => true
-,   'options_callback'  => [Module::class, 'getFilterModules']
-,   'eval'              => ['mandatory'=>true, 'tl_class'=>'w50 wizard']
-,   'wizard'            => [[Module::class, 'editModule']]
-,   'sql'               => "int(10) NOT NULL default '0'"
+    'inputType'           => 'select'
+,   'exclude'             => true
+,   'options_callback'    => [Module::class, 'getFilterModules']
+,   'eval'                => ['mandatory'=>true, 'tl_class'=>'w50 wizard']
+,   'wizard'              => [[Module::class, 'editModule']]
+,   'sql'                 => "int(10) NOT NULL default '0'"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_center'] = [
@@ -335,4 +332,22 @@ if( !array_key_exists('tl_class', $GLOBALS['TL_DCA']['tl_module']['fields']['jum
     $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] = 'clr';
 } else {
     $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']['tl_class'] .= ' clr';
+}
+
+
+if( class_exists(TagsBundle::class) ) {
+
+    PaletteManipulator::create()
+        ->addField('storelocator_use_tags', 'config_legend', 'append')
+        ->applyToPalette('storelocator_filter', 'tl_module')
+    ;
+
+    $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_use_tags';
+    $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_use_tags'] = 'storelocator_list_categories';
+
+    $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_use_tags'] = [
+        'inputType'           => 'checkbox'
+    ,   'eval'                => ['submitOnChange'=>true, 'tl_class'=>'w50 cbx m12']
+    ,   'sql'                 => "char(1) NOT NULL default ''"
+    ];
 }

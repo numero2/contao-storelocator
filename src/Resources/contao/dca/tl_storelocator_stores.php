@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 use Contao\Config;
 use Contao\DC_Table;
 use numero2\StoreLocator\DCAHelper\Stores;
+use numero2\StoreLocator\DCAHelper\Tags;
 use numero2\StoreLocator\StoreLocatorBackend;
+use numero2\TagsBundle\TagsBundle;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 
 /**
@@ -28,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         'dataContainer'               => defined('VERSION') ? 'Table' : DC_Table::class
     ,   'ptable'                      => 'tl_storelocator_categories'
     ,   'onsubmit_callback'           => [[StoreLocatorBackend::class, 'fillCoordinates']]
-    ,   'onload_callback'             => [[StoreLocatorBackend::class,'showNoProviderAvailable']]
+    ,   'onload_callback'             => [[StoreLocatorBackend::class, 'showNoProviderAvailable']]
     ,   'sql' => [
             'keys' => [
                 'id' => 'primary'
@@ -235,3 +235,25 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ]
 ];
+
+
+if( class_exists(TagsBundle::class) ) {
+
+    PaletteManipulator::create()
+        ->addLegend('tags_legend', 'common_legend', 'after')
+        ->addField('tags', 'tags_legend', 'append')
+        ->applyToPalette('default', 'tl_storelocator_stores')
+    ;
+
+    $GLOBALS['TL_DCA']['tl_storelocator_stores']['fields']['tags'] = [
+        'exclude'           => true
+    ,   'inputType'         => 'select'
+    ,   'filter'            => true
+    ,   'foreignKey'        => 'tl_tags.tag'
+    ,   'options_callback'  => ['numero2_tags.listener.data_container.tags', 'getTagOptions']
+    ,   'save_callback'     => [['numero2_tags.listener.data_container.tags', 'saveTags']]
+    ,   'eval'              => ['multiple'=>true, 'size'=>8, 'tl_class'=>'clr long tags', 'chosen'=>true]
+    ,   'sql'               => "blob NULL"
+    ,   'relation'          => ['type'=>'hasMany', 'load'=>'eager']
+    ];
+}

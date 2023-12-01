@@ -17,7 +17,8 @@
         "numero2/contao-storelocator-bing-maps-provider": "For use of Bing Maps",
         "numero2/contao-storelocator-here-provider": "For use of HERE Maps",
         "numero2/contao-storelocator-nominatim-provider": "For use of OpenStreetMap Nominatim",
-        "numero2/contao-storelocator-open-cage-provider": "For use of OpenCage"
+        "numero2/contao-storelocator-open-cage-provider": "For use of OpenCage",
+        "numero2/contao-tags": "Allows the tagging of stores"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0"

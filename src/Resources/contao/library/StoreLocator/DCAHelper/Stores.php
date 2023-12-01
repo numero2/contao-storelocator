@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -23,6 +20,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use Exception;
 use numero2\StoreLocator\Geocoder;
 use numero2\StoreLocator\StoresModel;
 
@@ -109,7 +107,7 @@ class Stores {
         if( $oAlias && $oAlias->count() > 1 ) {
 
             if( !$autoAlias ) {
-                throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+                throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
             }
 
             $varValue .= '-' . $dc->id;
@@ -230,7 +228,7 @@ class Stores {
      */
     public function checkURL( $varValue, DataContainer $dc ): string {
 
-        return ( $varValue && strpos($varValue,'https') === FALSE ) ? 'https://'.$varValue : $varValue;
+        return ( $varValue && strpos($varValue,'http') !== 0 ) ? 'https://'.$varValue : $varValue;
     }
 
 

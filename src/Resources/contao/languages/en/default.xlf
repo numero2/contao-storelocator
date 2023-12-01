@@ -110,6 +110,9 @@
     <trans-unit id="tl_storelocator.filter.city">
         <source>City</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.filter.tags_label">
+        <source>Filter by tags:</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator.filter.order_label">
         <source>Entries order by:</source>
     </trans-unit>

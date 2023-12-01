@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2023 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2023 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -294,6 +291,13 @@ class StoreLocator {
                 $ret['order'] = $searchVal[1];
                 $ret['sort'] = $searchVal[2];
 
+            } else if( count($searchVal) == 4 ) {
+
+                $ret['filter'] = $searchVal[0];
+                $ret['order'] = $searchVal[1];
+                $ret['sort'] = $searchVal[2];
+                $ret['tags'] = $searchVal[3];
+
             } else {
 
                 if( !empty($searchVal[0]) ) $ret['term'] = $searchVal[0];
@@ -304,6 +308,7 @@ class StoreLocator {
                 if( !empty($searchVal[4]) ) $ret['filter'] = $searchVal[4];
                 if( !empty($searchVal[5]) ) $ret['order'] = $searchVal[5];
                 if( !empty($searchVal[6]) ) $ret['sort'] = $searchVal[6];
+                if( !empty($searchVal[7]) ) $ret['tags'] = $searchVal[7];
             }
 
         } else {
@@ -349,13 +354,17 @@ class StoreLocator {
             }
         }
 
-        if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) ) {
+        if( !empty($arrData['filter']) || !empty($arrData['order']) || !empty($arrData['sort']) || !empty($arrData['tags']) ) {
 
             if( count($aData) == 0 ) {
 
                 $aData[0] = $arrData['filter']??'';
                 $aData[1] = $arrData['order']??'';
                 $aData[2] = $arrData['sort']??'';
+
+                if( !empty($arrData['tags']) ) {
+                    $aData[3] = $arrData['tags'];
+                }
 
             } else {
 
@@ -366,6 +375,7 @@ class StoreLocator {
                 $aData[4] = $arrData['filter']??'';
                 $aData[5] = $arrData['order']??'';
                 $aData[6] = $arrData['sort']??'';
+                $aData[7] = $arrData['tags']??'';
             }
         }
 
@@ -380,22 +390,36 @@ class StoreLocator {
 
 
     /**
-     * Create filter where from value and field list
+     * Create filter where from value and field list and an optional tag id
      *
      * @param string $value
      * @param array $fields
+     * @param string $tagId
      *
      * @return string
      */
-    public static function createFilterWhereClause( string $searchValue, array $fields ): string {
+    public static function createFilterWhereClause( string $searchValue, array $fields, ?string $tagId=null ): string {
 
         $ret = [];
 
-        foreach( $fields as $key => $field ) {
-            $ret[] = $field." LIKE '%%".$searchValue."%%'";
+        if( !empty($searchValue) ) {
+            foreach( $fields as $key => $field ) {
+                $ret[] = $field." LIKE '%%".$searchValue."%%'";
+            }
         }
 
-        $ret = '('.implode(" OR ",$ret).')';
+        if( !empty($ret) ) {
+            $ret = '('.implode(" OR ",$ret).')';
+        } else {
+            $ret = '';
+        }
+
+        if( !empty($tagId) ) {
+            $ret .= "id IN ( SELECT s.id
+                FROM tl_storelocator_stores AS s
+                JOIN tl_tags_rel as r on (r.pid = s.id AND r.ptable = 'tl_storelocator_stores ' AND r.field = 'tags' AND r.tag_id=$tagId)
+            )";
+        }
 
         return $ret;
     }

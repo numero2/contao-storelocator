@@ -19,14 +19,29 @@
                 <a href="<?= $this->hrefReset ?>" title="<?= $this->labelReset[1] ?>" class="<?= $value['class']??'' ?>" rel="nofollow"><?= $this->labelReset[0] ?></a>
             </div>
 
-            <div class="sorting_container">
-                <h3><?= $this->labelSorting ?></h3>
-                <p>
-                    <?php foreach($this->sortFields as $key => $value): ?>
-                        <a href="<?= $value['href'] ?>" title="<?= $value['title'] ?>" class="<?= $value['class']??'' ?>" rel="nofollow"><?= $value['label'] ?></a>
+            <?php if( $this->use_tags && !empty($this->tagsFilter) ): ?>
+                <div class="tags_container">
+                    <h3><?= $this->labelTags ?></h3>
+                    <ul>
+                    <?php foreach($this->tagsFilter as $key => $value): ?>
+                        <li>
+                            <a href="<?= $value['href'] ?>" title="<?= $value['title'] ?>" class="<?= $value['class']??'' ?>" rel="nofollow"><?= $value['label'] ?></a>
+                        </li>
                     <?php endforeach ?>
-                </p>
-            </div>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if( !empty($this->sortFields) ): ?>
+                <div class="sorting_container">
+                    <h3><?= $this->labelSorting ?></h3>
+                    <p>
+                        <?php foreach($this->sortFields as $key => $value): ?>
+                            <a href="<?= $value['href'] ?>" title="<?= $value['title'] ?>" class="<?= $value['class']??'' ?>" rel="nofollow"><?= $value['label'] ?></a>
+                        <?php endforeach ?>
+                    </p>
+                </div>
+            <?php endif; ?>
 
             <?= $this->autoComplete ?>
         </div>

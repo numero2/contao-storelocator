@@ -101,6 +101,9 @@
     <trans-unit id="tl_storelocator_stores.common_legend">
         <source>Common</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags_legend">
+        <source>Tags / Keywords</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.contact_legend">
         <source>Contact</source>
     </trans-unit>
@@ -169,6 +172,12 @@
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.published.1">
         <source>This store will be shown in the Frontend</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags.0">
+        <source>Tags</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags.1">
+        <source>List of tags / keywords describing this store.</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
         <source>Fetching coordinates, this may take up to several minutes …</source>

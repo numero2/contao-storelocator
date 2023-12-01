@@ -178,6 +178,14 @@
         <source>Please choose the sort order.</source>
         <target>Bitte wählen Sie die Sortierreihenfolge aus.</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_tags.0">
+        <source>Use Tags</source>
+        <target>Tags verwenden</target>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_tags.1">
+        <source>Please choose if tags can be use in this module.</source>
+        <target>Bitte wählen Sie ob Tags in diesem Modul verwendet werden sollen.</target>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_details_tpl.0">
         <source>Template</source>
         <target>Template</target>

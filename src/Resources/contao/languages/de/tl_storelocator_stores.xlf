@@ -134,6 +134,10 @@
         <source>Common</source>
         <target>Allgemein</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags_legend">
+        <source>Tags / Keywords</source>
+        <target>Tags / Schlagwörter</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.contact_legend">
         <source>Contact</source>
         <target>Kontaktdaten</target>
@@ -225,6 +229,14 @@
     <trans-unit id="tl_storelocator_stores.published.1">
         <source>This store will be shown in the Frontend</source>
         <target>Dieser Händler wird im Frontend angezeigt</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags.0">
+        <source>Tags</source>
+        <target>Tags</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tags.1">
+        <source>List of tags / keywords describing this store.</source>
+        <target>Liste von Tags / Schlagwörtern die diesen Händler beschreiben.</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
         <source>Fetching coordinates, this may take up to several minutes …</source>

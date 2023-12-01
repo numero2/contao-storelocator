@@ -134,6 +134,12 @@
     <trans-unit id="tl_module.storelocator_list_sort_direction.1">
         <source>Please choose the sort order.</source>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_tags.0">
+        <source>Use Tags</source>
+    </trans-unit>
+    <trans-unit id="tl_module.storelocator_use_tags.1">
+        <source>Please choose if tags can be use in this module.</source>
+    </trans-unit>
     <trans-unit id="tl_module.storelocator_details_tpl.0">
         <source>Template</source>
     </trans-unit>

@@ -28,6 +28,7 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use numero2\StoreLocator\DCAHelper\Stores;
+use numero2\TagsBundle\TagsBundle;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
@@ -124,17 +125,40 @@ class ModuleStoreLocatorList extends Module {
                 }
             }
 
+            $filteredTag = null;
+            if( class_exists(TagsBundle::class) && !empty($aSearchValues['tags']) ) {
+
+                $categories = StringUtil::deserialize($this->storelocator_list_categories, true);
+
+                $tags = TagsModel::findByStorelocatorCategories($categories);
+
+                if( $tags ) {
+                    foreach( $tags as $tag ) {
+                        if( $aSearchValues['tags'] === StringUtil::standardize($tag->tag) ) {
+                            $filteredTag = $tag->id;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
             // handle ajax request for searching markers in map
             if( Environment::get('isAjaxRequest') ) {
 
                 if( Input::get('action') == "getMarkers" ) {
+
+                    $filterStr = '';
+                    if( $this->storelocator_use_filter ) {
+                        $filterStr = StoreLocator::createFilterWhereClause($aSearchValues['filter']??'', $filterFields, $filteredTag);
+                    }
 
                     $oStores = StoresModel::searchBetweenCoords(
                         Input::get('fromlng'), Input::get('tolng'),
                         Input::get('fromlat'), Input::get('tolat'),
                         $this->storelocator_limit_marker,
                         ($category?$category:$aCategories),
-                        (!empty($aSearchValues['filter'])&&$this->storelocator_use_filter&&count($filterFields))?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):null
+                        (strlen($filterStr)?$filterStr:null)
                     );
 
                     $aJson = [];
@@ -212,6 +236,11 @@ class ModuleStoreLocatorList extends Module {
 
                 $objStores = null;
 
+                $filterStr = '';
+                if( $this->storelocator_use_filter ) {
+                    $filterStr = StoreLocator::createFilterWhereClause($aSearchValues['filter']??'', $filterFields, $filteredTag);
+                }
+
                 // search all countries
                 if( !empty($aSearchValues['term']) ) {
 
@@ -220,8 +249,9 @@ class ModuleStoreLocatorList extends Module {
                         ($this->storelocator_limit_distance?$this->storelocator_max_distance:0),
                         $this->storelocator_list_limit,
                         ($category?$category:$aCategories),
-                        (!empty($aSearchValues['filter'])&&$this->storelocator_use_filter)?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):null,
-                        (!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):null
+                        (strlen($filterStr)?$filterStr:null),
+                        (!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):null,
+                        $filteredTag
                     );
 
                 // search selected country only
@@ -241,8 +271,9 @@ class ModuleStoreLocatorList extends Module {
                         $this->storelocator_default_country,
                         $this->storelocator_list_limit,
                         ($category?$category:$aCategories),
-                        (!empty($aSearchValues['filter'])&&$this->storelocator_use_filter)?StoreLocator::createFilterWhereClause($aSearchValues['filter'], $filterFields):null,
-                        (!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):null
+                        (strlen($filterStr)?$filterStr:null),
+                        (!empty($aSearchValues['order'])&&!empty($aSearchValues['sort']))?$aSearchValues['order'].' '.strtoupper($aSearchValues['sort']):null,
+                        $filteredTag
                     );
                 }
 
@@ -269,33 +300,33 @@ class ModuleStoreLocatorList extends Module {
                                 $entry->image = $objFile;
 
                                 $temp = new \stdClass();
-    
+
                                 // Contao >= 4.9
                                 if( method_exists($this, 'addImageToTemplate') ) {
-    
+
                                     $this->addImageToTemplate($temp, [
                                         'singleSRC' => $objFile->path
                                     ,   'size' => $this->imgSize
                                     ], null, null, $objFile);
-    
+
                                 // Contao 5
                                 } else {
-    
+
                                     $figureBuilder = System::getContainer()
                                         ->get('contao.image.studio')
                                         ->createFigureBuilder()
                                         ->from($objFile->path)
                                         ->setSize($this->imgSize);
-    
+
                                     if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
                                         $figure->applyLegacyTemplateData($temp);
                                     }
                                 }
-    
+
                                 foreach( $temp as $k => $v ) {
                                     $entry->$k = $v;
                                 }
-    
+
                                 unset($temp);
                             }
                         }
