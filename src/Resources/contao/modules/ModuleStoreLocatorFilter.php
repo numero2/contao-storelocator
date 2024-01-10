@@ -142,13 +142,14 @@ class ModuleStoreLocatorFilter extends Module {
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
 
         $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
-        $this->Template->hrefReset = $page->getFrontendUrl('/clear/filter');
+        $this->Template->hrefReset = Environment::get('request') . '/clear/filter';
 
         if( Input::get('clear') == 'filter' ) {
 
             $aSearchValues['filter'] = null;
             $aSearchValues['order'] = null;
             $aSearchValues['sort'] = null;
+            $aSearchValues['tags'] = null;
 
             $strData = StoreLocator::generateSearchValue($aSearchValues);
 

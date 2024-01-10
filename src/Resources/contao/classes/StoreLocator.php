@@ -351,6 +351,7 @@ class StoreLocator {
                 $aData[1] = !empty($aData[1])?$aData[1]:'';
                 $aData[2] = $arrData['longitude'];
                 $aData[3] = $arrData['latitude'];
+                $aData[4] = '';
             }
         }
 
@@ -409,15 +410,20 @@ class StoreLocator {
         }
 
         if( !empty($ret) ) {
-            $ret = '('.implode(" OR ",$ret).')';
+            $ret = '('.implode(" OR ", $ret).')';
         } else {
             $ret = '';
         }
 
         if( !empty($tagId) ) {
+
+            if( strlen($ret) ) {
+                $ret .= "AND ";
+            }
+
             $ret .= "id IN ( SELECT s.id
                 FROM tl_storelocator_stores AS s
-                JOIN tl_tags_rel as r on (r.pid = s.id AND r.ptable = 'tl_storelocator_stores ' AND r.field = 'tags' AND r.tag_id=$tagId)
+                JOIN tl_tags_rel as r on (r.pid = s.id AND r.ptable = 'tl_storelocator_stores' AND r.field = 'tags' AND r.tag_id = $tagId)
             )";
         }
 
