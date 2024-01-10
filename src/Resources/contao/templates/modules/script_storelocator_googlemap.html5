@@ -86,6 +86,7 @@ if( $this->markerclusterer ) {
                 map: map,
                 icon: markerImage,
                 draggable: false,
+                optimized: false,
                 data: item,
                 infoWindow: new google.maps.InfoWindow({
                     content: item.info
