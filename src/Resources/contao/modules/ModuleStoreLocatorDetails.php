@@ -83,7 +83,7 @@ class ModuleStoreLocatorDetails extends Module {
         $objStore = null;
         $objStore = StoresModel::findByIdOrAlias($alias);
 
-        if( !$objStore ) {
+        if( !$objStore || !$objStore->published ) {
             throw new PageNotFoundException('store not found');
         }
 
