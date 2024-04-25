@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -14,17 +14,14 @@ namespace numero2\StoreLocator;
 
 use Contao\BackendTemplate;
 use Contao\Config;
-use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\Environment;
 use Contao\FormSubmit;
-use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use numero2\TagsBundle\TagsBundle;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 
 class ModuleStoreLocatorFilter extends Module {
@@ -55,7 +52,10 @@ class ModuleStoreLocatorFilter extends Module {
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = System::getContainer()->get('router')->generate(
+                'contao_backend',
+                ['do' => 'themes', 'table' => 'tl_module', 'act' => 'edit', 'id' => $this->id],
+            );
 
             return $objTemplate->parse();
         }
@@ -72,7 +72,6 @@ class ModuleStoreLocatorFilter extends Module {
         $page = null;
         $page = System::getContainer()->get('request_stack')->getCurrentRequest()->get('pageModel');
 
-        $this->Template = new FrontendTemplate($this->storelocator_filter_tpl?:$this->strTemplate);
         $this->Template->formId = 'storelocator_filter_'.$this->id;
         $this->Template->action = Environment::get('request');
         $this->Template->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());

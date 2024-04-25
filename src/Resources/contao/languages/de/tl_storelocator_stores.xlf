@@ -106,6 +106,22 @@
         <source>to</source>
         <target>bis</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_copy">
+        <source>Duplicate the row</source>
+        <target>Die Reihe duplizieren</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_up">
+        <source>Move the row up one position</source>
+        <target>Die Reihe eine Position nach oben verschieben</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_down">
+        <source>Move the row one position down</source>
+        <target>Die Reihe eine Position nach unten verschieben</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_delete">
+        <source>Delete the row</source>
+        <target>Die Reihe löschen</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.longitude.0">
         <source>Longitude</source>
         <target>Längengrad</target>

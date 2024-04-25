@@ -80,6 +80,18 @@
     <trans-unit id="tl_storelocator_stores.times_to.0">
         <source>to</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_copy">
+        <source>Duplicate the row</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_up">
+        <source>Move the row up one position</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_down">
+        <source>Move the row one position down</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_operations_delete">
+        <source>Delete the row</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.longitude.0">
         <source>Longitude</source>
     </trans-unit>

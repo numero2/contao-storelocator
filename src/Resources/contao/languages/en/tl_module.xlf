@@ -38,24 +38,6 @@
     <trans-unit id="tl_module.storelocator_enable_autocomplete.1">
         <source>Displays suggestions while typing.</source>
     </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.0">
-        <source>Template</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.1">
-        <source>Which template should be used to display the search mask.</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.0">
-        <source>Template</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.1">
-        <source>Choose which template should be used to list the stores</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_filter_tpl.0">
-        <source>Template</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_filter_tpl.1">
-        <source>Which template should be used to display the filter mask.</source>
-    </trans-unit>
     <trans-unit id="tl_module.storelocator_search_categories.0">
         <source>Categories</source>
     </trans-unit>
@@ -139,12 +121,6 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_use_tags.1">
         <source>Please choose if tags can be use in this module.</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.0">
-        <source>Template</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.1">
-        <source>Choose which template should be used to show details of the store</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_distance.0">
         <source>Limit distance</source>
@@ -253,12 +229,6 @@
     </trans-unit>
     <trans-unit id="tl_module.storelocator_scales.4">
         <source>4x</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_static_map_tpl.0">
-        <source>Template</source>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_static_map_tpl.1">
-        <source>Which template should be used to display the static map.</source>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_providers.google-maps">
         <source>Google Maps</source>

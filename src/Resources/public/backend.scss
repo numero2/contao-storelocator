@@ -47,11 +47,11 @@ fieldset.tl_box .heightAuto {
                 opacity: 0.5;
             }
 
-            th,td {
+            th, td {
 
                 padding-bottom: 4px;
 
-                &:nth-child(4) { width: 55px; }
+                &:nth-child(4) { width: 60px; }
                 &:nth-child(2), &:nth-child(3) { width: 65px; }
 
                 select, input {
@@ -61,9 +61,14 @@ fieldset.tl_box .heightAuto {
                 }
             }
         }
+
+        .operations .widgetImage.sl_flip img {
+            transform: rotate(180deg);
+        }
     }
 }
 
+[data-contao--toggle-fieldset-id-value="geo_legend"],
 #pal_geo_legend {
 
     .sl-google-map {

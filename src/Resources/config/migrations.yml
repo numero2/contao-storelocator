@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    numero2\StoreLocatorBundle\Migration\CustomTemplateFieldMigration:
+        arguments:
+            - '@database_connection'

@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -226,7 +226,12 @@ class StoreLocator {
                         $oResults = $provider->geocodeQuery(GeocodeQuery::create($sQuery));
                     }
                 } catch( \Exception $e ) {
-                    System::log('Error query geocode with '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
+
+                    if( System::getContainer()->has('monolog.logger.contao.error') ) {
+                        System::getContainer()->get('monolog.logger.contao.error')->error('Error query geocode with '.$name.': ' . $e->getMessage());
+                    } else {
+                        System::log('Error query geocode with '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
+                    }
                 }
 
                 if( $oResults ) {
@@ -247,7 +252,12 @@ class StoreLocator {
             return $aCoords;
         }
 
-        System::log('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured', __METHOD__, TL_ERROR);
+
+        if( System::getContainer()->has('monolog.logger.contao.error') ) {
+            System::getContainer()->get('monolog.logger.contao.error')->error('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured');
+        } else {
+            System::log('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured', __METHOD__, TL_ERROR);
+        }
         return [];
     }
 

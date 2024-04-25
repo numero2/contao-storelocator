@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -56,7 +53,10 @@ class ModuleStoreLocatorSearch extends Module {
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = System::getContainer()->get('router')->generate(
+                'contao_backend',
+                ['do' => 'themes', 'table' => 'tl_module', 'act' => 'edit', 'id' => $this->id],
+            );
 
             return $objTemplate->parse();
         }
@@ -71,8 +71,6 @@ class ModuleStoreLocatorSearch extends Module {
     protected function compile(): void {
 
         global $objPage;
-
-        $this->Template = new FrontendTemplate($this->storelocator_search_tpl?:$this->strTemplate);
 
         $this->Template->formId = 'storelocator_search_'.$this->id;
         $this->Template->action = Environment::get('request');

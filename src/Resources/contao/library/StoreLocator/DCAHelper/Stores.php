@@ -146,8 +146,8 @@ class Stores {
      * @return string
      */
     public function listStores( array $arrRow ): string {
-        return '<div class="limit_height block">
-            <p>' . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span></p>'
+        return '<div class="block">'
+            . $arrRow['name'] . ' <span style="color:#b3b3b3;"><em>(' . $arrRow['postal'] . ' ' . $arrRow['city'] . ')</em></span>'
             . '</div>' . "\n";
     }
 

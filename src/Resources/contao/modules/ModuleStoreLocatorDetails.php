@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -19,11 +16,10 @@ use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\FilesModel;
-use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
-use Contao\StringUtil;
 use Contao\System;
+use stdClass;
 
 
 class ModuleStoreLocatorDetails extends Module {
@@ -54,7 +50,10 @@ class ModuleStoreLocatorDetails extends Module {
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = System::getContainer()->get('router')->generate(
+                'contao_backend',
+                ['do' => 'themes', 'table' => 'tl_module', 'act' => 'edit', 'id' => $this->id],
+            );
 
             return $objTemplate->parse();
         }
@@ -70,7 +69,6 @@ class ModuleStoreLocatorDetails extends Module {
 
         global $objPage;
 
-        $this->Template = new FrontendTemplate($this->storelocator_details_tpl?:$this->strTemplate);
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
@@ -114,7 +112,7 @@ class ModuleStoreLocatorDetails extends Module {
 
         if( $objStore->image ) {
 
-            $temp = new \stdClass();
+            $temp = new stdClass();
 
             // Contao >= 4.9
             if( method_exists($this, 'addImageToTemplate') ) {

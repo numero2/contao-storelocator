@@ -1,24 +1,21 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
 use Contao\Backend;
+use Contao\Image;
 use Contao\System;
 use Contao\Widget;
-use numero2\StoreLocator\StoreLocator;
 
 
 class OpeningTimes extends Widget {
@@ -169,10 +166,14 @@ class OpeningTimes extends Widget {
             $theme = Backend::getTheme();
 
             $html .= '<td class="operations">';
-            $html .=      '<a rel="copy" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/copy.svg" width="14" height="16" alt="Die Reihe duplizieren" class="tl_listwizard_img"></a>';
-            $html .=      '<a rel="up" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/up.svg" width="13" height="16" alt="Die Reihe eine Position nach oben verschieben" class="tl_listwizard_img"></a>';
-            $html .=      '<a rel="down" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/down.svg" width="13" height="16" alt="Die Reihe eine Position nach unten verschieben" class="tl_listwizard_img"></a>';
-            $html .=      '<a rel="delete" href="#" class="widgetImage" title=""><img src="system/themes/'.$theme.'/icons/delete.svg" width="14" height="16" alt="Die Reihe löschen" class="tl_listwizard_img"></a>';
+            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_copy'];
+            $html .=      '<a rel="copy" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('copy.svg', $title, 'class="tl_listwizard_img"') .'</a>';
+            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_up'];
+            $html .=      '<a rel="up" href="#" class="widgetImage sl_flip" title="'. $title .'">'. Image::getHtml('down.svg', $title, 'class="tl_listwizard_img"') .'</a>';
+            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_down'];
+            $html .=      '<a rel="down" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('down.svg', $title, 'class="tl_listwizard_img"') .'</a>';
+            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_delete'];
+            $html .=      '<a rel="delete" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('delete.svg', $title, 'class="tl_listwizard_img"') .'</a>';
             $html .= '</td>';
 
             $html .= '</tr>';

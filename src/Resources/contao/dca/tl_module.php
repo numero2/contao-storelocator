@@ -6,16 +6,16 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 use Contao\Config;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use numero2\StoreLocator\DCAHelper\Module;
 use numero2\StoreLocator\DCAHelper\Stores;
 use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\TagsBundle\TagsBundle;
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 
 /**
@@ -28,11 +28,11 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = [Module::class,
 /**
  * Add palettes to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend},storelocator_provider,jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},storelocator_search_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_list_sort_field,storelocator_list_sort_direction,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{source_legend},imgSize;{template_legend:hide},storelocator_list_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},storelocator_filter_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{config_legend},storelocator_provider;{source_legend},imgSize;{template_legend:hide},storelocator_details_tpl;{expert_legend:hide},guests,cssID,space';
-$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},storelocator_static_map_tpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_search'] = '{title_legend},name,headline,type;{config_legend},storelocator_provider,jumpTo,storelocator_enable_autocomplete,storelocator_search_categories;{template_legend:hide},customTpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_list'] = '{title_legend},name,headline,type;{config_legend},storelocator_list_categories,storelocator_list_limit,storelocator_list_sort_field,storelocator_list_sort_direction,storelocator_limit_distance,storelocator_always_show_results,storelocator_use_filter,jumpTo;{sl_map_legend},storelocator_show_map;{source_legend},imgSize;{template_legend:hide},customTpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_filter'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_search_in,storelocator_sortable;{template_legend:hide},customTpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_details'] = '{title_legend},name,type;{config_legend},storelocator_provider;{source_legend},imgSize;{template_legend:hide},customTpl;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['storelocator_static_map'] = '{title_legend},name,headline,type;{config_legend},jumpTo,storelocator_center,storelocator_zoom,storelocator_search_categories,storelocator_limit_marker_static;{template_legend:hide},customTpl,storelocator_maptype,storelocator_size,storelocator_scale,storelocator_format;{expert_legend:hide},guests,cssID,space';
 
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_limit_distance';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'storelocator_enable_autocomplete';
@@ -89,15 +89,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_categories'] = [
 ,   'options_callback'    => [Module::class, 'getCategories']
 ,   'eval'                => ['mandatory'=>true, 'multiple'=>true, 'tl_class'=>'clr w50']
 ,   'sql'                 => "text NULL"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_tpl'] = [
-    'default'             => 'mod_storelocator_search'
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getTemplates']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
-,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_categories'] = [
@@ -188,7 +179,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_interaction'] = [
 ,   'exclude'             => true
 ,   'inputType'           => 'select'
 ,   'options_callback'    => [StoreLocatorBackend::class, 'getMapInteractions']
-,   'eval'                => [ 'tl_class'=>'w50 clr']
+,   'eval'                => ['tl_class'=>'w50 clr']
 ,   'sql'                 => "varchar(64) NOT NULL default ''"
 ];
 
@@ -205,33 +196,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_pin'] = [
     'inputType'           => 'fileTree'
 ,   'eval'                => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
 ,   'sql'                 => "binary(16) NULL"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_tpl'] = [
-    'default'             => 'mod_storelocator_list'
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getTemplates']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
-,   'sql'                 => "varchar(255) NOT NULL default ''"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_details_tpl'] = [
-    'default'             => 'mod_storelocator_details'
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getTemplates']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
-,   'sql'                 => "varchar(255) NOT NULL default ''"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_filter_tpl'] = [
-    'default'             => 'mod_storelocator_filter'
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getTemplates']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
-,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_search_in'] = [
@@ -317,15 +281,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_scale'] = [
 ,   'options_callback'    => [Module::class, 'getMapScale']
 ,   'eval'                => ['mandatory'=>true, 'tl_class'=>'w50']
 ,   'sql'                 => "varchar(16) NOT NULL default ''"
-];
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_static_map_tpl'] = [
-    'default'             => 'mod_storelocator_static_map'
-,   'exclude'             => true
-,   'inputType'           => 'select'
-,   'options_callback'    => [Module::class, 'getTemplates']
-,   'eval'                => ['includeBlankOption'=>true, 'tl_class'=>'w50']
-,   'sql'                 => "varchar(255) NOT NULL default ''"
 ];
 
 if( !array_key_exists('tl_class', $GLOBALS['TL_DCA']['tl_module']['fields']['jumpTo']['eval']) ) {

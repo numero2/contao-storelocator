@@ -50,30 +50,6 @@
         <source>Displays suggestions while typing.</source>
         <target>Zeigt dem Nutzer Suchvorschläge schon während der Eingabe an.</target>
     </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_search_tpl.1">
-        <source>Which template should be used to display the search mask.</source>
-        <target>Wählen Sie mit welchen Template die Suchmaske dargestellt werden soll.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_list_tpl.1">
-        <source>Choose which template should be used to list the stores</source>
-        <target>Wählen Sie mit welchen Template die Händler dargestellt werden sollen.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_filter_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_filter_tpl.1">
-        <source>Which template should be used to display the filter mask.</source>
-        <target>Wählen Sie mit welchen Template die Filtermaske dargestellt werden soll.</target>
-    </trans-unit>
     <trans-unit id="tl_module.storelocator_search_categories.0">
         <source>Categories</source>
         <target>Händlerkategorien</target>
@@ -185,14 +161,6 @@
     <trans-unit id="tl_module.storelocator_use_tags.1">
         <source>Please choose if tags can be use in this module.</source>
         <target>Bitte wählen Sie ob Tags in diesem Modul verwendet werden sollen.</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_details_tpl.1">
-        <source>Choose which template should be used to show details of the store</source>
-        <target>Wählen Sie mit welchen Template der Händler dargestellt werden soll.</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_limit_distance.0">
         <source>Limit distance</source>
@@ -337,14 +305,6 @@
     <trans-unit id="tl_module.storelocator_scales.4">
         <source>4x</source>
         <target>4x</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_static_map_tpl.0">
-        <source>Template</source>
-        <target>Template</target>
-    </trans-unit>
-    <trans-unit id="tl_module.storelocator_static_map_tpl.1">
-        <source>Which template should be used to display the static map.</source>
-        <target>Wählen Sie mit welchen Template die statische Karte dargestellt werden soll.</target>
     </trans-unit>
     <trans-unit id="tl_module.storelocator_providers.google-maps">
         <source>Google Maps</source>

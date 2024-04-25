@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2023 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2023 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -29,6 +26,7 @@ use Contao\StringUtil;
 use Contao\System;
 use numero2\StoreLocator\DCAHelper\Stores;
 use numero2\TagsBundle\TagsBundle;
+use stdClass;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
@@ -60,7 +58,10 @@ class ModuleStoreLocatorList extends Module {
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = System::getContainer()->get('router')->generate(
+                'contao_backend',
+                ['do' => 'themes', 'table' => 'tl_module', 'act' => 'edit', 'id' => $this->id],
+            );
 
             return $objTemplate->parse();
         }
@@ -75,8 +76,6 @@ class ModuleStoreLocatorList extends Module {
     protected function compile(): void {
 
         global $objPage;
-
-        $this->Template = new FrontendTemplate($this->storelocator_list_tpl?:$this->strTemplate);
 
         if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
@@ -299,7 +298,7 @@ class ModuleStoreLocatorList extends Module {
 
                                 $entry->image = $objFile;
 
-                                $temp = new \stdClass();
+                                $temp = new stdClass();
 
                                 // Contao >= 4.9
                                 if( method_exists($this, 'addImageToTemplate') ) {
