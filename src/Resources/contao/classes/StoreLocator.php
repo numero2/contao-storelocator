@@ -18,6 +18,7 @@ use Contao\Input;
 use Contao\Module;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Validator;
 use Geocoder\Query\GeocodeQuery;
 use numero2\StoreLocator\DCAHelper\Stores;
 
@@ -108,6 +109,26 @@ class StoreLocator {
      * @param Contao\Module $module
      */
     public static function parseStoreData( StoresModel $store, ?Module $module=null ): void {
+
+        // validate latitude and longitude
+        if( !Validator::isNumeric($store->latitude) || !Validator::isNumeric($store->longitude) ) {
+            if( System::getContainer()->has('monolog.logger.contao.error') ) {
+                System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
+            } else {
+                System::log('Error parsing geocords ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id, __METHOD__, TL_ERROR);
+            }
+        }
+
+        $store->latitude = floatval($store->latitude);
+        $store->longitude = floatval($store->longitude);
+
+        if( $store->latitude < -90 || $store->latitude > 90 || $store->longitude < -180 || $store->longitude > 180 ) {
+            if( System::getContainer()->has('monolog.logger.contao.error') ) {
+                System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
+            } else {
+                System::log('Error geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id, __METHOD__, TL_ERROR);
+            }
+        }
 
         // get opening times
         $aTimes = StringUtil::deserialize( $store->opening_times );
