@@ -110,6 +110,9 @@ class StoreLocator {
      */
     public static function parseStoreData( StoresModel $store, ?Module $module=null ): void {
 
+        $store->name = StringUtil::restoreBasicEntities($store->name);
+        $store->description = StringUtil::restoreBasicEntities($store->description);
+
         // validate latitude and longitude
         if( !Validator::isNumeric($store->latitude) || !Validator::isNumeric($store->longitude) ) {
             if( System::getContainer()->has('monolog.logger.contao.error') ) {
