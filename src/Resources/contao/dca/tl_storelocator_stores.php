@@ -228,7 +228,6 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ,   'published' => [
             'inputType'            => 'checkbox'
-        ,   'toggle'               => true
         ,   'filter'               => true
         ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
         ,   'sql'                  => "char(1) NOT NULL default ''"

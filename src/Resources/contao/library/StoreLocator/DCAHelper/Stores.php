@@ -250,24 +250,15 @@ class Stores {
             $icon = 'invisible.svg';
         }
 
-        // Contao >= 4.9
-        if( defined('VERSION') ) {
+        if( Input::get('tid') ) {
 
-            if( Input::get('tid') ) {
-
-                $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
-                Controller::redirect(System::getReferer());
-            }
-
-            $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-            return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
-
-        // Contao >= 5.0
-        } else {
-
-            $href .= '&amp;id='.$row['id'].'&amp;act=toggle&amp;field=published';
-            return '<a href="' . Controller::addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '" onclick="Backend.getScrollOffset();return AjaxRequest.toggleField(this,true)">' . Image::getHtml($icon, $label, 'data-icon="' . Image::getPath('visible.svg') . '" data-icon-disabled="' . Image::getPath('invisible.svg') . '" data-state="' . ($row['published'] ? 1 : 0) . '"') . '</a> ';
+            $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
+            Controller::redirect(System::getReferer());
         }
+
+        $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+        return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
+
     }
 
 
