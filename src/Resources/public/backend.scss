@@ -107,3 +107,14 @@ fieldset.tl_box .heightAuto {
         }
     }
 }
+
+#tl_csv_import_importStores {
+
+    p + p {
+        margin-top: 1em;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -6,17 +6,17 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 use Contao\Config;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\DataContainer;
 use Contao\DC_Table;
 use numero2\StoreLocator\DCAHelper\Stores;
-use numero2\StoreLocator\DCAHelper\Tags;
 use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\TagsBundle\TagsBundle;
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 
 /**
@@ -25,7 +25,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
 
     'config' => [
-        'dataContainer'               => defined('VERSION') ? 'Table' : DC_Table::class
+        'dataContainer'               => DC_Table::class
     ,   'ptable'                      => 'tl_storelocator_categories'
     ,   'onsubmit_callback'           => [[StoreLocatorBackend::class, 'fillCoordinates']]
     ,   'onload_callback'             => [[StoreLocatorBackend::class, 'showNoProviderAvailable']]
@@ -37,9 +37,9 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ]
 ,   'list' => [
         'sorting' => [
-            'mode'                    => 4
+            'mode'                    => DataContainer::MODE_PARENT
         ,   'fields'                  => ['city']
-        ,   'flag'                    => 11
+        ,   'flag'                    => DataContainer::SORT_ASC
         ,   'headerFields'            => ['title']
         ,   'panelLayout'             => 'filter;sort,search,limit'
         ,   'child_record_callback'   => [Stores::class, 'listStores']

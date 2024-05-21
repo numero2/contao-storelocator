@@ -23,17 +23,11 @@
     <trans-unit id="tl_storelocator.weekdays.SO">
         <source>Sunday</source>
     </trans-unit>
-    <trans-unit id="tl_storelocator.import.head">
-        <source>Import retailer from CSV</source>
-    </trans-unit>
     <trans-unit id="tl_storelocator.import.start">
         <source>Start import</source>
     </trans-unit>
-    <trans-unit id="tl_storelocator.import.file.0">
-        <source>Choose file</source>
-    </trans-unit>
-    <trans-unit id="tl_storelocator.import.file.1">
-        <source>The file must be UTF8 encoded and follow the structure name, email, url, phone, fax, street, postal, city, countrycode (ISO 3166-2)</source>
+    <trans-unit id="tl_storelocator.import.file_content">
+        <source>The CSV file must be encoded with the UTF8 character set and should contain the following fields in the first line: name, email, url, phone, fax, street, postal, city, country (ISO 3166-2).</source>
     </trans-unit>
     <trans-unit id="tl_storelocator.import.limit_info">
         <source><![CDATA[<b>Please note:</b>]]> Using the free Version of Google APIs forces certain limits which, trying to import many stores at once, may lead to your visitors unable to use the StoreLocator for up to 24 hours. Therefore we suggest not trying to import more than 500 stores daily.</source>

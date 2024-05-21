@@ -31,6 +31,8 @@ class StoreLocatorExtension extends Extension {
             new FileLocator(__DIR__.'/../Resources/config')
         );
 
+        $loader->load('controller.yml');
+        $loader->load('listener.yml');
         $loader->load('migrations.yml');
     }
 }

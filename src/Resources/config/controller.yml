@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+
+    numero2\StoreLocatorBundle\Controller\StoreLocatorImportController:
+        public: true
+        arguments:
+            - '%kernel.project_dir%'
+            - '@request_stack'
+            - '@event_dispatcher'
+            - '@contao.framework'
+            - '@translator'

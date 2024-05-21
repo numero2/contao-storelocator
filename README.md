@@ -37,3 +37,26 @@ If you want to use another provider you'll need to install additional packages:
 | `numero2/contao-storelocator-here-provider`      | HERE Maps               |
 | `numero2/contao-storelocator-nominatim-provider` | OpenStreetMap Nominatim |
 | `numero2/contao-storelocator-open-cage-provider` | OpenCage                |
+
+
+Events
+--
+
+By default the importer will populate the model with the fields for the current row and the key provided in the first row of the file. For custom handling feel free to use the `contao.storelocator_store_import` event:
+
+```php
+// src/EventListener/StoreImportListener.php
+namespace App\EventListener;
+
+use Contao\StoreLocatorBundle\Event\StoreImportEvent;
+use Contao\StoreLocatorBundle\Event\StoreLocatorEvents;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+#[AsEventListener(StoreLocatorEvents::STORE_IMPORT)]
+class StoreImportListener {
+
+    public function __invoke( StoreLocatorEvents $event ): void {
+        // …
+    }
+}
+```

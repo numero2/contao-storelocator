@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "contao/core-bundle": "^4.9 || ^5.0",
+        "contao/core-bundle": "^4.13 || ^5.0",
         "willdurand/geocoder": "^4.3",
         "geocoder-php/google-maps-provider": "^4.6"
     },

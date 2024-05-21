@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -22,7 +19,6 @@ use Geocoder\Provider\OpenCage\OpenCage;
 use numero2\StoreLocator\CategoriesModel;
 use numero2\StoreLocator\ModuleStoreLocatorDetails;
 use numero2\StoreLocator\ModuleStoreLocatorFilter;
-use numero2\StoreLocator\ModuleStoreLocatorImporter;
 use numero2\StoreLocator\ModuleStoreLocatorList;
 use numero2\StoreLocator\ModuleStoreLocatorSearch;
 use numero2\StoreLocator\ModuleStoreLocatorStaticMap;
@@ -30,6 +26,7 @@ use numero2\StoreLocator\OpeningTimes;
 use numero2\StoreLocator\StoreLocator;
 use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\StoreLocator\StoresModel;
+use numero2\StoreLocatorBundle\Controller\StoreLocatorImportController;
 
 
 /**
@@ -45,7 +42,7 @@ $GLOBALS['TL_MODELS'][StoresModel::getTable()] = StoresModel::class;
 $GLOBALS['BE_MOD']['content']['storelocator'] = [
     'tables'            => ['tl_storelocator_categories', 'tl_storelocator_stores']
 ,   'stylesheet'        => 'bundles/storelocator/backend.css'
-,   'importStores'      => [ModuleStoreLocatorImporter::class, 'showImport']
+,   'importStores'      => [StoreLocatorImportController::class, 'importStoreAction']
 ,   'fillCoordinates'   => [StoreLocatorBackend::class, 'fillCoordinates']
 ];
 

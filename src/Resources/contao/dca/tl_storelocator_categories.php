@@ -1,19 +1,17 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 use Contao\Config;
+use Contao\DataContainer;
 use Contao\DC_Table;
 use numero2\StoreLocator\DCAHelper\Categories;
 use numero2\StoreLocator\StoreLocatorBackend;
@@ -25,7 +23,7 @@ use numero2\StoreLocator\StoreLocatorBackend;
 $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
 
     'config' => [
-        'dataContainer'               => defined('VERSION') ? 'Table' : DC_Table::class
+        'dataContainer'               => DC_Table::class
     ,   'ctable'                      => ['tl_storelocator_stores']
     ,   'switchToEdit'                => true
     ,   'onload_callback'             => [[StoreLocatorBackend::class, 'showNoProviderAvailable']]
@@ -37,9 +35,9 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
     ]
 ,   'list' => [
         'sorting' => [
-            'mode'                    => 1
+            'mode'                    => DataContainer::MODE_SORTED
         ,   'fields'                  => ['title']
-        ,   'flag'                    => 1
+        ,   'flag'                    => DataContainer::SORT_INITIAL_LETTER_ASC
         ,   'panelLayout'             => 'filter;search,limit'
         ]
     ,   'label' => [

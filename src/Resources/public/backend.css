@@ -97,3 +97,11 @@ fieldset.tl_box .heightAuto {
     width: calc(100% - 30px);
   }
 }
+
+#tl_csv_import_importStores p + p {
+  margin-top: 1em;
+}
+
+#tl_csv_import_importStores p + p:last-child {
+  margin-bottom: 0;
+}
