@@ -48,14 +48,14 @@ By default the importer will populate the model with the fields for the current 
 // src/EventListener/StoreImportListener.php
 namespace App\EventListener;
 
-use Contao\StoreLocatorBundle\Event\StoreImportEvent;
-use Contao\StoreLocatorBundle\Event\StoreLocatorEvents;
+use numero2\StoreLocatorBundle\Event\StoreImportEvent;
+use numero2\StoreLocatorBundle\Event\StoreLocatorEvents;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 #[AsEventListener(StoreLocatorEvents::STORE_IMPORT)]
 class StoreImportListener {
 
-    public function __invoke( StoreLocatorEvents $event ): void {
+    public function __invoke( StoreImportEvent $event ): void {
         // …
     }
 }
