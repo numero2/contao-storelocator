@@ -16,7 +16,7 @@ Screenshot
 System requirements
 --
 
-* [Contao 4.9](https://github.com/contao/core) or newer
+* [Contao 4.13](https://github.com/contao/core) or newer
 * [Google API Key](https://github.com/numero2/contao-storelocator/wiki/Google-Keys)
 
 Installation
