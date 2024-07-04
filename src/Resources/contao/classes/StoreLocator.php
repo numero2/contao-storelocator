@@ -381,7 +381,7 @@ class StoreLocator {
                 $aData[1] = $arrData['category'];
             }
 
-            if( $arrData['longitude'] && $arrData['latitude'] ) {
+            if( !empty($arrData['longitude']) && !empty($arrData['latitude']) ) {
                 $aData[1] = !empty($aData[1])?$aData[1]:'';
                 $aData[2] = $arrData['longitude'];
                 $aData[3] = $arrData['latitude'];
