@@ -171,6 +171,7 @@ class StoreLocatorImportController {
         $data = [];
         $files = $this->getFiles($uploader);
         $delimiter = $this->getDelimiter($separator);
+        ini_set('auto_detect_line_endings', true);
 
         foreach( $files as $file ) {
             $fp = fopen($file, 'r');
