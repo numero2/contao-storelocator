@@ -141,7 +141,12 @@ class ModuleStoreLocatorFilter extends Module {
         $widgetSubmit->label = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter'];
 
         $this->Template->labelReset = $GLOBALS['TL_LANG']['tl_storelocator']['filter']['filter_reset'];
-        $this->Template->hrefReset = Environment::get('request') . '/clear/filter';
+        $hrefReset = Environment::get('request');
+        if( strpos($hrefReset, '?') !== false ) {
+            $this->Template->hrefReset = $hrefReset . '&clear=filter';
+        } else {
+            $this->Template->hrefReset = $hrefReset . '?clear=filter';
+        }
 
         if( Input::get('clear') == 'filter' ) {
 
