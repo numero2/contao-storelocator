@@ -185,7 +185,8 @@ class ModuleStoreLocatorSearch extends Module {
             }
 
         } else {
-            // HOOK for adding custom javascript provider
+
+            // TODO: HOOK for adding custom javascript provider
         }
 
         $this->Template->searchField = $widgetSearch;

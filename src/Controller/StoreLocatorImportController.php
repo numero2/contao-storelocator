@@ -166,14 +166,15 @@ class StoreLocatorImportController {
 
     private function getDataIfSubmitted( FileUpload $uploader, Request $request ): array|null {
 
-        if ($request->request->get('FORM_SUBMIT') === $this->getFormId($request) ) {
+        if( $request->request->get('FORM_SUBMIT') === $this->getFormId($request) ) {
+
             try {
                 $data = $this->fetchData($uploader, (string) $request->request->get('separator', ''));
             } catch ( RuntimeException $e ) {
                 $message = $this->framework->getAdapter(Message::class);
                 $message->addError($e->getMessage());
 
-                return new RedirectResponse($request->getUri());
+                return null;
             }
 
             return $data;

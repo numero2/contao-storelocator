@@ -161,6 +161,7 @@ class Stores {
     public function showMap( DataContainer $dc ): string {
 
         $imgPath = '';
+        $imgPathDark = '';
         $provider = Config::get('sl_provider_backend');
 
         if( $provider === 'hide' ) {
@@ -182,6 +183,10 @@ class Stores {
                 $imgPath = '//maps.google.com/maps/api/staticmap?center='.$sCoords
                 .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
 
+                $imgPathDark = '//maps.google.com/maps/api/staticmap?center='.$sCoords
+                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key')
+                .'&style=element%3Ageometry%7Ccolor%3A0x242f3e&style=element%3Alabels.text.stroke%7Ccolor%3A0x242f3e&style=element%3Alabels.text.fill%7Ccolor%3A0x746855&style=feature%3Aadministrative.locality%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi.park%7Celement%3Ageometry%7Ccolor%3A0x263c3f&style=feature%3Apoi.park%7Celement%3Alabels.text.fill%7Ccolor%3A0x6b9a76&style=feature%3Aroad%7Celement%3Ageometry%7Ccolor%3A0x38414e&style=feature%3Aroad%7Celement%3Ageometry.stroke%7Ccolor%3A0x212a37&style=feature%3Aroad%7Celement%3Alabels.text.fill%7Ccolor%3A0x9ca5b3&style=feature%3Aroad.highway%7Celement%3Ageometry%7Ccolor%3A0x746855&style=feature%3Aroad.highway%7Celement%3Ageometry.stroke%7Ccolor%3A0x1f2835&style=feature%3Aroad.highway%7Celement%3Alabels.text.fill%7Ccolor%3A0xf3d19c&style=feature%3Atransit%7Celement%3Ageometry%7Ccolor%3A0x2f3948&style=feature%3Atransit.station%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Awater%7Celement%3Ageometry%7Ccolor%3A0x17263c&style=feature%3Awater%7Celement%3Alabels.text.fill%7Ccolor%3A0x515c6d&style=feature%3Awater%7Celement%3Alabels.text.stroke%7Ccolor%3A0x17263c';
+
             } else if( (empty($provider) || $provider === 'bing-map' ) && $geocoder->hasProvider('bing-map') ) {
 
                 $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$sCoords.'/16?mapSize=565,150&pp='.$sCoords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
@@ -195,6 +200,10 @@ class Stores {
         $html = '<div class="widget sl-google-map">';
         if( !empty($imgPath) ) {
             $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
+
+            if( !empty($imgPathDark) ) {
+                $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
+            }
         } else {
             $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
         }

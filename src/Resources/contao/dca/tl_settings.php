@@ -11,6 +11,7 @@
 
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\System;
 use numero2\StoreLocator\StoreLocatorBackend;
 
 
