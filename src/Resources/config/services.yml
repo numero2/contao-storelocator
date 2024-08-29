@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # introduce the geocoder service now as a fix for contao 5.4 in a future version
+    # geocoder will handle all tagged geocoder services, therefore each can have its own DI
+    numero2_storelocator.geocoder:
+        class: numero2\StoreLocator\Geocoder
+        public: true
+        arguments:
+            - '@psr18.http_client'
+            - '@monolog.logger.contao.error'
+

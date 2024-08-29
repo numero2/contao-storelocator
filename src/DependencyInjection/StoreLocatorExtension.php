@@ -34,5 +34,6 @@ class StoreLocatorExtension extends Extension {
         $loader->load('controller.yml');
         $loader->load('listener.yml');
         $loader->load('migrations.yml');
+        $loader->load('services.yml');
     }
 }

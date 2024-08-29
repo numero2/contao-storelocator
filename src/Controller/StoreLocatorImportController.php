@@ -21,9 +21,11 @@ use Contao\File;
 use Contao\FileUpload;
 use Contao\Input;
 use Contao\Message;
+use Exception;
 use numero2\StoreLocator\StoresModel;
 use numero2\StoreLocatorBundle\Event\StoreImportEvent;
 use numero2\StoreLocatorBundle\Event\StoreLocatorEvents;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Path;
@@ -58,17 +60,23 @@ class StoreLocatorImportController {
     private ContaoFramework $framework;
 
     /**
+     * @var Psr\Log\LoggerInterface
+     */
+    protected LoggerInterface $logger;
+
+    /**
      * @var Symfony\Contracts\Translation\TranslatorInterface
      */
     private TranslatorInterface $translator;
 
 
-    public function __construct( string $projectDir, RequestStack $requestStack, EventDispatcherInterface $eventDispatcher, ContaoFramework $framework, TranslatorInterface $translator ) {
+    public function __construct( string $projectDir, RequestStack $requestStack, EventDispatcherInterface $eventDispatcher, ContaoFramework $framework, LoggerInterface $logger, TranslatorInterface $translator ) {
 
         $this->projectDir = $projectDir;
         $this->requestStack = $requestStack;
         $this->eventDispatcher = $eventDispatcher;
         $this->framework = $framework;
+        $this->logger = $logger;
         $this->translator = $translator;
     }
 
@@ -95,6 +103,7 @@ class StoreLocatorImportController {
 
             $pid = Input::get('id');
             $columns = null;
+            $hasError = false;
 
             foreach( $data as $row ) {
 
@@ -132,9 +141,20 @@ class StoreLocatorImportController {
                 $this->eventDispatcher->dispatch($event, StoreLocatorEvents::STORE_IMPORT);
 
                 if( !$event->getSkipImport() ) {
+
                     $model = $event->getModel();
-                    $model->save();
+                    try {
+                        $model->save();
+                    } catch ( Exception $e ) {
+                        $hasError = true;
+                        $this->logger->error("Error during importing store (Column 0: \"$row[0]\"): ". $e->getMessage());
+                    }
                 }
+            }
+
+            if( $hasError ) {
+                $message = $this->framework->getAdapter(Message::class);
+                $message->addError($this->translator->trans('tl_storelocator.import.error_see_log', [], 'contao_default'));
             }
 
             return new RedirectResponse($this->getBackUrl($request));
@@ -149,7 +169,7 @@ class StoreLocatorImportController {
         if ($request->request->get('FORM_SUBMIT') === $this->getFormId($request) ) {
             try {
                 $data = $this->fetchData($uploader, (string) $request->request->get('separator', ''));
-            } catch ( RuntimeException $e) {
+            } catch ( RuntimeException $e ) {
                 $message = $this->framework->getAdapter(Message::class);
                 $message->addError($e->getMessage());
 

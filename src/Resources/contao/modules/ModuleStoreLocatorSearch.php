@@ -15,7 +15,6 @@ namespace numero2\StoreLocator;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Environment;
-use Contao\FormRadioButton;
 use Contao\FormSubmit;
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -116,7 +115,9 @@ class ModuleStoreLocatorSearch extends Module {
                 $aCategories[ $oCategories->alias ] = $oCategories->title;
             }
 
-            $widgetCategories = new FormRadioButton(FormRadioButton::getAttributesFromDca(
+            $strRadioClass = $GLOBALS['TL_FFL']['radio'];
+
+            $widgetCategories = new $strRadioClass($strRadioClass::getAttributesFromDca(
                     [
                         'name'          => 'category'
                     ,   'inputType'     => 'radio'

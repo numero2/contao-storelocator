@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
+
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use numero2\StoreLocator\Geocoder;
 use numero2\StoreLocator\StoreLocatorBackend;
 
 
@@ -37,29 +34,31 @@ $pm = PaletteManipulator::create()
 // general fields
 $pm->addField(['sl_provider_backend'], 'storelocator_legend', 'append');
 
+$geocoder = System::getContainer()->get('numero2_storelocator.geocoder');
+
 // google maps
-if( Geocoder::getInstance()->hasProvider('google-maps') ) {
+if( $geocoder->hasProvider('google-maps') ) {
     $pm->addField(['google_maps_server_key'], 'storelocator_legend', 'append');
 }
 $pm->addField(['google_maps_browser_key'], 'storelocator_legend', 'append');
 
 // bing map
-if( Geocoder::getInstance()->hasProvider('bing-map') ) {
+if( $geocoder->hasProvider('bing-map') ) {
     $pm->addField(['bing_map_server_key'], 'storelocator_legend', 'append');
 }
 
 // here
-if( Geocoder::getInstance()->hasProvider('here') ) {
+if( $geocoder->hasProvider('here') ) {
     $pm->addField(['here_server_key'], 'storelocator_legend', 'append');
 }
 
 // nominatim
-if( Geocoder::getInstance()->hasProvider('nominatim') ) {
+if( $geocoder->hasProvider('nominatim') ) {
     $pm->addField(['nominatim_server', 'nominatim_user_agent'], 'storelocator_legend', 'append');
 }
 
 // opencage
-if( Geocoder::getInstance()->hasProvider('opencage') ) {
+if( $geocoder->hasProvider('opencage') ) {
     $pm->addField(['opencage_api_key'], 'storelocator_legend', 'append');
 }
 

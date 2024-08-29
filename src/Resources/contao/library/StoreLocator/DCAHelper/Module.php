@@ -1,15 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -24,7 +21,6 @@ use Contao\ModuleModel;
 use Contao\StringUtil;
 use Contao\System;
 use numero2\StoreLocator\CategoriesModel;
-use numero2\StoreLocator\Geocoder;
 
 
 class Module {
@@ -172,7 +168,7 @@ class Module {
     public function getJavascriptProviders(): array {
 
         $oGeo = null;
-        $oGeo = Geocoder::getInstance();
+        $oGeo = System::getContainer()->get('numero2_storelocator.geocoder');
 
         return $oGeo->getJavascriptProviders();
     }

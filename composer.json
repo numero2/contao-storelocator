@@ -10,8 +10,19 @@
     ],
     "require": {
         "contao/core-bundle": "^4.13 || ^5.0",
-        "willdurand/geocoder": "^4.3",
-        "geocoder-php/google-maps-provider": "^4.6"
+        "doctrine/dbal": "^3.3 || ^3.6",
+        "geocoder-php/google-maps-provider": "^4.6",
+        "psr/http-client": "^1.0",
+        "psr/log": "^1.1 || 2.0 || ^3.0",
+        "symfony/config": "^5.4 || ^6.4 || ^7.0",
+        "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
+        "symfony/event-dispatcher-contracts": "^2.0 || ^3.0",
+        "symfony/event-dispatcher": "^5.4 || ^6.4 || ^7.0",
+        "symfony/filesystem": "^5.4 || ^6.4 || ^7.0",
+        "symfony/http-foundation": "^5.4 || ^6.4 || ^7.0",
+        "symfony/http-kernel": "^5.4 || ^6.4 || ^7.0",
+        "symfony/translation-contracts": "^2.3 || ^3.0",
+        "willdurand/geocoder": "^4.3"
     },
     "suggest": {
         "geocoder-php/bing-maps-provider": "For use of Bing Maps as geocode provider",
@@ -21,7 +32,8 @@
         "numero2/contao-tags": "Allows the tagging of stores"
     },
     "require-dev": {
-        "contao/manager-plugin": "^2.0"
+        "contao/manager-plugin": "^2.0",
+        "shipmonk/composer-dependency-analyser": "^1.4"
     },
     "conflict": {
         "contao/core": "*",
@@ -43,5 +55,15 @@
             "src/Resources/contao/languages/",
             "src/Resources/contao/templates/"
         ]
+    },
+    "scripts": {
+        "depcheck": "@php vendor/bin/composer-dependency-analyser --config=depcheck.php"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": false,
+            "php-http/discovery": false,
+            "contao/manager-plugin": false
+        }
     }
 }

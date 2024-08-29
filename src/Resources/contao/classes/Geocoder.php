@@ -1,35 +1,47 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
 use Contao\System;
+use Exception;
 use Geocoder\Provider\Provider;
-use Http\Discovery\HttpClientDiscovery;
+use Psr\Http\Client\ClientInterface;
+use Psr\Log\LoggerInterface;
 
 
 class Geocoder {
 
 
-    protected static $oInstance = null;
-    private $aProviders;
+    /**
+     * @var Psr\Http\Client\ClientInterface
+     */
+    protected ClientInterface $client;
+
+    /**
+     * @var Psr\Log\LoggerInterface
+     */
+    protected LoggerInterface $logger;
+
+    /**
+     * @var array
+     */
+    private array $aProviders;
 
 
-    private function __construct() {
+    public function __construct( ClientInterface $client, LoggerInterface $logger ) {
 
-        $httpClient = HttpClientDiscovery::find();
+        $this->client = $client;
+        $this->logger = $logger;
 
         $this->aProviders = [];
 
@@ -43,19 +55,15 @@ class Geocoder {
 
                     try {
 
-                        $provider = $settings['init_callback']($httpClient);
+                        $provider = $settings['init_callback']($this->client);
 
                         if( $provider && $provider instanceof Provider ) {
                             $this->aProviders[$name] = $provider;
                         }
 
-                    } catch( \Exception $e ) {
+                    } catch( Exception $e ) {
 
-                        if( System::getContainer()->has('monolog.logger.contao.error') ) {
-                            System::getContainer()->get('monolog.logger.contao.error')->error('Error initializing '.$name.': ' . $e->getMessage());
-                        } else {
-                            System::log('Error initializing '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
-                        }
+                        $this->logger->error('Error initializing '.$name.': ' . $e->getMessage());
                     }
                 }
             }
@@ -70,11 +78,9 @@ class Geocoder {
      */
     public static function getInstance(): Geocoder {
 
-        if( self::$oInstance === null ) {
-            self::$oInstance = new self();
-        }
+        trigger_deprecation('numero2/contao-storelocator', '4.3', 'Using Geocoder::getInstance() has been deprecated and will no longer work in Storelocator 5.0. Use the service "numero2_storelocator.geocoder" instead.');
 
-        return self::$oInstance;
+        return System::getContainer()->get('numero2_storelocator.geocoder');
     }
 
 
@@ -84,6 +90,7 @@ class Geocoder {
      * @return array
      */
     public function getAvailableProviders(): array {
+
         return array_keys($this->aProviders);
     }
 

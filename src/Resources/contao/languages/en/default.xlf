@@ -32,6 +32,9 @@
     <trans-unit id="tl_storelocator.import.limit_info">
         <source><![CDATA[<b>Please note:</b>]]> Using the free Version of Google APIs forces certain limits which, trying to import many stores at once, may lead to your visitors unable to use the StoreLocator for up to 24 hours. Therefore we suggest not trying to import more than 500 stores daily.</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.import.error_see_log">
+        <source>At least one error has occurred. The error message(s) can be found in the system log, the remaining entries have been imported.</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator.import.ajax_import_running">
         <source>Import started, this may take up to several minutes …</source>
     </trans-unit>

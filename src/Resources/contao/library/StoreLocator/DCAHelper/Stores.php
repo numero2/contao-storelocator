@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -21,7 +21,6 @@ use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
 use Exception;
-use numero2\StoreLocator\Geocoder;
 use numero2\StoreLocator\StoresModel;
 
 
@@ -176,19 +175,18 @@ class Stores {
                 ,    $dc->activeRecord->longitude
             );
 
-            if( (empty($provider) || $provider === 'google-maps' )
-                && Geocoder::getInstance()->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
+            $geocoder = System::getContainer()->get('numero2_storelocator.geocoder');
+
+            if( (empty($provider) || $provider === 'google-maps' ) && $geocoder->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
 
                 $imgPath = '//maps.google.com/maps/api/staticmap?center='.$sCoords
                 .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
 
-            } else if( (empty($provider) || $provider === 'bing-map' )
-                && Geocoder::getInstance()->hasProvider('bing-map') ) {
+            } else if( (empty($provider) || $provider === 'bing-map' ) && $geocoder->hasProvider('bing-map') ) {
 
                 $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$sCoords.'/16?mapSize=565,150&pp='.$sCoords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
 
-            } else if( (empty($provider) || $provider === 'here' )
-                && Geocoder::getInstance()->hasProvider('here') ) {
+            } else if( (empty($provider) || $provider === 'here' ) && $geocoder->hasProvider('here') ) {
 
                 $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$sCoords.'&apiKey='.Config::get('here_server_key');
             }

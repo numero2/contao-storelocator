@@ -1,29 +1,23 @@
 <?php
 
 /**
- * Contao Open Source CMS
+ * StoreLocator Bundle for Contao Open Source CMS
  *
- * Copyright (c) 2005-2022 Leo Feyer
- *
- * @package   StoreLocator
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
- * @license   LGPL
- * @copyright 2022 numero2 - Agentur für digitales Marketing GbR
+ * @license   LGPL-3.0-or-later
+ * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
-use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
-use numero2\StoreLocator\Geocoder;
-use numero2\StoreLocator\StoreLocator;
 
 
 class StoreLocatorBackend {
@@ -60,7 +54,7 @@ class StoreLocatorBackend {
 
         System::loadLanguageFile('tl_settings');
 
-        $oGeo = Geocoder::getInstance();
+        $oGeo = System::getContainer()->get('numero2_storelocator.geocoder');
         $hasActiveProvider = false;
         foreach( $oGeo->getAvailableProviders() as $name ) {
 

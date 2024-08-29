@@ -11,4 +11,5 @@ services:
             - '@request_stack'
             - '@event_dispatcher'
             - '@contao.framework'
+            - '@monolog.logger.contao.error'
             - '@translator'

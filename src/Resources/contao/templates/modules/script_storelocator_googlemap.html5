@@ -18,6 +18,7 @@ if( $this->markerclusterer ) {
 
         var markers = {
             <?php foreach( $this->entries as $entry): ?>
+                <?php if( empty($entry->longitude) && empty($entry->latitude) ) { continue; } ?>
                 "<?= $entry->id ?>": {
                     "id": "<?= $entry->id ?>",
                     "pid": "<?= $entry->pid ?>",

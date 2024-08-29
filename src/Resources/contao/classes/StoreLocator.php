@@ -19,6 +19,7 @@ use Contao\Module;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use Exception;
 use Geocoder\Query\GeocodeQuery;
 use numero2\StoreLocator\DCAHelper\Stores;
 
@@ -115,22 +116,22 @@ class StoreLocator {
 
         // validate latitude and longitude
         if( !Validator::isNumeric($store->latitude) || !Validator::isNumeric($store->longitude) ) {
-            if( System::getContainer()->has('monolog.logger.contao.error') ) {
-                System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
-            } else {
-                System::log('Error parsing geocords ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id, __METHOD__, TL_ERROR);
-            }
+
+            $store->latitude = '';
+            $store->longitude = '';
+
+            System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
         }
 
         $store->latitude = floatval($store->latitude);
         $store->longitude = floatval($store->longitude);
 
         if( $store->latitude < -90 || $store->latitude > 90 || $store->longitude < -180 || $store->longitude > 180 ) {
-            if( System::getContainer()->has('monolog.logger.contao.error') ) {
-                System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
-            } else {
-                System::log('Error geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id, __METHOD__, TL_ERROR);
-            }
+
+            $store->latitude = '';
+            $store->longitude = '';
+
+            System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
         }
 
         // get opening times
@@ -233,7 +234,7 @@ class StoreLocator {
 
         $sQuery = $fullAdress ? $fullAdress : $sQuery;
 
-        $oGeo = Geocoder::getInstance();
+        $oGeo = System::getContainer()->get('numero2_storelocator.geocoder');
         $oResults = null;
 
         $aProviderNames = $oGeo->getAvailableProviders();
@@ -249,13 +250,9 @@ class StoreLocator {
                     if( $provider ) {
                         $oResults = $provider->geocodeQuery(GeocodeQuery::create($sQuery));
                     }
-                } catch( \Exception $e ) {
+                } catch( Exception $e ) {
 
-                    if( System::getContainer()->has('monolog.logger.contao.error') ) {
-                        System::getContainer()->get('monolog.logger.contao.error')->error('Error query geocode with '.$name.': ' . $e->getMessage());
-                    } else {
-                        System::log('Error query geocode with '.$name.': ' . $e->getMessage(), __METHOD__, TL_ERROR);
-                    }
+                    System::getContainer()->get('monolog.logger.contao.error')->error('Error query geocode with '.$name.': ' . $e->getMessage());
                 }
 
                 if( $oResults ) {
@@ -263,7 +260,6 @@ class StoreLocator {
                 }
             }
         }
-
 
         if( $oResults && !$oResults->isEmpty() ) {
 
@@ -276,12 +272,8 @@ class StoreLocator {
             return $aCoords;
         }
 
+        System::getContainer()->get('monolog.logger.contao.error')->error('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured');
 
-        if( System::getContainer()->has('monolog.logger.contao.error') ) {
-            System::getContainer()->get('monolog.logger.contao.error')->error('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured');
-        } else {
-            System::log('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured', __METHOD__, TL_ERROR);
-        }
         return [];
     }
 
