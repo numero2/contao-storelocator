@@ -118,8 +118,8 @@ class StoresModel extends Model {
                 published='1'
                 AND latitude != ''
                 AND longitude != ''
-                AND ? < longitude AND longitude < ?
-                AND ? < latitude AND latitude < ?
+                AND ? < CAST(longitude AS decimal) AND CAST(longitude AS decimal) < ?
+                AND ? < CAST(latitude AS decimal) AND CAST(latitude AS decimal) < ?
                 ".($categories? "AND pid IN(".implode(',',$categories).")":"")."
                 ".($filter? "AND ".$filter:"")."
             ".(($limit>0) ? "LIMIT {$limit} ": 'LIMIT 500')."
