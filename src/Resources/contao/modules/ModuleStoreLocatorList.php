@@ -330,16 +330,6 @@ class ModuleStoreLocatorList extends Module {
                             }
                         }
 
-                        if( $this->jumpTo ) {
-
-                            $objLink = null;
-                            $objLink = PageModel::findById($this->jumpTo);
-
-                            if( $objLink ) {
-                                $entry->link = $objLink->getFrontendUrl((!Config::get('useAutoItem')?'/store/':'/').($entry->alias?$entry->alias:$entry->id));
-                            }
-                        }
-
                         $aStores[] = $entry;
                     }
 

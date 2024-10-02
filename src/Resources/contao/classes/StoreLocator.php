@@ -12,14 +12,15 @@
 
 namespace numero2\StoreLocator;
 
+use Contao\Config;
 use Contao\Controller;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
+use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
-use Exception;
 use Geocoder\Query\GeocodeQuery;
 use numero2\StoreLocator\DCAHelper\Stores;
 
@@ -175,6 +176,17 @@ class StoreLocator {
 
             if( !empty($aURL['host']) ) {
                 $store->prettyUrl = $aURL['host'];
+            }
+        }
+
+        // add link to details
+        if( $module && $module->jumpTo ) {
+
+            $objLink = null;
+            $objLink = PageModel::findById($module->jumpTo);
+
+            if( $objLink ) {
+                $store->link = $objLink->getFrontendUrl((!Config::get('useAutoItem')?'/store/':'/').($store->alias?$store->alias:$store->id));
             }
         }
 
