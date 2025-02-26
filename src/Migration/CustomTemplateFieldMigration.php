@@ -63,7 +63,7 @@ class CustomTemplateFieldMigration extends AbstractMigration {
                 ->prepare("SELECT id FROM $t WHERE type=? AND $tplField!=$field")
                 ->executeQuery([$type]);
 
-            if( $result && $result->rowCount() ) {
+            if( $result && count($result->fetchAll()) ) {
                 return true;
             }
         }
@@ -82,7 +82,7 @@ class CustomTemplateFieldMigration extends AbstractMigration {
             $field = $type . '_tpl';
             $templateDefault = 'mod_' . $type;
 
-            // set default value to empty string
+            // copy value from x_tpl field to customTpl
             $this->connection
                 ->prepare("UPDATE $t SET $tplField=$field WHERE type=? AND $tplField!=$field")
                 ->executeStatement([$type]);
