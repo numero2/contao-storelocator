@@ -10,7 +10,7 @@
     ],
     "require": {
         "contao/core-bundle": "^4.13 || ^5.0",
-        "doctrine/dbal": "^3.3 || ^3.6",
+        "doctrine/dbal": "^3.3",
         "geocoder-php/google-maps-provider": "^4.6",
         "psr/http-client": "^1.0",
         "psr/log": "^1.1 || 2.0 || ^3.0",
