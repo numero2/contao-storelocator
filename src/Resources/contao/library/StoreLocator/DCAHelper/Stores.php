@@ -168,32 +168,39 @@ class Stores {
             return '';
         }
 
-        if( !empty($dc->activeRecord->latitude) && !empty($dc->activeRecord->longitude) ) {
+        $latitudeField = $GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['latitudeField'] ?? 'latitude';
+        $longitudeField = $GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['longitudeField'] ?? 'longitude';
 
-            $sCoords = sprintf(
+        $coords = null;
+        $latitude = $dc->activeRecord->{$latitudeField} ?? null;
+        $longitude = $dc->activeRecord->{$longitudeField} ?? null;
+
+        if( !empty($latitude) && !empty($longitude) ) {
+
+            $coords = sprintf(
                 "%s,%s"
-                ,    $dc->activeRecord->latitude
-                ,    $dc->activeRecord->longitude
+            ,    $latitude
+            ,    $longitude
             );
 
             $geocoder = System::getContainer()->get('numero2_storelocator.geocoder');
 
             if( (empty($provider) || $provider === 'google-maps' ) && $geocoder->hasProvider('google-maps') && Config::get('google_maps_browser_key') ) {
 
-                $imgPath = '//maps.google.com/maps/api/staticmap?center='.$sCoords
-                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key');
+                $imgPath = '//maps.google.com/maps/api/staticmap?center='.$coords
+                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$coords.'&key='.Config::get('google_maps_browser_key');
 
-                $imgPathDark = '//maps.google.com/maps/api/staticmap?center='.$sCoords
-                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$sCoords.'&key='.Config::get('google_maps_browser_key')
+                $imgPathDark = '//maps.google.com/maps/api/staticmap?center='.$coords
+                .'&zoom=16&size=565x150&maptype=roadmap&markers=color:red|label:|'.$coords.'&key='.Config::get('google_maps_browser_key')
                 .'&style=element%3Ageometry%7Ccolor%3A0x242f3e&style=element%3Alabels.text.stroke%7Ccolor%3A0x242f3e&style=element%3Alabels.text.fill%7Ccolor%3A0x746855&style=feature%3Aadministrative.locality%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Apoi.park%7Celement%3Ageometry%7Ccolor%3A0x263c3f&style=feature%3Apoi.park%7Celement%3Alabels.text.fill%7Ccolor%3A0x6b9a76&style=feature%3Aroad%7Celement%3Ageometry%7Ccolor%3A0x38414e&style=feature%3Aroad%7Celement%3Ageometry.stroke%7Ccolor%3A0x212a37&style=feature%3Aroad%7Celement%3Alabels.text.fill%7Ccolor%3A0x9ca5b3&style=feature%3Aroad.highway%7Celement%3Ageometry%7Ccolor%3A0x746855&style=feature%3Aroad.highway%7Celement%3Ageometry.stroke%7Ccolor%3A0x1f2835&style=feature%3Aroad.highway%7Celement%3Alabels.text.fill%7Ccolor%3A0xf3d19c&style=feature%3Atransit%7Celement%3Ageometry%7Ccolor%3A0x2f3948&style=feature%3Atransit.station%7Celement%3Alabels.text.fill%7Ccolor%3A0xd59563&style=feature%3Awater%7Celement%3Ageometry%7Ccolor%3A0x17263c&style=feature%3Awater%7Celement%3Alabels.text.fill%7Ccolor%3A0x515c6d&style=feature%3Awater%7Celement%3Alabels.text.stroke%7Ccolor%3A0x17263c';
 
             } else if( (empty($provider) || $provider === 'bing-map' ) && $geocoder->hasProvider('bing-map') ) {
 
-                $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$sCoords.'/16?mapSize=565,150&pp='.$sCoords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
+                $imgPath = '//dev.virtualearth.net/REST/v1/Imagery/Map/Road/'.$coords.'/16?mapSize=565,150&pp='.$coords.';66&mapLayer=Basemap,Buildings&key='.Config::get('bing_map_server_key');
 
             } else if( (empty($provider) || $provider === 'here' ) && $geocoder->hasProvider('here') ) {
 
-                $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$sCoords.'&apiKey='.Config::get('here_server_key');
+                $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$coords.'&apiKey='.Config::get('here_server_key');
             }
         }
 
@@ -221,6 +228,7 @@ class Stores {
      */
     public function showGeoExplain(): string {
 
+        System::loadLanguageFile('tl_storelocator_stores');
         return '<div class="widget clr"><p class="tl_help tl_tip heightAuto">'.$GLOBALS['TL_LANG']['tl_storelocator_stores']['geo_explain'][0].'</p></div>';
     }
 
@@ -229,11 +237,10 @@ class Stores {
      * Add leading "https://" if missing
      *
      * @param mixed $varValue
-     * @param Contao\DataContainer $dc
      *
      * @return string
      */
-    public function checkURL( $varValue, DataContainer $dc ): string {
+    public function checkURL( $varValue ): string {
 
         return ( $varValue && strpos($varValue,'http') !== 0 ) ? 'https://'.$varValue : $varValue;
     }

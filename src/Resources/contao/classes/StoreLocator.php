@@ -223,82 +223,36 @@ class StoreLocator {
 
 
     /**
-     * Find coordinates for given adress
+     * Find coordinates for given address
      *
      * @param string Street
      * @param string Postal/ZIP Code
      * @param string Name of city
      * @param string 2-letter country code
-     * @param string Adress string without specific format
+     * @param string Address string without specific format
      *
      * @return array
      */
-    public function getCoordinates( $street=null, $postal=null, $city=null, $country=null, $fullAdress=null ): array {
+    public function getCoordinates( $street=null, $postal=null, $city=null, $country=null, $fullAddress=null ): array {
 
-        // find coordinates using configured geo providers
-        $sQuery = sprintf(
-            "%s %s %s %s"
-        ,   $street
-        ,   $postal
-        ,   $city
-        ,   $country
-        );
+        trigger_deprecation('numero2/contao-storelocator', '4.3', 'Using StoreLocator::getCoordinates() has been deprecated and will no longer work in Storelocator 5.0. Use the service "numero2_storelocator.util.store_locator" instead.');
 
-        $sQuery = $fullAdress ? $fullAdress : $sQuery;
-
-        $oGeo = System::getContainer()->get('numero2_storelocator.geocoder');
-        $oResults = null;
-
-        $aProviderNames = $oGeo->getAvailableProviders();
-        if( !empty($aProviderNames) ) {
-
-            foreach( $aProviderNames as $name ) {
-
-                $oResults = null;
-
-                try {
-                    $provider = $oGeo->getProvider($name);
-
-                    if( $provider ) {
-                        $oResults = $provider->geocodeQuery(GeocodeQuery::create($sQuery));
-                    }
-                } catch( Exception $e ) {
-
-                    System::getContainer()->get('monolog.logger.contao.error')->error('Error query geocode with '.$name.': ' . $e->getMessage());
-                }
-
-                if( $oResults ) {
-                    break;
-                }
-            }
-        }
-
-        if( $oResults && !$oResults->isEmpty() ) {
-
-            $aCoords = [];
-            $oCoords = $oResults->first()->getCoordinates();
-
-            $aCoords['latitude'] = $oCoords->getLatitude();
-            $aCoords['longitude'] = $oCoords->getLongitude();
-
-            return $aCoords;
-        }
-
-        System::getContainer()->get('monolog.logger.contao.error')->error('Could not find coordinates for adress "'.$sQuery.'", maybe no geoprovider configured');
-
-        return [];
+        return System::getContainer()->get('numero2_storelocator.util.store_locator')->getCoordinates(null, null, null, null, $fullAddress, false);
     }
 
 
     /**
-     * Gets coordinates for an adress without a specific format
+     * Gets coordinates for an address without a specific format
      *
-     * @param string The adress
+     * @param string The address
      *
      * @return array
      */
-    public function getCoordinatesByString( string $fullAdress=null ): array {
-        return $this->getCoordinates(null, null, null, null, $fullAdress);
+    public function getCoordinatesByString( string $fullAddress=null ): array {
+
+        trigger_deprecation('numero2/contao-storelocator', '4.3', 'Using StoreLocator::getCoordinatesByString() has been deprecated and will no longer work in Storelocator 5.0. Use the service "numero2_storelocator.util.store_locator" instead.');
+
+        return System::getContainer()->get('numero2_storelocator.util.store_locator')->getCoordinatesByString($fullAddress, false);
     }
 
 

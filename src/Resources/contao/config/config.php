@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -41,17 +41,9 @@ $GLOBALS['TL_MODELS'][StoresModel::getTable()] = StoresModel::class;
  */
 $GLOBALS['BE_MOD']['content']['storelocator'] = [
     'tables'            => ['tl_storelocator_categories', 'tl_storelocator_stores']
-,   'stylesheet'        => 'bundles/storelocator/backend.css'
 ,   'importStores'      => [StoreLocatorImportController::class, 'importStoreAction']
 ,   'fillCoordinates'   => [StoreLocatorBackend::class, 'fillCoordinates']
 ];
-
-// Add backend.css to modules
-if( !array_key_exists('stylesheet', $GLOBALS['BE_MOD']['design']['themes']) ) {
-    $GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = [];
-}
-$GLOBALS['BE_MOD']['design']['themes']['stylesheet'] = (array) $GLOBALS['BE_MOD']['design']['themes']['stylesheet'];
-$GLOBALS['BE_MOD']['design']['themes']['stylesheet'][] = 'bundles/storelocator/backend.css';
 
 
 /**

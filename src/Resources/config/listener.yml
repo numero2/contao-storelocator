@@ -2,6 +2,12 @@ services:
     _defaults:
         public: true
 
+    numero2_storelocator.listener.kernel_response.backend_assets:
+        class: numero2\StoreLocatorBundle\EventListener\KernelResponse\BackendAssetsListener
+        arguments:
+            - '@contao.routing.scope_matcher'
+        tags:
+            - kernel.event_subscriber
 
     numero2_storelocator.listener.storelocator.store_import:
         class: numero2\StoreLocatorBundle\EventListener\StoreLocator\StoreImportListener
@@ -10,7 +16,3 @@ services:
             - '@contao.slug'
         tags:
             - { name: kernel.event_listener, event: contao.storelocator_store_import, priority: 0 }
-
-
-    # numero2_storelocator.listener.data_container.store:
-    #     class: numero2\StoreLocatorBundle\EventListener\DataContainer\StoreListener
