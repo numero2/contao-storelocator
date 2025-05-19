@@ -102,7 +102,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
         ,   'inputType'     => 'text'
         ,   'eval'          => ['rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50']
         ,   'save_callback' => [[Categories::class, 'generateAlias']]
-        ,   'sql'           => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+        ,   'sql'           => "varchar(255) BINARY NOT NULL default ''"
         ]
     ,   'map_pin' => [
             'inputType'     => 'fileTree'

@@ -126,7 +126,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'inputType'         => 'text'
         ,   'eval'              => ['rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50']
         ,   'save_callback'     => [[Stores::class, 'generateAlias']]
-        ,   'sql'               => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+        ,   'sql'               => "varchar(255) BINARY NOT NULL default ''"
         ]
     ,   'email' => [
             'inputType'         => 'text'
