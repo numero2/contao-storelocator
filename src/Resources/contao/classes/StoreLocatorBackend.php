@@ -130,7 +130,10 @@ class StoreLocatorBackend {
                 );
 
                 if( !empty($coords) ) {
-                    Database::getInstance()->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set($coords)->execute($value['id']);
+                    Database::getInstance()->prepare("UPDATE tl_storelocator_stores %s WHERE id=?")->set([
+                        'latitude' => $coords['latitude']
+                    ,   'longitude' => $coords['longitude']
+                    ])->execute($value['id']);
                 }
             }
         }

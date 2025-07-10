@@ -2,6 +2,12 @@
 <xliff version="1.1">
 <file datatype="php" original="src/Resources/contao/languages/en/tl_storelocator_stores.php" source-language="en">
 <body>
+    <trans-unit id="tl_storelocator_stores.tstamp.0">
+        <source>Revision date</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.tstamp.1">
+        <source>Date and time of the latest revision</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.name.0">
         <source>Name</source>
     </trans-unit>
@@ -148,6 +154,12 @@
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.edit.1">
         <source>Edit store with ID %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.children.0">
+        <source>Content Elements</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.children.1">
+        <source>Edit Content Elements of store with ID %s</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.copy.0">
         <source>Copy store</source>

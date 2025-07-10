@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -27,6 +27,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     'config' => [
         'dataContainer'               => DC_Table::class
     ,   'ptable'                      => 'tl_storelocator_categories'
+    ,   'ctable'                      => ['tl_content']
     ,   'onsubmit_callback'           => [[StoreLocatorBackend::class, 'fillCoordinates']]
     ,   'onload_callback'             => [[StoreLocatorBackend::class, 'showNoProviderAvailable']]
     ,   'sql' => [
@@ -65,10 +66,15 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             ]
         ]
     ,   'operations' => [
-            'edit' => [
+           'children' => [
+                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['children']
+            ,   'href'                => 'table=tl_content'
+            ,   'icon'                => 'edit.svg'
+            ]
+        ,   'edit' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['edit']
             ,   'href'                => 'act=edit'
-            ,   'icon'                => 'edit.svg'
+            ,   'icon'                => 'header.svg'
             ]
         ,   'copy' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['copy']

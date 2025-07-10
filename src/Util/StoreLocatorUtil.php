@@ -81,8 +81,7 @@ class StoreLocatorUtil {
         ,   $postal
         ,   $city
         ,   $country
-      );
-
+        );
 
         $sQuery = $fullAddress ? $fullAddress : $sQuery;
         $sQuery = \trim($sQuery);

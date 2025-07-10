@@ -6,13 +6,14 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
 use Contao\Config;
+use Contao\ContentModel;
 use Contao\Controller;
 use Contao\FrontendTemplate;
 use Contao\Input;
@@ -190,6 +191,20 @@ class StoreLocator {
             }
         }
 
+        // add content elements
+        $store->elements = [];
+        $arrElements = [];
+        $elements = ContentModel::findPublishedByPidAndTable($store->id, StoresModel::getTable());
+
+        if( $elements !== null ) {
+
+			while( $elements->next() ) {
+				$arrElements[] = Controller::getContentElement($elements->current(), $module->column);
+			}
+
+            $store->elements = $arrElements;
+		}
+
         // HOOK: add custom logic to parse the store details
         if( isset($GLOBALS['N2SL_HOOKS']['parseStoreData']) && is_array($GLOBALS['N2SL_HOOKS']['parseStoreData']) ) {
 
@@ -237,7 +252,7 @@ class StoreLocator {
 
         trigger_deprecation('numero2/contao-storelocator', '4.3', 'Using StoreLocator::getCoordinates() has been deprecated and will no longer work in Storelocator 5.0. Use the service "numero2_storelocator.util.store_locator" instead.');
 
-        return System::getContainer()->get('numero2_storelocator.util.store_locator')->getCoordinates(null, null, null, null, $fullAddress, false);
+        return System::getContainer()->get('numero2_storelocator.util.store_locator')->getCoordinates($street, $postal, $city, $country, $fullAddress, false);
     }
 
 

@@ -40,7 +40,7 @@ $GLOBALS['TL_MODELS'][StoresModel::getTable()] = StoresModel::class;
  * BACK END MODULES
  */
 $GLOBALS['BE_MOD']['content']['storelocator'] = [
-    'tables'            => ['tl_storelocator_categories', 'tl_storelocator_stores']
+    'tables'            => ['tl_storelocator_categories', 'tl_storelocator_stores', 'tl_content']
 ,   'importStores'      => [StoreLocatorImportController::class, 'importStoreAction']
 ,   'fillCoordinates'   => [StoreLocatorBackend::class, 'fillCoordinates']
 ];

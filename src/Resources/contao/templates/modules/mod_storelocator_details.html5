@@ -57,6 +57,10 @@
             <iframe width="600" height="450" frameborder="0" src="<?=$this->mapsURI;?>" allowfullscreen></iframe>
         <?php endif ?>
 
+        <?php if( !empty($this->store->elements) ): ?>
+            <?= implode('',$this->store->elements); ?>
+        <?php endif; ?>
+
         <p class="back"><a href="<?= $this->referer ?>" title="<?= $this->back ?>"><?= $this->back ?></a></p>
 
     </div>
