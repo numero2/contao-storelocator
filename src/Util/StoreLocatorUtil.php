@@ -99,6 +99,7 @@ class StoreLocatorUtil {
             $oResults = null;
 
             $aProviderNames = $this->geocoder->getAvailableProviders();
+
             if( !empty($aProviderNames) ) {
 
                 foreach( $aProviderNames as $name ) {
@@ -136,7 +137,15 @@ class StoreLocatorUtil {
 
             } else {
 
-                $this->logger->error('Could not find coordinates for address "'.$sQuery.'", maybe no geoprovider configured');
+                if( empty($aProviderNames) ) {
+
+                    $this->logger->error('Could not find coordinates for address "'.$sQuery.'", no geoprovider configured');
+
+                } else {
+
+                    $this->logger->error('Could not find coordinates for address "'.$sQuery.'"');
+                }
+
                 return [];
             }
         }

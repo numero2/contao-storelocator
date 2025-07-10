@@ -45,6 +45,17 @@ class Geocoder {
 
         $this->aProviders = [];
 
+        $this->reinit();
+    }
+
+
+    /**
+     * Manually re-initialize the geocoder providers. This is maybe necessary if the framework was initialized to late.
+     */
+    public function reinit(): void {
+
+        $this->aProviders = [];
+
         foreach( $GLOBALS['N2SL']['geocoder_providers'] as $name => $settings ) {
 
             if( class_exists($settings['class']) ) {
