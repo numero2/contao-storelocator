@@ -24,6 +24,7 @@ use Contao\System;
 use Contao\Validator;
 use Geocoder\Query\GeocodeQuery;
 use numero2\StoreLocator\DCAHelper\Stores;
+use Contao\CoreBundle\ContaoCoreBundle;
 
 
 class StoreLocator {
@@ -199,7 +200,15 @@ class StoreLocator {
         if( $elements !== null ) {
 
 			while( $elements->next() ) {
-				$arrElements[] = Controller::getContentElement($elements->current(), $module->column);
+
+                if( version_compare(ContaoCoreBundle::getVersion(),'5.0.0', '>=') ) {
+
+                    $arrElements[] = Controller::getContentElement($elements->id, $module->getModel()->inColumn);
+
+                } else {
+
+                    $arrElements[] = Controller::getContentElement($elements->current(), $module->column);
+                }
 			}
 
             $store->elements = $arrElements;
