@@ -12,6 +12,7 @@
         "contao/core-bundle": "^4.13 || ^5.0",
         "doctrine/dbal": "^3.3",
         "geocoder-php/google-maps-provider": "^4.6",
+        "php": "^8.0",
         "psr/http-client": "^1.0",
         "psr/log": "^1.1 || 2.0 || ^3.0",
         "symfony/config": "^5.4 || ^6.4 || ^7.0",

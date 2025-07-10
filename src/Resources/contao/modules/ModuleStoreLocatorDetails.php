@@ -6,20 +6,21 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
+use \stdClass;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\CoreBundle\Exception\PageNotFoundException;
+use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\FilesModel;
 use Contao\Input;
 use Contao\Module;
 use Contao\System;
-use stdClass;
 
 
 class ModuleStoreLocatorDetails extends Module {
@@ -67,8 +68,6 @@ class ModuleStoreLocatorDetails extends Module {
      */
     protected function compile(): void {
 
-        global $objPage;
-
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
@@ -85,8 +84,15 @@ class ModuleStoreLocatorDetails extends Module {
             throw new PageNotFoundException('store not found');
         }
 
-        // change page title
-        $objPage->pageTitle = $objStore->name;
+        // set page title (if empty)
+        $request = System::getContainer()->get('request_stack')->getMainRequest();
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
+
+        if( $responseContext?->has(HtmlHeadBag::class) && empty($request->get('pageModel')?->pageTitle) ) {
+
+            $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
+            $htmlHeadBag->setTitle($objStore->name);
+        }
 
         // get image
         if( $objStore->singleSRC ) {
