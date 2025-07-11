@@ -140,4 +140,9 @@ $GLOBALS['N2SL']['javascript_providers'] = [
             return true;
         }
     ]
+,   'leaflet' => [
+        'init_callback' => function() {
+            return true;
+        }
+    ]
 ];

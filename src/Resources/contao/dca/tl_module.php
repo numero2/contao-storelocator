@@ -47,6 +47,7 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_enable_autocomplete
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_always_show_results'] = 'storelocator_default_country';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_show_map'] = 'storelocator_provider';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_provider-google-maps'] = 'storelocator_provider,storelocator_markerclusterer,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin,storelocator_load_results_on_pan';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_provider-leaflet'] = 'storelocator_provider,storelocator_map_interaction,storelocator_list_interaction,storelocator_map_pin,storelocator_load_results_on_pan';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['storelocator_load_results_on_pan'] = 'storelocator_limit_marker';
 
 

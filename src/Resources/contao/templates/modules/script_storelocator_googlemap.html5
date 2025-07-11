@@ -53,7 +53,7 @@ if( $this->markerclusterer ) {
                 map.addListener('zoom_changed', updateMarkers);
                 map.addListener('dragend', updateMarkers);
                 map.addListener('tilt_changed', updateMarkers);
-            },500);
+            }, 500);
             <?php endif ?>
         }
 
@@ -100,13 +100,15 @@ if( $this->markerclusterer ) {
             marker.addListener('click', function(){
 
                 <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+
                     for( var id in markers ) {
                         if( "infoWindow" in markers[id] ) {
                             markers[id].infoWindow.close();
                         }
                     }
                     markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
-                <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
+                
+                    <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
                     document.location.hash = "#result_"+this.data.id;
                 <?php endif;?>
             });

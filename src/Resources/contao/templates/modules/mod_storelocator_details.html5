@@ -55,6 +55,10 @@
 
         <?php if( !empty($this->mapsURI) ): ?>
             <iframe width="600" height="450" frameborder="0" src="<?=$this->mapsURI;?>" allowfullscreen></iframe>
+        <?php else: ?>
+            <?php if( !empty($this->scriptMap) ): ?>
+                <?= $this->scriptMap; ?>
+            <?php endif ?>
         <?php endif ?>
 
         <?php if( !empty($this->store->elements) ): ?>

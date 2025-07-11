@@ -1,0 +1,39 @@
+<!-- indexer::stop -->
+<?php $this->block('content') ?>
+<?php $this->endblock() ?>
+
+<script>
+
+    (function(){
+        if ( typeof window.storeLocatorInitLeafletMap !== "function" ) {
+
+            var styles = document.createElement('link');
+            styles.rel = 'stylesheet';
+            styles.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+
+            var script = document.createElement('script');
+            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+
+            script.onload = function() {
+
+                window.storeLocatorInitLeafletMap = function() {
+                    
+                    var e = new Event('storeLocatorLeafletMapLoaded');
+                    document.dispatchEvent(e);
+                };
+                // Dispatch after script is loaded
+                window.storeLocatorInitLeafletMap();
+            };
+
+            // load styles first
+            document.head.appendChild(styles);
+            document.head.appendChild(script);
+        } else {
+
+            // If already loaded, dispatch immediately
+            window.storeLocatorInitLeafletMap();
+        }
+    })();
+
+</script>
+<!-- indexer::continue -->

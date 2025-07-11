@@ -1,0 +1,175 @@
+<?php $this->extend('script_loader_leafletmap') ?>
+<?php $this->block('content') ?>
+
+    <script>
+
+        var map;
+        var markerImages = {};
+
+        var markers = {
+            <?php foreach( $this->entries as $entry ): ?>
+
+                "<?= $entry->id ?>": {
+                    "id": "<?= $entry->id ?>",
+                    "pid": "<?= $entry->pid ?>",
+                    "lng": "<?= $entry->latitude ?>",
+                    "lat": "<?= $entry->longitude ?>",
+                    "info": <?= $entry->info ?>
+                },
+
+            <?php endforeach ?>
+        };
+
+        function fitMapToMarkers() {
+
+            var bounds = L.latLngBounds();
+
+            for( var i in markers ) {
+
+                try {
+
+                    bounds.extend([markers[i].lng, markers[i].lat]);
+
+                } catch(e) {
+
+                    console.log(markers[i])
+
+                }
+            }
+
+            map.fitBounds(bounds);
+            map.setZoom(map.getZoom()-1);
+
+            if( map.getZoom() > 15 ) {
+                map.setZoom(15);
+            }
+        }
+
+        function initMapMarker() {
+            
+            markerImages = {
+                <?php foreach( $this->mapPins as $key => $value ): ?>
+
+                    "<?= $key ?>" : {
+                        "iconUrl": "<?= $value ?>",
+                        "iconSize": [36, 36],
+                        "iconAnchor": [18, 18]
+                    },
+
+                <?php endforeach ?>
+            };
+
+            for( var id in markers ) {
+
+                var icon = null;
+                var markerPid = markers[id].pid;
+
+                if ( markerImages[markerPid] !== undefined ) {
+
+                    icon = L.icon(markerImages[markerPid]);
+
+                } else if ( markerImages['default'] !== undefined ) {
+
+                    icon = L.icon(markerImages['default']);
+
+                }
+
+                addMarker(markers[id], icon);
+            }
+
+            fitMapToMarkers();
+
+        }
+
+        function addMarker( item, icon ) {
+            let marker = null;
+            
+            if ( icon != null ) {
+            
+                marker = L.marker( [item.lng, item.lat], {icon: icon} ).addTo(map);
+
+            } else {
+            
+                marker = L.marker( [item.lng, item.lat] ).addTo(map);
+            
+            }
+
+            // add the data to the marker
+            marker.data = item;
+
+            <?php if( in_array($this->mapInteraction , ["showMarkerInfo", "scrollToListElement"]) ): ?>
+
+                <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+
+                    marker.bindPopup(item.info);
+
+                <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
+
+                    marker.on('click', function() {
+                        document.location.hash = "#result_"+this.data.id;
+                    });
+
+                <?php endif ?>
+
+            <?php endif ?>
+        
+        }
+
+        function mapInViewport() {
+
+            var rect = map.getContainer().getBoundingClientRect();
+
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        function initializeLeafletMap() {
+
+            map = L.map('map-canvas').setView( [51.505, -0.09], 13 );
+
+            L.tileLayer( 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            } ).addTo(map);
+
+            initMapMarker();
+
+            <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
+
+                var entries = document.querySelectorAll('.mod_storelocator_list .entry');
+
+                if( entries ) {
+
+                    for( var i=0; i<entries.length; i++ ) {
+
+                        entries[i].addEventListener('click',function(){
+
+                            // scroll to map (if necessary)
+                            if( !mapInViewport() ) {
+                                document.location.hash = "";
+                                document.location.hash = "#map-wrapper";
+                            }
+
+                            var markerID = this.id.split("_")[1];
+
+                            // move map view to marker
+                            if( markerID in markers ) {
+                                const marker = markers[markerID];
+                                map.flyTo([marker.lng, marker.lat], 15);
+                            }
+                        });
+                    }
+                }
+                
+            <?php endif ?>
+        }
+
+        document.addEventListener('storeLocatorLeafletMapLoaded', initializeLeafletMap, {once:true});
+
+    </script>
+
+<?php $this->endblock() ?>

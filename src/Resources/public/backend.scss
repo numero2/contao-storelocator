@@ -49,7 +49,7 @@ fieldset.tl_box .heightAuto {
 
             th, td {
 
-                padding-bottom: 4px;
+                padding-bottom: 0.25rem;
 
                 &:nth-child(4) { width: 60px; }
                 &:nth-child(2), &:nth-child(3) { width: 65px; }
@@ -71,10 +71,11 @@ fieldset.tl_box .heightAuto {
 [data-contao--toggle-fieldset-id-value="geo_legend"],
 #pal_geo_legend {
 
-    .sl-google-map {
+    .sl-display-map {
 
         float: left;
         width: calc(50% - 30px);
+        height: 150px;
 
         display: flex;
         justify-content: center;
@@ -85,6 +86,7 @@ fieldset.tl_box .heightAuto {
             background: #f6f6f6;
             max-width: 100%;
             height: 150px;
+            width: 100%;
             object-fit: cover;
             margin-top: 15px;
         }
@@ -110,10 +112,30 @@ fieldset.tl_box .heightAuto {
             display: none;
         }
 
+        #map-canvas {
+
+            width: 100%;
+            height: 100%;
+
+            .leaflet-shadow-pane, .leaflet-marker-pane {
+
+                img {
+                    background: transparent !important;
+                }
+            }
+        }
+
         @media( max-width: 767px ) {
 
             float: none;
             width: calc(100% - 30px);
+        }
+    }
+
+    .widget.clr {
+
+        .tl_help {
+            margin-top: 15px;
         }
     }
 }
@@ -129,13 +151,12 @@ fieldset.tl_box .heightAuto {
     }
 }
 
-
-.widget-group:has(.sl-google-map) {
+.widget-group:has(.sl-display-map) {
 
 
     grid-auto-flow: row dense;
 
-    .widget.sl-google-map {
+    .widget.sl-display-map {
 
         grid-row: span 2;
         float: unset;
@@ -157,14 +178,16 @@ html[data-color-scheme="dark"] {
 
     [data-contao--toggle-fieldset-id-value="geo_legend"],
     #pal_geo_legend {
+
         img, .img {
+            
             background: #222f3e;
             background: var(--code-bg);
             color: #fff;
         }
     }
 
-    .sl-google-map {
+    .sl-display-map {
 
         img {
 

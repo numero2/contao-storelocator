@@ -233,6 +233,8 @@
     <trans-unit id="tl_module.storelocator_providers.google-maps">
         <source>Google Maps</source>
     </trans-unit>
-</body>
+    <trans-unit id="tl_module.storelocator_providers.leaflet">
+        <source>Leaflet</source>
+    </trans-unit></body>
 </file>
 </xliff>

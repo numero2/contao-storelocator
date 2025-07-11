@@ -34,7 +34,7 @@ fieldset.tl_box .heightAuto {
   opacity: 0.5;
 }
 .widget .opening_times table tr th, .widget .opening_times table tr td {
-  padding-bottom: 4px;
+  padding-bottom: 0.25rem;
 }
 .widget .opening_times table tr th:nth-child(4), .widget .opening_times table tr td:nth-child(4) {
   width: 60px;
@@ -51,49 +51,65 @@ fieldset.tl_box .heightAuto {
   transform: rotate(180deg);
 }
 
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map,
-#pal_geo_legend .sl-google-map {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map,
+#pal_geo_legend .sl-display-map {
   float: left;
   width: calc(50% - 30px);
+  height: 150px;
   display: flex;
   justify-content: center;
 }
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map img, [data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map .img,
-#pal_geo_legend .sl-google-map img,
-#pal_geo_legend .sl-google-map .img {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map img, [data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map .img,
+#pal_geo_legend .sl-display-map img,
+#pal_geo_legend .sl-display-map .img {
   display: block;
   background: #f6f6f6;
   max-width: 100%;
   height: 150px;
+  width: 100%;
   object-fit: cover;
   margin-top: 15px;
 }
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map img,
-#pal_geo_legend .sl-google-map img {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map img,
+#pal_geo_legend .sl-display-map img {
   margin-inline: auto;
 }
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map .img,
-#pal_geo_legend .sl-google-map .img {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map .img,
+#pal_geo_legend .sl-display-map .img {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map .img p,
-#pal_geo_legend .sl-google-map .img p {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map .img p,
+#pal_geo_legend .sl-display-map .img p {
   text-align: center;
   line-height: 1.4;
   max-width: 80%;
 }
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map img.dark,
-#pal_geo_legend .sl-google-map img.dark {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map img.dark,
+#pal_geo_legend .sl-display-map img.dark {
   display: none;
 }
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map #map-canvas,
+#pal_geo_legend .sl-display-map #map-canvas {
+  width: 100%;
+  height: 100%;
+}
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map #map-canvas .leaflet-shadow-pane img, [data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map #map-canvas .leaflet-marker-pane img,
+#pal_geo_legend .sl-display-map #map-canvas .leaflet-shadow-pane img,
+#pal_geo_legend .sl-display-map #map-canvas .leaflet-marker-pane img {
+  background: transparent !important;
+}
 @media (max-width: 767px) {
-  [data-contao--toggle-fieldset-id-value=geo_legend] .sl-google-map,
-  #pal_geo_legend .sl-google-map {
+  [data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map,
+  #pal_geo_legend .sl-display-map {
     float: none;
     width: calc(100% - 30px);
   }
+}
+[data-contao--toggle-fieldset-id-value=geo_legend] .widget.clr .tl_help,
+#pal_geo_legend .widget.clr .tl_help {
+  margin-top: 15px;
 }
 
 #tl_csv_import_importStores p + p {
@@ -103,17 +119,17 @@ fieldset.tl_box .heightAuto {
   margin-bottom: 0;
 }
 
-.widget-group:has(.sl-google-map) {
+.widget-group:has(.sl-display-map) {
   grid-auto-flow: row dense;
 }
-.widget-group:has(.sl-google-map) .widget.sl-google-map {
+.widget-group:has(.sl-display-map) .widget.sl-display-map {
   grid-row: span 2;
   float: unset;
   width: unset;
   --widget-cols: 6;
 }
 @media (max-width: 767px) {
-  .widget-group:has(.sl-google-map) .widget.sl-google-map {
+  .widget-group:has(.sl-display-map) .widget.sl-display-map {
     float: unset;
     width: unset;
     --widget-cols: var(--widget-col-amount);
@@ -127,11 +143,9 @@ html[data-color-scheme=dark] #pal_geo_legend .img {
   background: var(--code-bg);
   color: #fff;
 }
-html[data-color-scheme=dark] .sl-google-map img:not(.dark) {
+html[data-color-scheme=dark] .sl-display-map img:not(.dark) {
   display: none;
 }
-html[data-color-scheme=dark] .sl-google-map img.dark {
+html[data-color-scheme=dark] .sl-display-map img.dark {
   display: unset;
 }
-
-/*# sourceMappingURL=backend.css.map */

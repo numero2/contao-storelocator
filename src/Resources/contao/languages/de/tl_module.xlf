@@ -310,6 +310,10 @@
         <source>Google Maps</source>
         <target>Google Maps</target>
     </trans-unit>
+    <trans-unit id="tl_module.storelocator_providers.leaflet">
+        <source>Leaflet</source>
+        <target>Leaflet</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

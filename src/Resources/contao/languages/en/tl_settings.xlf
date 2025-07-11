@@ -71,6 +71,9 @@
     <trans-unit id="tl_settings.sl_provider_backend_options.here">
         <source>HERE</source>
     </trans-unit>
+    <trans-unit id="tl_settings.sl_provider_backend_options.leaflet">
+        <source>Leaflet</source>
+    </trans-unit>
 </body>
 </file>
 </xliff>

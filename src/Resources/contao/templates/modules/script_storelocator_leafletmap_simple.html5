@@ -1,0 +1,48 @@
+<?php $this->extend('script_loader_leafletmap') ?>
+<?php $this->block('content') ?>
+
+    <script>
+
+        var map;
+
+        function initializeLeafletMap() {
+
+            map = L.map('map-canvas',
+            {
+                <?php if( !empty($this->staticMap) && $this->staticMap ): ?>
+
+                        dragging: false,
+                        zoomControl: false,
+                        attributionControl: false,
+                        scrollWheelZoom: false,
+                        doubleClickZoom: false
+
+                <?php endif; ?>
+            }).setView([
+
+                <?= $this->latitude ?>,
+                <?= $this->longitude ?>
+
+            ], 16 );
+
+            L.tileLayer( 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,} ).addTo(map);
+
+            const marker = L.marker([
+
+                <?= $this->latitude ?>,
+                <?= $this->longitude ?>
+                
+            ]).addTo(map);
+
+            <?php if ( !empty($this->markerInfo) ): ?>
+
+                marker.bindPopup("<?= $this->markerInfo ?>").openPopup();
+
+            <?php endif; ?>
+        }
+
+        document.addEventListener('storeLocatorLeafletMapLoaded', initializeLeafletMap, {once:true});
+
+    </script>
+
+<?php $this->endblock() ?>

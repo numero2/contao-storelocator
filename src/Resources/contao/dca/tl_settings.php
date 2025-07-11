@@ -71,7 +71,7 @@ $pm->applyToPalette('default', 'tl_settings');
  */
 $GLOBALS['TL_DCA']['tl_settings']['fields']['sl_provider_backend'] = [
     'inputType'         => 'select'
-,   'options'           => ['hide', 'google-maps', 'bing-map', 'here']
+,   'options'           => ['hide', 'google-maps', 'bing-map', 'here', 'leaflet']
 ,   'reference'         => &$GLOBALS['TL_LANG']['tl_settings']['sl_provider_backend_options']
 ,   'eval'              => ['includeBlankOption'=>true, 'tl_class'=>'clr w50']
 ];

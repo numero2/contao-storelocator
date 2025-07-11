@@ -383,14 +383,17 @@ class ModuleStoreLocatorList extends Module {
                                         $this->replaceInsertTags( $oTemplateInfoWindow->parse() )
                                     );
                                 }
-
                             }
                         }
 
                         if( $this->storelocator_provider === 'google-maps' ) {
+
                             $this->addGoogleMap($aStores);
-                        } else {
-                            // HOOK for adding custom javascript provider
+                            
+                        } else if ( $this->storelocator_provider === 'leaflet') {
+
+                            $this->addLeafletMap($aStores);
+
                         }
                     }
                 }
@@ -472,5 +475,71 @@ class ModuleStoreLocatorList extends Module {
         $oTemplateGoogleMap->entries = array_slice($aStores,0,500,true);
 
         $this->Template->scriptMap = $oTemplateGoogleMap->parse();
+    }
+
+    /**
+     * Add necessary template for leaflet map
+     *
+     * @param array $aStores
+     */
+    private function addLeafletMap( $aStores=null ): void {
+
+        global $objPage;
+
+        $this->Template->showMap = true;
+
+        $oTemplateLeafletMap = new FrontendTemplate('script_storelocator_leafletmap');
+        $oTemplateLeafletMap->country = $this->storelocator_default_country;
+        $oTemplateLeafletMap->mapsKey = Config::get('google_maps_browser_key');
+        $oTemplateLeafletMap->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
+
+        $mapPins = [];
+
+        if( $this->storelocator_map_pin ) {
+
+            $mapPins['default'] = $this->storelocator_map_pin;
+
+        }
+
+        // gather pins graphics
+        $oMapPins = null;
+        $oMapPins = CategoriesModel::getMapPins();
+        $oMapPins = $oMapPins->fetchAll();
+
+        foreach( $oMapPins as $key => $value ) {
+
+            if( !empty($value['map_pin']) ) {
+
+                $mapPins[$value['id']] = $value['map_pin'];
+
+            }
+        }
+
+        foreach( $mapPins as $key => $value ) {
+
+            $oFile = null;
+            $oFile = FilesModel::findByUuid($value);
+
+            if( !empty($oFile->path) ) {
+
+                $mapPins[$key] = $oFile->path;
+
+            } else {
+
+                unset($mapPins[$key]);
+                
+            }
+        }
+        
+        $oTemplateLeafletMap->mapPins = $mapPins;
+
+        $oTemplateLeafletMap->loadMoreResults = $this->storelocator_load_results_on_pan;
+        $oTemplateLeafletMap->mapInteraction = $this->storelocator_map_interaction;
+        $oTemplateLeafletMap->listInteraction = $this->storelocator_list_interaction;
+        $oTemplateLeafletMap->markerclusterer = $this->storelocator_markerclusterer;
+        $oTemplateLeafletMap->loadedMapsApi = $objPage->loadedMapsApi;
+        $oTemplateLeafletMap->entries = array_slice($aStores,0,500,true);
+
+        $this->Template->scriptMap = $oTemplateLeafletMap->parse();
     }
 }

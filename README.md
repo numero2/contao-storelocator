@@ -31,12 +31,12 @@ Using other providers
 StoreLocator comes pre-bundled with a provider for Google Maps.
 If you want to use another provider you'll need to install additional packages:
 
-| Package                                          | Provider                |
-| ------------------------------------------------ | ----------------------- |
-| `numero2/contao-storelocator-bing-maps-provider` | Bing Maps               |
-| `numero2/contao-storelocator-here-provider`      | HERE Maps               |
-| `numero2/contao-storelocator-nominatim-provider` | OpenStreetMap Nominatim |
-| `numero2/contao-storelocator-open-cage-provider` | OpenCage                |
+| Package                           | Provider                |
+|-----------------------------------|-------------------------|
+| `geocoder-php/bing-maps-provider` | Bing Maps               |
+| `geocoder-php/here-provider`      | HERE Maps               |
+| `geocoder-php/nominatim-provider` | OpenStreetMap Nominatim |
+| `geocoder-php/open-cage-provider` | OpenCage                |
 
 
 Events

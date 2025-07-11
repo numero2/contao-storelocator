@@ -15,6 +15,7 @@ namespace numero2\StoreLocator;
 use \stdClass;
 use Contao\BackendTemplate;
 use Contao\Config;
+use Contao\FrontendTemplate;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\FilesModel;
@@ -108,12 +109,34 @@ class ModuleStoreLocatorDetails extends Module {
         $this->Template->labelWWW = $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'];
 
         $this->Template->maps_provider = $this->storelocator_provider;
-        if( $this->storelocator_provider == 'google-maps' ) {
+
+        if( $this->storelocator_provider === 'google-maps' ) {
+
             $this->Template->mapsURI = sprintf(
                 "https://www.google.com/maps/embed/v1/place?q=%s&key=%s"
                 ,   rawurlencode($objStore->name.', '.$objStore->street.', '.$objStore->postal.' '.$objStore->city)
                 ,   Config::get('google_maps_browser_key')
             );
+
+        } else if( $this->storelocator_provider === 'leaflet' ) {
+
+            // setup a canvas for the leaflet map
+            $html = "<div id='map-canvas' style='width:600px;height:450px'></div>";
+
+            // create template to load and add the leaflet map
+            $leafletTemplate = new FrontendTemplate('script_storelocator_leafletmap_simple');
+
+            // marker data
+            $leafletTemplate->latitude = $objStore->latitude;
+            $leafletTemplate->longitude = $objStore->longitude;
+            $leafletTemplate->markerInfo = $objStore->name.', '.$objStore->street.', '.$objStore->postal.' '.$objStore->city;
+
+            // parse the template
+            $html .= $leafletTemplate->parse();
+            
+            // append the rendered html
+            $this->Template->scriptMap = $html;
+
         }
 
         if( $objStore->image ) {

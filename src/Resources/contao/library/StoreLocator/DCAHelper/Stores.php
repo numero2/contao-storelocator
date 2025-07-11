@@ -20,6 +20,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\FrontendTemplate;
 use Exception;
 use numero2\StoreLocator\StoresModel;
 
@@ -164,6 +165,7 @@ class Stores {
         $imgPathDark = '';
         $provider = Config::get('sl_provider_backend');
 
+        
         if( $provider === 'hide' ) {
             return '';
         }
@@ -204,17 +206,34 @@ class Stores {
             }
         }
 
-        $html = '<div class="widget sl-google-map">';
-        if( !empty($imgPath) ) {
-            $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
+        $html = '<div class="widget sl-display-map">';
+        if ( $provider === 'google-maps' ) {
 
-            if( !empty($imgPathDark) ) {
-                $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
+            if( !empty($imgPath) ) {
+                $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
+    
+                if( !empty($imgPathDark) ) {
+                    $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
+                }
+            } else {
+                $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
             }
+            
+        } else if ( $provider === 'leaflet' ) {
+
+            $html .= "<div id='map-canvas' width='565' height='150'></div>";
+            
+            $leafletTemplate = new FrontendTemplate('script_storelocator_leafletmap_simple');
+            $leafletTemplate->latitude = $latitude;
+            $leafletTemplate->longitude = $longitude;
+            $leafletTemplate->staticMap = true;
+
+            $html .= $leafletTemplate->parse();
+
         } else {
             $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
         }
-
+        
         $html .= '</div>';
 
         return $html;
