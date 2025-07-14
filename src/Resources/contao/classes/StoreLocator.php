@@ -15,6 +15,7 @@ namespace numero2\StoreLocator;
 use Contao\Config;
 use Contao\ContentModel;
 use Contao\Controller;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
@@ -22,9 +23,7 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
-use Geocoder\Query\GeocodeQuery;
 use numero2\StoreLocator\DCAHelper\Stores;
-use Contao\CoreBundle\ContaoCoreBundle;
 
 
 class StoreLocator {

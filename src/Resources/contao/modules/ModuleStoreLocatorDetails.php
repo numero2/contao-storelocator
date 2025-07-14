@@ -12,16 +12,16 @@
 
 namespace numero2\StoreLocator;
 
-use \stdClass;
 use Contao\BackendTemplate;
 use Contao\Config;
-use Contao\FrontendTemplate;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\FilesModel;
+use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\System;
+use stdClass;
 
 
 class ModuleStoreLocatorDetails extends Module {
@@ -133,7 +133,7 @@ class ModuleStoreLocatorDetails extends Module {
 
             // parse the template
             $html .= $leafletTemplate->parse();
-            
+
             // append the rendered html
             $this->Template->scriptMap = $html;
 

@@ -30,14 +30,10 @@
 
                     bounds.extend([markers[i].lng, markers[i].lat]);
 
-                } catch(e) {
-
-                    console.log(markers[i])
-
+                } catch( e ) {
+                    console.log(markers[i]);
                 }
             }
-
-            console.log("Fitting map to markers");
 
             map.fitBounds(bounds);
             map.setZoom(map.getZoom()-1);
@@ -48,7 +44,7 @@
         }
 
         function initMapMarker() {
-            
+
             markerImages = {
                 <?php foreach( $this->mapPins as $key => $value ): ?>
 
@@ -85,15 +81,15 @@
 
         function addMarker( item, icon ) {
             let marker = null;
-            
+
             if ( icon != null ) {
-            
+
                 marker = L.marker( [item.lng, item.lat], {icon: icon} ).addTo(map);
 
             } else {
-            
+
                 marker = L.marker( [item.lng, item.lat] ).addTo(map);
-            
+
             }
 
             // add the data to the marker
@@ -114,7 +110,7 @@
                 <?php endif ?>
 
             <?php endif ?>
-        
+
         }
 
         function mapInViewport() {
@@ -143,7 +139,7 @@
 
             <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
 
-                
+
                 var entries = document.querySelectorAll('.mod_storelocator_list .entry');
                 if( entries ) {
 
@@ -167,7 +163,7 @@
                         });
                     }
                 }
-                
+
             <?php endif ?>
         }
 

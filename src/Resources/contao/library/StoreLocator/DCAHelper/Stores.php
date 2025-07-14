@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -16,11 +16,11 @@ use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\FrontendTemplate;
 use Contao\Image;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
-use Contao\FrontendTemplate;
 use Exception;
 use numero2\StoreLocator\StoresModel;
 
@@ -165,7 +165,7 @@ class Stores {
         $imgPathDark = '';
         $provider = Config::get('sl_provider_backend');
 
-        
+
         if( $provider === 'hide' ) {
             return '';
         }
@@ -211,18 +211,18 @@ class Stores {
 
             if( !empty($imgPath) ) {
                 $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
-    
+
                 if( !empty($imgPathDark) ) {
                     $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
                 }
             } else {
                 $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
             }
-            
+
         } else if ( $provider === 'leaflet' ) {
 
             $html .= "<div id='map-canvas' width='565' height='150'></div>";
-            
+
             $leafletTemplate = new FrontendTemplate('script_storelocator_leafletmap_simple');
             $leafletTemplate->latitude = $latitude;
             $leafletTemplate->longitude = $longitude;
@@ -233,7 +233,7 @@ class Stores {
         } else {
             $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
         }
-        
+
         $html .= '</div>';
 
         return $html;

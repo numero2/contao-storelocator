@@ -12,19 +12,8 @@
 
 namespace numero2\StoreLocatorBundle\Util;
 
-use Contao\Config;
-use Contao\Controller;
-use Contao\FrontendTemplate;
-use Contao\Input;
-use Contao\Module;
-use Contao\PageModel;
-use Contao\StringUtil;
-use Contao\System;
-use Contao\SystemUtil;
-use Contao\Validator;
 use Geocoder\Query\GeocodeQuery;
-use numero2\StoreLocator\GeoCoder;
-use numero2\StoreLocator\DCAHelper\Stores;
+use numero2\StoreLocator\Geocoder;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 

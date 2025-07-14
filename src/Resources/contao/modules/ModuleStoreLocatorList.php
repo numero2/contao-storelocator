@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -21,7 +21,6 @@ use Contao\FrontendTemplate;
 use Contao\Input;
 use Contao\Module;
 use Contao\ModuleModel;
-use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use numero2\StoreLocator\DCAHelper\Stores;
@@ -389,7 +388,7 @@ class ModuleStoreLocatorList extends Module {
                         if( $this->storelocator_provider === 'google-maps' ) {
 
                             $this->addGoogleMap($aStores);
-                            
+
                         } else if ( $this->storelocator_provider === 'leaflet') {
 
                             $this->addLeafletMap($aStores);
@@ -527,10 +526,10 @@ class ModuleStoreLocatorList extends Module {
             } else {
 
                 unset($mapPins[$key]);
-                
+
             }
         }
-        
+
         $oTemplateLeafletMap->mapPins = $mapPins;
 
         $oTemplateLeafletMap->loadMoreResults = $this->storelocator_load_results_on_pan;
