@@ -37,6 +37,8 @@
                 }
             }
 
+            console.log("Fitting map to markers");
+
             map.fitBounds(bounds);
             map.setZoom(map.getZoom()-1);
 
@@ -129,7 +131,8 @@
 
         function initializeLeafletMap() {
 
-            map = L.map('map-canvas').setView( [51.505, -0.09], 13 );
+            // init map at center of germany
+            map = L.map('map-canvas').setView( [51.187223, 10.623560], 6 );
 
             L.tileLayer( 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -140,8 +143,8 @@
 
             <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
 
+                
                 var entries = document.querySelectorAll('.mod_storelocator_list .entry');
-
                 if( entries ) {
 
                     for( var i=0; i<entries.length; i++ ) {

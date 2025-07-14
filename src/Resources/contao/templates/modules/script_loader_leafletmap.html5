@@ -1,39 +1,29 @@
 <!-- indexer::stop -->
+<?php
+    $GLOBALS['TL_CSS'][] = 'bundles/storelocator/leaflet/leaflet.css';
+    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/leaflet/leaflet.js';
+?>
+
 <?php $this->block('content') ?>
 <?php $this->endblock() ?>
 
 <script>
 
-    (function(){
-        if ( typeof window.storeLocatorInitLeafletMap !== "function" ) {
-
-            var styles = document.createElement('link');
-            styles.rel = 'stylesheet';
-            styles.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-
-            var script = document.createElement('script');
-            script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-
-            script.onload = function() {
-
+    window.addEventListener("load", () => {
+        if (L != undefined) {
+            if (typeof window.storeLocatorInitLeafletMap !== "function") {
                 window.storeLocatorInitLeafletMap = function() {
-                    
+    
                     var e = new Event('storeLocatorLeafletMapLoaded');
                     document.dispatchEvent(e);
                 };
-                // Dispatch after script is loaded
+    
                 window.storeLocatorInitLeafletMap();
-            };
-
-            // load styles first
-            document.head.appendChild(styles);
-            document.head.appendChild(script);
-        } else {
-
-            // If already loaded, dispatch immediately
-            window.storeLocatorInitLeafletMap();
+            } else {
+                window.storeLocatorInitLeafletMap();
+            }
         }
-    })();
+    });
 
 </script>
 <!-- indexer::continue -->
