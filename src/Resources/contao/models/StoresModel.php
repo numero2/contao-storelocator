@@ -98,9 +98,9 @@ class StoresModel extends Model {
     /**
      * Return a list of stores in the given geocoordinates, results can be filtered by categories
      *
-     * @param integer $formLng
+     * @param integer $fromLng
      * @param integer $toLng
-     * @param integer $formLat
+     * @param integer $fromLat
      * @param integer $toLat
      * @param integer $limit
      * @param array $categories
@@ -108,7 +108,7 @@ class StoresModel extends Model {
      *
      * @return Contao\Collection|numero2\StoreLocator\StoresModel|null
      */
-    public static function searchBetweenCoords( $formLng, $toLng, $formLat, $toLat, $limit=0, ?array $categories=null, ?string $filter=null ) {
+    public static function searchBetweenCoords( $fromLng, $toLng, $fromLat, $toLat, $limit=0, ?array $categories=null, ?string $filter=null ) {
 
         $objStores = Database::getInstance()->prepare("
             SELECT
@@ -118,12 +118,12 @@ class StoresModel extends Model {
                 published='1'
                 AND latitude != ''
                 AND longitude != ''
-                AND ? < CAST(longitude AS decimal) AND CAST(longitude AS decimal) < ?
-                AND ? < CAST(latitude AS decimal) AND CAST(latitude AS decimal) < ?
+                AND ? < CAST(longitude AS DECIMAL(10,6)) AND CAST(longitude AS DECIMAL(10,6)) < ?
+                AND ? < CAST(latitude AS DECIMAL(10,6)) AND CAST(latitude AS DECIMAL(10,6)) < ?
                 ".($categories? "AND pid IN(".implode(',',$categories).")":"")."
                 ".($filter? "AND ".$filter:"")."
             ".(($limit>0) ? "LIMIT {$limit} ": 'LIMIT 500')."
-        ")->execute(floatval($formLng), floatval($toLng), floatval($formLat), floatval($toLat));
+        ")->execute(floatval($fromLng), floatval($toLng), floatval($fromLat), floatval($toLat));
 
         return self::createCollectionFromDbResult($objStores, self::$strTable);
     }
