@@ -125,7 +125,7 @@ class ModuleStoreLocatorSearch extends Module {
                     ,   'eval'          => ['mandatory'=>false]
                     ]
                 ,   'category'
-                ,   ($aSearchValues['category']?$aSearchValues['category']:'all')
+                ,   $aSearchValues['category'] ?? 'all'
                 )
             );
         }
