@@ -47,17 +47,37 @@ fieldset.tl_box .heightAuto {
                 opacity: 0.5;
             }
 
+            th {
+                white-space: nowrap;
+            }
+
             th, td {
 
                 padding-bottom: 0.25rem;
 
-                &:nth-child(4) { width: 60px; }
                 &:nth-child(2), &:nth-child(3) { width: 65px; }
+                &:nth-child(4), &:nth-child(5) { width: 100px; text-align: center; }
+                &:nth-last-child(1) { width: 60px; }
 
-                select, input {
-                    display: block;
+                select, input:not([type="checkbox"]) {
                     width: calc(100% - 10px) !important;
                     margin: 0;
+                }
+
+                &.wizard {
+                    select, input:not([type="checkbox"]) {
+                        width: calc(100% - 35px) !important;
+                    }
+                }
+            }
+
+            .tl_checkbox_single_container {
+
+                margin-top: unset;
+                height: unset;
+
+                label {
+                    display: none;
                 }
             }
         }
@@ -180,7 +200,7 @@ html[data-color-scheme="dark"] {
     #pal_geo_legend {
 
         img, .img {
-            
+
             background: #222f3e;
             background: var(--code-bg);
             color: #fff;

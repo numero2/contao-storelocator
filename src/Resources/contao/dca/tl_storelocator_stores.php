@@ -107,7 +107,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ]
 ,   'palettes' => [
-        'default'           => '{common_legend},name,alias,singleSRC,description;{contact_legend},email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times;{geo_legend},map,longitude,latitude,geo_explain;{publish_legend},published,highlight;'
+        'default'           => '{common_legend},name,alias,singleSRC,description;{contact_legend},email,url,phone,fax;{adress_legend},street,postal,city,country;{times_legend},opening_times,special_opening_times;{geo_legend},map,longitude,latitude,geo_explain;{publish_legend},published,highlight;'
     ]
 ,   'fields' => [
         'id' => [
@@ -206,6 +206,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'opening_times' => [
             'exclude'           => true
         ,   'inputType'         => 'openingTimes'
+        ,   'eval'              => ['addClosed'=>true, 'addByAppointment'=>true]
+        ,   'sql'               => "text NULL"
+        ]
+    ,   'special_opening_times' => [
+            'exclude'           => true
+        ,   'inputType'         => 'openingTimes'
+        ,   'eval'              => ['specificDates'=>true, 'addClosed'=>true, 'addByAppointment'=>true]
         ,   'sql'               => "text NULL"
         ]
     ,   'longitude' => [

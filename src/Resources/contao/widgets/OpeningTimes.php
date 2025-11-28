@@ -6,14 +6,17 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
 use Contao\Backend;
+use Contao\Config;
+use Contao\Date;
 use Contao\Image;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 
@@ -53,7 +56,9 @@ class OpeningTimes extends Widget {
         $dcas = self::generateWidgetsDCA();
 
         if( $varInput && !empty($varInput) ) {
+
             foreach( $varInput as $row => $rValue ) {
+
                 foreach( $dcas as $key => $field ) {
 
                     $field['value'] = $rValue[$key];
@@ -62,6 +67,7 @@ class OpeningTimes extends Widget {
                     if( !class_exists($strClass) ) {
                         continue;
                     }
+
                     $cField = new $strClass($strClass::getAttributesFromDca(
                         $field,
                         $this->arrConfiguration['strField'].'[0]['.$key.']',
@@ -69,7 +75,7 @@ class OpeningTimes extends Widget {
                     ));
 
                     $cField->validate();
-                    if( $cField->hasErrors() ){
+                    if( $cField->hasErrors() ) {
                         $this->class = 'error';
                         $this->arrErrors[$row][$key] = $cField->arrErrors;
                     }
@@ -95,10 +101,9 @@ class OpeningTimes extends Widget {
 
         $dcas = [];
         $dcas = self::generateWidgetsDCA();
-        $numFields = 0;
 
         $html = '<div class="opening_times">';
-        $html .= '<table>';
+        $html .= '<table class="'.$this->strField.'">';
         $html .= '<tr>';
 
         foreach( $dcas as $key => $field ) {
@@ -118,28 +123,28 @@ class OpeningTimes extends Widget {
             $label = $cField->parse();
 
             $results = [];
-            if( preg_match("/<label(.*)<\\/label>/s", $label, $results) ){
+            if( preg_match("/<label(.*)<\\/label>/s", $label, $results) ) {
                 $html .= '<th><h3>'.$results[0].'</h3></th>';
             } else {
                 $html .= '<th><h3>'.$field['label'][0].'</h3></th>';
             }
 
             unset($field['label']);
-            $numFields++;
         }
         $html .= '<th>'.'</th>';
         $html .= '</tr>';
 
         $this->value = (array)$this->value;
 
-        if( count($this->value) == 0 ){
+        if( count($this->value) == 0 ) {
             $this->value = [[]];
         }
-        if( is_string($this->value) ){
+        if( is_string($this->value) ) {
             $this->value = deserialize($this->value);
         }
 
         for( $i=0; $i < count($this->value); $i++ ) {
+
             $html .= '<tr>';
 
             foreach( $dcas as $key => $field ) {
@@ -155,24 +160,72 @@ class OpeningTimes extends Widget {
                     (!empty($this->value[$i][$key])?$this->value[$i][$key]:null)
                 ));
 
-                if( !empty($this->arrErrors[$i][$key]) ){
+                if( !empty($this->arrErrors[$i][$key]) ) {
                     $cField->arrErrors = $this->arrErrors[$i][$key];
                 }
 
                 $cField->label = null;
 
-                $html .=  '<td>'.str_replace("<h3></h3>", "", $cField->parse()).'</td>' ;
+                $wizard = '';
+                if( $field['eval']['datepicker'] ?? null ) {
+
+                    $rgxp = $arrData['eval']['rgxp'] ?? 'date';
+                    $format = Date::formatToJs(Config::get($rgxp . 'Format'));
+
+                    switch( $rgxp ) {
+                        case 'datim':
+                            $time = ",\n        timePicker: true";
+                            break;
+
+                        case 'time':
+                            $time = ",\n        pickOnly: \"time\"";
+                            break;
+
+                        default:
+                            $time = '';
+                            break;
+                    }
+
+                    $wizard .= ' ' . Image::getHtml('assets/datepicker/images/icon.svg', '', 'title="' . StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['datepicker']) . '" style="cursor:pointer"') . '
+                    <script>
+                        (()=>{
+
+                            let input = document.currentScript.parentNode.querySelector("input");
+                            let toggle = input.parentNode.querySelector("img");
+                            let table = input.closest("table");
+
+                            if( table.pickerDefaultOptions === undefined ) {
+
+                                table.pickerDefaultOptions = {
+                                    draggable: false,
+                                    format: "' . $format . '",
+                                    positionOffset: {x:-211,y:-209}' . $time . ',
+                                    pickerClass: "datepicker_bootstrap",
+                                    startDay: ' . $GLOBALS['TL_LANG']['MSC']['weekOffset'] . ',
+                                    titleFormat: "' . $GLOBALS['TL_LANG']['MSC']['titleFormat'] . '"
+                                }
+                            }
+
+                            let pickerOpts = Object.assign({ toggle: toggle }, table.pickerDefaultOptions);
+                            new Picker.Date(input, pickerOpts);
+
+                            input.pickerInitialized = true;
+
+                        })();
+                    </script>';
+                }
+
+                $html .=  '<td'.(strlen($wizard)?' class="wizard"':'').'>'.str_replace("<h3></h3>", "", $cField->parse()).$wizard.'</td>' ;
             }
-            $theme = Backend::getTheme();
 
             $html .= '<td class="operations">';
-            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_copy'];
+            $title = StringUtil::specialchars($GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_copy']);
             $html .=      '<a rel="copy" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('copy.svg', $title, 'class="tl_listwizard_img"') .'</a>';
-            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_up'];
+            $title = StringUtil::specialchars($GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_up']);
             $html .=      '<a rel="up" href="#" class="widgetImage sl_flip" title="'. $title .'">'. Image::getHtml('down.svg', $title, 'class="tl_listwizard_img"') .'</a>';
-            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_down'];
+            $title = StringUtil::specialchars($GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_down']);
             $html .=      '<a rel="down" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('down.svg', $title, 'class="tl_listwizard_img"') .'</a>';
-            $title = $GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_delete'];
+            $title = StringUtil::specialchars($GLOBALS['TL_LANG']['tl_storelocator_stores']['times_operations_delete']);
             $html .=      '<a rel="delete" href="#" class="widgetImage" title="'. $title .'">'. Image::getHtml('delete.svg', $title, 'class="tl_listwizard_img"') .'</a>';
             $html .= '</td>';
 
@@ -182,44 +235,80 @@ class OpeningTimes extends Widget {
         $html .= '</table>';
         $html .= '
         <script>
-        var clickHandler = function(e){
-            e.preventDefault();
+        (()=>{
 
-            var row = this.parentElement.parentElement;
-            var table = row.parentElement;
-            if( this.rel == "copy" ){
-                var clone = row.cloneNode(true);
-                table.insertBefore(clone, row);
-                var as=clone.querySelectorAll("a");
-                for (i = 0; i < as.length; i++) {
-                    as[i].addEventListener("click", clickHandler);
-                }
-                if( window.Stylect ) {
-                    Stylect.convertSelects();
-                }
-            } else if( this.rel == "up" ){
-                if( row.previousSibling == null || row.previousSibling.previousSibling == null ) return;
-                table.insertBefore(row, row.previousSibling)
-            } else if( this.rel == "down" ){
-                if( row.nextSibling == null ) return;
-                table.insertBefore(row.nextSibling, row)
-            } else if( this.rel == "delete" ){
-                table.removeChild(row)
-            }
-            var inputs = table.querySelectorAll("input, select");
-            for (i = 0; i < inputs.length; i++) {
-                var iRow = Math.floor(i/'.$numFields.');
-                inputs[i].id = inputs[i].id.replace(/\[\d+\]/, "["+iRow+"]");
-                inputs[i].name = inputs[i].name.replace(/\[\d+\]/, "["+iRow+"]");
-            }
-        }
+            const clickHandler = function(e) {
 
-        var anchors=document.querySelectorAll(".'.$this->strField.' td.operations > a");
-        for (i = 0; i < anchors.length; i++) {
-            anchors[i].addEventListener("click", clickHandler );
-        }
+                e.preventDefault();
+
+                let row = this.parentElement.parentElement;
+                let table = row.parentElement;
+
+                if( this.rel == "copy" ) {
+
+                    let clone = row.cloneNode(true);
+                    table.insertBefore(clone, row);
+                    let as = clone.querySelectorAll("a");
+
+                    for( let i=0; i<as.length; i++ ) {
+                        as[i].addEventListener("click", clickHandler);
+                    }
+
+                    if( window.Stylect ) {
+                        Stylect.convertSelects();
+                    }
+
+                } else if( this.rel == "up" ) {
+
+                    if( row.previousSibling == null || row.previousSibling.previousSibling == null ) {
+                        return;
+                    }
+
+                    table.insertBefore(row, row.previousSibling);
+
+                } else if( this.rel == "down" ) {
+
+                    if( row.nextSibling == null ) {
+                        return;
+                    }
+
+                    table.insertBefore(row.nextSibling, row);
+
+                } else if( this.rel == "delete" ) {
+                    table.removeChild(row)
+                }
+
+                const inputs = table.querySelectorAll("input, select");
+
+                for( let i=0; i<inputs.length; i++ ) {
+
+                    const iRow = [... inputs[i].closest("tbody").children].indexOf( inputs[i].closest("tr") ) - 1;
+
+                    inputs[i].id = inputs[i].id.replace(/\[\d+\]/, "["+iRow+"]");
+                    inputs[i].name = inputs[i].name.replace(/\[\d+\]/, "["+iRow+"]");
+
+                    let pickerToggleImg = inputs[i].parentNode.querySelector("img");
+
+                    if( pickerToggleImg && inputs[i].pickerInitialized === undefined && this.rel == "copy" ) {
+
+                        let table = inputs[i].closest("table");
+
+                        let pickerOpts = Object.assign({ toggle: pickerToggleImg }, table.pickerDefaultOptions);
+                        new Picker.Date(inputs[i], pickerOpts);
+
+                        inputs[i].pickerInitialized = true;
+                    }
+                }
+            }
+
+            const anchors=document.querySelectorAll(".'.$this->strField.' td.operations > a");
+
+            for( let i=0; i<anchors.length; i++ ) {
+                anchors[i].addEventListener("click", clickHandler);
+            }
+
+        })();
         </script>';
-
         $html .= '</div>';
 
         return $html;
@@ -239,19 +328,44 @@ class OpeningTimes extends Widget {
                 'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_weekday']
             ,   'inputType'         => 'select'
             ,   'options_callback'  => [StoreLocator::class, 'getWeekdays']
-            ,   'eval'              => ['mandatory'=>true, 'maxlength'=>255, 'style'=>'width:480px']
+            ,   'eval'              => ['mandatory'=>true, 'maxlength'=>255]
             ]
         ,   'from' => [
                 'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_from']
             ,   'inputType'         => 'text'
-            ,   'eval'              => ['maxlength'=>5, 'style'=>'width:60px']
+            ,   'eval'              => ['maxlength'=>5]
             ]
         ,   'to' => [
                 'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_to']
             ,   'inputType'         => 'text'
-            ,   'eval'              => ['maxlength'=>5, 'style'=>'width:60px']
+            ,   'eval'              => ['maxlength'=>5]
             ]
         ];
+
+        if( ($this->arrConfiguration['addClosed']??null) === true ) {
+
+            $widgetDCA['closed'] = [
+                'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_closed']
+            ,   'inputType'         => 'checkbox'
+            ];
+        }
+
+        if( ($this->arrConfiguration['addByAppointment']??null) === true ) {
+
+            $widgetDCA['by_appointment'] = [
+                'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_by_appointment']
+            ,   'inputType'         => 'checkbox'
+            ];
+        }
+
+        if( ($this->arrConfiguration['specificDates']??null) === true ) {
+
+            $widgetDCA['weekday'] = [
+                'label'             => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['times_date']
+            ,   'inputType'         => 'text'
+            ,   'eval'              => ['mandatory'=>false, 'rgxp'=>'date', 'datepicker'=>true, 'tl_class'=>'wizard']
+            ];
+        }
 
         return $widgetDCA;
     }

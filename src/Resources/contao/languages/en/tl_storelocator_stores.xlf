@@ -77,6 +77,9 @@
     <trans-unit id="tl_storelocator_stores.opening_times.0">
         <source>Opening times</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.special_opening_times.0">
+        <source>Special opening times</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_weekday.0">
         <source>Weekdays</source>
     </trans-unit>

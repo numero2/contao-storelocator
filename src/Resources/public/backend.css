@@ -33,19 +33,35 @@ fieldset.tl_box .heightAuto {
   pointer-events: none;
   opacity: 0.5;
 }
+.widget .opening_times table tr th {
+  white-space: nowrap;
+}
 .widget .opening_times table tr th, .widget .opening_times table tr td {
   padding-bottom: 0.25rem;
-}
-.widget .opening_times table tr th:nth-child(4), .widget .opening_times table tr td:nth-child(4) {
-  width: 60px;
 }
 .widget .opening_times table tr th:nth-child(2), .widget .opening_times table tr th:nth-child(3), .widget .opening_times table tr td:nth-child(2), .widget .opening_times table tr td:nth-child(3) {
   width: 65px;
 }
-.widget .opening_times table tr th select, .widget .opening_times table tr th input, .widget .opening_times table tr td select, .widget .opening_times table tr td input {
-  display: block;
+.widget .opening_times table tr th:nth-child(4), .widget .opening_times table tr th:nth-child(5), .widget .opening_times table tr td:nth-child(4), .widget .opening_times table tr td:nth-child(5) {
+  width: 100px;
+  text-align: center;
+}
+.widget .opening_times table tr th:nth-last-child(1), .widget .opening_times table tr td:nth-last-child(1) {
+  width: 60px;
+}
+.widget .opening_times table tr th select, .widget .opening_times table tr th input:not([type=checkbox]), .widget .opening_times table tr td select, .widget .opening_times table tr td input:not([type=checkbox]) {
   width: calc(100% - 10px) !important;
   margin: 0;
+}
+.widget .opening_times table tr th.wizard select, .widget .opening_times table tr th.wizard input:not([type=checkbox]), .widget .opening_times table tr td.wizard select, .widget .opening_times table tr td.wizard input:not([type=checkbox]) {
+  width: calc(100% - 35px) !important;
+}
+.widget .opening_times table tr .tl_checkbox_single_container {
+  margin-top: unset;
+  height: unset;
+}
+.widget .opening_times table tr .tl_checkbox_single_container label {
+  display: none;
 }
 .widget .opening_times table .operations .widgetImage.sl_flip img {
   transform: rotate(180deg);
@@ -149,3 +165,5 @@ html[data-color-scheme=dark] .sl-display-map img:not(.dark) {
 html[data-color-scheme=dark] .sl-display-map img.dark {
   display: unset;
 }
+
+/*# sourceMappingURL=backend.css.map */

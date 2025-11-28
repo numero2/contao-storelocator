@@ -102,9 +102,17 @@
         <source>Opening times</source>
         <target>Öffnungszeiten</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.special_opening_times.0">
+        <source>Special opening times</source>
+        <target>Gesonderte Öffnungszeiten</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_weekday.0">
         <source>Weekdays</source>
         <target>Wochentag</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_date.0">
+        <source>Date</source>
+        <target>Datum</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_from.0">
         <source>from</source>
@@ -113,6 +121,14 @@
     <trans-unit id="tl_storelocator_stores.times_to.0">
         <source>to</source>
         <target>bis</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_closed.0">
+        <source>closed?</source>
+        <target>geschlossen?</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_by_appointment.0">
+        <source>by appointment?</source>
+        <target>nach Vereinbarung?</target>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_operations_copy">
         <source>Duplicate the row</source>
