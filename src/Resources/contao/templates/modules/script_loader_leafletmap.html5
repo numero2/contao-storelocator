@@ -9,21 +9,47 @@
 
 <script>
 
-    window.addEventListener("load", () => {
-        if (L != undefined) {
-            if (typeof window.storeLocatorInitLeafletMap !== "function") {
-                window.storeLocatorInitLeafletMap = function() {
-    
-                    var e = new Event('storeLocatorLeafletMapLoaded');
-                    document.dispatchEvent(e);
-                };
-    
-                window.storeLocatorInitLeafletMap();
-            } else {
-                window.storeLocatorInitLeafletMap();
+    (()=>{
+
+        const initLeafLeftMap = () => {
+
+            if( typeof window.L !== "undefined" ) {
+
+                if( typeof window.storeLocatorInitLeafletMap !== "function" ) {
+                    window.storeLocatorInitLeafletMap = function() {
+                        var e = new Event('storeLocatorLeafletMapLoaded');
+                        document.dispatchEvent(e);
+                    };
+                    window.storeLocatorInitLeafletMap();
+                } else {
+                    window.storeLocatorInitLeafletMap();
+                }
             }
+        };
+
+        const waitForLeaflet = function(callback) {
+
+            if( typeof window.L !== "undefined" ) {
+                callback();
+            } else {
+                setTimeout(() => waitForLeaflet(callback), 500);
+            }
+        };
+
+        if( typeof window.Turbo !== "undefined") {
+
+            document.addEventListener('turbo:load', function() {
+                waitForLeaflet(initLeafLeftMap);
+            }, { once: true });
+
+        } else {
+
+            document.addEventListener('DOMContentLoaded', function() {
+                waitForLeaflet(initLeafLeftMap);
+            }, { once: true });
         }
-    });
+
+    })();
 
 </script>
 <!-- indexer::continue -->

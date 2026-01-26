@@ -108,18 +108,6 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
             return Here::createUsingApiKey($httpClient, Config::get('here_server_key'));
         }
     ]
-,   'nominatim' => [
-        'class' => Nominatim::class
-    ,   'init_callback' => function($httpClient) {
-            if( !Config::get('nominatim_user_agent') ) {
-                return null;
-            }
-            if( Config::get('nominatim_server') ) {
-                return new Nominatim($httpClient, Config::get('nominatim_server'), Config::get('nominatim_user_agent'));
-            }
-            return Nominatim::withOpenStreetMapServer($httpClient, Config::get('nominatim_user_agent'));
-        }
-    ]
 ,   'opencage' => [
         'class' => OpenCage::class
     ,   'init_callback' => function($httpClient) {
@@ -127,6 +115,19 @@ $GLOBALS['N2SL']['geocoder_providers'] = [
                 return null;
             }
             return new OpenCage($httpClient, Config::get('opencage_api_key'));
+        }
+    ]
+,   'nominatim' => [
+        'class' => Nominatim::class
+    ,   'init_callback' => function($httpClient) {
+            $ua = Config::get('nominatim_user_agent');
+            if( empty($ua) ) {
+                $ua = 'Contao CMS StoreLocator';
+            }
+            if( Config::get('nominatim_server') ) {
+                return new Nominatim($httpClient, Config::get('nominatim_server'), $ua);
+            }
+            return Nominatim::withOpenStreetMapServer($httpClient, $ua);
         }
     ]
 ];

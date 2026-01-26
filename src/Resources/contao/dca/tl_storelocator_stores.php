@@ -206,15 +206,17 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'opening_times' => [
             'exclude'           => true
         ,   'inputType'         => 'openingTimes'
-        ,   'eval'              => ['addClosed'=>true, 'addByAppointment'=>true]
+        //,   'eval'              => ['addClosed'=>true, 'addByAppointment'=>true]
         ,   'sql'               => "text NULL"
         ]
+    /*
     ,   'special_opening_times' => [
             'exclude'           => true
         ,   'inputType'         => 'openingTimes'
         ,   'eval'              => ['specificDates'=>true, 'addClosed'=>true, 'addByAppointment'=>true]
         ,   'sql'               => "text NULL"
         ]
+    */
     ,   'longitude' => [
             'inputType'         => 'text'
         ,   'search'            => true

@@ -28,14 +28,13 @@ Installation
 Using other providers
 --
 
-StoreLocator comes pre-bundled with a provider for Google Maps.
+StoreLocator comes pre-bundled with a provider for Google Maps as well as OpenStreetMap Nominatim.
 If you want to use another provider you'll need to install additional packages:
 
 | Package                           | Provider                |
 |-----------------------------------|-------------------------|
 | `geocoder-php/bing-maps-provider` | Bing Maps               |
 | `geocoder-php/here-provider`      | HERE Maps               |
-| `geocoder-php/nominatim-provider` | OpenStreetMap Nominatim |
 | `geocoder-php/open-cage-provider` | OpenCage                |
 
 

@@ -10,8 +10,9 @@
     ],
     "require": {
         "contao/core-bundle": "^4.13 || ^5.0",
-        "doctrine/dbal": "^3.3",
+        "doctrine/dbal": "^3.3 || ^4.3",
         "geocoder-php/google-maps-provider": "^4.6",
+        "geocoder-php/nominatim-provider": "^4.0 || ^5.0",
         "php": "^8.0",
         "psr/http-client": "^1.0",
         "psr/log": "^1.1 || 2.0 || ^3.0",
@@ -28,7 +29,6 @@
     "suggest": {
         "geocoder-php/bing-maps-provider": "For use of Bing Maps as geocode provider",
         "geocoder-php/here-provider": "For use of HERE Maps as geocode provider",
-        "geocoder-php/nominatim-provider": "For use of OpenStreetMap Nominatim as geocode provider",
         "geocoder-php/open-cage-provider": "For use of OpenCage as geocode provider",
         "numero2/contao-tags": "Allows the tagging of stores"
     },

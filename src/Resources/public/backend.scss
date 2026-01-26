@@ -91,10 +91,13 @@ fieldset.tl_box .heightAuto {
 [data-contao--toggle-fieldset-id-value="geo_legend"],
 #pal_geo_legend {
 
-    .sl-display-map {
-
+    .sl-display-map:not(.widget-group > .sl-display-map) {
         float: left;
         width: calc(50% - 30px);
+    }
+
+    .sl-display-map {
+
         height: 150px;
 
         display: flex;
@@ -172,7 +175,6 @@ fieldset.tl_box .heightAuto {
 }
 
 .widget-group:has(.sl-display-map) {
-
 
     grid-auto-flow: row dense;
 

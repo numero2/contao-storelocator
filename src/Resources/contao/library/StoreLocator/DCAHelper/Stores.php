@@ -207,7 +207,7 @@ class Stores {
         }
 
         $html = '<div class="widget sl-display-map">';
-        if ( $provider === 'google-maps' ) {
+        if( $provider === 'google-maps' ) {
 
             if( !empty($imgPath) ) {
                 $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
@@ -219,7 +219,7 @@ class Stores {
                 $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
             }
 
-        } else if ( $provider === 'leaflet' ) {
+        } else if( $provider === 'leaflet' && (!empty($latitude) && !empty($longitude)) ) {
 
             $html .= "<div id='map-canvas' width='565' height='150'></div>";
 
@@ -231,6 +231,7 @@ class Stores {
             $html .= $leafletTemplate->parse();
 
         } else {
+
             $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
         }
 

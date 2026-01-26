@@ -67,10 +67,13 @@ fieldset.tl_box .heightAuto {
   transform: rotate(180deg);
 }
 
-[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map,
-#pal_geo_legend .sl-display-map {
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map:not(.widget-group > .sl-display-map),
+#pal_geo_legend .sl-display-map:not(.widget-group > .sl-display-map) {
   float: left;
   width: calc(50% - 30px);
+}
+[data-contao--toggle-fieldset-id-value=geo_legend] .sl-display-map,
+#pal_geo_legend .sl-display-map {
   height: 150px;
   display: flex;
   justify-content: center;
