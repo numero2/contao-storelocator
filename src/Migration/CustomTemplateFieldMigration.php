@@ -37,7 +37,7 @@ class CustomTemplateFieldMigration extends AbstractMigration {
 
     public function shouldRun(): bool {
 
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
 
         $t = ModuleModel::getTable();
         $tplField = 'customTpl';
@@ -59,11 +59,12 @@ class CustomTemplateFieldMigration extends AbstractMigration {
                 continue;
             }
 
-            $result = $this->connection
-                ->prepare("SELECT id FROM $t WHERE type=? AND $tplField!=$field")
-                ->executeQuery([$type]);
+            $count = $this->connection->executeQuery(
+                "SELECT count(1) FROM $t WHERE type=:type AND $tplField!=$field"
+            ,   ['type'=>$type]
+            )->fetchOne();
 
-            if( $result && count($result->fetchAll()) ) {
+            if( intval($count) > 0 ) {
                 return true;
             }
         }
@@ -83,14 +84,16 @@ class CustomTemplateFieldMigration extends AbstractMigration {
             $templateDefault = 'mod_' . $type;
 
             // copy value from x_tpl field to customTpl
-            $this->connection
-                ->prepare("UPDATE $t SET $tplField=$field WHERE type=? AND $tplField!=$field")
-                ->executeStatement([$type]);
+            $this->connection->executeStatement(
+                "UPDATE $t SET $tplField=$field WHERE type=:type AND $tplField!=$field"
+            ,   ['type'=>$type]
+            );
 
             // set default value to empty string
-            $this->connection
-                ->prepare("UPDATE $t SET $tplField=?, $field=? WHERE type=? AND $tplField=?")
-                ->executeStatement(['', '', $type, $templateDefault]);
+            $this->connection->executeStatement(
+                "UPDATE $t SET $tplField=:empty, $field=:empty WHERE type=:type AND $tplField=:template"
+            ,   ['empty'=>'', 'type'=>$type, 'template'=>$templateDefault]
+            );
         }
 
         return $this->createResult(true);

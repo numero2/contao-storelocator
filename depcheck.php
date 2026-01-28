@@ -19,6 +19,7 @@ return (new Configuration())
 
     // ignore dependency as we want to install this, usage is checked
     ->ignoreErrorsOnPackage('geocoder-php/google-maps-provider', [ErrorType::UNUSED_DEPENDENCY])
+    ->ignoreErrorsOnPackage('geocoder-php/nominatim-provider', [ErrorType::UNUSED_DEPENDENCY])
 
     // ignore classes these will be checked during runtime
     // numero2/contao-tags
