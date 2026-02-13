@@ -85,7 +85,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['delete']
             ,   'href'                => 'act=delete'
             ,   'icon'                => 'delete.svg'
-            ,   'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
+            ,   'attributes'          => 'onclick="if( !confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\') )return false;Backend.getScrollOffset()"'
             ]
         ,   'toggle' => [
                 'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['published']
@@ -206,17 +206,15 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'opening_times' => [
             'exclude'           => true
         ,   'inputType'         => 'openingTimes'
-        //,   'eval'              => ['addClosed'=>true, 'addByAppointment'=>true]
+        ,   'eval'              => ['addClosed'=>true, 'addByAppointment'=>true]
         ,   'sql'               => "text NULL"
         ]
-    /*
     ,   'special_opening_times' => [
             'exclude'           => true
         ,   'inputType'         => 'openingTimes'
         ,   'eval'              => ['specificDates'=>true, 'addClosed'=>true, 'addByAppointment'=>true]
         ,   'sql'               => "text NULL"
         ]
-    */
     ,   'longitude' => [
             'inputType'         => 'text'
         ,   'search'            => true
