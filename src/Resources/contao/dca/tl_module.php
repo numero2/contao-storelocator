@@ -156,7 +156,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_show_map'] = [
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_markerclusterer'] = [
     'inputType'           => 'checkbox'
-,   'eval'                => ['tl_class'=>'w50 cbx']
+,   'eval'                => ['tl_class'=>'w50 cbx m12']
 ,   'sql'                 => "char(1) NOT NULL default ''"
 ];
 

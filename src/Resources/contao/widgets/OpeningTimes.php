@@ -125,7 +125,8 @@ class OpeningTimes extends Widget {
             if( preg_match("/<label(.*)<\\/label>/s", $label, $results) ) {
                 $html .= '<th><h3>'.$results[0].'</h3></th>';
             } else {
-                $html .= '<th><h3>'.$field['label'][0].'</h3></th>';
+                $html .= '<th><h3>'.($field['label'][0] ?? 'MISSING').'</h3></th>';
+
             }
 
             unset($field['label']);

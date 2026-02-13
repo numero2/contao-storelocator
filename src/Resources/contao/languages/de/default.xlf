@@ -182,6 +182,14 @@
         <source>on %s</source>
         <target>Am %s</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.from">
+        <source>from</source>
+        <target>ab</target>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.to">
+        <source>to</source>
+        <target>bis</target>
+    </trans-unit>
 </body>
 </file>
 </xliff>

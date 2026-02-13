@@ -83,11 +83,20 @@
     <trans-unit id="tl_storelocator_stores.times_weekday.0">
         <source>Weekdays</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_date.0">
+        <source>Date</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_from.0">
         <source>from</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_to.0">
         <source>to</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_closed.0">
+        <source>closed?</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator_stores.times_by_appointment.0">
+        <source>by appointment?</source>
     </trans-unit>
     <trans-unit id="tl_storelocator_stores.times_operations_copy">
         <source>Duplicate the row</source>

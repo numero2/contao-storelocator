@@ -299,26 +299,14 @@ class ModuleStoreLocatorList extends Module {
 
                                 $temp = new stdClass();
 
-                                // Contao >= 4.9
-                                if( method_exists($this, 'addImageToTemplate') ) {
+                                $figureBuilder = System::getContainer()
+                                    ->get('contao.image.studio')
+                                    ->createFigureBuilder()
+                                    ->from($objFile->path)
+                                    ->setSize($this->imgSize);
 
-                                    $this->addImageToTemplate($temp, [
-                                        'singleSRC' => $objFile->path
-                                    ,   'size' => $this->imgSize
-                                    ], null, null, $objFile);
-
-                                // Contao 5
-                                } else {
-
-                                    $figureBuilder = System::getContainer()
-                                        ->get('contao.image.studio')
-                                        ->createFigureBuilder()
-                                        ->from($objFile->path)
-                                        ->setSize($this->imgSize);
-
-                                    if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
-                                        $figure->applyLegacyTemplateData($temp);
-                                    }
+                                if( null !== ($figure = $figureBuilder->buildIfResourceExists()) ) {
+                                    $figure->applyLegacyTemplateData($temp);
                                 }
 
                                 foreach( $temp as $k => $v ) {
@@ -392,7 +380,6 @@ class ModuleStoreLocatorList extends Module {
                         } else if ( $this->storelocator_provider === 'leaflet') {
 
                             $this->addLeafletMap($aStores);
-
                         }
                     }
                 }
@@ -466,6 +453,7 @@ class ModuleStoreLocatorList extends Module {
 
         $oTemplateGoogleMap->mapPins = $mapPins;
 
+        $oTemplateGoogleMap->id = $this->id;
         $oTemplateGoogleMap->loadMoreResults = $this->storelocator_load_results_on_pan;
         $oTemplateGoogleMap->mapInteraction = $this->storelocator_map_interaction;
         $oTemplateGoogleMap->listInteraction = $this->storelocator_list_interaction;
@@ -475,6 +463,7 @@ class ModuleStoreLocatorList extends Module {
 
         $this->Template->scriptMap = $oTemplateGoogleMap->parse();
     }
+
 
     /**
      * Add necessary template for leaflet map
@@ -488,6 +477,8 @@ class ModuleStoreLocatorList extends Module {
         $this->Template->showMap = true;
 
         $oTemplateLeafletMap = new FrontendTemplate('script_storelocator_leafletmap');
+
+        $oTemplateLeafletMap->id = $this->id;
         $oTemplateLeafletMap->country = $this->storelocator_default_country;
         $oTemplateLeafletMap->mapsKey = Config::get('google_maps_browser_key');
         $oTemplateLeafletMap->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
@@ -510,7 +501,6 @@ class ModuleStoreLocatorList extends Module {
             if( !empty($value['map_pin']) ) {
 
                 $mapPins[$value['id']] = $value['map_pin'];
-
             }
         }
 
@@ -526,7 +516,6 @@ class ModuleStoreLocatorList extends Module {
             } else {
 
                 unset($mapPins[$key]);
-
             }
         }
 

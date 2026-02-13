@@ -4,76 +4,44 @@
 
     <script>
 
-        if( typeof findAncestor !== "function" ) {
+        (async ()=>{
 
-            function findAncestor( el, sel ) {
-                while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,sel)));
-                return el;
+            (await google.maps.importLibrary('places'));
+
+            const input = document.getElementById('<?= $this->fieldId ?>');
+            const form = input.closest('form');
+
+            const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({});
+
+            <?php if( $this->country ):?>
+            placeAutocomplete.includedRegionCodes = ['<?= $this->country ?>'];
+            <?php endif ?>
+
+            if( input.value.length ) {
+                placeAutocomplete.placeholder = input.value;
             }
-        }
 
-        function initializeAddressAutocomplete() {
+            placeAutocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
 
-            var input = document.getElementById('<?= $this->fieldId ?>');
-            var form = input.closest('form');
+                const place = placePrediction.toPlace();
+                await place.fetchFields({ fields: ['formattedAddress', 'location'] });
 
-            var _addEventListener = input.addEventListener;
-
-            var addEventListenerWrapper = function addEventListenerWrapper(type, listener) {
-
-                if( type === "keydown" ) {
-
-                    var _listener = listener;
-
-                    listener = function listener(event) {
-
-                        var suggestionSelected = document.getElementsByClassName('pac-item-selected').length;
-
-                        if( event.key === "Enter" && !suggestionSelected ) {
-
-                            var e = new KeyboardEvent("keydown", {
-                                key: "ArrowDown",
-                                code: "ArrowDown",
-                                keyCode: 40
-                            });
-
-                            _listener.apply(input, [e]);
-                        }
-                        _listener.apply(input, [event]);
-                    };
+                if( place.formattedAddress ) {
+                    input.value = place.formattedAddress;
                 }
 
-                _addEventListener.apply(input, [type, listener]);
-            };
-
-            input.addEventListener = addEventListenerWrapper;
-
-            var autocomplete = new google.maps.places.Autocomplete(
-                input,
-                {
-                    <?php if( $this->country ):?>
-                    componentRestrictions: { country: "<?= $this->country ?>"}
-                    <?php endif ?>
-                }
-            );
-
-            google.maps.event.addListener(autocomplete, 'place_changed', function() {
-
-                var location = autocomplete.getPlace();
-
-                if( location.geometry ) {
-
-                    document.querySelector('form input[name*="longitude"]').value = location.geometry.location.lng();
-                    document.querySelector('form input[name*="latitude"]').value = location.geometry.location.lat();
+                if( place.location ) {
+                    form.querySelector('input[name*="longitude"]').value = place.location.lng();
+                    form.querySelector('input[name*="latitude"]').value = place.location.lat();
                 }
 
-                if( form ) {
-                    form.submit();
-                }
+                form.submit();
             });
-        }
 
-        document.addEventListener('storeLocatorGoogleMapLoaded', initializeAddressAutocomplete, {once:true});
+            input.parentNode.insertBefore(placeAutocomplete, input.nextSibling);
+            input.style.display = "none";
+
+        })();
 
     </script>
 

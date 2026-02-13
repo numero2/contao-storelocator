@@ -2,258 +2,271 @@
 if( $this->markerclusterer ) {
     $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/markerclusterer/index.min.js';
 }
-?>
-<?php $this->extend('script_loader_googlemap') ?>
+
+$this->extend('script_loader_googlemap') ?>
 
 <?php $this->block('content') ?>
 
     <script>
 
-        var map;
-        var markerImages = {};
-        var markersUpdating = false;
-        <?php if( $this->markerclusterer ): ?>
-        var cluster;
-        <?php endif ?>
+        (async ()=>{
 
-        var markers = {
-            <?php foreach( $this->entries as $entry): ?>
-                <?php if( empty($entry->longitude) && empty($entry->latitude) ) { continue; } ?>
-                "<?= $entry->id ?>": {
-                    "id": "<?= $entry->id ?>",
-                    "pid": "<?= $entry->pid ?>",
-                    "lng": "<?= $entry->longitude ?>",
-                    "lat": "<?= $entry->latitude ?>",
-                    "info": <?= $entry->info ?>
-                },
-            <?php endforeach ?>
-        };
+            const { Map } = (await google.maps.importLibrary('maps'));
+            const { AdvancedMarkerElement, PinElement } = (await google.maps.importLibrary('marker'));
 
-        function initMapMarker() {
+            const mapElement = document.querySelector('[map-id="sl-gmap-<?= $this->id ?>"]');
 
-            markerImages = {
-                <?php foreach( $this->mapPins as $key => $value ): ?>
-                "<?= $key ?>" : {
-                    "url": "<?= $value ?>",
-                    "scaledSize": new google.maps.Size(36, 36),
-                    "origin": new google.maps.Point(0, 0),
-                    "anchor": new google.maps.Point(18, 36)
-                },
+            let markerImages = {};
+            let markersUpdating = false;
+            let cluster = null;
+
+            const mapOptions = {
+                //minZoom: 4,
+                maxZoom: 20,
+                zoom: 8
+            };
+
+            mapElement.innerMap.setOptions(mapOptions);
+
+            <?php if( $this->markerclusterer ): ?>
+            cluster = new markerClusterer.MarkerClusterer({markers: [], map: mapElement.innerMap});
+            <?php endif ?>
+
+            let markers = {
+                <?php foreach( $this->entries as $entry): ?>
+                    <?php if( empty($entry->longitude) && empty($entry->latitude) ) { continue; } ?>
+                    "<?= $entry->id ?>": {
+                        "id": "<?= $entry->id ?>",
+                        "pid": "<?= $entry->pid ?>",
+                        "lng": "<?= $entry->longitude ?>",
+                        "lat": "<?= $entry->latitude ?>",
+                        "info": <?= $entry->info ?>
+                    },
                 <?php endforeach ?>
             };
 
-            for( var id in markers ) {
-                addMarker(markers[id]);
-            }
+            const initMapMarker = ()=>{
 
-            fitMapToMarkers();
+                markerImages = {
+                    <?php foreach( $this->mapPins as $key => $value ): ?>
+                    "<?= $key ?>" : {
+                        "url": "<?= $value ?>",
+                        "size": new google.maps.Size(36, 36),
+                        "anchor": ['-18px','-18px']
+                    },
+                    <?php endforeach ?>
+                };
 
-            <?php if( $this->loadMoreResults ): ?>
-            setTimeout(function(){
-                map.addListener('zoom_changed', updateMarkers);
-                map.addListener('dragend', updateMarkers);
-                map.addListener('tilt_changed', updateMarkers);
-            }, 500);
-            <?php endif ?>
-        }
+                Object.values(markers).forEach(addMarker);
 
-        function addMarker( item ) {
+                fitMapToMarkers();
 
-            if( item.id in markers && "position" in markers[item.id] ) {
-                return false;
-            }
+                <?php if( $this->loadMoreResults ): ?>
+                setTimeout(() => {
+                    ['zoom_changed', 'dragend', 'tilt_changed'].forEach(event =>
+                        mapElement.innerMap.addListener(event, updateMarkers)
+                    );
+                }, 500);
+                <?php endif ?>
+            };
 
-            <?php if( !$this->markerclusterer ): ?>
-            if( Object.keys(markers).length > 500 ) {
-                return false;
-            }
-            <?php endif ?>
+            const addMarker = ( item )=>{
 
-            var markerImage;
-
-            if( item.pid in markerImages ) {
-
-                markerImage = markerImages[item.pid];
-
-            } else {
-
-                if( 'default' in markerImages ) {
-                    markerImage = markerImages['default'];
+                if( item.id in markers && "position" in markers[item.id] ) {
+                    return false;
                 }
-            }
 
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(item.lat, item.lng),
-                map: map,
-                icon: markerImage,
-                draggable: false,
-                optimized: false,
-                data: item,
-                infoWindow: new google.maps.InfoWindow({
+                <?php if( !$this->markerclusterer ): ?>
+                if( Object.keys(markers).length > 500 ) {
+                    return false;
+                }
+                <?php endif ?>
+
+                marker = new AdvancedMarkerElement({
+                    position: new google.maps.LatLng(item.lat, item.lng),
+                    draggable: false,
+                });
+
+                marker.slData = item;
+
+                marker.infoWindow = new google.maps.InfoWindow({
                     content: item.info
-                })
-            });
+                });
 
-            markers[item.id] = marker;
+                // custom marker image
+                let markerImage;
 
-            <?php if( in_array($this->mapInteraction , ["showMarkerInfo", "scrollToListElement"]) ): ?>
-            marker.addListener('click', function(){
+                if( item.pid in markerImages ) {
 
-                <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+                    markerImage = markerImages[item.pid];
 
-                    for( var id in markers ) {
-                        if( "infoWindow" in markers[id] ) {
-                            markers[id].infoWindow.close();
-                        }
+                } else {
+
+                    if( 'default' in markerImages ) {
+                        markerImage = markerImages['default'];
                     }
-                    markers[this.data.id].infoWindow.open(map, markers[this.data.id]);
+                }
+
+                if( markerImage ) {
+
+                    let image = document.createElement('img');
+                    image.src = markerImage.url;
+                    image.width = markerImage.size.width;
+                    image.height = markerImage.size.height;
+
+                    marker.anchorLeft = markerImage.anchor[0];
+                    marker.anchorTop = markerImage.anchor[1];
+
+                    marker.append(image);
+                }
+
+                <?php if( $this->markerclusterer ): ?>
+                cluster.markers.push(marker);
+                <?php endif ?>
+
+                markers[item.id] = marker;
+
+                <?php if( in_array($this->mapInteraction , ["showMarkerInfo", "scrollToListElement"]) ): ?>
+                marker.addListener('gmp-click', function(){
+
+                    <?php if( $this->mapInteraction == "showMarkerInfo" ): ?>
+
+                        for( const id in markers ) {
+                            if( "infoWindow" in markers[id] ) {
+                                markers[id].infoWindow.close();
+                            }
+                        }
+                        markers[this.slData.id].infoWindow.open(map, markers[this.slData.id]);
 
                     <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
-                    document.location.hash = "#result_"+this.data.id;
+
+                        let entry = document.getElementById(`result_${this.slData.id}`);
+                        entry.scrollIntoView({behavior: 'auto'});
+
+                    <?php endif;?>
+                });
                 <?php endif;?>
-            });
-            <?php endif;?>
 
-            return true;
-        }
+                mapElement.append(marker);
 
-        function fitMapToMarkers() {
+                return true;
+            }
 
-            var bounds = new google.maps.LatLngBounds();
+            <?php if( $this->loadMoreResults ): ?>
+            const updateMarkers = async () => {
 
-            for( var i in markers ) {
+                <?php if( !$this->markerclusterer ): ?>
+                if( Object.keys(markers).length > 500 ) {
+                    return;
+                }
+                <?php endif ?>
+
+                if( markersUpdating ) {
+                    return;
+                }
+
+                const bounds = mapElement.innerMap.getBounds();
+
+                if( !(bounds instanceof google.maps.LatLngBounds) ) {
+                    return;
+                }
+
+                const sw = bounds.getSouthWest();
+                const ne = bounds.getNorthEast();
+
+                const params = new URLSearchParams({
+                    action: 'getMarkers',
+                    fromlat: sw.lat(),
+                    tolat: ne.lat(),
+                    fromlng: sw.lng(),
+                    tolng: ne.lng(),
+                    REQUEST_TOKEN: '<?= $this->requestToken ?>'
+                });
+
+                const url = new URL(window.location.href);
+                url.search = params.toString();
+
+                markersUpdating = true;
+
                 try {
 
-                    bounds.extend(markers[i].getPosition());
-                } catch( e ) {
-                    console.log(markers[i])
+                    const response = await fetch(url.toString(), {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if( !response.ok ) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    if( data ) {
+
+                        for( const marker of data ) {
+                            addMarker(marker);
+                        }
+                    }
+
+                } catch( error ) {
+                    console.error('Error updating markers:', error);
+                } finally {
+                    markersUpdating = false;
                 }
-            }
-
-            map.fitBounds(bounds);
-            map.setZoom(map.getZoom()-1);
-
-            if( map.getZoom() > 15 ) {
-                map.setZoom(15);
-            }
-        }
-
-        <?php if( $this->loadMoreResults ): ?>
-        function updateMarkers() {
-
-            <?php if( !$this->markerclusterer ): ?>
-            if( Object.keys(markers).length > 500 ) {
-                return;
-            }
-            <?php endif ?>
-
-            if( markersUpdating ) {
-                return;
-            }
-
-            var bounds = map.getBounds();
-
-            if( !(bounds instanceof google.maps.LatLngBounds) ) {
-                return;
-            }
-
-            var sw = bounds.getSouthWest();
-            var ne = bounds.getNorthEast();
-
-            var xhr = new XMLHttpRequest();
-
-            var params = {
-                'action': 'getMarkers',
-                'fromlat': sw.lat(),
-                'tolat': ne.lat(),
-                'fromlng': sw.lng(),
-                'tolng': ne.lng(),
-                'REQUEST_TOKEN': '<?= $this->requestToken ?>'
             };
+            <?php endif;?>
 
-            var url = location.protocol + '//' + location.host + location.pathname + '?' + Object.keys(params).map(function(key){
-                return key+"="+encodeURIComponent(params[key])
-            }).join("&");
+            const fitMapToMarkers = ()=>{
 
-            xhr.onload = function () {
+                const bounds = new google.maps.LatLngBounds();
 
-                if( xhr.status >= 200 && xhr.status < 300 ) {
-
-                    var response = JSON.parse(xhr.response);
-
-                    if( response ) {
-
-                        var markersAdded = false;
-
-                        for( var i in response ) {
-                            markersAdded |= addMarker(response[i]);
-                        }
-
-                        <?php if( $this->markerclusterer ): ?>
-                        if( markersAdded ) {
-
-                            cluster.setMap(null);
-                            cluster = new MarkerClusterer(map, markers, {
-                                imagePath: "bundles/storelocator/markerclusterer/m",
-                            });
-                        }
-                        <?php endif ?>
+                for( const i in markers ) {
+                    try {
+                        bounds.extend(markers[i].position);
+                    } catch( e ) {
+                        console.log(markers[i])
                     }
                 }
 
-                markersUpdating = false;
+                mapElement.innerMap.fitBounds(bounds);
+
+                if( mapElement.zoom > 15 ) {
+                    mapElement.zoom = 15;
+                }
             };
 
-            xhr.open('GET', url);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.send();
+            const mapInViewport = ()=>{
 
-            markersUpdating = true;
-        }
-        <?php endif;?>
+                const rect = mapElement.getBoundingClientRect();
 
-        function mapInViewport() {
-
-            var rect = map.getDiv().getBoundingClientRect();
-
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-
-        function initializeGoogleMap() {
-
-            var mapOptions = {
-                minZoom: 4,
-                maxZoom: 20,
-                zoom: 8,
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
             };
-
-            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
             <?php if( $this->listInteraction == "scrollToMapAndCenterMarker" ): ?>
-            var entries = document.querySelectorAll('.mod_storelocator_list .entry');
+            let entries = document.querySelectorAll('.mod_storelocator_list .entry');
 
             if( entries ) {
 
-                for( var i=0; i<entries.length; i++ ) {
+                for( let i=0; i<entries.length; i++ ) {
 
-                    entries[i].addEventListener('click',function(){
+                    entries[i].addEventListener('click', function(){
 
-                        // scroll to map (if necessary)
                         if( !mapInViewport() ) {
-                            document.location.hash = "";
-                            document.location.hash = "#map-wrapper";
+                            mapElement.scrollIntoView({behavior: 'auto'});
                         }
 
-                        var markerID = this.id.split("_")[1];
+                        const markerID = this.id.split("_")[1];
 
                         if( markerID in markers ) {
-                            map.setCenter(markers[markerID].getPosition());
-                            map.setZoom(15);
+                            mapElement.center = markers[markerID].position;
+                            mapElement.zoom = 15;
                         }
                     });
                 }
@@ -262,14 +275,7 @@ if( $this->markerclusterer ) {
 
             initMapMarker();
 
-            <?php if( $this->markerclusterer ): ?>
-            cluster = new MarkerClusterer(map, markers, {
-                imagePath: "bundles/storelocator/markerclusterer/m",
-            });
-            <?php endif ?>
-        }
-
-        document.addEventListener('storeLocatorGoogleMapLoaded', initializeGoogleMap, {once:true});
+        })();
 
     </script>
 

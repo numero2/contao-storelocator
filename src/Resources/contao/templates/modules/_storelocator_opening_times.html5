@@ -9,6 +9,15 @@
         if ( !empty($day['timeString']) ) {
             return $day['timeString'];
         }
+        if ( empty($day['from']) && empty($day['to']) ) {
+            return '';
+        }
+        if ( empty($day['from']) ) {
+            return $this->trans('tl_storelocator.to') . ' ' . $day['to'];
+        }
+        if ( empty($day['to']) ) {
+            return $this->trans('tl_storelocator.from') . ' ' . $day['from'];
+        }
         return $day['from'] . ' – ' . $day['to'];
     };
 ?>
@@ -20,7 +29,7 @@
                 <li class="<?= !empty($day['isToday']) ? 'is-today' : '' ?>">
                     <span class="day-label"><?= $day['label'] ?></span>
 
-                    <?php if ( !empty($day['special']) ): ?>
+                    <?php if( !empty($day['special']) ): ?>
                         <?php $special = $day['special']; ?>
                         <span class="special-override">
                             <span class="special-date">
@@ -30,10 +39,12 @@
                                 <?= $renderTimeString($special) ?>
                             </span>
                         </span>
-                        <span class="normal-fallback">
-                            <?= $this->trans('tl_storelocator.normally') ?>
-                            <?= $renderTimeString($day) ?>
-                        </span>
+                        <?php if( !empty($day['timeString']) ): ?>
+                            <span class="normal-fallback">
+                                <?= $this->trans('tl_storelocator.normally') ?>
+                                <?= $renderTimeString($day) ?>
+                            </span>
+                        <?php endif; ?>
                     <?php else: ?>
                         <span class="day-time">
                             <?= $renderTimeString($day) ?>

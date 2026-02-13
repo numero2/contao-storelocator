@@ -11,7 +11,7 @@
 
         <?php if( $this->scriptMap ): ?>
         <div id="map-wrapper">
-            <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+            <gmp-map map-id="sl-gmap-<?= $this->id ?>" style="width:100%;height:40vh;background-color:gray;"></gmp-map>
             <?= $this->scriptMap ?>
         </div>
         <?php endif ?>

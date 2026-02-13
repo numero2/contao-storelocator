@@ -95,13 +95,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'search'            => true
         ,   'feSortable'        => true
         ,   'sorting'           => true
-        ,   'eval'              => ['mandatory'=>true, 'maxlength'=>64, 'tl_class'=>'w50']
-        ,   'sql'               => "varchar(64) NOT NULL default ''"
+        ,   'eval'              => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50']
+        ,   'sql'               => "varchar(255) NOT NULL default ''"
         ]
     ,   'alias' => [
             'exclude'           => true
         ,   'inputType'         => 'text'
-        ,   'eval'              => ['rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>128, 'tl_class'=>'w50']
+        ,   'eval'              => ['rgxp'=>'alias', 'doNotCopy'=>true, 'maxlength'=>255, 'tl_class'=>'w50']
         ,   'save_callback'     => [[Stores::class, 'generateAlias']]
         ,   'sql'               => "varchar(255) BINARY NOT NULL default ''"
         ]
