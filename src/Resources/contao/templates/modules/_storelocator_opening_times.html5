@@ -56,6 +56,7 @@
     <?php endif; ?>
 
     <?php if ( !empty($this->store->special_opening_times) ): ?>
+        <?php dump($this->store->opening_times); ?>
         <h3><?= $this->trans('tl_storelocator.special_opening_times') ?></h3>
         <ul class="opening-times opening-times--special">
             <?php foreach ( $this->store->special_opening_times as $day ): ?>

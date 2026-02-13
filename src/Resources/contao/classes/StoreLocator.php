@@ -138,8 +138,8 @@ class StoreLocator {
         }
 
         // get opening times
-        $aTimes = StringUtil::deserialize($store->opening_times);
-        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : null;
+        $aTimes = StringUtil::deserialize($store->opening_times, true);
+        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : [];
 
         if( !empty($aTimes) ) {
 
@@ -152,6 +152,8 @@ class StoreLocator {
         }
 
         $aSpecialTimes = StringUtil::deserialize($store->special_opening_times, true);
+        $aSpecialTimes = !empty($aTimes[0]['from']) ? $aSpecialTimes : [];
+
         if( !empty($aSpecialTimes) ) {
 
             foreach ( $aSpecialTimes as $i => $day ) {
