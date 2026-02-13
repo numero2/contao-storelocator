@@ -65,7 +65,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             ,   'primary'             => true
             ,   'showInHeader'        => true
             ]
-        ,   'feature' => [
+        ,   'highlight' => [
                 'href'                => 'act=toggle&amp;field=highlight'
             ,   'icon'                => 'featured.svg'
             ,   'primary'             => true
@@ -73,6 +73,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'coords' => [
                 'icon'                => ['bundles/storelocator/coords0.svg', 'bundles/storelocator/coords1.svg']
             ,   'button_callback'     => [Stores::class, 'coordsButton']
+            ,   'primary'             => true
             ]
         ,   'show'
         ]

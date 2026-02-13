@@ -63,11 +63,12 @@ class StoreImportListener extends Event {
 
                 $t = StoresModel::getTable();
 
-                $result = $this->connection
-                    ->prepare("SELECT id FROM $t WHERE alias=? AND id!=?")
-                    ->executeQuery([$alias, $model->id ?? 0]);
+                $result = $this->connection->executeQuery(
+                    "SELECT id FROM $t WHERE alias=:alias AND id!=:id"
+                ,   ['alias'=>$alias, 'id'=>$model->id ?? 0]
+                )->fetchAllAssociative();
 
-                if( $result && $result->rowCount() ) {
+                if( !empty($result) ) {
                     return true;
                 }
 
