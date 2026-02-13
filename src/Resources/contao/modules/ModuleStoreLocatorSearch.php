@@ -112,6 +112,7 @@ class ModuleStoreLocatorSearch extends Module {
             $oCategories = CategoriesModel::findMultipleByIds($aAvailableCategories);
 
             while( $oCategories->next() ) {
+                $oCategories->current()->refresh(); // dont ask...
                 $aCategories[ $oCategories->alias ] = $oCategories->title;
             }
 

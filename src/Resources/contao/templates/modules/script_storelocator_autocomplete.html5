@@ -38,8 +38,18 @@
                 form.submit();
             });
 
-            input.parentNode.insertBefore(placeAutocomplete, input.nextSibling);
-            input.style.display = "none";
+            <?php /* add wrapper for proper positioning */ ?>
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+
+            input.parentNode.appendChild(wrapper);
+
+            input.style.position = 'absolute';
+            input.style.opacity = 0;
+            input.style.pointerEvents = 'none';
+
+            wrapper.appendChild(input);
+            wrapper.appendChild(placeAutocomplete, input.nextSibling);
 
         })();
 

@@ -12,7 +12,6 @@
 
 namespace numero2\StoreLocator;
 
-use DateTime;
 use Contao\Config;
 use Contao\ContentModel;
 use Contao\Controller;
@@ -24,6 +23,7 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use DateTime;
 use numero2\StoreLocator\DCAHelper\Stores;
 
 

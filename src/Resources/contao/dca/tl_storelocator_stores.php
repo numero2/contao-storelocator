@@ -47,11 +47,13 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
                 'href'                => 'key=fillCoordinates'
             ,   'class'               => 'header_fill_coordinates'
             ,   'attributes'          => 'data-action="contao--scroll-offset#store" onclick="AjaxRequest.displayBox(\'' . ($GLOBALS['TL_LANG']['tl_storelocator']['ajax_coordinates_running'] ?? null) . '\');"'
+            ,   'primary'             => true
             ]
         ,   'importStores' => [
                 'href'                => 'key=importStores'
             ,   'class'               => 'header_stores_import'
             ,   'attributes'          => 'data-action="contao--scroll-offset#store"'
+            ,   'primary'             => true
             ]
         ]
     ,   'operations' => [
@@ -65,7 +67,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
             ,   'primary'             => true
             ,   'showInHeader'        => true
             ]
-        ,   'feature' => [
+        ,   'highlight' => [
                 'href'                => 'act=toggle&amp;field=highlight'
             ,   'icon'                => 'featured.svg'
             ,   'primary'             => true
@@ -73,6 +75,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'coords' => [
                 'icon'                => ['bundles/storelocator/coords0.svg', 'bundles/storelocator/coords1.svg']
             ,   'button_callback'     => [Stores::class, 'coordsButton']
+            ,   'primary'             => true
             ]
         ,   'show'
         ]

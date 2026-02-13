@@ -1,6 +1,7 @@
 <?php
 if( $this->markerclusterer ) {
-    $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/storelocator/markerclusterer/index.min.js';
+
+    $GLOBALS['TL_HEAD'][] = '<script src="/bundles/storelocator/markerclusterer/index.min.js"></script>';
 }
 
 $this->extend('script_loader_googlemap') ?>
@@ -136,7 +137,7 @@ $this->extend('script_loader_googlemap') ?>
                                 markers[id].infoWindow.close();
                             }
                         }
-                        markers[this.slData.id].infoWindow.open(map, markers[this.slData.id]);
+                        markers[this.slData.id].infoWindow.open(mapElement.innerMap, markers[this.slData.id]);
 
                     <?php elseif( $this->mapInteraction == "scrollToListElement" ): ?>
 
