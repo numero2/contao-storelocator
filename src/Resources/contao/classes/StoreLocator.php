@@ -6,13 +6,12 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator;
 
-use DateTime;
 use Contao\Config;
 use Contao\ContentModel;
 use Contao\Controller;
@@ -24,6 +23,7 @@ use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
+use DateTime;
 use numero2\StoreLocator\DCAHelper\Stores;
 
 
@@ -286,7 +286,7 @@ class StoreLocator {
         $specialTimes = $store->special_opening_times ?? [];
 
         $dayCodeMap = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-        $now = new \DateTime();
+        $now = new DateTime();
         $now->setTime(0, 0, 0);
         $todayCode = $dayCodeMap[(int) $now->format('w')];
 

@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -195,7 +195,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_list_interaction'] = [
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['storelocator_map_pin'] = [
     'inputType'           => 'fileTree'
-,   'eval'                => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
+,   'eval'                => ['filesOnly'=>true, 'extensions'=>'%contao.image.valid_extensions%', 'fieldType'=>'radio', 'tl_class'=>'clr']
 ,   'sql'                 => "binary(16) NULL"
 ];
 

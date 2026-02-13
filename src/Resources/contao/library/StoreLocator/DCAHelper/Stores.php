@@ -6,77 +6,23 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
 namespace numero2\StoreLocator\DCAHelper;
 
 use Contao\Config;
-use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\FrontendTemplate;
 use Contao\Image;
-use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
 use Exception;
-use numero2\StoreLocator\StoresModel;
 
 
 class Stores {
-
-
-    /**
-     * Return the "highlight/unhighlight store" button
-     *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param array|string|null $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function iconHighlight( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
-
-        if( strlen(Input::get('fid')) ) {
-
-            $this->toggleFeatured(Input::get('fid'), (Input::get('state') == 1));
-            Controller::redirect(System::getReferer());
-        }
-
-        $href .= '&amp;fid='.$row['id'].'&amp;state='.($row['highlight'] ? '' : 1);
-
-        if( !$row['highlight'] ) {
-            $icon = 'featured_.gif';
-        }
-
-        return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label, 'data-state="' . ($row['highlight'] ? 1 : 0) . '"').'</a> ';
-    }
-
-
-    /**
-     * Highlight/unhighlight a store
-     *
-     * @param string $intId
-     * @param bool $blnFeatured
-     * @param Contao\DataContainer $dc
-     *
-     * @return string
-     */
-    public function toggleFeatured( string $intId, bool $blnFeatured, ?DataContainer $dc=null ): void {
-
-        $oStore = null;
-        $oStore = StoresModel::findById( $intId );
-
-        if( $oStore ) {
-            $oStore->highlight = ($blnFeatured ? '1' : '');
-            $oStore->save();
-        }
-    }
 
 
     /**
@@ -263,55 +209,6 @@ class Stores {
     public function checkURL( $varValue ): string {
 
         return ( $varValue && strpos($varValue,'http') !== 0 ) ? 'https://'.$varValue : $varValue;
-    }
-
-
-    /**
-     * Return the "toggle visibility" button
-     *
-     * @param array $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param array|string|null $icon
-     * @param string $attributes
-     *
-     * @return string
-     */
-    public function toggleIcon( array $row, ?string $href, ?string $label, ?string $title, $icon=null, ?string $attributes=null ): string {
-
-        if( !$row['published'] ) {
-            $icon = 'invisible.svg';
-        }
-
-        if( Input::get('tid') ) {
-
-            $this->toggleVisibility(Input::get('tid'), (Input::get('state') == 1), (@func_get_arg(12) ?: null));
-            Controller::redirect(System::getReferer());
-        }
-
-        $href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-        return '<a href="'.Controller::addToUrl($href).'" title="'.StringUtil::specialchars($title).'" onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,\''.$row['id'].'\')">'.Image::getHtml($icon, $label, 'data-state="' . ($row['published'] ? 1 : 0) . '"').'</a> ';
-
-    }
-
-
-    /**
-     * Publish / unpublish a store
-     *
-     * @param string $intId
-     * @param bool $blnVisible
-     * @param Contao\DataContainer $dc
-     */
-    public function toggleVisibility( string $intId, $blnVisible, DataContainer $dc=null ): void {
-
-        $oStore = null;
-        $oStore = StoresModel::findById( $intId );
-
-        if( $oStore ) {
-            $oStore->published = ($blnVisible ? '1' : '');
-            $oStore->save();
-        }
     }
 
 

@@ -6,20 +6,16 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2024, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
-use Contao\Config;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use numero2\StoreLocator\DCAHelper\Categories;
 use numero2\StoreLocator\StoreLocatorBackend;
 
 
-/**
- * Table tl_storelocator_categories
- */
 $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
 
     'config' => [
@@ -45,40 +41,14 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
         ,   'format'                  => '%s'
         ]
     ,   'global_operations' => [
-            'all' => [
-                'label'               => &$GLOBALS['TL_LANG']['MSC']['all']
-            ,   'href'                => 'act=select'
-            ,   'class'               => 'header_edit_all'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset();"'
-            ]
+            'all'
         ]
     ,   'operations' => [
-            'edit' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['edit']
-            ,   'href'                => 'table=tl_storelocator_stores'
-            ,   'icon'                => 'edit.svg'
-            ]
-        ,   'editheader' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['editheader']
-            ,   'href'                => 'act=edit'
-            ,   'icon'                => 'header.svg'
-            ]
-        ,   'copy' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['copy']
-            ,   'href'                => 'act=copy'
-            ,   'icon'                => 'copy.svg'
-            ]
-        ,   'delete' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['delete']
-            ,   'href'                => 'act=delete'
-            ,   'icon'                => 'delete.svg'
-            ,   'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
-            ]
-        ,   'show' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_categories']['show']
-            ,   'href'                => 'act=show'
-            ,   'icon'                => 'show.svg'
-            ]
+            'edit'
+        ,   'children'
+        ,   'copy'
+        ,   'delete'
+        ,   'show'
         ]
     ]
 ,   'palettes' => [
@@ -106,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_categories'] = [
         ]
     ,   'map_pin' => [
             'inputType'     => 'fileTree'
-        ,   'eval'          => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio']
+        ,   'eval'          => ['filesOnly'=>true, 'extensions'=>'%contao.image.valid_extensions%', 'fieldType'=>'radio']
         ,   'sql'           => "binary(16) NULL"
         ]
     ]

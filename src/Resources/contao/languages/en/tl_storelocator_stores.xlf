@@ -206,9 +206,6 @@
     <trans-unit id="tl_storelocator_stores.tags.1">
         <source>List of tags / keywords describing this store.</source>
     </trans-unit>
-    <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
-        <source>Fetching coordinates, this may take up to several minutes …</source>
-    </trans-unit>
 </body>
 </file>
 </xliff>

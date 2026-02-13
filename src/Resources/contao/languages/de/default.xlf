@@ -30,6 +30,10 @@
         <source>Sunday</source>
         <target>Sonntag</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.ajax_coordinates_running">
+        <source>Fetching coordinates, this may take up to several minutes …</source>
+        <target>Koordinaten werden ermittelt, dies kann je nach Anzahl mehrere Minuten dauern …</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator.import.start">
         <source>Start import</source>
         <target>Import starten</target>

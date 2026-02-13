@@ -286,10 +286,6 @@
         <source>List of tags / keywords describing this store.</source>
         <target>Liste von Tags / Schlagwörtern die diesen Händler beschreiben.</target>
     </trans-unit>
-    <trans-unit id="tl_storelocator_stores.ajax_coordinates_running">
-        <source>Fetching coordinates, this may take up to several minutes …</source>
-        <target>Koordinaten werden ermittelt, dies kann je nach Anzahl mehrere Minuten dauern …</target>
-    </trans-unit>
 </body>
 </file>
 </xliff>

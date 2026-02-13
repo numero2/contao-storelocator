@@ -23,6 +23,9 @@
     <trans-unit id="tl_storelocator.weekdays.SO">
         <source>Sunday</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.ajax_coordinates_running">
+        <source>Fetching coordinates, this may take up to several minutes …</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator.import.start">
         <source>Start import</source>
     </trans-unit>

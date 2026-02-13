@@ -6,7 +6,7 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2023, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
@@ -47,7 +47,7 @@ class StoresModel extends Model {
             , 3956 * 1.6 * 2 * ASIN(SQRT( POWER(SIN((? -abs(latitude)) * pi()/180 / 2),2) + COS(? * pi()/180 ) * COS( abs(latitude) *  pi()/180) * POWER(SIN((?-longitude) *  pi()/180 / 2), 2) )) AS distance
             FROM ".self::$strTable."
             WHERE
-                published='1'
+                published=1
                 AND pid IN(".implode(',',$categories).")
                 AND latitude != ''
                 AND longitude != ''
@@ -83,7 +83,7 @@ class StoresModel extends Model {
                 *
             FROM ".self::$strTable."
             WHERE
-                published='1'
+                published=1
                 AND pid IN(".implode(',',$categories).")
                 ".(($country) ? "AND country = '{$country}' ": '')."
                 ".($filter? "AND ".$filter:"")."
@@ -115,7 +115,7 @@ class StoresModel extends Model {
                 *
             FROM tl_storelocator_stores
             WHERE
-                published='1'
+                published=1
                 AND latitude != ''
                 AND longitude != ''
                 AND ? < CAST(longitude AS DECIMAL(10,6)) AND CAST(longitude AS DECIMAL(10,6)) < ?

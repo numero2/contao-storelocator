@@ -133,6 +133,10 @@ class StoreLocatorImportController {
                     if( $v === null ) {
                         continue;
                     }
+                    if( ($GLOBALS['TL_DCA']['tl_storelocator_stores']['fields'][$k]['sql']['type'] ?? null) === 'boolean' ) {
+                        $v = (bool) $v;
+                    }
+
                     $model->{$k} = $v;
                 }
 

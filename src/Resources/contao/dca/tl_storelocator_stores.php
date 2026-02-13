@@ -6,11 +6,10 @@
  * @author    Benny Born <benny.born@numero2.de>
  * @author    Michael Bösherz <michael.boesherz@numero2.de>
  * @license   LGPL-3.0-or-later
- * @copyright Copyright (c) 2025, numero2 - Agentur für digitales Marketing GbR
+ * @copyright Copyright (c) 2026, numero2 - Agentur für digitales Marketing GbR
  */
 
 
-use Contao\Config;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 use Contao\DC_Table;
@@ -19,9 +18,6 @@ use numero2\StoreLocator\StoreLocatorBackend;
 use numero2\TagsBundle\TagsBundle;
 
 
-/**
- * Table tl_storelocator_stores
- */
 $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
 
     'config' => [
@@ -46,64 +42,39 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ,   'child_record_callback'   => [Stores::class, 'listStores']
         ]
     ,   'global_operations' => [
-            'all' => [
-                'label'               => &$GLOBALS['TL_LANG']['MSC']['all']
-            ,   'href'                => 'act=select'
-            ,   'class'               => 'header_edit_all'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset();"'
-            ]
+            'all'
         ,   'fillCoordinates' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['fillCoordinates']
-            ,   'href'                => 'key=fillCoordinates'
+                'href'                => 'key=fillCoordinates'
             ,   'class'               => 'header_fill_coordinates'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset(); AjaxRequest.displayBox(\'' . ($GLOBALS['TL_LANG']['tl_storelocator_stores']['ajax_coordinates_running'] ?? null) . '\');"'
+            ,   'attributes'          => 'data-action="contao--scroll-offset#store" onclick="AjaxRequest.displayBox(\'' . ($GLOBALS['TL_LANG']['tl_storelocator']['ajax_coordinates_running'] ?? null) . '\');"'
             ]
         ,   'importStores' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['importStores']
-            ,   'href'                => 'key=importStores'
+                'href'                => 'key=importStores'
             ,   'class'               => 'header_stores_import'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset()"'
+            ,   'attributes'          => 'data-action="contao--scroll-offset#store"'
             ]
         ]
     ,   'operations' => [
-           'children' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['children']
-            ,   'href'                => 'table=tl_content'
-            ,   'icon'                => 'edit.svg'
-            ]
-        ,   'edit' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['edit']
-            ,   'href'                => 'act=edit'
-            ,   'icon'                => 'header.svg'
-            ]
-        ,   'copy' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['copy']
-            ,   'href'                => 'act=copy'
-            ,   'icon'                => 'copy.svg'
-            ]
-        ,   'delete' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['delete']
-            ,   'href'                => 'act=delete'
-            ,   'icon'                => 'delete.svg'
-            ,   'attributes'          => 'onclick="if( !confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\') )return false;Backend.getScrollOffset()"'
-            ]
+            'edit'
+        ,   'children'
+        ,   'copy'
+        ,   'delete'
         ,   'toggle' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['published']
+                'href'                => 'act=toggle&amp;field=published'
             ,   'icon'                => 'visible.svg'
-            ,   'button_callback'     => [Stores::class, 'toggleIcon']
+            ,   'primary'             => true
+            ,   'showInHeader'        => true
             ]
-        ,   'highlight' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['highlight']
+        ,   'feature' => [
+                'href'                => 'act=toggle&amp;field=highlight'
             ,   'icon'                => 'featured.svg'
-            ,   'attributes'          => 'onclick="Backend.getScrollOffset();"'
-            ,   'button_callback'     => [Stores::class, 'iconHighlight']
+            ,   'primary'             => true
             ]
         ,   'coords' => [
-                'label'               => &$GLOBALS['TL_LANG']['tl_storelocator_stores']['coords']
-            ,   'href'                => 'act=show'
-            ,   'icon'                => ['bundles/storelocator/coords0.svg', 'bundles/storelocator/coords1.svg']
+                'icon'                => ['bundles/storelocator/coords0.svg', 'bundles/storelocator/coords1.svg']
             ,   'button_callback'     => [Stores::class, 'coordsButton']
             ]
+        ,   'show'
         ]
     ]
 ,   'palettes' => [
@@ -166,7 +137,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
         ]
     ,   'singleSRC' => [
             'inputType'         => 'fileTree'
-        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>Config::get('validImageTypes'), 'fieldType'=>'radio', 'tl_class'=>'clr']
+        ,   'eval'              => ['filesOnly'=>true, 'extensions'=>'%contao.image.valid_extensions%', 'fieldType'=>'radio', 'tl_class'=>'clr']
         ,   'sql'               => "binary(16) NULL"
         ]
     ,   'street' => [
@@ -236,14 +207,16 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
     ,   'highlight' => [
             'inputType'            => 'checkbox'
         ,   'filter'               => true
+        ,   'toggle'               => true
         ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
-        ,   'sql'                  => "char(1) NOT NULL default ''"
+        ,   'sql'                  => ['type'=>'boolean', 'default'=>false]
         ]
     ,   'published' => [
             'inputType'            => 'checkbox'
         ,   'filter'               => true
+        ,   'toggle'               => true
         ,   'eval'                 => ['doNotCopy'=>true, 'tl_class'=>'w50']
-        ,   'sql'                  => "char(1) NOT NULL default ''"
+        ,   'sql'                  => ['type'=>'boolean', 'default'=>false]
         ]
     ]
 ];
