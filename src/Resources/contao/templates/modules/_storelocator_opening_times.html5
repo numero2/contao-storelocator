@@ -1,0 +1,71 @@
+<?php
+    $renderTimeString = function( $day ) {
+        if ( !empty($day['closed']) ) {
+            return $this->trans('tl_storelocator.closed');
+        }
+        if ( !empty($day['by_appointment']) ) {
+            return $this->trans('tl_storelocator.by_appointment');
+        }
+        if ( !empty($day['timeString']) ) {
+            return $day['timeString'];
+        }
+        if ( empty($day['from']) && empty($day['to']) ) {
+            return '';
+        }
+        if ( empty($day['from']) ) {
+            return $this->trans('tl_storelocator.to') . ' ' . $day['to'];
+        }
+        if ( empty($day['to']) ) {
+            return $this->trans('tl_storelocator.from') . ' ' . $day['from'];
+        }
+        return $day['from'] . ' – ' . $day['to'];
+    };
+?>
+<div class="times">
+    <?php if ( !empty($this->store->opening_times) ): ?>
+        <h3><?= $this->trans('tl_storelocator.opening_times') ?></h3>
+        <ul class="opening-times">
+            <?php foreach ( $this->store->opening_times as $day ): ?>
+                <li class="<?= !empty($day['isToday']) ? 'is-today' : '' ?>">
+                    <span class="day-label"><?= $day['label'] ?></span>
+
+                    <?php if( !empty($day['special']) ): ?>
+                        <?php $special = $day['special']; ?>
+                        <span class="special-override">
+                            <span class="special-date">
+                                <?= $this->trans('tl_storelocator.on_date', [$special['label']]) ?>
+                            </span>
+                            <span class="special-time">
+                                <?= $renderTimeString($special) ?>
+                            </span>
+                        </span>
+                        <?php if( !empty($day['timeString']) ): ?>
+                            <span class="normal-fallback">
+                                <?= $this->trans('tl_storelocator.normally') ?>
+                                <?= $renderTimeString($day) ?>
+                            </span>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <span class="day-time">
+                            <?= $renderTimeString($day) ?>
+                        </span>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php if ( !empty($this->store->special_opening_times) ): ?>
+        <h3><?= $this->trans('tl_storelocator.special_opening_times') ?></h3>
+        <ul class="opening-times opening-times--special">
+            <?php foreach ( $this->store->special_opening_times as $day ): ?>
+                <li>
+                    <span class="day-label"><?= $day['label'] ?></span>
+                    <span class="day-time">
+                        <?= $renderTimeString($day) ?>
+                    </span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>

@@ -119,6 +119,30 @@
     <trans-unit id="tl_storelocator.filter.order.desc">
         <source>sorting descending</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.closed">
+        <source>closed</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.by_appointment">
+        <source>by appointment</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.normally">
+        <source>normally</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.opening_times">
+        <source>Opening times</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.special_opening_times">
+        <source>Special opening times</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.on_date">
+        <source>on %s</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.from">
+        <source>from</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.to">
+        <source>to</source>
+    </trans-unit>
 </body>
 </file>
 </xliff>

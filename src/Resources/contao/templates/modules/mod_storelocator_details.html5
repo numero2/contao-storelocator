@@ -43,15 +43,7 @@
             <?= $this->store->description ?>
         <?php endif ?>
 
-        <?php if( !empty($this->store->opening_times) ): ?>
-        <ul class="opening-times">
-            <?php foreach( $this->store->opening_times as $day ): ?>
-            <li>
-                <?= $day['label'] ?> <?= $day['from'] ?> - <?= $day['to'] ?>
-            </li>
-            <?php endforeach ?>
-        </ul>
-        <?php endif ?>
+        <?= $this->insert('_storelocator_opening_times', $this->arrData); ?>
 
         <?php if( !empty($this->mapsURI) ): ?>
             <iframe width="600" height="450" frameborder="0" src="<?=$this->mapsURI;?>" allowfullscreen></iframe>
