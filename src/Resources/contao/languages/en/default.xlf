@@ -140,6 +140,12 @@
     <trans-unit id="tl_storelocator.on_date">
         <source>on %s</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.from">
+        <source>from</source>
+    </trans-unit>
+    <trans-unit id="tl_storelocator.to">
+        <source>to</source>
+    </trans-unit>
 </body>
 </file>
 </xliff>

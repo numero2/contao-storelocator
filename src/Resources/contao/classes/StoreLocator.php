@@ -138,8 +138,8 @@ class StoreLocator {
         }
 
         // get opening times
-        $aTimes = StringUtil::deserialize($store->opening_times);
-        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : null;
+        $aTimes = StringUtil::deserialize($store->opening_times, true);
+        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : [];
 
         if( !empty($aTimes) ) {
 
@@ -152,13 +152,15 @@ class StoreLocator {
         }
 
         $aSpecialTimes = StringUtil::deserialize($store->special_opening_times, true);
+        $aSpecialTimes = !empty($aTimes[0]['from']) ? $aSpecialTimes : [];
+
         if( !empty($aSpecialTimes) ) {
 
             foreach ( $aSpecialTimes as $i => $day ) {
                 $aSpecialTimes[$i]['label'] = $day['weekday'];
 
                 // FIX: use createFromFormat for dd.mm.yyyy
-                $dt = DateTime::createFromFormat('d.m.Y', $day['weekday']);
+                $dt = DateTime::createFromFormat(Config::get('dateFormat') ?? 'd.m.Y', $day['weekday']);
 
                 if ( $dt === false ) {
                     continue;
@@ -173,7 +175,7 @@ class StoreLocator {
         $store->opening_times = $aTimes;
 
         $store->opening_times = self::collapseOpeningTimes($aTimes);
-        $store->special_opening_times = self::collapseOpeningTimes($aSpecialTimes);
+        $store->special_opening_times = self::collapseOpeningTimes($aSpecialTimes, 'label');
 
         self::mergeSpecialTimesIntoCurrentWeek($store);
 
@@ -257,18 +259,30 @@ class StoreLocator {
      *
      * @return array
      */
-    private static function collapseOpeningTimes( array $aTimes ): array {
+    private static function collapseOpeningTimes( array $aTimes, string $collapseBy = 'weekday' ): array {
         $newTimes = [];
 
         foreach ( $aTimes as $day ) {
-            $weekday = $day['weekday'];
-            $timeRange = $day['from'] . '-' . $day['to'];
+            $weekday = $day[$collapseBy];
+            $timeRange = '';
 
-            if ( !isset($newTimes[$weekday]) ) {
+            if ( empty($day['from']) && empty($day['to']) ) {
+                $timeRange = '';
+            } elseif ( empty($day['from']) ) {
+                $timeRange = 'bis ' . $day['to'];
+            } elseif ( empty($day['to']) ) {
+                $timeRange = 'ab ' . $day['from'];
+            } else {
+                $timeRange = $day['from'] . '-' . $day['to'];
+            }
+
+            if( !isset($newTimes[$weekday]) ) {
                 $newTimes[$weekday] = $day;
                 $newTimes[$weekday]['timeString'] = $timeRange;
             } else {
-                $newTimes[$weekday]['timeString'] .= ' ' . $timeRange;
+                if ( $timeRange !== '' ) {
+                    $newTimes[$weekday]['timeString'] .= ' ' . $timeRange;
+                }
             }
         }
 
@@ -311,14 +325,14 @@ class StoreLocator {
             $date = (clone $now)->modify("+{$d} days");
             $code = $dayCodeMap[(int) $date->format('w')];
             if( !isset($nextDateForWeekday[$code]) ) {
-                $nextDateForWeekday[$code] = $date->format('Y-m-d');
+                $nextDateForWeekday[$code] = $date->format(Config::get('dateFormat') ?? 'd.m.Y');
             }
         }
 
         $usedIndices = [];
 
         foreach( $specialTimes as $si => $special ) {
-            $specialDate = DateTime::createFromFormat('d.m.Y',
+            $specialDate = DateTime::createFromFormat(Config::get('dateFormat') ?? 'd.m.Y',
                 $special['label']);
 
             if( $specialDate === false ) {
@@ -326,8 +340,9 @@ class StoreLocator {
             }
 
             $specialDate->setTime(0, 0, 0);
-            $specialDayCode = $special['weekday'];
-            $specialDateStr = $specialDate->format('Y-m-d');
+            // Derive weekday code from the actual parsed date instead of trusting the data
+            $specialDayCode = $dayCodeMap[(int) $specialDate->format('w')];
+            $specialDateStr = $specialDate->format(Config::get('dateFormat') ?? 'd.m.Y');
 
             if( isset($nextDateForWeekday[$specialDayCode]) &&
                 $nextDateForWeekday[$specialDayCode] === $specialDateStr &&
