@@ -1,7 +1,17 @@
 <!-- indexer::stop -->
 <?php
     $GLOBALS['TL_CSS'][] = '/bundles/storelocator/leaflet/leaflet.css';
-    $GLOBALS['TL_HEAD'][] = '<script src="/bundles/storelocator/leaflet/leaflet.js"></script>';
+
+    $container = \Contao\System::getContainer();
+    $request = $container->get('request_stack')->getCurrentRequest();
+    $isBackend = $request && $container->get('contao.routing.scope_matcher')->isBackendRequest($request);
+
+    if( $isBackend ) {
+        $GLOBALS['TL_JAVASCRIPT'][] = '/bundles/storelocator/leaflet/leaflet.js';
+    } else {
+        $GLOBALS['TL_HEAD'][] = '<script src="/bundles/storelocator/leaflet/leaflet.js"></script>';
+    }
+
 ?>
 
 <?php $this->block('content') ?>

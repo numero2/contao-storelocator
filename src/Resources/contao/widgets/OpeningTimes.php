@@ -69,15 +69,28 @@ class OpeningTimes extends Widget {
 
                     $cField = new $strClass($strClass::getAttributesFromDca(
                         $field,
-                        $this->arrConfiguration['strField'].'[0]['.$key.']',
+                        $this->arrConfiguration['strField'].'['.$row.']['.$key.']',
                         ( !empty($rValue[$key])?$rValue[$key]:null )
                     ));
 
                     $cField->validate();
+
                     if( $cField->hasErrors() ) {
+
                         $this->class = 'error';
                         $this->arrErrors[$row][$key] = $cField->arrErrors;
+
+                    } else {
+
+                        $value = $cField->value;
+
+                        if( !empty($field['eval']['rgxp']) && $field['eval']['rgxp'] == 'date' ) {
+                            $value = (new Date($value, Config::get('dateFormat')))?->tstamp ?? '';
+                        }
+
+                        $varInput[$row][$key] = $value;
                     }
+
                     $this->blnHasError = $this->blnHasError || $cField->hasErrors();
                 }
             }

@@ -3,45 +3,46 @@
 
     <script>
 
-        var map;
+        let map;
 
-        function initializeLeafletMap() {
+        const initializeLeafletMap = () => {
 
-            map = L.map('map-canvas',
-            {
-                <?php if( !empty($this->staticMap) && $this->staticMap ): ?>
-
-                        dragging: false,
-                        zoomControl: false,
-                        attributionControl: false,
-                        scrollWheelZoom: false,
-                        doubleClickZoom: false
-
+            const mapOptions = {
+                <?php if (!empty($this->staticMap) && $this->staticMap): ?>
+                    dragging: false,
+                    zoomControl: false,
+                    attributionControl: false,
+                    scrollWheelZoom: false,
+                    doubleClickZoom: false
                 <?php endif; ?>
-            }).setView([
+            };
 
+            const coordinates = [
                 <?= $this->latitude ?>,
                 <?= $this->longitude ?>
+            ];
 
-            ], 16 );
+            map = L.map('map-canvas', mapOptions).setView(coordinates, 16);
 
-            L.tileLayer( 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,} ).addTo(map);
+            L.tileLayer(
+                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                { maxZoom: 19 }
+            ).addTo(map);
 
-            const marker = L.marker([
+            const marker = L.marker(coordinates).addTo(map);
 
-                <?= $this->latitude ?>,
-                <?= $this->longitude ?>
-
-            ]).addTo(map);
-
-            <?php if ( !empty($this->markerInfo) ): ?>
-
-                marker.bindPopup("<?= $this->markerInfo ?>").openPopup();
-
+            <?php if (!empty($this->markerInfo)): ?>
+                marker
+                    .bindPopup(`<?= $this->markerInfo ?>`)
+                    .openPopup();
             <?php endif; ?>
-        }
+        };
 
-        document.addEventListener('storeLocatorLeafletMapLoaded', initializeLeafletMap, {once:true});
+        document.addEventListener(
+            'storeLocatorLeafletMapLoaded',
+            initializeLeafletMap,
+            { once: true }
+        );
 
     </script>
 

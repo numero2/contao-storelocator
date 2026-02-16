@@ -123,6 +123,8 @@ class Stores {
         $latitude = $dc->activeRecord->{$latitudeField} ?? null;
         $longitude = $dc->activeRecord->{$longitudeField} ?? null;
 
+        $html = '<div class="widget sl-display-map">';
+
         if( !empty($latitude) && !empty($longitude) ) {
 
             $coords = sprintf(
@@ -148,37 +150,36 @@ class Stores {
 
             } else if( (empty($provider) || $provider === 'here' ) && $geocoder->hasProvider('here') ) {
 
-                $imgPath = '//image.maps.ls.hereapi.com/mia/1.6/mapview?z=16&w=565&h=150&f=0&poi='.$coords.'&apiKey='.Config::get('here_server_key');
+                $imgPath = 'https://image.maps.hereapi.com/mia/v3/base/mc/overlay:padding=32/800x350/png?apiKey='.Config::get('here_server_key').'&overlay=point:'.$coords.'&style=lite.day&scaleBar=km';
             }
-        }
-
-        $html = '<div class="widget sl-display-map">';
-        if( $provider === 'google-maps' ) {
 
             if( !empty($imgPath) ) {
                 $html .= '<img width="565" height="150" src="'.$imgPath.'" />';
-
-                if( !empty($imgPathDark) ) {
-                    $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
-                }
-            } else {
-                $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
+            } else if( !empty($imgPathDark) ) {
+                $html .= '<img class="dark" width="565" height="150" src="'.$imgPathDark.'" />';
             }
 
-        } else if( $provider === 'leaflet' && (!empty($latitude) && !empty($longitude)) ) {
+            if( $provider === 'leaflet' ) {
 
-            $html .= "<div id='map-canvas' width='565' height='150'></div>";
+                $html .= "<div id='map-canvas' width='565' height='150'></div>";
 
-            $leafletTemplate = new FrontendTemplate('script_storelocator_leafletmap_simple');
-            $leafletTemplate->latitude = $latitude;
-            $leafletTemplate->longitude = $longitude;
-            $leafletTemplate->staticMap = true;
+                $leafletTemplate = new FrontendTemplate('script_storelocator_leafletmap_simple');
+                $leafletTemplate->latitude = $latitude;
+                $leafletTemplate->longitude = $longitude;
+                $leafletTemplate->staticMap = true;
 
-            $html .= $leafletTemplate->parse();
+                $html .= $leafletTemplate->parse();
+
+            } else {
+
+                if( empty($imgPath) && empty($imgPathDark) ) {
+                    $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
+                }
+            }
 
         } else {
 
-            $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_error'].'</p></div>';
+            $html .= '<div class="img"><p>'.$GLOBALS['TL_LANG']['tl_storelocator']['backend_map_save_first'].'</p></div>';
         }
 
         $html .= '</div>';

@@ -160,10 +160,11 @@ class StoreLocator {
         if( !empty($aSpecialTimes) ) {
 
             foreach ( $aSpecialTimes as $i => $day ) {
+
                 $aSpecialTimes[$i]['label'] = $day['weekday'];
 
-                // FIX: use createFromFormat for dd.mm.yyyy
-                $dt = DateTime::createFromFormat(Config::get('dateFormat') ?? 'd.m.Y', $day['weekday']);
+                $dt = new DateTime();
+                $dt->setTimestamp($day['weekday']);
 
                 if ( $dt === false ) {
                     continue;
@@ -259,9 +260,11 @@ class StoreLocator {
      * @return array
      */
     private static function collapseOpeningTimes( array $aTimes, string $collapseBy = 'weekday' ): array {
+
         $newTimes = [];
 
-        foreach ( $aTimes as $day ) {
+        foreach( $aTimes as $day ) {
+
             $weekday = $day[$collapseBy];
             $timeRange = '';
 
@@ -278,10 +281,8 @@ class StoreLocator {
             if( !isset($newTimes[$weekday]) ) {
                 $newTimes[$weekday] = $day;
                 $newTimes[$weekday]['timeString'] = $timeRange;
-            } else {
-                if ( $timeRange !== '' ) {
-                    $newTimes[$weekday]['timeString'] .= ' ' . $timeRange;
-                }
+            } else if ( $timeRange !== '' ) {
+                $newTimes[$weekday]['timeString'] .= ' ' . $timeRange;
             }
         }
 
@@ -331,17 +332,21 @@ class StoreLocator {
         $usedIndices = [];
 
         foreach( $specialTimes as $si => $special ) {
-            $specialDate = DateTime::createFromFormat(Config::get('dateFormat') ?? 'd.m.Y',
-                $special['label']);
+
+            $specialDate = new DateTime();
+            $specialDate->setTimestamp($special['label']);
 
             if( $specialDate === false ) {
                 continue;
             }
 
             $specialDate->setTime(0, 0, 0);
+
             // Derive weekday code from the actual parsed date instead of trusting the data
             $specialDayCode = $dayCodeMap[(int) $specialDate->format('w')];
             $specialDateStr = $specialDate->format(Config::get('dateFormat') ?? 'd.m.Y');
+
+            $special['label'] = $specialDateStr;
 
             if( isset($nextDateForWeekday[$specialDayCode]) &&
                 $nextDateForWeekday[$specialDayCode] === $specialDateStr &&
@@ -353,14 +358,20 @@ class StoreLocator {
         }
 
         $remainingSpecial = [];
-        foreach ( $specialTimes as $si => $special ) {
+        foreach( $specialTimes as $si => $special ) {
+
             if( !in_array($si, $usedIndices, true) ) {
+
+                // restore label
+                $special['label'] = $special['_date']->format(Config::get('dateFormat') ?? 'd.m.Y');
+
                 unset($special['_date']);
+
                 $remainingSpecial[] = $special;
             }
         }
 
-        foreach ( $openingTimes as $i => $day ) {
+        foreach( $openingTimes as $i => $day ) {
             if( isset($day['special']['_date']) ) {
                 unset($openingTimes[$i]['special']['_date']);
             }

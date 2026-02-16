@@ -22,7 +22,7 @@ $this->extend('script_loader_googlemap') ?>
             let cluster = null;
 
             const mapOptions = {
-                //minZoom: 4,
+                minZoom: 4,
                 maxZoom: 20,
                 zoom: 8
             };

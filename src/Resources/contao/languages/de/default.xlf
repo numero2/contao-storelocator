@@ -62,6 +62,10 @@
         <source>Map cannot be displayed because no supported map provider is installed or the map provider is not configured.</source>
         <target>Karte kann nicht angezeigt werden, da kein unterstützer Karten-Provider installiert bzw. der Karten-Provider nicht konfiguriert ist.</target>
     </trans-unit>
+    <trans-unit id="tl_storelocator.backend_map_save_first">
+        <source>Save to generate coordinates for the map view.</source>
+        <target>Speichern, um Koordinaten für die Kartenansicht zu generieren.</target>
+    </trans-unit>
     <trans-unit id="tl_storelocator.interactions.nothing">
         <source>do nothing</source>
         <target>nichts tun</target>
@@ -164,7 +168,7 @@
     </trans-unit>
     <trans-unit id="tl_storelocator.by_appointment">
         <source>by appointment</source>
-        <target>nach vereinbarung</target>
+        <target>nach Vereinbarung</target>
     </trans-unit>
     <trans-unit id="tl_storelocator.normally">
         <source>normally</source>

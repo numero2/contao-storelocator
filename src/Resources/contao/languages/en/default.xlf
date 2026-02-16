@@ -47,6 +47,9 @@
     <trans-unit id="tl_storelocator.backend_map_error">
         <source>Map cannot be displayed because no supported map provider is installed or the map provider is not configured.</source>
     </trans-unit>
+    <trans-unit id="tl_storelocator.backend_map_save_first">
+        <source>Save to generate coordinates for the map view.</source>
+    </trans-unit>
     <trans-unit id="tl_storelocator.interactions.nothing">
         <source>do nothing</source>
     </trans-unit>

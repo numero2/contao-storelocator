@@ -73,6 +73,7 @@ fieldset.tl_box .heightAuto {
 
             .tl_checkbox_single_container {
 
+                display: inline-block;
                 margin-top: unset;
                 height: unset;
 
@@ -82,8 +83,15 @@ fieldset.tl_box .heightAuto {
             }
         }
 
-        .operations .widgetImage.sl_flip img {
-            transform: rotate(180deg);
+        .operations {
+
+            a {
+                display: inline-block;
+            }
+
+            .widgetImage.sl_flip img {
+                transform: rotate(180deg);
+            }
         }
     }
 }
@@ -97,6 +105,9 @@ fieldset.tl_box .heightAuto {
     }
 
     .sl-display-map {
+
+        position: relative;
+        z-index: 1;
 
         height: 150px;
 
