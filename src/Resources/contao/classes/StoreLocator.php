@@ -161,6 +161,10 @@ class StoreLocator {
 
             foreach ( $aSpecialTimes as $i => $day ) {
 
+                if( empty($day['weekday']) ) {
+                    continue;
+                }
+
                 $aSpecialTimes[$i]['label'] = $day['weekday'];
 
                 $dt = new DateTime();
@@ -333,6 +337,10 @@ class StoreLocator {
 
         foreach( $specialTimes as $si => $special ) {
 
+            if( empty($special['label']) ) {
+                continue;
+            }
+
             $specialDate = new DateTime();
             $specialDate->setTimestamp($special['label']);
 
@@ -359,6 +367,10 @@ class StoreLocator {
 
         $remainingSpecial = [];
         foreach( $specialTimes as $si => $special ) {
+
+            if( empty($special['_date']) ) {
+                continue;
+            }
 
             if( !in_array($si, $usedIndices, true) ) {
 
