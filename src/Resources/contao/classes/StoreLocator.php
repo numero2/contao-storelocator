@@ -372,6 +372,11 @@ class StoreLocator {
                 continue;
             }
 
+            if( $special['_date'] < time() ) {
+                unset($specialTimes[$si]);
+                continue;
+            }
+
             if( !in_array($si, $usedIndices, true) ) {
 
                 // restore label

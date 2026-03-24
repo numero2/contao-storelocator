@@ -2,7 +2,7 @@
 <?php $this->block('content') ?>
 
     <script>
-
+    {
         let map;
 
         const initializeLeafletMap = () => {
@@ -43,7 +43,7 @@
             initializeLeafletMap,
             { once: true }
         );
-
+    }
     </script>
 
 <?php $this->endblock() ?>

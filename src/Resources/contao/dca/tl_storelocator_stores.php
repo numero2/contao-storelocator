@@ -22,6 +22,7 @@ $GLOBALS['TL_DCA']['tl_storelocator_stores'] = [
 
     'config' => [
         'dataContainer'               => DC_Table::class
+    ,   'enableVersioning'            => true
     ,   'ptable'                      => 'tl_storelocator_categories'
     ,   'ctable'                      => ['tl_content']
     ,   'onsubmit_callback'           => [[StoreLocatorBackend::class, 'fillCoordinates']]

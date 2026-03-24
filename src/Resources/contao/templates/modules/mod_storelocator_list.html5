@@ -1,6 +1,9 @@
 <?php if( !$this->preventRendering ): ?>
 <?php $this->extend('block_searchable') ?>
 
+<?php $this->block('headline') ?>
+<?php $this->endblock() ?>
+
 <?php $this->block('content') ?>
 
     <?php if( $this->headline ): ?>
@@ -11,7 +14,11 @@
 
         <?php if( $this->scriptMap ): ?>
         <div id="map-wrapper">
-            <gmp-map map-id="sl-gmap-<?= $this->id ?>" style="width:100%;height:40vh;background-color:gray;"></gmp-map>
+            <?php if( $this->storelocator_provider === 'google-maps' ): ?>
+                <gmp-map map-id="sl-gmap-<?= $this->id ?>" style="width:100%;height:40vh;background-color:gray;"></gmp-map>
+            <?php else: ?>
+                <div id="map-canvas" style="width:100%;height:40vh;background-color:gray;"></div>
+            <?php endif; ?>
             <?= $this->scriptMap ?>
         </div>
         <?php endif ?>

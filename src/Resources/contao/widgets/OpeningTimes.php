@@ -84,7 +84,7 @@ class OpeningTimes extends Widget {
 
                         $value = $cField->value;
 
-                        if( !empty($field['eval']['rgxp']) && $field['eval']['rgxp'] == 'date' ) {
+                        if( $value && !empty($field['eval']['rgxp']) && $field['eval']['rgxp'] == 'date' ) {
                             $value = (new Date($value, Config::get('dateFormat')))?->tstamp ?? '';
                         }
 
