@@ -14,15 +14,7 @@
     <?php if( $this->store->email ): ?><div class="email"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['email'] ?>: {{email::<?= $this->store->email ?>}}</div><?php endif ?>
     <?php if( $this->store->url ): ?><div class="www"><?= $GLOBALS['TL_LANG']['tl_storelocator']['field']['www'] ?>: <a href="<?= $this->store->url ?>" target="_blank" rel="noreferrer noopener" title="<?= $this->store->name ?>"><?= $this->store->prettyUrl ?></a></div><?php endif ?>
 
-    <?php if( !empty($this->store->opening_times) ): ?>
-    <ul class="opening-times">
-        <?php foreach( $this->store->opening_times as $day ): ?>
-        <li>
-            <?= $day['label'] ?> <?= $day['from'] ?> - <?= $day['to'] ?>
-        </li>
-        <?php endforeach ?>
-    </ul>
-    <?php endif ?>
+    <?= $this->insert('_storelocator_opening_times', $this->arrData); ?>
 
 </section>
 <!-- indexer::continue -->

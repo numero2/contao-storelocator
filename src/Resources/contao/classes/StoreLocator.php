@@ -88,7 +88,7 @@ class StoreLocator {
                     $oTemplate->store = $objStore;
 
                     $sTemplate = $oTemplate->parse();
-                    $sTemplate = Controller::replaceInsertTags($sTemplate);
+                    $sTemplate = System::getContainer()->get('contao.insert_tag.parser')->replace($sTemplate);
 
                     return $sTemplate;
                 }
@@ -137,51 +137,55 @@ class StoreLocator {
             System::getContainer()->get('monolog.logger.contao.error')->error('Error parsing geocords not in range ('. $store->latitude .','. $store->longitude .') for store ID '.$store->id);
         }
 
-        // get opening times
-        $aTimes = StringUtil::deserialize($store->opening_times, true);
-        $aTimes = !empty($aTimes[0]['from']) ? $aTimes : [];
+        // parse opening times (make sure to only do once)
+        if( ($store->_timesAlreadyParsed ?? null) === null ) {
 
-        if( !empty($aTimes) ) {
+            $aTimes = StringUtil::deserialize($store->opening_times, true);
+            $aTimes = !empty($aTimes[0]['from']) ? $aTimes : [];
 
-            $aWeekdays = [];
-            $aWeekdays = StoreLocator::getWeekdays();
+            if( !empty($aTimes) ) {
 
-            foreach( $aTimes as $i => $day ) {
-                $aTimes[$i]['label'] = $aWeekdays[ $day['weekday'] ];
-            }
-        }
+                $aWeekdays = [];
+                $aWeekdays = StoreLocator::getWeekdays();
 
-        $store->opening_times = $aTimes;
-        $store->opening_times = self::collapseOpeningTimes($aTimes);
-
-        $aSpecialTimes = StringUtil::deserialize($store->special_opening_times, true);
-        $aSpecialTimes = !empty($aTimes[0]['from']) ? $aSpecialTimes : [];
-
-        if( !empty($aSpecialTimes) ) {
-
-            foreach ( $aSpecialTimes as $i => $day ) {
-
-                if( empty($day['weekday']) ) {
-                    continue;
+                foreach( $aTimes as $i => $day ) {
+                    $aTimes[$i]['label'] = $aWeekdays[ $day['weekday'] ];
                 }
-
-                $aSpecialTimes[$i]['label'] = $day['weekday'];
-
-                $dt = new DateTime();
-                $dt->setTimestamp($day['weekday']);
-
-                if ( $dt === false ) {
-                    continue;
-                }
-
-                $map = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
-                $aSpecialTimes[$i]['weekday'] = $map[(int) $dt->format('w')];
-                $aSpecialTimes[$i]['_date'] = $dt; // keep parsed date for later
             }
-        }
 
-        $store->special_opening_times = self::collapseOpeningTimes($aSpecialTimes);
-        self::mergeSpecialTimesIntoCurrentWeek($store);
+            $store->opening_times = self::collapseOpeningTimes($aTimes);
+
+            $aSpecialTimes = StringUtil::deserialize($store->special_opening_times, true);
+            $aSpecialTimes = !empty($aSpecialTimes) && !empty($aSpecialTimes[0]['weekday']) ? $aSpecialTimes : [];
+
+            if( !empty($aSpecialTimes) ) {
+
+                foreach ( $aSpecialTimes as $i => $day ) {
+
+                    if( empty($day['weekday']) ) {
+                        continue;
+                    }
+
+                    $aSpecialTimes[$i]['label'] = $day['weekday'];
+
+                    $dt = new DateTime();
+                    $dt->setTimestamp($day['weekday']);
+
+                    if ( $dt === false ) {
+                        continue;
+                    }
+
+                    $map = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+                    $aSpecialTimes[$i]['weekday'] = $map[(int) $dt->format('w')];
+                    $aSpecialTimes[$i]['_date'] = $dt; // keep parsed date for later
+                }
+            }
+
+            $store->special_opening_times = self::collapseOpeningTimes($aSpecialTimes, 'label');
+            self::mergeSpecialTimesIntoCurrentWeek($store);
+
+            $store->_timesAlreadyParsed = true;
+        }
 
         // set country name
         $aCountryNames = [];
@@ -256,10 +260,20 @@ class StoreLocator {
         }
     }
 
+
     /**
-     * Collapses times of the same day into a singular string
+     * Reduces multiple opening-time rows to one entry per grouping key.
      *
-     * @param array $aTimes
+     * Regular opening times are typically grouped by weekday, while special
+     * opening times can be grouped by their original date value so entries
+     * from different weeks do not get merged together.
+     *
+     * The grouped result keeps the first matching row as the base entry and
+     * collects all concrete time slots in a dedicated array so rendering can
+     * stay in the template layer.
+     *
+     * @param array  $aTimes
+     * @param string $collapseBy
      *
      * @return array
      */
@@ -270,36 +284,39 @@ class StoreLocator {
         foreach( $aTimes as $day ) {
 
             $weekday = $day[$collapseBy];
-            $timeRange = '';
-
-            if ( empty($day['from']) && empty($day['to']) ) {
-                $timeRange = '';
-            } elseif ( empty($day['from']) ) {
-                $timeRange = 'bis ' . $day['to'];
-            } elseif ( empty($day['to']) ) {
-                $timeRange = 'ab ' . $day['from'];
-            } else {
-                $timeRange = $day['from'] . '-' . $day['to'];
-            }
+            $hasTimeRange = !empty($day['from']) || !empty($day['to']);
 
             if( !isset($newTimes[$weekday]) ) {
                 $newTimes[$weekday] = $day;
-                $newTimes[$weekday]['timeString'] = $timeRange;
-            } else if ( $timeRange !== '' ) {
-                $newTimes[$weekday]['timeString'] .= ' ' . $timeRange;
+                $newTimes[$weekday]['timeRanges'] = [];
+            }
+
+            if( $hasTimeRange ) {
+                $newTimes[$weekday]['timeRanges'][] = [
+                    'from' => $day['from'] ?? '',
+                    'to' => $day['to'] ?? '',
+                ];
             }
         }
 
         return array_values($newTimes);
     }
 
+
     /**
-     * Handle times and special times and combines them when they match
-     * the same date
+     * Merges special opening times for the current week into the regular
+     * weekday list and keeps all other future special dates as standalone
+     * template entries.
+     *
+     * The method works in three steps: it marks the current weekday, maps
+     * each weekday to its next concrete date, and then moves matching
+     * special dates into the weekday list while preserving the remaining
+     * special dates for the separate special-times output.
      *
      * @param object $store
      */
     private static function mergeSpecialTimesIntoCurrentWeek( object $store ): void {
+
         $openingTimes = $store->opening_times ?? [];
         $specialTimes = $store->special_opening_times ?? [];
 
@@ -308,10 +325,8 @@ class StoreLocator {
         $now->setTime(0, 0, 0);
         $todayCode = $dayCodeMap[(int) $now->format('w')];
 
-        // Mark today
         foreach( $openingTimes as $i => $day ) {
-            $openingTimes[$i]['isToday'] =
-                $day['weekday'] === $todayCode;
+            $openingTimes[$i]['isToday'] = ($day['weekday'] === $todayCode);
         }
 
         if( empty($specialTimes) ) {
@@ -321,15 +336,17 @@ class StoreLocator {
 
         $weekdayIndexMap = [];
         foreach( $openingTimes as $i => $day ) {
+            // remember where each weekday lives in the rendered opening-times list
             $weekdayIndexMap[$day['weekday']] = $i;
         }
 
+        // build the next concrete date for every weekday in the upcoming week
         $nextDateForWeekday = [];
         for( $d = 0; $d < 7; $d++ ) {
             $date = (clone $now)->modify("+{$d} days");
             $code = $dayCodeMap[(int) $date->format('w')];
             if( !isset($nextDateForWeekday[$code]) ) {
-                $nextDateForWeekday[$code] = $date->format(Config::get('dateFormat') ?? 'd.m.Y');
+                $nextDateForWeekday[$code] = $date->format('Y-m-d');
             }
         }
 
@@ -337,34 +354,27 @@ class StoreLocator {
 
         foreach( $specialTimes as $si => $special ) {
 
-            if( empty($special['label']) ) {
+            if( empty($special['_date']) || !($special['_date'] instanceof DateTime) ) {
                 continue;
             }
 
-            $specialDate = new DateTime();
-            $specialDate->setTimestamp($special['label']);
-
-            if( $specialDate === false ) {
-                continue;
-            }
-
+            $specialDate = clone $special['_date'];
             $specialDate->setTime(0, 0, 0);
 
-            // Derive weekday code from the actual parsed date instead of trusting the data
+            // derive weekday code from the actual parsed date instead of trusting the data
             $specialDayCode = $dayCodeMap[(int) $specialDate->format('w')];
-            $specialDateStr = $specialDate->format(Config::get('dateFormat') ?? 'd.m.Y');
+            $specialDateKey = $specialDate->format('Y-m-d');
+            $special['label'] = $specialDate->format(Config::get('dateFormat') ?? 'd.m.Y');
 
-            $special['label'] = $specialDateStr;
-
-            if( isset($nextDateForWeekday[$specialDayCode]) &&
-                $nextDateForWeekday[$specialDayCode] === $specialDateStr &&
-                isset($weekdayIndexMap[$specialDayCode]) ) {
+            // only merge when the special entry matches the exact calendar date represented by the weekday row in the current rolling week
+            if( isset($nextDateForWeekday[$specialDayCode]) && $nextDateForWeekday[$specialDayCode] === $specialDateKey && isset($weekdayIndexMap[$specialDayCode]) ) {
                 $idx = $weekdayIndexMap[$specialDayCode];
                 $openingTimes[$idx]['special'] = $special;
                 $usedIndices[] = $si;
             }
         }
 
+        // everything not merged into the weekday list remains available for the dedicated special opening times block in the template
         $remainingSpecial = [];
         foreach( $specialTimes as $si => $special ) {
 
@@ -372,7 +382,7 @@ class StoreLocator {
                 continue;
             }
 
-            if( $special['_date'] < time() ) {
+            if( $special['_date']->getTimestamp() < time() ) {
                 unset($specialTimes[$si]);
                 continue;
             }
@@ -389,6 +399,7 @@ class StoreLocator {
         }
 
         foreach( $openingTimes as $i => $day ) {
+
             if( isset($day['special']['_date']) ) {
                 unset($openingTimes[$i]['special']['_date']);
             }
@@ -397,6 +408,7 @@ class StoreLocator {
         $store->opening_times = self::rotateToToday($openingTimes);
         $store->special_opening_times = $remainingSpecial;
     }
+
 
     /**
      * Rotates the opening times array so that today is the first entry,
@@ -407,6 +419,7 @@ class StoreLocator {
      * @return array
      */
     private static function rotateToToday( array $openingTimes ): array {
+
         $todayIndex = null;
         $dayCodeMap = ['SU' => 0, 'MO' => 1, 'TU' => 2, 'WE' => 3, 'TH' => 4, 'FR' => 5, 'SA' => 6];
 
@@ -442,6 +455,7 @@ class StoreLocator {
 
         return array_merge([$today], $remaining);
     }
+
 
     /**
      * Returns a list of weekdays
@@ -661,3 +675,7 @@ class StoreLocator {
         return $ret;
     }
 }
+
+
+
+

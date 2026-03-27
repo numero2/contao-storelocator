@@ -6,8 +6,29 @@
         if ( !empty($day['by_appointment']) ) {
             return $this->trans('tl_storelocator.by_appointment');
         }
-        if ( !empty($day['timeString']) ) {
-            return $day['timeString'];
+        if ( !empty($day['timeRanges']) ) {
+            $ranges = [];
+
+            foreach ( $day['timeRanges'] as $range ) {
+                $from = $range['from'] ?? '';
+                $to = $range['to'] ?? '';
+
+                if ( empty($from) && empty($to) ) {
+                    continue;
+                }
+                if ( empty($from) ) {
+                    $ranges[] = $this->trans('tl_storelocator.to') . ' ' . $to;
+                    continue;
+                }
+                if ( empty($to) ) {
+                    $ranges[] = $this->trans('tl_storelocator.from') . ' ' . $from;
+                    continue;
+                }
+
+                $ranges[] = $from . ' – ' . $to;
+            }
+
+            return implode(' ', $ranges);
         }
         if ( empty($day['from']) && empty($day['to']) ) {
             return '';
@@ -39,7 +60,7 @@
                                 <?= $renderTimeString($special) ?>
                             </span>
                         </span>
-                        <?php if( !empty($day['timeString']) ): ?>
+                        <?php if( '' !== $renderTimeString($day) ): ?>
                             <span class="normal-fallback">
                                 <?= $this->trans('tl_storelocator.normally') ?>
                                 <?= $renderTimeString($day) ?>
@@ -69,3 +90,6 @@
         </ul>
     <?php endif; ?>
 </div>
+
+
+
