@@ -76,7 +76,7 @@ class ModuleStoreLocatorList extends Module {
 
         global $objPage;
 
-        if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+        if( !isset($_GET['search']) && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
         }
 

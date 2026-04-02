@@ -222,7 +222,7 @@ class StoreLocator {
             $objLink = PageModel::findById($module->jumpTo);
 
             if( $objLink ) {
-                $store->link = $objLink->getFrontendUrl((!Config::get('useAutoItem')?'/store/':'/').($store->alias?$store->alias:$store->id));
+                $store->link = $objLink->getFrontendUrl('/' . ($store->alias?$store->alias:$store->id));
             }
         }
 

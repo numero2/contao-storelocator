@@ -72,7 +72,7 @@ class ModuleStoreLocatorDetails extends Module {
         $this->Template->referer = 'javascript:history.go(-1)';
         $this->Template->back = $GLOBALS['TL_LANG']['MSC']['goBack'];
 
-        if( !isset($_GET['store']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+        if( !isset($_GET['store']) && isset($_GET['auto_item']) ) {
             Input::setGet('store', Input::get('auto_item'));
         }
 

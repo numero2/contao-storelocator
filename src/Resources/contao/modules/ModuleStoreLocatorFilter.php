@@ -76,7 +76,7 @@ class ModuleStoreLocatorFilter extends Module {
         $this->Template->action = Environment::get('request');
         $this->Template->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
 
-        if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+        if( !isset($_GET['search']) && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
         }
 
@@ -115,7 +115,7 @@ class ModuleStoreLocatorFilter extends Module {
 
                     $strData = StoreLocator::generateSearchvalue($aSearchValues);
                     if( $strData ) {
-                        $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/tags/%s', $strData, $tagsStd));
+                        $href = $page->getFrontendUrl(sprintf('/%s' . '/tags/%s', $strData, $tagsStd));
                     } else {
                         $href = $page->getFrontendUrl(sprintf('/tags/%s', $tagsStd));
                     }
@@ -163,7 +163,7 @@ class ModuleStoreLocatorFilter extends Module {
 
             } else {
 
-                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s'), $strData));
+                $href = $page->getFrontendUrl(sprintf('/%s', $strData));
             }
 
             $this->redirect( $href );
@@ -182,7 +182,7 @@ class ModuleStoreLocatorFilter extends Module {
                 $strData = StoreLocator::generateSearchvalue($aSearchValues);
                 $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $page;
 
-                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s'), $strData));
+                $href = $page->getFrontendUrl(sprintf('/%s', $strData));
 
                 $this->redirect($href);
             }
@@ -199,7 +199,7 @@ class ModuleStoreLocatorFilter extends Module {
 
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
 
-            $href = $page->getFrontendUrl(sprintf((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s', $strData));
+            $href = $page->getFrontendUrl(sprintf('/%s', $strData));
 
             $this->redirect($href);
         }
@@ -214,7 +214,7 @@ class ModuleStoreLocatorFilter extends Module {
             $strData = StoreLocator::generateSearchvalue($aSearchValues);
             if( $strData ) {
 
-                $href = $page->getFrontendUrl(sprintf(((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/%s' : '/search/%s' ).'/order/%s/sort/%s', $strData, $value, $newSort));
+                $href = $page->getFrontendUrl(sprintf('/%s' . '/order/%s/sort/%s', $strData, $value, $newSort));
 
             } else {
 

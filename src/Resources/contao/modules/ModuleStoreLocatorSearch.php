@@ -75,7 +75,7 @@ class ModuleStoreLocatorSearch extends Module {
         $this->Template->action = Environment::get('request');
         $this->Template->requestToken = (defined('VERSION') ? '{{request_token}}' : System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue());
 
-        if( !isset($_GET['search']) && Config::get('useAutoItem') && isset($_GET['auto_item']) ) {
+        if( !isset($_GET['search']) && isset($_GET['auto_item']) ) {
             Input::setGet('search', Input::get('auto_item'));
         }
 
@@ -166,7 +166,7 @@ class ModuleStoreLocatorSearch extends Module {
                 $strData = str_replace('/', ' ', $strData);
 
                 $objListPage = $this->jumpTo ? PageModel::findWithDetails($this->jumpTo) : $objPage;
-                $href = $objListPage->getFrontendUrl((Config::get('useAutoItem') && !Config::get('disableAlias')) ? '/'.$strData : '/search/'.$strData);
+                $href = $objListPage->getFrontendUrl('/'.$strData);
 
                 $this->redirect($href);
             }
