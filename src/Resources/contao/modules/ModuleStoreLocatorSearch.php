@@ -12,6 +12,7 @@
 
 namespace numero2\StoreLocator;
 
+use \Exception;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Environment;
@@ -186,6 +187,20 @@ class ModuleStoreLocatorSearch extends Module {
             }
 
         } else {
+
+            try {
+
+                $oTemplateAutocomplete = new FrontendTemplate('script_storelocator_autocomplete_'.$this->storelocator_provider);
+                $oTemplateAutocomplete->country = $this->storelocator_autocomplete_country;
+                $oTemplateAutocomplete->fieldId = 'ctrl_'.$widgetSearch->id;
+                $this->Template->autoComplete = $oTemplateAutocomplete->parse();
+
+            } catch( Exception $e ) {
+
+                if( stripos($e->getMessage(), 'could not find template') === false ) {
+                    throw $e;
+                }
+            }
 
             // TODO: HOOK for adding custom javascript provider
         }

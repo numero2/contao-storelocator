@@ -141,7 +141,24 @@ class StoreLocator {
         if( ($store->_timesAlreadyParsed ?? null) === null ) {
 
             $aTimes = StringUtil::deserialize($store->opening_times, true);
-            $aTimes = !empty($aTimes[0]['from']) ? $aTimes : [];
+
+            $aTimes = array_values(array_filter(
+                $aTimes,
+                static function( $day ): bool {
+
+                    if( !is_array($day) ) {
+                        return false;
+                    }
+
+                    return !empty($day['weekday'])
+                        && (
+                            !empty($day['from'])
+                            || !empty($day['to'])
+                            || !empty($day['closed'])
+                            || !empty($day['by_appointment'])
+                        );
+                }
+            ));
 
             if( !empty($aTimes) ) {
 

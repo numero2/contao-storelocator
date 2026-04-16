@@ -1,0 +1,78 @@
+<?php $this->extend('script_loader_googlemap') ?>
+
+<?php $this->block('content') ?>
+
+    <script>
+
+        (async ()=>{
+
+            const input = document.getElementById('<?= $this->fieldId ?>');
+            const form = input.closest('form');
+            const submitButton = form.querySelector('[type="submit"]');
+
+            let debounceTimer = null;
+
+            input.addEventListener('input', ()=>{
+
+                const value = input.value.trim();
+
+                clearTimeout(debounceTimer);
+
+                if( !/^\d+$/.test(value) || value.length === 0 ) {
+                    return;
+                }
+
+                if( submitButton ) {
+                    submitButton.disabled = true;
+                }
+
+                const lonInput = form.querySelector('input[name*="longitude"]');
+                const latInput = form.querySelector('input[name*="latitude"]');
+
+                lonInput.value = '';
+                latInput.value = '';
+
+                debounceTimer = setTimeout(async ()=>{
+
+                    try {
+
+                        const url = `https://nominatim.openstreetmap.org/search?country=<?= $this->country ?>&postalcode=${encodeURIComponent(value)}&limit=1&format=jsonv2`;
+
+                        const response = await fetch(url, {
+                            headers: {
+                                'Accept-Language': 'de',
+                            }
+                        });
+
+                        if( !response.ok ) {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+
+                        const results = await response.json();
+
+                        if( results.length > 0 ) {
+
+                            const place = results[0];
+
+                            if (lonInput) lonInput.value = place.lon;
+                            if (latInput) latInput.value = place.lat;
+                        }
+
+                    } catch (err) {
+
+                        console.error('Nominatim-Error:', err);
+
+                    } finally {
+
+                        if( submitButton ) {
+                            submitButton.disabled = false;
+                        }
+                    }
+
+                }, 500);
+            });
+        })();
+
+    </script>
+
+<?php $this->endblock() ?>
